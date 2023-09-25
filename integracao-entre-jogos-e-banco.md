@@ -41,11 +41,11 @@ O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
 
 {% swagger-parameter in="body" required="true" name="id" %}
-
+Identificador do jogador.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="senha" required="true" %}
-
+Senha do jogador.
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="" %}
@@ -53,11 +53,11 @@ Retorna JSON com lista de débitos e créditos.
 {% endswagger-response %}
 
 {% swagger-response status="400: Bad Request" description="" %}
-
+Formato da requisição inválida.
 {% endswagger-response %}
 
 {% swagger-response status="401: Unauthorized" description="" %}
-
+Autenticação inválida.
 {% endswagger-response %}
 {% endswagger %}
 
@@ -67,31 +67,31 @@ O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
 
 {% swagger-parameter in="body" required="true" name="id" %}
-
+Identificador do jogador.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="senha" required="true" %}
-
+Senha do jogador.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="jogo" type="" required="true" %}
-
+Identificador do jogo.
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="valor" %}
-
+{% swagger-parameter in="body" name="valor" required="true" %}
+Valor da operação em tijolinhos.
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="" %}
-
+Retorna JSON com resultado da operação.
 {% endswagger-response %}
 
 {% swagger-response status="400: Bad Request" description="" %}
-
+Formato da requisição inválida.
 {% endswagger-response %}
 
 {% swagger-response status="401: Unauthorized" description="" %}
-
+Autenticação inválida.
 {% endswagger-response %}
 
 {% swagger-response status="403: Forbidden" description="" %}
@@ -105,35 +105,35 @@ O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
 
 {% swagger-parameter in="body" required="true" name="id" %}
-
+Identificador do jogador.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="senha" required="true" %}
-
+Senha do jogador.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="maquina" required="true" %}
-
+Identificador da máquina.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="produto" required="true" %}
-
+Identificador do produto.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="valor" required="true" %}
-
+Valor do produto em tijolinhos.
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="" %}
-
+Retorna JSON com resultado da operação.
 {% endswagger-response %}
 
 {% swagger-response status="400: Bad Request" description="" %}
-
+Formato da requisição inválida.
 {% endswagger-response %}
 
 {% swagger-response status="401: Unauthorized" description="" %}
-
+Autenticação inválida.
 {% endswagger-response %}
 
 {% swagger-response status="403: Forbidden" description="" %}
