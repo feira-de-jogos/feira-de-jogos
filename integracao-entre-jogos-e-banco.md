@@ -1,5 +1,5 @@
 ---
-description: API entre jogos e banco.
+description: API entre jogos e banco (financeiro).
 ---
 
 # Integração entre jogos e banco
