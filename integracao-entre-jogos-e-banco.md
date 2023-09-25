@@ -37,7 +37,7 @@ Implementação simples, com autenticação embutida no corpo da requisição.
 
 #### Operações de jogador:
 
-{% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.com/v1" summary="Consulta de extrato de débitos e créditos." %}
+{% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.com/v1" summary="Consulta de extrato de débitos e créditos de jogador." %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
@@ -63,7 +63,7 @@ Autenticação inválida.
 {% endswagger-response %}
 {% endswagger %}
 
-{% swagger method="post" path="/credito" baseUrl="https://feira-de-jogos.com/v1" summary="Operação de crédito para o jogador." %}
+{% swagger method="post" path="/credito" baseUrl="https://feira-de-jogos.com/v1" summary="Operação de crédito para jogador." %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
@@ -101,7 +101,7 @@ Operação não é possível por falta de recursos no banco.
 {% endswagger-response %}
 {% endswagger %}
 
-{% swagger method="post" path="/debito" baseUrl="https://feira-de-jogos.com/v1" summary="Operação de débito para o jogador." %}
+{% swagger method="post" path="/debito" baseUrl="https://feira-de-jogos.com/v1" summary="Operação de débito para jogador." %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
@@ -145,7 +145,7 @@ Operação de crédito não é possível por falta de recursos do jogador.
 
 #### Operações de máquina:
 
-{% swagger method="get" path="/estoque" baseUrl="https://feira-de-jogos.com/v1" summary="Consulta de estoque de uma máquina." %}
+{% swagger method="get" path="/estoque" baseUrl="https://feira-de-jogos.com/v1" summary="Consulta de estoque de máquina." %}
 {% swagger-description %}
 
 {% endswagger-description %}
