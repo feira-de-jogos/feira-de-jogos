@@ -35,6 +35,8 @@ Duas versões previstas:
 
 Implementação simples, com autenticação embutida no corpo da requisição.
 
+#### Operações de jogador:
+
 {% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.com/v1" summary="Consulta de extrato de débitos e créditos." %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
@@ -138,5 +140,71 @@ Autenticação inválida.
 
 {% swagger-response status="403: Forbidden" description="" %}
 Operação de crédito não é possível por falta de recursos do jogador.
+{% endswagger-response %}
+{% endswagger %}
+
+#### Operações de máquina:
+
+{% swagger method="get" path="/estoque" baseUrl="https://feira-de-jogos.com/v1" summary="Consulta de estoque de uma máquina." %}
+{% swagger-description %}
+
+{% endswagger-description %}
+
+{% swagger-parameter in="body" name="id" required="true" %}
+Identificador da máquina.
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="senha" %}
+Senha atribuída a máquina.
+{% endswagger-parameter %}
+
+{% swagger-response status="200: OK" description="" %}
+Retorna JSON com o estoque corrente da máquina.
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="" %}
+Formato da requisição inválida.
+{% endswagger-response %}
+
+{% swagger-response status="401: Unauthorized" description="" %}
+Autenticação inválida.
+{% endswagger-response %}
+{% endswagger %}
+
+{% swagger method="post" path="/estoque" baseUrl="https://feira-de-jogos.com/v1" summary="Atualização de estoque de máquina." %}
+{% swagger-description %}
+
+{% endswagger-description %}
+
+{% swagger-parameter in="body" name="id" required="true" %}
+Identificador da máquina.
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="senha" required="true" %}
+Senha atribuída a máquina.
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="produto" required="true" %}
+Identificador do produto.
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="quantidade" required="true" %}
+Quantidade atualizada do produto.
+{% endswagger-parameter %}
+
+{% swagger-response status="200: OK" description="" %}
+Retorna JSON com o estoque corrente do produto na máquina.
+{% endswagger-response %}
+
+{% swagger-response status="400: Bad Request" description="" %}
+Formato da requisição inválida.
+{% endswagger-response %}
+
+{% swagger-response status="401: Unauthorized" description="" %}
+Autenticação inválida.
+{% endswagger-response %}
+
+{% swagger-response status="403: Forbidden" description="" %}
+Operação inválida: produto não existe ou não pode ser estocado nessa máquina.
 {% endswagger-response %}
 {% endswagger %}
