@@ -16,7 +16,7 @@ Duas versões previstas:
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
 
-{% swagger-parameter in="body" required="true" %}
+{% swagger-parameter in="body" required="true" name="id" %}
 
 {% endswagger-parameter %}
 
@@ -42,7 +42,7 @@ Retorna JSON com lista de débitos e créditos.
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
 
-{% swagger-parameter in="body" required="true" %}
+{% swagger-parameter in="body" required="true" name="id" %}
 
 {% endswagger-parameter %}
 
@@ -76,7 +76,7 @@ Operação não é possível por falta de recursos no banco.
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
 
-{% swagger-parameter in="body" required="true" %}
+{% swagger-parameter in="body" required="true" name="id" %}
 
 {% endswagger-parameter %}
 
