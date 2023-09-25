@@ -24,29 +24,6 @@ O acesso é padronizado para microprocessados (aplicações Web) e microcontrola
 * Cadastro: cadastro e manutenção de conta de usuário;
 * Banco: operador financeiro, o banco do sistema econômico.
 
-```mermaid
-flowchart LR
-    WebApp([Web App])
-    Embarcado([Embarcado])
-
-    subgraph Nuvem
-        subgraph Web
-            HTTPS(HTTPS)
-            Cadastro(Cadastro*)
-            Banco(Banco*)
-        end
-        BD[(BD)]
-    end
-
-    WebApp --- HTTPS
-    HTTPS --- Cadastro
-    HTTPS --- Banco
-    Banco --- BD
-    Cadastro --- BD
-
-    Embarcado --- HTTPS
-```
-
 ## REST API
 
 Duas versões previstas:
@@ -55,6 +32,8 @@ Duas versões previstas:
 2. Versão 2.0 (`v2`), pós 2023.
 
 ### API v1
+
+Implementação simples, com autenticação embutida no corpo da requisição.
 
 {% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.com/v1" summary="Consulta de extrato de débitos e créditos." %}
 {% swagger-description %}
