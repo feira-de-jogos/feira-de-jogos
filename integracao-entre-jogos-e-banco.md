@@ -74,7 +74,11 @@ O corpo da requisição deve ser em JSON.
 
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="valor" type="" required="true" %}
+{% swagger-parameter in="body" name="jogo" type="" required="true" %}
+
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="valor" %}
 
 {% endswagger-parameter %}
 
@@ -105,6 +109,14 @@ O corpo da requisição deve ser em JSON.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="senha" required="true" %}
+
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="maquina" required="true" %}
+
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="produto" required="true" %}
 
 {% endswagger-parameter %}
 
