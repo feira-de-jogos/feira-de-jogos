@@ -37,7 +37,7 @@ Implementação simples, com autenticação embutida no corpo da requisição.
 
 #### Operações de jogador:
 
-{% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.com/v1" summary="Extrato de jogador" %}
+{% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Extrato de jogador" %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
@@ -63,7 +63,7 @@ Autenticação inválida.
 {% endswagger-response %}
 {% endswagger %}
 
-{% swagger method="post" path="/credito" baseUrl="https://feira-de-jogos.com/v1" summary="Crédito para jogador" %}
+{% swagger method="post" path="/credito" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Crédito para jogador" %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
@@ -101,7 +101,7 @@ Operação não é possível por falta de recursos no banco.
 {% endswagger-response %}
 {% endswagger %}
 
-{% swagger method="post" path="/debito" baseUrl="https://feira-de-jogos.com/v1" summary="Débito para jogador" %}
+{% swagger method="post" path="/debito" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Débito para jogador" %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
@@ -145,7 +145,7 @@ Operação de crédito não é possível por falta de recursos do jogador.
 
 #### Operações de máquina:
 
-{% swagger method="get" path="/estoque" baseUrl="https://feira-de-jogos.com/v1" summary="Estoque de máquina" %}
+{% swagger method="get" path="/estoque" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Estoque de máquina" %}
 {% swagger-description %}
 
 {% endswagger-description %}
@@ -171,7 +171,7 @@ Autenticação inválida.
 {% endswagger-response %}
 {% endswagger %}
 
-{% swagger method="post" path="/estoque" baseUrl="https://feira-de-jogos.com/v1" summary="Estoque de máquina" %}
+{% swagger method="post" path="/estoque" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Estoque de máquina" %}
 {% swagger-description %}
 
 {% endswagger-description %}
