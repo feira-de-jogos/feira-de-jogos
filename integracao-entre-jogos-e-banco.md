@@ -37,7 +37,7 @@ Implementação simples, com autenticação embutida no corpo da requisição.
 
 #### Operações de jogador:
 
-{% swagger method="get" path="/extrato" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Extrato de jogador" %}
+{% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Extrato de jogador" %}
 {% swagger-description %}
 O corpo da requisição deve ser em JSON.
 {% endswagger-description %}
