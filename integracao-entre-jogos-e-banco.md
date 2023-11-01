@@ -19,7 +19,7 @@ Os requisitos são os seguintes:
 11. Aplicações Web podem usar ambos os mecanismos de autenticação (externa por email e par usuário+senha).
 12. Dispositivos terminais microcontrolados devem possuir teclado numérico aparente para o preenchimento de usuário e senha numéricos e, assim, autenticar o usuário para realizar as operações na máquina local.
 
-O acesso é padronizado para microprocessados (aplicações Web) e microcontrolados, baseado em REST API + JSON, uma vez que o sentido das mensagens é, basicamente, do cliente para o servidor. Os blocos com asterisco (`*`) são aplicações a serem desenvolvidas ao longo do projeto:
+O acesso é padronizado para microprocessados (aplicações Web) e microcontrolados, baseado em REST API + JSON, uma vez que o sentido das mensagens é, basicamente, do cliente para o servidor. As aplicações a serem desenvolvidas ao longo do projeto são:
 
 * Cadastro: cadastro e manutenção de conta de usuário;
 * Banco: operador financeiro, o banco do sistema econômico.
