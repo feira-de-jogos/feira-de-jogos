@@ -39,16 +39,8 @@ Implementação simples, com autenticação embutida no corpo da requisição.
 
 {% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Extrato de jogador" %}
 {% swagger-description %}
-O corpo da requisição deve ser em JSON.
+Operação iniciada pela tela inicial do aplicativo do usuário, com autenticação via Google OAuth 2.0.
 {% endswagger-description %}
-
-{% swagger-parameter in="body" required="true" name="id" %}
-Identificador do jogador.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="body" name="senha" required="true" %}
-Senha do jogador.
-{% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="" %}
 Retorna JSON com lista de débitos e créditos.
@@ -143,33 +135,7 @@ Operação de crédito não é possível por falta de recursos do jogador.
 {% endswagger-response %}
 {% endswagger %}
 
-#### Operações de máquina:
-
-{% swagger method="get" path="/estoque" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Estoque de máquina" %}
-{% swagger-description %}
-
-{% endswagger-description %}
-
-{% swagger-parameter in="body" name="id" required="true" %}
-Identificador da máquina.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="body" name="senha" %}
-Senha atribuída a máquina.
-{% endswagger-parameter %}
-
-{% swagger-response status="200: OK" description="" %}
-Retorna JSON com o estoque corrente da máquina.
-{% endswagger-response %}
-
-{% swagger-response status="400: Bad Request" description="" %}
-Formato da requisição inválida.
-{% endswagger-response %}
-
-{% swagger-response status="401: Unauthorized" description="" %}
-Autenticação inválida.
-{% endswagger-response %}
-{% endswagger %}
+#### Operação de máquina:
 
 {% swagger method="post" path="/estoque" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Estoque de máquina" %}
 {% swagger-description %}
@@ -184,16 +150,16 @@ Identificador da máquina.
 Senha atribuída a máquina.
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="produto" required="true" %}
+{% swagger-parameter in="body" name="produto" required="false" %}
 Identificador do produto.
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="quantidade" required="true" %}
+{% swagger-parameter in="body" name="quantidade" required="false" %}
 Quantidade atualizada do produto.
 {% endswagger-parameter %}
 
 {% swagger-response status="200: OK" description="" %}
-Retorna JSON com o estoque corrente do produto na máquina.
+Retorna JSON com o estoque corrente da máquina.
 {% endswagger-response %}
 
 {% swagger-response status="400: Bad Request" description="" %}
