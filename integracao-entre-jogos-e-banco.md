@@ -26,7 +26,7 @@ O acesso é padronizado para microprocessados (aplicações Web) e microcontrola
 
 
 
-<figure><img src=".gitbook/assets/mermaid-diagram-2023-11-06-234505.png" alt=""><figcaption><p>Diagrama de blocos dos serviços e seus protocolos</p></figcaption></figure>
+<figure><img src=".gitbook/assets/mermaid-diagram-2023-11-06-234505 (1).png" alt="Diagrama de blocos dos serviços e seus protocolos"><figcaption><p>Diagrama de blocos dos serviços e seus protocolos</p></figcaption></figure>
 
 ## REST API
 
