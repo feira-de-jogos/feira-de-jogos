@@ -24,6 +24,10 @@ O acesso é padronizado para microprocessados (aplicações Web) e microcontrola
 * Cadastro: cadastro e manutenção de conta de usuário;
 * Banco: operador financeiro, o banco do sistema econômico.
 
+
+
+<figure><img src=".gitbook/assets/mermaid-diagram-2023-11-06-234505.png" alt=""><figcaption><p>Diagrama de blocos dos serviços e seus protocolos</p></figcaption></figure>
+
 ## REST API
 
 Duas versões previstas:
