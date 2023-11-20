@@ -11,6 +11,7 @@ const int mqtt_port = 1883;  // Porta padrão do MQTT
 const char * mqtt_user = "feira";
 const char * mqtt_password = "feira";
 
+
 // DEFINIÇÕES DE REDE/MQTT
 byte mac[] = {0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xEF};
 EthernetClient ethClient;
@@ -35,9 +36,14 @@ Keypad teclado = Keypad(makeKeymap(TECLAS_MATRIZ), PINOS_LINHAS, PINOS_COLUNAS, 
 // DEFINIÇÃO DA SENHA DE ACESSO
 String usuario = "";  // Usuario com 4 digitos
 String senha = "";    // Senha com 4 digitos
+String maquina = "0001"; // Indentificador da maquina (4 digitos)
+String produto = ""; // Produto selecionado para compra (4 digitos)
+String valor = ""; // valor da compra (4 digitos)
 String MaqID = "1010";
+String Informacoes[] = {"0", "0", maquina, "0", "0"};
 String mensagem[] = {MaqID, "0", "0", "0"};
 bool umavez = false;
+String receivedMessage = "";
 
 
 
@@ -274,9 +280,21 @@ void loop()
 
   
 
-while (umavez == false) {
-  String msg = "00025308000100010010";
-  client.publish("debito/0001", msg.c_str());
+while (umavez == false) { // loop pra chamar 1 vez a função no código(para testes)
+    usuario = formatarComZeros(usuario);
+    senha = formatarComZeros(senha);
+    maquina = formatarComZeros(maquina);
+    produto = formatarComZeros(produto);
+    valor = formatarComZeros(valor);
+    
+    Informacoes[0] = usuario;  // Usuário
+    Informacoes[1] = senha;  // Senha
+    Informacoes[2] = maquina;  // maquina
+    Informacoes[3] = produto;  // Produto 
+    Informacoes[4] = valor; // valor
+
+    String msg = Informacoes[0] + Informacoes[1] + Informacoes[2] + Informacoes[3] + Informacoes[4];  // Construa a mensagem
+    client.publish("debito/0001", msg.c_str(), 2);
 
   umavez = true;
 }
@@ -478,6 +496,22 @@ void callback(char * topic, byte * payload, unsigned int length) {
     Serial.print((char)payload[i]);
     receivedMessage += (char)payload[i]; // Concatenate the characters to the message
   }
+  if(receivedMessage == 200){
+    Serial.println("Autorização confirmada");
+    //Autorização confirmada
+  }else if(receivedMessage == 400){
+    Serial.println("Dados Enviados Fora do Padrão( Dados maiores que 20 caracteres)");
+    //Dados Enviados Fora do Padrão( Dados maiores que 20 caracteres)
+  }else if(receivedMessage == 401){
+    Serial.println("Usuário ou Senha Incorreta");
+    //Usuário ou Senha Incorreta
+  }else if(receivedMessage == 403){
+    Serial.println("Produto sem estoque ou Saldo Insuficiente");
+    //Produto sem estoque ou Saldo Insuficiente
+  }else if(receivedMessage == 500){
+    Serial.println("Erro no Servidor");
+    //Erro no Servidor
+  }
 
   Serial.println();
   
@@ -500,4 +534,11 @@ void reconnect() {
       delay(5000);
     }
   }
+}
+
+String formatarComZeros(String valor) {
+  while (valor.length() < 4) {
+    valor = "0" + valor;
+  }
+  return valor;
 }
