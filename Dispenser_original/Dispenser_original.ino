@@ -34,16 +34,23 @@ const char TECLAS_MATRIZ[LINHAS][COLUNAS] = {
 Keypad teclado = Keypad(makeKeymap(TECLAS_MATRIZ), PINOS_LINHAS, PINOS_COLUNAS, LINHAS, COLUNAS);
 
 // DEFINIÇÃO DA SENHA DE ACESSO
-String usuario = "";  // Usuario com 4 digitos
-String senha = "";    // Senha com 4 digitos
+String usuario = "2";  // Usuario com 4 digitos
+String senha = "1308";    // Senha com 4 digitos
 String maquina = "0001"; // Indentificador da maquina (4 digitos)
-String produto = ""; // Produto selecionado para compra (4 digitos)
-String valor = ""; // valor da compra (4 digitos)
+String produto = "1"; // Produto selecionado para compra (4 digitos)
+String valor = "2"; // valor da compra (4 digitos)
 String MaqID = "1010";
 String Informacoes[] = {"0", "0", maquina, "0", "0"};
 String mensagem[] = {MaqID, "0", "0", "0"};
 bool umavez = false;
 String receivedMessage = "";
+//Definições de estoque
+int Mola1Qnt = 6;
+int Mola2Qnt = 6;
+int Mola3Qnt = 6;
+int Mola4Qnt = 6;
+int Mola5Qnt = 6;
+int Mola6Qnt = 6;
 
 
 
@@ -495,20 +502,42 @@ void callback(char * topic, byte * payload, unsigned int length) {
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
     receivedMessage += (char)payload[i]; // Concatenate the characters to the message
+    if (i == length - 1) {
+        Serial.print("\n");
+    }
   }
-  if(receivedMessage == 200){
+  if(receivedMessage == "200"){
     Serial.println("Autorização confirmada");
+      if(produto == "0001"){
+        Mola1Qnt -= 1;
+        Serial.println(Mola1Qnt);
+      }else if(produto == "0002"){
+        Mola2Qnt -= 1;
+        Serial.println(Mola2Qnt);
+      }else if(produto == "0003"){
+        Mola3Qnt -= 1;
+        Serial.println(Mola3Qnt);
+      }else if(produto == "0006"){
+        Mola4Qnt -= 1;
+        Serial.println(Mola4Qnt);
+      }else if(produto == "0007"){
+        Mola5Qnt -= 1;
+        Serial.println(Mola5Qnt);
+      }else if(produto == "0008"){
+        Mola6Qnt -= 1;
+        Serial.println(Mola6Qnt);
+      }
     //Autorização confirmada
-  }else if(receivedMessage == 400){
+  }else if(receivedMessage == "400"){
     Serial.println("Dados Enviados Fora do Padrão( Dados maiores que 20 caracteres)");
     //Dados Enviados Fora do Padrão( Dados maiores que 20 caracteres)
-  }else if(receivedMessage == 401){
+  }else if(receivedMessage == "401"){
     Serial.println("Usuário ou Senha Incorreta");
     //Usuário ou Senha Incorreta
-  }else if(receivedMessage == 403){
+  }else if(receivedMessage == "403"){
     Serial.println("Produto sem estoque ou Saldo Insuficiente");
     //Produto sem estoque ou Saldo Insuficiente
-  }else if(receivedMessage == 500){
+  }else if(receivedMessage == "500"){
     Serial.println("Erro no Servidor");
     //Erro no Servidor
   }
