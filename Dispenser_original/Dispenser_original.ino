@@ -10,6 +10,8 @@ const char *mqtt_server = "191.36.8.49";
 const int mqtt_port = 1883; // Porta padrão do MQTT
 const char *mqtt_user = "feira";
 const char *mqtt_password = "feira";
+const char *mqtt_topic_publish = "debito/0001";
+const char *mqtt_topic_subscribe = "0001/+";
 
 // DEFINIÇÕES DE REDE/MQTT
 byte mac[] = {0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xEF};
@@ -43,6 +45,7 @@ String Informacoes[] = {"0", "0", maquina, "0", "0"};
 String mensagem[] = {MaqID, "0", "0", "0"};
 bool umavez = false;
 String receivedMessage = "";
+
 // Definições de estoque
 int Mola1Qnt = 5;
 int Mola2Qnt = 5;
@@ -296,7 +299,7 @@ void loop()
     Informacoes[4] = valor;   // valor
 
     String msg = Informacoes[0] + Informacoes[1] + Informacoes[2] + Informacoes[3] + Informacoes[4]; // Construa a mensagem
-    client.publish("debito/0001", msg.c_str(), 2);
+    client.publish(mqtt_topic_publish, msg.c_str(), 2);
 
     umavez = true;
   }
@@ -434,7 +437,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Mola4Qnt -= 1;
       Serial.println(Mola4Qnt);
     }
-    else if (produto == "0005")
+    else if (produto == "0006")
     {
       for (int w = 0; w < 4; w++) // 400 half-step/revolucao
       {
@@ -448,7 +451,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Mola5Qnt -= 1;
       Serial.println(Mola5Qnt);
     }
-    else if (produto == "0006")
+    else if (produto == "0007")
     {
       for (int w = 0; w < 4; w++) // 400 half-step/revolucao
       {
@@ -462,7 +465,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Mola6Qnt -= 1;
       Serial.println(Mola6Qnt);
     }
-    else if (produto == "0007")
+    else if (produto == "0008")
     {
       for (int w = 0; w < 4; w++) // 400 half-step/revolucao
       {
@@ -476,7 +479,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Mola7Qnt -= 1;
       Serial.println(Mola7Qnt);
     }
-    else if (produto == "0008")
+    else if (produto == "0009")
     {
       for (int w = 0; w < 4; w++) // 400 half-step/revolucao
       {
@@ -526,7 +529,7 @@ void reconnect()
     if (client.connect("arduino_client", mqtt_user, mqtt_password))
     {
       Serial.println("Conectado ao Broker MQTT!");
-      client.subscribe("0001/+");
+      client.subscribe(mqtt_topic_subscribe);
     }
     else
     {
