@@ -2,7 +2,6 @@
 #include <LiquidCrystal.h> // Display LCD
 #include <Keypad.h>        // Teclado Matricial
 #include <Ethernet.h>      // Modulo Ethernet
-// #include <Bridge.h>         // Modulo http
 #include <PubSubClient.h> // Conexão MQTT
 
 // VARIAVEIS PARA MQTT
@@ -32,13 +31,13 @@ const char TECLAS_MATRIZ[LINHAS][COLUNAS] = {
 byte PINOS_LINHAS[LINHAS] = {20, 19, 18, 17}; // Pinos de Conexão (linhas)
 byte PINOS_COLUNAS[COLUNAS] = {16, 15, 14};   // Pinos de Conexão (colunas)
 
-Keypad teclado = Keypad(makeKeymap(TECLAS_MATRIZ), PINOS_LINHAS, PINOS_COLUNAS, LINHAS, COLUNAS);
+Keypad keypad = Keypad(makeKeymap(TECLAS_MATRIZ), PINOS_LINHAS, PINOS_COLUNAS, LINHAS, COLUNAS);
 
 // DEFINIÇÃO DA SENHA DE ACESSO
-String usuario = "2";    // Usuario com 4 digitos
-String senha = "1308";   // Senha com 4 digitos
+String usuario = "";    // Usuario com 4 digitos
+String senha = "";   // Senha com 4 digitos
 String maquina = "0001"; // Indentificador da maquina (4 digitos)
-String produto = "1";    // Produto selecionado para compra (4 digitos)
+String produto = "";    // Produto selecionado para compra (4 digitos)
 String valor = "2";      // valor da compra (4 digitos)
 String MaqID = "1010";
 String Informacoes[] = {"0", "0", maquina, "0", "0"};
@@ -51,10 +50,10 @@ int Mola1Qnt = 5;
 int Mola2Qnt = 5;
 int Mola3Qnt = 5;
 int Mola4Qnt = 5;
-int Mola5Qnt = 5;
 int Mola6Qnt = 5;
 int Mola7Qnt = 5;
 int Mola8Qnt = 5;
+int Mola9Qnt = 5;
 
 // MÉTODO PARA IMPRIMIR LINHA NO DISPLAY
 void LCD_Linha(int a, int b, String texto)
@@ -186,7 +185,7 @@ void M4()
   }
 }
 
-void M5()
+void M7()
 {
   for (int j = 0; j < 8; j++)
   {
@@ -204,7 +203,7 @@ void M6()
   }
 }
 
-void M7()
+void M8()
 {
   for (int j = 0; j < 8; j++)
   {
@@ -213,7 +212,7 @@ void M7()
   }
 }
 
-void M8()
+void M9()
 {
   for (int j = 0; j < 8; j++)
   {
@@ -286,28 +285,14 @@ void loop()
 
   while (umavez == false)
   { // loop pra chamar 1 vez a função no código(para testes)
-    usuario = formatarComZeros(usuario);
-    senha = formatarComZeros(senha);
-    maquina = formatarComZeros(maquina);
-    produto = formatarComZeros(produto);
-    valor = formatarComZeros(valor);
-
-    Informacoes[0] = usuario; // Usuário
-    Informacoes[1] = senha;   // Senha
-    Informacoes[2] = maquina; // maquina
-    Informacoes[3] = produto; // Produto
-    Informacoes[4] = valor;   // valor
-
-    String msg = Informacoes[0] + Informacoes[1] + Informacoes[2] + Informacoes[3] + Informacoes[4]; // Construa a mensagem
-    client.publish(mqtt_topic_publish, msg.c_str(), 2);
-
+    //FinalizarCompra();
     umavez = true;
   }
 
   // Serial.println("EXTERNO!");
-  // char senha = "";
+  /*// char senha = "";
   char codigo = '*';
-  char leitura = teclado.getKey(); // Atribui a variavel a leitura do teclado
+  //char leitura = teclado.getKey(); // Atribui a variavel a leitura do teclado
   if (leitura)
   {
     inicio = true;
@@ -319,7 +304,7 @@ void loop()
     Serial.println(leitura);
     LCD_Selecao();
     delay(1000);
-    char opcao = teclado.getKey(); // Atribui a variavel a leitura do teclado
+   // char opcao = teclado.getKey(); // Atribui a variavel a leitura do teclado
     if (opcao)                     // Se nova tecla foi pressionada
     {
       Serial.print("OPCAO >> ");
@@ -358,7 +343,7 @@ void loop()
         mensagem[4] = senha;
       }
     }
-  }
+  }*/
 }
 
 void callback(char *topic, byte *payload, unsigned int length)
@@ -443,20 +428,6 @@ void callback(char *topic, byte *payload, unsigned int length)
       {
         for (int z = 0; z < 50; z++) // 1 revolução
         {
-          M5();
-        };
-      };
-      inicio = false;
-
-      Mola5Qnt -= 1;
-      Serial.println(Mola5Qnt);
-    }
-    else if (produto == "0007")
-    {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
           M6();
         };
       };
@@ -465,7 +436,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Mola6Qnt -= 1;
       Serial.println(Mola6Qnt);
     }
-    else if (produto == "0008")
+    else if (produto == "0007")
     {
       for (int w = 0; w < 4; w++) // 400 half-step/revolucao
       {
@@ -479,7 +450,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Mola7Qnt -= 1;
       Serial.println(Mola7Qnt);
     }
-    else if (produto == "0009")
+    else if (produto == "0008")
     {
       for (int w = 0; w < 4; w++) // 400 half-step/revolucao
       {
@@ -493,25 +464,44 @@ void callback(char *topic, byte *payload, unsigned int length)
       Mola8Qnt -= 1;
       Serial.println(Mola8Qnt);
     }
+    else if (produto == "0009")
+    {
+      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
+      {
+        for (int z = 0; z < 50; z++) // 1 revolução
+        {
+          M9();
+        };
+      };
+      inicio = false;
+
+      Mola9Qnt -= 1;
+      Serial.println(Mola9Qnt);
+    }
+    InicioDaCompra();
   }
   else if (receivedMessage == "400")
   {
     Serial.println("Dados Enviados Fora do Padrão( Dados maiores que 20 caracteres)");
+    InicioDaCompra();
     // Dados Enviados Fora do Padrão( Dados maiores que 20 caracteres)
   }
   else if (receivedMessage == "401")
   {
     Serial.println("Usuário ou Senha Incorreta");
+    InicioDaCompra();
     // Usuário ou Senha Incorreta
   }
   else if (receivedMessage == "403")
   {
     Serial.println("Produto sem estoque ou Saldo Insuficiente");
+    InicioDaCompra();
     // Produto sem estoque ou Saldo Insuficiente
   }
   else if (receivedMessage == "500")
   {
     Serial.println("Erro no Servidor");
+    InicioDaCompra();
     // Erro no Servidor
   }
 
@@ -530,6 +520,8 @@ void reconnect()
     {
       Serial.println("Conectado ao Broker MQTT!");
       client.subscribe(mqtt_topic_subscribe);
+      InicioDaCompra();
+      
     }
     else
     {
@@ -549,3 +541,106 @@ String formatarComZeros(String valor)
   }
   return valor;
 }
+
+void FinalizarCompra(){
+    usuario = formatarComZeros(usuario);
+    senha = formatarComZeros(senha);
+    maquina = formatarComZeros(maquina);
+    produto = formatarComZeros(produto);
+    valor = formatarComZeros(valor);
+
+    Informacoes[0] = usuario; // Usuário
+    Informacoes[1] = senha;   // Senha
+    Informacoes[2] = maquina; // maquina
+    Informacoes[3] = produto; // Produto
+    Informacoes[4] = valor;   // valor
+
+    String msg = Informacoes[0] + Informacoes[1] + Informacoes[2] + Informacoes[3] + Informacoes[4]; // Construa a mensagem
+    client.publish(mqtt_topic_publish, msg.c_str(), 2);
+
+  }
+
+  void InicioDaCompra(){
+      /*Serial.println("Insira seu ID de usuário: ");
+      while (!Serial.available()) {
+        // Aguarda até que o usuário insira o ID
+      }
+      // Lê o ID de usuário da porta Serial
+      usuario = Serial.readStringUntil('\n');
+      Serial.print("ID de usuário inserido: ");
+      Serial.println(usuario);
+    
+      Serial.println("Insira sua senha: ");
+      while (!Serial.available()) {
+        // Aguarda até que o usuário insira a senha
+      }
+      // Lê a senha da porta Serial
+      senha = Serial.readStringUntil('\n');
+      Serial.print("Senha inserida: ");
+      Serial.println(senha);
+
+      Serial.println("Insira o ID do produto á comprar: ");
+      while (!Serial.available()) {
+        // Aguarda até que o usuário insira a senha
+      }
+      // Lê a senha da porta Serial
+      produto = Serial.readStringUntil('\n');
+      Serial.print("Produto selecionado: ");
+      Serial.println(produto);*/
+
+      Serial.println("Insira seu ID de usuário: ");
+      usuario = readFromKeypad();
+      Serial.print("ID de usuário inserido: ");
+      Serial.println(usuario);
+    
+      Serial.println("Insira sua senha: ");
+      senha = readFromKeypad();
+      Serial.print("Senha inserida: ");
+      Serial.println(senha);
+    
+      Serial.println("Insira o ID do produto a comprar: ");
+      produto = readFromKeypad();
+      Serial.print("Produto selecionado: ");
+      Serial.println(produto);
+      FinalizarCompra();
+      
+    }
+
+    String readFromKeypad() {
+      /*
+      String input = "";
+
+        while (true) {
+          char key = keypad.getKey();
+          if (key) {
+            if (key == '#') {
+              break;  // Sai do loop quando '#' é pressionado
+            }
+            input += key;
+          }
+        }
+        
+        return input;*/
+
+        String input = "";
+
+      while (true) {
+        char key = keypad.getKey();
+        Serial.println(key);
+        if (key) {
+          if (key == '#') {
+            break;  // Sai do loop quando '#' é pressionado
+          } else if (key == '*') {
+            // Remove o último caractere se '*' é pressionado
+            if (input.length() > 0) {
+              input.remove(input.length() - 1);
+              Serial.println("Caractere removido.");
+            }
+          } else {
+            input += key;
+          }
+        }
+      }
+    
+      return input;
+    }
