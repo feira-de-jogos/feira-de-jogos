@@ -24,10 +24,11 @@ LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
 const byte LINHAS = 4;
 const byte COLUNAS = 3;
 const char TECLAS_MATRIZ[LINHAS][COLUNAS] = {
-    {'1', '2', '3'},
-    {'4', '5', '6'},
-    {'7', '8', '9'},
-    {'*', '0', '#'}};
+  {'1', '2', '3'},
+  {'4', '5', '6'},
+  {'7', '8', '9'},
+  {'*', '0', '#'}
+};
 byte PINOS_LINHAS[LINHAS] = {20, 19, 18, 17}; // Pinos de Conexão (linhas)
 byte PINOS_COLUNAS[COLUNAS] = {16, 15, 14};   // Pinos de Conexão (colunas)
 
@@ -38,9 +39,8 @@ String usuario = "";    // Usuario com 4 digitos
 String senha = "";   // Senha com 4 digitos
 String maquina = "0001"; // Indentificador da maquina (4 digitos)
 String produto = "";    // Produto selecionado para compra (4 digitos)
-String valor = "2";      // valor da compra (4 digitos)
 String MaqID = "1010";
-String Informacoes[] = {"0", "0", maquina, "0", "0"};
+String Informacoes[] = {"0", "0", maquina, "0"};
 String mensagem[] = {MaqID, "0", "0", "0"};
 bool umavez = false;
 String receivedMessage = "";
@@ -253,6 +253,8 @@ void setup()
   // Configura o servidor MQTT
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
+  client.setSocketTimeout(120);
+  client.setKeepAlive(120);
 
   // Conecta ao broker MQTT
   reconnect();
@@ -291,20 +293,20 @@ void loop()
 
   // Serial.println("EXTERNO!");
   /*// char senha = "";
-  char codigo = '*';
-  //char leitura = teclado.getKey(); // Atribui a variavel a leitura do teclado
-  if (leitura)
-  {
+    char codigo = '*';
+    //char leitura = teclado.getKey(); // Atribui a variavel a leitura do teclado
+    if (leitura)
+    {
     inicio = true;
-  };
+    };
 
-  while (inicio == true) // Se alguma tecla foi pressionada
-  {
+    while (inicio == true) // Se alguma tecla foi pressionada
+    {
     Serial.print("LEITURA >> ");
     Serial.println(leitura);
     LCD_Selecao();
     delay(1000);
-   // char opcao = teclado.getKey(); // Atribui a variavel a leitura do teclado
+    // char opcao = teclado.getKey(); // Atribui a variavel a leitura do teclado
     if (opcao)                     // Se nova tecla foi pressionada
     {
       Serial.print("OPCAO >> ");
@@ -343,7 +345,7 @@ void loop()
         mensagem[4] = senha;
       }
     }
-  }*/
+    }*/
 }
 
 void callback(char *topic, byte *payload, unsigned int length)
@@ -521,7 +523,7 @@ void reconnect()
       Serial.println("Conectado ao Broker MQTT!");
       client.subscribe(mqtt_topic_subscribe);
       InicioDaCompra();
-      
+
     }
     else
     {
@@ -542,105 +544,101 @@ String formatarComZeros(String valor)
   return valor;
 }
 
-void FinalizarCompra(){
-    usuario = formatarComZeros(usuario);
-    senha = formatarComZeros(senha);
-    maquina = formatarComZeros(maquina);
-    produto = formatarComZeros(produto);
-    valor = formatarComZeros(valor);
+void FinalizarCompra() {
+  usuario = formatarComZeros(usuario);
+  senha = formatarComZeros(senha);
+  maquina = formatarComZeros(maquina);
+  produto = formatarComZeros(produto);
 
-    Informacoes[0] = usuario; // Usuário
-    Informacoes[1] = senha;   // Senha
-    Informacoes[2] = maquina; // maquina
-    Informacoes[3] = produto; // Produto
-    Informacoes[4] = valor;   // valor
+  Informacoes[0] = usuario; // Usuário
+  Informacoes[1] = senha;   // Senha
+  Informacoes[2] = maquina; // maquina
+  Informacoes[3] = produto; // Produto
+  String msg = Informacoes[0] + Informacoes[1] + Informacoes[2] + Informacoes[3]; // Construa a mensagem
+  client.publish(mqtt_topic_publish, msg.c_str(), 2);
 
-    String msg = Informacoes[0] + Informacoes[1] + Informacoes[2] + Informacoes[3] + Informacoes[4]; // Construa a mensagem
-    client.publish(mqtt_topic_publish, msg.c_str(), 2);
+}
 
+void InicioDaCompra() {
+  /*Serial.println("Insira seu ID de usuário: ");
+    while (!Serial.available()) {
+    // Aguarda até que o usuário insira o ID
+    }
+    // Lê o ID de usuário da porta Serial
+    usuario = Serial.readStringUntil('\n');
+    Serial.print("ID de usuário inserido: ");
+    Serial.println(usuario);
+
+    Serial.println("Insira sua senha: ");
+    while (!Serial.available()) {
+    // Aguarda até que o usuário insira a senha
+    }
+    // Lê a senha da porta Serial
+    senha = Serial.readStringUntil('\n');
+    Serial.print("Senha inserida: ");
+    Serial.println(senha);
+
+    Serial.println("Insira o ID do produto á comprar: ");
+    while (!Serial.available()) {
+    // Aguarda até que o usuário insira a senha
+    }
+    // Lê a senha da porta Serial
+    produto = Serial.readStringUntil('\n');
+    Serial.print("Produto selecionado: ");
+    Serial.println(produto);*/
+
+  Serial.println("Insira seu ID de usuário: ");
+  usuario = readFromKeypad();
+  Serial.print("ID de usuário inserido: ");
+  Serial.println(usuario);
+
+  Serial.println("Insira sua senha: ");
+  senha = readFromKeypad();
+  Serial.print("Senha inserida: ");
+  Serial.println(senha);
+
+  Serial.println("Insira o ID do produto a comprar: ");
+  produto = readFromKeypad();
+  Serial.print("Produto selecionado: ");
+  Serial.println(produto);
+  FinalizarCompra();
+
+}
+
+String readFromKeypad() {
+  /*
+    String input = "";
+
+    while (true) {
+      char key = keypad.getKey();
+      if (key) {
+        if (key == '#') {
+          break;  // Sai do loop quando '#' é pressionado
+        }
+        input += key;
+      }
+    }
+
+    return input;*/
+
+  String input = "";
+
+  while (true) {
+    char key = keypad.getKey();
+    if (key) {
+      if (key == '#') {
+        break;  // Sai do loop quando '#' é pressionado
+      } else if (key == '*') {
+        // Remove o último caractere se '*' é pressionado
+        if (input.length() > 0) {
+          input.remove(input.length() - 1);
+          Serial.println("Caractere removido.");
+        }
+      } else {
+        input += key;
+      }
+    }
   }
 
-  void InicioDaCompra(){
-      /*Serial.println("Insira seu ID de usuário: ");
-      while (!Serial.available()) {
-        // Aguarda até que o usuário insira o ID
-      }
-      // Lê o ID de usuário da porta Serial
-      usuario = Serial.readStringUntil('\n');
-      Serial.print("ID de usuário inserido: ");
-      Serial.println(usuario);
-    
-      Serial.println("Insira sua senha: ");
-      while (!Serial.available()) {
-        // Aguarda até que o usuário insira a senha
-      }
-      // Lê a senha da porta Serial
-      senha = Serial.readStringUntil('\n');
-      Serial.print("Senha inserida: ");
-      Serial.println(senha);
-
-      Serial.println("Insira o ID do produto á comprar: ");
-      while (!Serial.available()) {
-        // Aguarda até que o usuário insira a senha
-      }
-      // Lê a senha da porta Serial
-      produto = Serial.readStringUntil('\n');
-      Serial.print("Produto selecionado: ");
-      Serial.println(produto);*/
-
-      Serial.println("Insira seu ID de usuário: ");
-      usuario = readFromKeypad();
-      Serial.print("ID de usuário inserido: ");
-      Serial.println(usuario);
-    
-      Serial.println("Insira sua senha: ");
-      senha = readFromKeypad();
-      Serial.print("Senha inserida: ");
-      Serial.println(senha);
-    
-      Serial.println("Insira o ID do produto a comprar: ");
-      produto = readFromKeypad();
-      Serial.print("Produto selecionado: ");
-      Serial.println(produto);
-      FinalizarCompra();
-      
-    }
-
-    String readFromKeypad() {
-      /*
-      String input = "";
-
-        while (true) {
-          char key = keypad.getKey();
-          if (key) {
-            if (key == '#') {
-              break;  // Sai do loop quando '#' é pressionado
-            }
-            input += key;
-          }
-        }
-        
-        return input;*/
-
-        String input = "";
-
-      while (true) {
-        char key = keypad.getKey();
-        Serial.println(key);
-        if (key) {
-          if (key == '#') {
-            break;  // Sai do loop quando '#' é pressionado
-          } else if (key == '*') {
-            // Remove o último caractere se '*' é pressionado
-            if (input.length() > 0) {
-              input.remove(input.length() - 1);
-              Serial.println("Caractere removido.");
-            }
-          } else {
-            input += key;
-          }
-        }
-      }
-    
-      return input;
-    }
+  return input;
+}
