@@ -3,6 +3,7 @@
 #include <Keypad.h>        // Teclado Matricial
 #include <Ethernet.h>      // Modulo Ethernet
 #include <PubSubClient.h> // Conexão MQTT
+#include <Stepper.h> // Conexão MQTT
 
 // VARIAVEIS PARA MQTT
 const char *mqtt_server = "191.36.8.49";
@@ -11,14 +12,26 @@ const char *mqtt_user = "feira";
 const char *mqtt_password = "feira";
 const char *mqtt_topic_publish = "debito/0001";
 const char *mqtt_topic_subscribe = "0001/+";
+const int Step1 = 800;  // Passo por Volta do Motor de Passo
+const int Step2 = 800;  // Passo por Volta do Motor de Passo
+const int Step3 = 800;  // Passo por Volta do Motor de Passo
+const int Step4 = 800;  // Passo por Volta do Motor de Passo
+const int Step6 = 800;  // Passo por Volta do Motor de Passo
+const int Step7 = 800;  // Passo por Volta do Motor de Passo
+Stepper Motor1(Step1, 25, 24, 23, 22);  //Stepper Motor1(Step1, 25, 24, 23, 22); menor torque //
+Stepper Motor2(Step2, 29, 28, 27, 26);
+Stepper Motor3(Step3, 37, 36, 35, 34);
+Stepper Motor4(Step4, 33, 32, 31, 30);
+Stepper Motor6(Step6, 45, 44, 43, 42);
+Stepper Motor7(Step7, 49, 48, 47, 46);
 
 // DEFINIÇÕES DE REDE/MQTT
 byte mac[] = {0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xEF};
 EthernetClient ethClient;
 PubSubClient client(ethClient);
 
-// DEFINIÇÕES DO DISPLAY: >> EN, RS, DB4, DB5, DB6, DB7 >> PSB (HIGH) >> R/W (LOW) >> R/W (LOW) >> V0 (NC)
-LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
+// DEFINIÇÕES DO DISPLAY: >> EN, RS, DB4, DB5, DB6, DB7 >> PSB (HIGH) >> R/W (LOW) >> V0 (NC)
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 // CONFIGURAÇÃO DO TECLADO MATRICIAL [4 x 3]
 const byte LINHAS = 4;
@@ -64,35 +77,34 @@ void LCD_Linha(int a, int b, String texto)
 
 void LCD_Inicial()
 {
-  lcd.clear();
+  lcd.clear();  
   LCD_Linha(0, 0, " DISPENSER V0.5 ");
   LCD_Linha(0, 2, "> Projeto Ensino");
   LCD_Linha(8, 0, "> BEM-VINDO(A)! ");
   LCD_Linha(8, 2, "________________");
-  lcd.blink();
-  delay(100);
+  delay(1000);
 }
 
 void LCD_Selecao()
 {
   lcd.clear();
   LCD_Linha(0, 0, "Ola! Selecione o");
-  LCD_Linha(0, 2, "produto de 1 a 9");
+  LCD_Linha(0, 2, "produto de 1 a 6");
   LCD_Linha(8, 0, "'#' p/ Confirmar");
   LCD_Linha(8, 2, "'*' p/ Cancelar!");
   lcd.noBlink();
-  delay(100);
+  delay(500);
 }
 
 void LCD_Identificacao()
 {
   lcd.clear();
-  LCD_Linha(0, 0, "Prod Selecionado");
-  LCD_Linha(0, 2, "Digite codigo de");
+  LCD_Linha(0, 0, "> Bem-vindo(a)! ");
+  LCD_Linha(0, 2, "Insira seu ID de");
   LCD_Linha(8, 0, "usuario c/ 4 dig");
-  LCD_Linha(8, 2, "CODIGO:         ");
+  LCD_Linha(8, 2, "ID:             ");
   lcd.noBlink();
-  delay(100);
+  delay(500);
 }
 
 void LCD_Requisicao()
@@ -103,7 +115,7 @@ void LCD_Requisicao()
   LCD_Linha(8, 0, "com (4 digitos):");
   LCD_Linha(8, 2, "SENHA:          ");
   lcd.blink();
-  delay(100);
+  delay(500);
 }
 
 void LCD_Validacao()
@@ -114,7 +126,7 @@ void LCD_Validacao()
   LCD_Linha(8, 0, "RETIRE ABAIXO   ");
   LCD_Linha(8, 2, " >> OBRIGADO! <<");
   lcd.noBlink();
-  delay(100);
+  delay(500);
 }
 
 void LCD_Erro()
@@ -125,18 +137,28 @@ void LCD_Erro()
   LCD_Linha(8, 0, "na autenticacao ");
   LCD_Linha(8, 2, "Retornando......");
   lcd.noBlink();
-  delay(100);
+  delay(3000);
 }
 
 void LCD_ErroSelecao()
 {
   lcd.clear();
-  LCD_Linha(0, 0, "Selecao Inválida!");
+  LCD_Linha(0, 0, "Selecao Invalida!");
   LCD_Linha(0, 2, "Favor, selecionar");
-  LCD_Linha(8, 0, "número da bandeja");
-  LCD_Linha(8, 2, "de produtos:1 a 8");
+  LCD_Linha(8, 0, "um produto entre");
+  LCD_Linha(8, 2, "1 a 6");
   lcd.noBlink();
-  delay(100);
+  delay(3000);
+}
+
+void LCD_ErroSaldo(){
+  lcd.clear();
+  LCD_Linha(0, 0, "Tentativa");
+  LCD_Linha(0, 2, "Invalida");
+  LCD_Linha(8, 0, "Saldo");
+  LCD_Linha(8, 2, "Insuficiente!");
+  lcd.noBlink();
+  delay(3000);
 }
 
 byte AH1[8] = {0x09, 0x01, 0x03, 0x02, 0x06, 0x04, 0x0c, 0x08};
@@ -149,89 +171,59 @@ int BZZ = 0;
 
 void M1()
 {
-  for (int j = 0; j < 8; j++)
-  {
-    PORTA = HR1[j]; // 4 bits LSB PORT_A (22, 23, 24, 25)
-    delayMicroseconds(1150);
-  }
+  Motor1.step(Step1);
 }
 
 void M2()
 {
-
-  for (int j = 0; j < 8; j++)
-  {
-    PORTA = HR2[j]; // 4 bits MSB PORT_A (26, 27, 28, 29)
-    delayMicroseconds(1150);
-  }
+  Motor2.step(Step2);
 }
 
 void M3()
 {
-  for (int j = 0; j < 8; j++)
-  {
-    PORTC = HR1[j]; // 4 bits LSB PORT_C (37, 36, 35, 34)
-    delayMicroseconds(1150);
-  }
+  Motor3.step(Step3);
 }
 
 void M4()
 {
-
-  for (int j = 0; j < 8; j++)
-  {
-    PORTC = HR2[j]; // 4 bits MSB PORT_C (33, 32, 31, 30)
-    delayMicroseconds(1150);
-  }
-}
-
-void M7()
-{
-  for (int j = 0; j < 8; j++)
-  {
-    PORTL = HR2[j]; // 4 bits LSB PORT_L (49, 48, 47, 46)
-    delayMicroseconds(1150);
-  }
+  Motor4.step(Step4);
 }
 
 void M6()
 {
-  for (int j = 0; j < 8; j++)
-  {
-    PORTL = HR1[j]; // 4 bits MSB PORT_L (45, 44, 43, 42)
-    delayMicroseconds(1150);
-  }
+  Motor6.step(Step6);
 }
 
-void M8()
+void M7()
 {
-  for (int j = 0; j < 8; j++)
-  {
-    PORTK = HR1[j]; // 4 bits MSB PORT_K (62, 63, 64, 65) Analog
-    delayMicroseconds(1150);
-  }
-}
-
-void M9()
-{
-  for (int j = 0; j < 8; j++)
-  {
-    PORTK = HR2[j]; // 4 bits MSB PORT_K (66, 67, 68, 69) Analog
-    delayMicroseconds(1150);
-  }
+  Motor7.step(Step7);
 }
 
 void setup()
 {
-  Serial.begin(57600);
+  // Inicialização do Display
+  pinMode(A5, OUTPUT);
+  pinMode(A4, OUTPUT);
+  pinMode(A3, OUTPUT);
+  pinMode(A2, OUTPUT);
+  pinMode(A1, OUTPUT);
+  pinMode(A0, OUTPUT);
+  lcd.begin(16, 4); // Configura o tamanho do display
+  LCD_Inicial();    // Teste do display
+  delay(2000);
+  Motor1.setSpeed(4);
+  Motor2.setSpeed(4);
+  Motor3.setSpeed(4);
+  Motor4.setSpeed(4);
+  Motor6.setSpeed(4);
+  Motor7.setSpeed(4);
+
   DDRA = 0xff;
   PORTA = 0x00;
   DDRC = 0xff;
   PORTC = 0x00;
   DDRL = 0xff;
   PORTL = 0x00;
-  DDRK = 0xff;
-  PORTK = 0x00;
 
   // Inicialização da Serial e Ethernet
   Serial.begin(9600);
@@ -259,15 +251,12 @@ void setup()
   // Conecta ao broker MQTT
   reconnect();
 
-  // Alertas de Acionamento de Tecla
-  // int LED = 21;
-  // int BZZ = 0;
-  pinMode(BZZ, OUTPUT); // Alerta sonoro
-  pinMode(LED, OUTPUT); // Alerta visual
-
-  // Inicialização do Display
-  lcd.begin(16, 4); // Configura o tamanho do display
-  LCD_Inicial();    // Teste do display
+  digitalWrite(A5,LOW);
+  digitalWrite(A4,LOW);
+  digitalWrite(A3,LOW);
+  digitalWrite(A2,LOW);
+  digitalWrite(A1,LOW);
+  digitalWrite(A0,LOW);
 }
 
 String codigo = "Codigo: ";
@@ -356,6 +345,8 @@ void callback(char *topic, byte *payload, unsigned int length)
   Serial.print("Conteúdo: ");
   receivedMessage = ""; // Clear the previous message
 
+  LCD_Requisicao();
+
   for (int i = 0; i < length; i++)
   {
     Serial.print((char)payload[i]);
@@ -368,15 +359,16 @@ void callback(char *topic, byte *payload, unsigned int length)
   if (receivedMessage == "200")
   {
     Serial.println("Autorização confirmada");
+    LCD_Validacao();
     if (produto == "0001")
     {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M1();
-        };
-      };
+      //for (int w = 0; w < 2; w++) // 400 half-step/revolucao
+      //{
+      digitalWrite(A5,HIGH);
+      M1();
+      delay(1000);
+      digitalWrite(A5,LOW);
+      //}
       inicio = false;
 
       Mola1Qnt -= 1;
@@ -384,13 +376,13 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     else if (produto == "0002")
     {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M2();
-        };
-      };
+      //for (int w = 0; w < 2; w++) // 400 half-step/revolucao
+      //{
+        digitalWrite(A4,HIGH);
+        M2();
+        delay(1000);
+        digitalWrite(A4,LOW);
+      //}
       inicio = false;
 
       Mola2Qnt -= 1;
@@ -398,13 +390,13 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     else if (produto == "0003")
     {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M3();
-        };
-      };
+      //for (int w = 0; w < 2; w++) // 400 half-step/revolucao
+      //{
+      digitalWrite(A3,HIGH);
+      M3();
+      delay(1000);
+      digitalWrite(A3,LOW);
+      //}
       inicio = false;
 
       Mola3Qnt -= 1;
@@ -412,13 +404,13 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     else if (produto == "0004")
     {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M4();
-        };
-      };
+      //for (int w = 0; w < 2; w++) // 400 half-step/revolucao
+      //{
+      digitalWrite(A2,HIGH);
+      M4();
+      delay(1000);
+      digitalWrite(A2,LOW);
+      //}
       inicio = false;
 
       Mola4Qnt -= 1;
@@ -426,13 +418,13 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     else if (produto == "0006")
     {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M6();
-        };
-      };
+      //for (int w = 0; w < 2; w++) // 400 half-step/revolucao
+      //{
+      digitalWrite(A0,HIGH);
+      M6();
+      delay(1000);
+      digitalWrite(A0,LOW);
+      //}
       inicio = false;
 
       Mola6Qnt -= 1;
@@ -440,45 +432,17 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     else if (produto == "0007")
     {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M7();
-        };
-      };
+      //for (int w = 0; w < 2; w++) // 400 half-step/revolucao
+      //{
+      digitalWrite(A0,HIGH);
+      M7();
+      delay(1000);
+      digitalWrite(A0,LOW);
+      //}
       inicio = false;
 
       Mola7Qnt -= 1;
       Serial.println(Mola7Qnt);
-    }
-    else if (produto == "0008")
-    {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M8();
-        };
-      };
-      inicio = false;
-
-      Mola8Qnt -= 1;
-      Serial.println(Mola8Qnt);
-    }
-    else if (produto == "0009")
-    {
-      for (int w = 0; w < 4; w++) // 400 half-step/revolucao
-      {
-        for (int z = 0; z < 50; z++) // 1 revolução
-        {
-          M9();
-        };
-      };
-      inicio = false;
-
-      Mola9Qnt -= 1;
-      Serial.println(Mola9Qnt);
     }
     InicioDaCompra();
   }
@@ -491,18 +455,25 @@ void callback(char *topic, byte *payload, unsigned int length)
   else if (receivedMessage == "401")
   {
     Serial.println("Usuário ou Senha Incorreta");
-    InicioDaCompra();
+    LCD_Erro();
+        InicioDaCompra();
     // Usuário ou Senha Incorreta
+  }else if(receivedMessage == "402"){
+    LCD_ErroSaldo();
+    Serial.println("Saldo Insuficiente");
+        InicioDaCompra();
   }
   else if (receivedMessage == "403")
   {
-    Serial.println("Produto sem estoque ou Saldo Insuficiente");
+    LCD_ErroSelecao();
+    Serial.println("Produto sem estoque");
     InicioDaCompra();
     // Produto sem estoque ou Saldo Insuficiente
   }
   else if (receivedMessage == "500")
   {
     Serial.println("Erro no Servidor");
+    LCD_Erro();
     InicioDaCompra();
     // Erro no Servidor
   }
@@ -548,7 +519,12 @@ void FinalizarCompra() {
   usuario = formatarComZeros(usuario);
   senha = formatarComZeros(senha);
   maquina = formatarComZeros(maquina);
-  produto = formatarComZeros(produto);
+    if( produto.toInt() >= 5){
+    produto = String(produto.toInt() + 1);
+    produto  = formatarComZeros(produto);
+  }else if(produto.toInt() < 5){
+    produto = formatarComZeros(produto);
+  }
 
   Informacoes[0] = usuario; // Usuário
   Informacoes[1] = senha;   // Senha
@@ -556,7 +532,6 @@ void FinalizarCompra() {
   Informacoes[3] = produto; // Produto
   String msg = Informacoes[0] + Informacoes[1] + Informacoes[2] + Informacoes[3]; // Construa a mensagem
   client.publish(mqtt_topic_publish, msg.c_str(), 2);
-
 }
 
 void InicioDaCompra() {
@@ -588,16 +563,19 @@ void InicioDaCompra() {
     Serial.println(produto);*/
 
   Serial.println("Insira seu ID de usuário: ");
+  LCD_Identificacao();
   usuario = readFromKeypad();
   Serial.print("ID de usuário inserido: ");
   Serial.println(usuario);
 
   Serial.println("Insira sua senha: ");
+  LCD_Requisicao();
   senha = readFromKeypad();
   Serial.print("Senha inserida: ");
   Serial.println(senha);
 
   Serial.println("Insira o ID do produto a comprar: ");
+  LCD_Selecao();
   produto = readFromKeypad();
   Serial.print("Produto selecionado: ");
   Serial.println(produto);
