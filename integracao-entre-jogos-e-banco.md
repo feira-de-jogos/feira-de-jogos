@@ -1,7 +1,3 @@
----
-description: API entre jogos e banco (financeiro).
----
-
 # Integração entre jogos e banco
 
 Os requisitos são os seguintes:

@@ -1,7 +1,3 @@
----
-description: Descrição da moeda da feira.
----
-
 # Economia
 
 Sobre o sistema econômico:
