@@ -1,32 +1,30 @@
 # Economia
 
-Sobre o sistema econômico:
+## Sistema Econômico
 
-1. A moeda **tijolinho** (**$TJL**) é 100% digital e sem fins lucrativos.
+1. A moeda **Tijolinho** (**$TJL**) é 100% digital e sem fins lucrativos.
 2. A moeda deve ser implementada e gerida em servidor próprio.
-3. Deve-se estabelecer as formas de ganhos de valores da moeda (jogos, bônus, premiação, bingo, transferência).
-4. Recomenda-se a definição de parâmetros (quantitativos e qualitativos) sobre a forma correta (e lícita) de utilização da moeda: (compra, doação, pagamento, penalidades, empréstimo, transferência, promoção, PIX?).
+3. Definir formas de ganhos de valores da moeda (jogos, bônus, premiação, bingo, transferência).
+4. Recomendar a definição de parâmetros (quantitativos e qualitativos) sobre a forma correta (e lícita) de utilização da moeda: (compra, doação, pagamento, penalidades, empréstimo, transferência, PIX?).
 5. Estabelecer valor mínimo e máximo por transações, bem como o valor de referência.
 6. Delinear as interações entre os usuários e visualização dos _ranks_ local e global.
 7. Estabelecer as formas de consultas de extratos da conta individual e o prazo de validade dos valores.
 
-Objetivo: Interagir com os jogos desenvolvidos pelos alunos no semestre atual! (e do anterior?)
+**Objetivo:** Interagir com os jogos desenvolvidos pelos alunos no semestre atual! (e do anterior?)
 
-Recompensas: Ganhar $TJL durante a jornada!
+**Recompensas:** Ganhar $TJL durante a jornada!
 
-Métricas:
+**Métricas:**
+- Até $TJL +100 (1a tentativa);
+- Até $TJL -20 (2a-5a tentativa);
+- Até $TJL +10 (6a a 10a tentativa);
+- Mín: até $TJL +10 (por jogo);
+- Max: até $TJL +350 (por jogo);
+- Bônus: até $TJL +10 (por jogo inédito).
 
-1. Até $TJL +100 (1a tentativa);
-2. Até $TJL -20 (2a-5a tentativa);
-3. Até $TJL +10 (6a a 10a tentativa);
-4. Mín: até $TJL +10 (por jogo);
-5. Max: até $TJL +350 (por jogo);
-6. Bônus: até $TJL +10 (por jogo inédito).
+## Integração entre Jogos e Banco
 
-# Integração entre jogos e banco
-
-Os requisitos são os seguintes:
-
+**Requisitos:**
 1. O sistema deve possuir acesso a partir de qualquer endereço IPv4 ou IPv6.
 2. O sistema deve atender a requisições pela Internet via padrões REST API sobre HTTPS.
 3. O sistema deve prever uma interface de usuário para cadastro e manutenção da sua conta.
@@ -40,165 +38,179 @@ Os requisitos são os seguintes:
 11. Aplicações Web podem usar ambos os mecanismos de autenticação (externa por email e par usuário+senha).
 12. Dispositivos terminais microcontrolados devem possuir teclado numérico aparente para o preenchimento de usuário e senha numéricos e, assim, autenticar o usuário para realizar as operações na máquina local.
 
-O acesso é padronizado para microprocessados (aplicações Web) e microcontrolados, baseado em REST API + JSON, uma vez que o sentido das mensagens é, basicamente, do cliente para o servidor. As aplicações a serem desenvolvidas ao longo do projeto são:
+O acesso é padronizado para microprocessados (aplicações Web) e microcontrolados, baseado em REST API + JSON, uma vez que o sentido das mensagens é, basicamente, do cliente para o servidor.
 
-* Cadastro: cadastro e manutenção de conta de usuário;
-* Banco: operador financeiro, o banco do sistema econômico.
+As aplicações a serem desenvolvidas ao longo do projeto são:
+- **Cadastro:** cadastro e manutenção de conta de usuário;
+- **Banco:** operador financeiro, o banco do sistema econômico.
 
-
-
-<figure><img src=".gitbook/assets/mermaid-diagram-2023-11-06-234505.png" alt="Diagrama de blocos dos serviços e seus protocolos"><figcaption><p>Diagrama de blocos dos serviços e seus protocolos</p></figcaption></figure>
+![Diagrama de blocos dos serviços e seus protocolos](mermaid-diagram-2023-11-06-234505.png)
 
 ## REST API
 
-Duas versões previstas:
-
+**Duas versões previstas:**
 1. Versão 1.0 (`v1`), de 2023;
 2. Versão 2.0 (`v2`), pós 2023.
 
 ### API v1
 
-Implementação simples, com autenticação embutida no corpo da requisição.
+**Implementação simples, com autenticação embutida no corpo da requisição.**
 
 #### Operações de jogador:
 
-{% swagger method="post" path="/extrato" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Extrato de jogador" %}
-{% swagger-description %}
-Operação iniciada pela tela inicial do aplicativo do usuário, com autenticação via Google OAuth 2.0.
-{% endswagger-description %}
+**Autenticação do jogador:**
+- **Método:** POST
+- **Path:** `/autenticacao`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
+- **Resumo:** Operação iniciada pela tela inicial do aplicativo do usuário, com autenticação via Google OAuth 2.0.
+- **Entrada:** Requisição HTTP POST com o seguinte corpo:
+  - `credential`: Token de identificação fornecido pelo Google Sign-In.
+- **Respostas:**
+  - **302: Found** - Redireciona para `/api/v1/extrato` em caso de sucesso na autenticação.
+  - **500: Internal Server Error** - Erro interno no servidor.
 
-{% swagger-response status="200: OK" description="" %}
-Retorna JSON com lista de débitos e créditos.
-{% endswagger-response %}
+**Extrato de jogador:**
+- **Método:** GET
+- **Path:** `/extrato`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
+- **Resumo:**
+  - Operação que retorna a página HTML do extrato financeiro do jogador. A requisição deve ser feita via GET e ser autenticada usando o token fornecido durante a autenticação via Google OAuth 2.0.
+- **Respostas:**
+  - **200: OK** - Retorna uma página HTML com o extrato do jogador.
+  - **401: Unauthorized** - Redireciona para a tela de autenticação em caso de falha na autenticação.
+  - **500: Erro Interno do Servidor** -  Erro interno no servidor.
 
-{% swagger-response status="400: Bad Request" description="" %}
-Formato da requisição inválida.
-{% endswagger-response %}
+**Pix entre jogadores:**
+- **Método:** GET
+- **Path:** `/pix`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
+- **Resumo:**
+  - Operação que retorna a página HTML para realizar uma transação Pix entre jogadores. A requisição deve ser feita via GET e ser autenticada usando o token fornecido durante a autenticação via Google OAuth 2.0.
+- **Respostas:**
+  - **200: OK** - Retorna uma página HTML com o formulário para realizar uma transação Pix.
+  - **302: Redirecionamento** - Em caso de autenticação bem-sucedida.
+  - **401: Unauthorized** - Redireciona para a tela de autenticação em caso de falha na autenticação.
+  - **404: Usuário não encontrado** - Retorna um JSON com `{ result: 1, message: 'Usuário não encontrado' }`.
+  - **403: Saldo Insuficiente** - Retorna um JSON com `{ result: 2, message: 'Saldo Insuficiente' }`.
+  - **400: Não é possível enviar um Pix para você mesmo!** - Retorna um JSON com `{ result: 3, message: 'Não é possível enviar um Pix para você mesmo!' }`.
+  - **400: Valor abaixo de 1 tijolinho** - Retorna um JSON com `{ result: 4, message: 'Você não pode enviar um valor abaixo de 1 tijolinho' }`.
+  - **200: Pix enviado com sucesso!** - Retorna um JSON com `{ result: 5, message: 'Pix enviado com sucesso!' }`.
+  - **500: Erro Interno do Servidor** -  Erro interno no servidor.
 
-{% swagger-response status="401: Unauthorized" description="" %}
-Autenticação inválida.
-{% endswagger-response %}
-{% endswagger %}
+**Crédito para jogador:**
+- **Método:** POST
+- **Path:** `/credito`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
+- **Resumo:** Realiza uma operação de crédito para um jogador específico.
+- **Parâmetros:**
+  - `id` (Identificador do jogador)
+  - `senha` (Senha do jogador)
+  - `jogo` (Identificador do jogo)
+  - `valor` (Valor da operação em tijolinhos)
+- **Respostas:**
+  - **200: OK** - Retorna JSON com resultado da operação.
+  - **400: Bad Request** - Formato da requisição inválida.
+  - **401: Unauthorized** - Autenticação inválida.
+  - **500: Erro Interno do Servidor** -  Erro interno no servidor.
 
-{% swagger method="post" path="/credito" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Crédito para jogador" %}
-{% swagger-description %}
-O corpo da requisição deve ser em JSON.
-{% endswagger-description %}
+**Débito para jogador:**
+- **Método:** POST
+- **Path:** `/debito`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
+- **Resumo:** O corpo da requisição deve ser em JSON.
+- **Parâmetros:**
+  - `id` (Identificador do jogador)
+  - `senha` (Senha do jogador)
+  - `maquina` (Identificador da máquina)
+  - `produto` (Identificador do produto)
+- **Respostas:**
+  - **200: OK** - Retorna JSON com resultado da operação.
+  - **400: Bad Request** - Formato da requisição inválida.
+  - **401: Unauthorized** - Autenticação inválida.
+  - **402: Pagamento não autorizado** - Saldo Insuficiente
+  - **403: Forbidden** - Produto inexistente ou sem estoque.
+  - **500: Erro Interno do Servidor** -  Erro interno no servidor.
+    
+**Conta do jogador:**
+- **Método:** POST
+- **Path:** `/conta`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
+- **Resumo:** Atualiza informações da conta do jogador, permitindo visualizar e modificar dados como nome, ID, senha e saldo. A requisição deve ser autenticada utilizando o token fornecido durante a autenticação via Google OAuth 2.0. O corpo da requisição deve ser em JSON.
+- **Parâmetros:**
+  - `idNumero` (Identificador do jogador)
+  - `novaSenha` (Nova senha para atualização)
+- **Respostas:**
+  - **200: OK** - Retorna JSON com resultado da operação.
+  - **400: Bad Request** - Formato da requisição inválido ou senhas não coincidem.
+  - **401: Unauthorized** - Autenticação inválida.
+  - **500: Erro Interno do Servidor** - Erro interno no servidor durante a atualização da senha.
 
-{% swagger-parameter in="body" required="true" name="id" %}
-Identificador do jogador.
-{% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="senha" required="true" %}
-Senha do jogador.
-{% endswagger-parameter %}
+### Operações de administrador:
 
-{% swagger-parameter in="body" name="jogo" type="" required="true" %}
-Identificador do jogo.
-{% endswagger-parameter %}
+#### Atualizar Informações da Conta do Jogador:
 
-{% swagger-parameter in="body" name="valor" required="true" %}
-Valor da operação em tijolinhos.
-{% endswagger-parameter %}
+- **Método:** GET
+- **Path:** `/adm`
+- **Base URL:** `https://feira-de-jogos.sj.ifsc.edu.br/api/v1`
+- **Resumo:** Recupera informações de um jogador com perfil de administrador. A requisição deve ser autenticada utilizando o token fornecido durante a autenticação via Google OAuth 2.0.
+- **Respostas:**
+  - **200: OK** - Retorna uma página HTML com informações e funcionalidades para administradores.
+  - **302: Found** - Redireciona para a página de login se o usuário não estiver autenticado.
+  - **500: Erro Interno do Servidor** - Erro interno no servidor durante o processamento.
 
-{% swagger-response status="200: OK" description="" %}
-Retorna JSON com resultado da operação.
-{% endswagger-response %}
+#### Atualizar Estoque do Produto
 
-{% swagger-response status="400: Bad Request" description="" %}
-Formato da requisição inválida.
-{% endswagger-response %}
+- **Método:** POST
+- **Path:** `/atualizar-estoque`
+- **Base URL:** `https://feira-de-jogos.sj.ifsc.edu.br/api/v1`
+- **Resumo:** Atualiza o estoque de um produto. Requer autenticação de administrador e fornece informações como o ID do produto e a quantidade a ser atualizada.
+- **Parâmetros:**
+  - `productIdE` (ID do produto)
+  - `amountE` (Quantidade a ser atualizada no estoque)
+  - `idNumero` (Identificador do administrador)
+- **Respostas:**
+  - **200: OK** - Estoque atualizado com sucesso.
+  - **400: Bad Request** - Produto não encontrado, tentativa de alterar o estoque do Pix ou quantidade negativa.
+  - **401: Unauthorized** - Autenticação de administrador inválida.
+  - **500: Erro Interno do Servidor** - Erro interno no servidor durante a atualização do estoque.
 
-{% swagger-response status="401: Unauthorized" description="" %}
-Autenticação inválida.
-{% endswagger-response %}
+#### Atualizar Valor do Produto
 
-{% swagger-response status="403: Forbidden" description="" %}
-Operação não é possível por falta de recursos no banco.
-{% endswagger-response %}
-{% endswagger %}
+- **Método:** POST
+- **Path:** `/atualizar-valor`
+- **Base URL:** `https://feira-de-jogos.sj.ifsc.edu.br/api/v1`
+- **Resumo:** Atualiza o valor de um produto. Requer autenticação de administrador e fornece informações como o ID do produto e a quantidade a ser atualizada.
+- **Parâmetros:**
+  - `productIdV` (ID do produto)
+  - `amountV` (Novo valor do produto)
+  - `idNumero` (Identificador do administrador)
+- **Respostas:**
+  - **200: OK** - Valor do produto atualizado com sucesso.
+  - **400: Bad Request** - Produto não encontrado, tentativa de alterar o valor do Pix ou valor negativo.
+  - **401: Unauthorized** - Autenticação de administrador inválida.
+  - **500: Erro Interno do Servidor** - Erro interno no servidor durante a atualização do valor do produto.
 
-{% swagger method="post" path="/debito" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Débito para jogador" %}
-{% swagger-description %}
-O corpo da requisição deve ser em JSON.
-{% endswagger-description %}
 
-{% swagger-parameter in="body" required="true" name="id" %}
-Identificador do jogador.
-{% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="senha" required="true" %}
-Senha do jogador.
-{% endswagger-parameter %}
+ 
+### Operação de máquina:
 
-{% swagger-parameter in="body" name="maquina" required="true" %}
-Identificador da máquina.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="body" name="produto" required="true" %}
-Identificador do produto.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="body" name="valor" required="true" %}
-Valor do produto em tijolinhos.
-{% endswagger-parameter %}
-
-{% swagger-response status="200: OK" description="" %}
-Retorna JSON com resultado da operação.
-{% endswagger-response %}
-
-{% swagger-response status="400: Bad Request" description="" %}
-Formato da requisição inválida.
-{% endswagger-response %}
-
-{% swagger-response status="401: Unauthorized" description="" %}
-Autenticação inválida.
-{% endswagger-response %}
-
-{% swagger-response status="403: Forbidden" description="" %}
-Operação de crédito não é possível por falta de recursos do jogador.
-{% endswagger-response %}
-{% endswagger %}
-
-#### Operação de máquina:
-
-{% swagger method="post" path="/estoque" baseUrl="https://feira-de-jogos.sj.ifsc.edu.br/api/v1" summary="Estoque de máquina" %}
-{% swagger-description %}
-
-{% endswagger-description %}
-
-{% swagger-parameter in="body" name="id" required="true" %}
-Identificador da máquina.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="body" name="senha" required="true" %}
-Senha atribuída a máquina.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="body" name="produto" required="false" %}
-Identificador do produto.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="body" name="quantidade" required="false" %}
-Quantidade atualizada do produto.
-{% endswagger-parameter %}
-
-{% swagger-response status="200: OK" description="" %}
-Retorna JSON com o estoque corrente da máquina.
-{% endswagger-response %}
-
-{% swagger-response status="400: Bad Request" description="" %}
-Formato da requisição inválida.
-{% endswagger-response %}
-
-{% swagger-response status="401: Unauthorized" description="" %}
-Autenticação inválida.
-{% endswagger-response %}
-
-{% swagger-response status="403: Forbidden" description="" %}
-Operação inválida: produto não existe ou não pode ser estocado nessa máquina.
-{% endswagger-response %}
-{% endswagger %}
+#### Estoque de máquina:
+- **Método:** POST
+- **Path:** /estoque
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
+- **Resumo:** Operação para verificar o estoque da máquina.
+- **Parâmetros:**
+  - `id` (Identificador da máquina)
+  - `senha` (Senha atribuída a máquina)
+  - `produto` (Identificador do produto)
+  - `quantidade` (Quantidade atualizada do produto)
+- **Respostas:**
+  - **200: OK** - Retorna JSON com o estoque corrente da máquina.
+  - **400: Bad Request** - Formato da requisição inválida.
+  - **401: Unauthorized** - Autenticação inválida.
+  - **403: Forbidden** - Operação inválida: produto não existe ou não pode ser estocado nessa máquina.
 
 # Serviços em nuvem
 
