@@ -473,6 +473,53 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 ```
+## Interação do Usuário com o Sistema
+
+### 1. **Jogando Jogos e Recebendo Tijolinhos:**
+   - O usuário inicia sua jornada jogando os jogos disponíveis.
+   - Após cada jogo, insere seu ID e senha obtidos do banco na interface do jogo.
+   - **Frontend do Jogo -> API (POST /credito) -> Banco de Dados (Atualização de Saldo) -> Frontend do Jogo**
+   - O usuário recebe tijolinhos como recompensa pela participação.
+
+### 2. **Consultando Extrato Financeiro:**
+   - O usuário pode consultar seu extrato financeiro para visualizar ganhos e transações.
+   - **Frontend do Usuário -> API (GET /extrato) -> Banco de Dados (Consulta de Extrato) -> Frontend do Usuário**
+
+### 3. **Realizando PIX entre Jogadores:**
+   - O usuário decide fazer um PIX para outro jogador.
+   - **Frontend do Usuário -> API (GET /pix) -> Banco de Dados (Verificação e Atualização de Saldo) -> Frontend do Usuário**
+   - O PIX é concluído, e os saldos são atualizados.
+
+### 4. **Comprando Produtos no Dispenser:**
+   - O usuário escolhe um produto no dispenser de alimentos.
+   - Insere seu ID e senha na máquina para autenticação.
+   - **Máquina -> API (POST /debito) -> Banco de Dados (Verificação e Atualização de Saldo) -> Máquina**
+   - Se tiver saldo suficiente, o dispenser ejeta o alimento e o saldo é debitado.
+
+### 5. **Atualizando Informações da Conta:**
+   - O usuário pode atualizar informações da sua conta.
+   - **Frontend do Usuário -> API (POST /conta) -> Banco de Dados (Atualização de Informações) -> Frontend do Usuário**
+   - Por exemplo, alterar a senha.
+
+### 6. **Administração do Sistema:**
+   - Administradores podem acessar informações e funcionalidades específicas.
+   - **Frontend do Administrador -> API (GET /adm) -> Banco de Dados (Consulta de Informações) -> Frontend do Administrador**
+   - Atualizar estoque de produtos, informações da conta do jogador, etc.
+
+### 7. **Atualizando Estoque de Produtos:**
+   - Administradores podem atualizar o estoque de produtos.
+   - **Frontend do Administrador -> API (POST /atualizar-estoque) -> Banco de Dados (Atualização de Estoque) -> Frontend do Administrador**
+
+### 8. **Atualizando Valor de Produtos:**
+   - Administradores podem atualizar o valor de produtos.
+   - **Frontend do Administrador -> API (POST /atualizar-valor) -> Banco de Dados (Atualização de Valor) -> Frontend do Administrador**
+
+### 9. **Integração com MQTT para Dispenser de Alimentos:**
+   - A comunicação entre a API e o dispenser de alimentos ocorre via MQTT.
+   - **API (MQTT Publish) -> Broker MQTT -> Dispenser (MQTT Subscribe)**
+
+
+
 ## Funcionamento Prático
 
 ![Diagrama do funcionamento da feira](infografico.jpg)
