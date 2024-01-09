@@ -56,6 +56,7 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 
 **Implementação simples, com autenticação embutida no corpo da requisição.**
 
+
 #### Operações de jogador:
 
 **Autenticação do jogador:**
@@ -152,7 +153,7 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 
 - **Método:** GET
 - **Path:** `/adm`
-- **Base URL:** `https://feira-de-jogos.sj.ifsc.edu.br/api/v1`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
 - **Resumo:** Recupera informações de um jogador com perfil de administrador. A requisição deve ser autenticada utilizando o token fornecido durante a autenticação via Google OAuth 2.0.
 - **Respostas:**
   - **200: OK** - Retorna uma página HTML com informações e funcionalidades para administradores.
@@ -163,7 +164,7 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 
 - **Método:** POST
 - **Path:** `/atualizar-estoque`
-- **Base URL:** `https://feira-de-jogos.sj.ifsc.edu.br/api/v1`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
 - **Resumo:** Atualiza o estoque de um produto. Requer autenticação de administrador e fornece informações como o ID do produto e a quantidade a ser atualizada.
 - **Parâmetros:**
   - `productIdE` (ID do produto)
@@ -179,7 +180,7 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 
 - **Método:** POST
 - **Path:** `/atualizar-valor`
-- **Base URL:** `https://feira-de-jogos.sj.ifsc.edu.br/api/v1`
+- **Base URL:** https://feira-de-jogos.sj.ifsc.edu.br/api/v1
 - **Resumo:** Atualiza o valor de um produto. Requer autenticação de administrador e fornece informações como o ID do produto e a quantidade a ser atualizada.
 - **Parâmetros:**
   - `productIdV` (ID do produto)
@@ -472,3 +473,52 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 ```
+## Funcionamento Prático
+
+![Diagrama do funcionamento da feira](infografico.jpg)
+
+### 1. Cadastro e Autenticação
+- O usuário cria uma conta no [Banco digital para feira de jogos](https://feira-de-jogos.sj.ifsc.edu.br).
+- Ao iniciar a jornada, autentica-se nos jogos usando o sistema de autenticação via Google OAuth 2.0.
+
+### 2. Interagindo com Jogos
+- O usuário joga os jogos desenvolvidos pela 8ª fase de telecomunicações.
+- Ao finalizar cada jogo, insere seu ID e senha obtidos do banco para receber tijolinhos.
+
+### 3. Recompensas e Economia
+- O usuário ganha tijolinhos como recompensa pela participação nos jogos.
+- Pode consultar seu extrato financeiro para acompanhar ganhos e transações.
+
+### 4. Gastos e Transações
+- Utiliza os tijolinhos para diversas atividades econômicas, como fazer PIX entre jogadores.
+- Realiza transações PIX para responsáveis de máquinas de jogos retro, possibilitando a continuação da jornada.
+
+### 5. Dispenser de Alimentos
+- Acesso ao dispenser de alimentos inserindo ID e senha.
+- Se tiver saldo suficiente, o dispenser ejeta o alimento desejado usando uma mola.
+- O saldo é debitado automaticamente do usuário.
+
+### 6. Consultas e Atualizações da Conta
+- O usuário pode consultar e atualizar informações da sua conta usando operações como `/extrato`, `/pix`, `/credito`, `/debito`, `/conta`.
+
+### 7. Integração com MQTT
+- A comunicação entre a aplicação e o dispenser de alimentos ocorre via MQTT, garantindo sincronização e comunicação bidirecional.
+
+### 8. Serviços em Nuvem
+- Utilização de um banco de dados relacional PostgreSQL para armazenar informações sobre jogadores, jogos, transações, produtos, entre outros.
+- Serviços em nuvem, como MQTT para comunicação com dispositivos físicos e NGINX para gerenciar o tráfego da API.
+
+### 9. Segurança
+- Autenticação segura via OAuth 2.0 para acesso à API.
+- Utilização de certificados SSL/TLS para proteger a comunicação entre o cliente e o servidor.
+
+### 10. Ambiente do Servidor
+- Configuração de variáveis de ambiente para diferentes serviços.
+- Uso do Systemd para gerenciar os serviços da API e MQTT.
+
+### 11. Diagrama de Blocos
+- Visualização da arquitetura de serviços e protocolos por meio de um [diagrama de blocos](mermaid-diagram-2023-11-06-234505.png).
+
+### 12. Atualizações do Sistema
+- Possibilidade de atualização para a API (v2) pós-2023, conforme previsto.
+- Atualizações do banco de dados relacional conforme necessário para manter a integridade e escalabilidade do sistema.
