@@ -4,7 +4,7 @@
 </div>
 
 <div><p>Referências: Jump King  https://www.youtube.com/watch?v=qL2cQ0JAb4M;</p>
-<img src="img/jumpKingFoto.jpg"></img>
+<img src="img/jumpKingFoto.jpg" width="50%" height="50%"></img>
 </div>
 
 
