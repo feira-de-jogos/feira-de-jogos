@@ -1,11 +1,11 @@
 import config from './config.js'
 
 class Game extends Phaser.Game {
-constructor () {
+  constructor () {
     super(config)
-    }
+  }
 }
 
 window.onload = () => {
-    window.Game = new Game()
+  window.Game = new Game()
 }
