@@ -3,7 +3,8 @@ A ideia do jogo consiste em um sistema competitivo 1x1 onde o objetivo é chegar
 
 ## Referências
 
-<p>[Jump King](https://www.youtube.com/watch?v=qL2cQ0JAb4M)</p>
+-[Jump King](https://www.youtube.com/watch?v=qL2cQ0JAb4M)
+
 <img src="img/jumpKingFoto.jpg" width="50%" height="50%" justify-content="center" align-items="center" text-align="center"></img>
 </div>
 
