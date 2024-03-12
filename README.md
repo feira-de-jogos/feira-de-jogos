@@ -21,6 +21,7 @@ A nossa proposta é promover um jogo de trabalho em dupla. Nele os jogadores vã
 - Castlevania Netflix;
 - Celeste
 - Shovel knight
+- Supernatural
 
 ## Universo:
 
@@ -37,11 +38,11 @@ Leonardo Venator: É uma pessoa séria, focado e leal. ele gosta de fortalecer s
 - Não modificar o jogo;
 - Não é permitido Hacker o jogo;
 - Cada personagem terá 1 habilidade única. O Leo terá um escudo que poderá ser usado para se defender de ataques. Já o Ben terá facas de arremesso que serão usadas para atacar inimigos a distância;
-Não é possível atacar o seu aliado;
+- Não é possível atacar o seu aliado;
 - Leo terá mais vida e resistência que Ben, porém atacará mais devagar;
 - Ben atacará mais rápido, e se movimentará mais rápido, porém terá menos vida;
-- Ataques do machado de Leo conseguem quebrar estruturas de madeira.
-- Leo pode usar uma esquiva, enquanto Ben pode utilizar 2 seguidas 
+- Ataques do machado de Leo conseguem quebrar estruturas de madeira, permitindo que ele acesse lugares antes bloqueados.
+- Ben pode saltar mais alto que Leo, acessando lugares que Leo não consegue.
 
 ## Objetivo
 Leo e Ben tem como objetivo do jogo derrotar a Besta antiga que se encontra em uma masmorra cheia de criaturas. Para enfrentar a Besta, eles precisam encontrar 4 cristais escondidos entre as salas. Com os 4 obtidos, eles devem levá-los a porta do boss para abri-la e enfrentar o desafio final.
