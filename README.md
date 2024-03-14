@@ -24,7 +24,14 @@ A nossa proposta é promover um jogo de trabalho em dupla. Nele os jogadores vã
 - Supernatural
 
 ## Universo:
-
+ O jogo se passa em um universo de Dark Fantasy, onde durante muitos anos criaturas e bestas conviveram com os humanos. Durante essa convivência os humanos tiveram que desenvolver formas de matar esses monstros para conseguir sobreviver, já que os mesmos eram subordinados a Bestas muito poderosas, que adoravam o caos e a devastação. 
+ Para lidar com os problemas, diversas familias de caçadores surgiram, entre elas os Venator eram detentores dos maiores caças e abates das criaturas do mal.
+ Com o tempo os humanos foram dominando terrenos e conseguindo conter os monstros. Humanos de todas as partes do mundo se juntaram para lidar com a ameaça, mesmo sendo um periodo sombrio a humanidade nunca havia ficado tão unida. Com muitas batalhas e milhares do mortos, as Bestas que controlavam grande parte dos monstros foram mortas, e as mais poderosas seladas em masmoras construidas com tudo que a humanidade podia oferecer naquele tempo.
+  Após anos de massacres e guerras os humanos obtiveram a vitória, os monstros controlados fugiram e se esconderam em cavernas e mares profundos, os humanos voltaram a se separar e retornar para seus lares e por fim as grandes familias de caça foram se desfazendo e mudando suas profissões, já que não eram mais requisitadas em tempos de paz.
+  Uma das ultimas familias restantes de caçadores foi e Venator, e mesmo ela com o passar dos anos foi perdendo força, alguns de seus conhecimentos foram perdidos para o tempo, muitos familiares abusaram da herança da familia e muitos viraram bebados que apenas sabiam sujar o nome antes prestigiado de sua casa. Mesmo alguns relatos de monstros antigos aparecendo, a caça deles não era o suficiente para manter o renome em alta, a era dos caçadores estava no fim e seu caixão aberto.
+  Com a evolução da humanidade a Igreja começou a ganhar força, e influência em diversos reinos. Com isso começaram a expalhar sua fé por todos os lados, e a existencia de monstros que contradiziam os seus ensinamentos os irritava. Então a igreja decidiu colocar um prego no caixão dos Venator, e ocultar o máximo possivel o conhecimento e história dos monstros do passado. Com isso todos os caçadores restantes foram caçados, livros queimados e pessoas que haviam avistado criaturas foram subornadas ou decaptadas. Com isso a igreja conseguiu ocultar tudo sobre as criaturas, e acabar com o que sobrou das antigas familias de caçadores.
+   Porém mesmo com a igreja no poder, e as féras em extinção, ainda havia sobrado um pequeno ramo da familia Venator, um ramo que seguia com os ensinamentos dos antepassados, e que temia que a negligencia quanto aos monstros pudesse resultar no reaparecimento das antigas bestas, que estavam pressas nas masmorras, masmorras essas que a centenas de anos não recebiam manutenção.
+ 
 
 ## Personagens:
 Os 2 personagens principais são irmãos, sendo eles:
