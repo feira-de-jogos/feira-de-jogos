@@ -41,3 +41,9 @@ Como o personagem se move e as direções do uso do controle nos diferentes espa
 
 Sausage Dog - Personagem: 
 Um cachorro da raça salsicha que coleta objetos, supera desafios e traz uma animação divertida.
+
+
+Rede Física da feira:
+
+[Cenario Boi.zip](https://github.com/vimdoalegrete/jogo/files/14621807/Cenario.Boi.zip)
+
