@@ -10,5 +10,12 @@ Willian, o habilidoso arqueiro, é um mestre na arte da precisão. Treinado nas 
 
 ## Ideia do jogo
 
+O jogo é do tipo metroidvania de ação e aventura ambientado em um cenário medieval, focado em exploração, desafios e enigmas. Os jogadores assumem os papéis de Bryana, a guerreira, e Willian, o arqueiro, cada um com habilidades únicas que complementam a jornada. A principal missão é capturar o lendário ovo dourado de um dragão ancestral, enfrentando criaturas místicas, superando armadilhas e desvendando mistérios.
 
-O jogo é um RPG de ação e aventura ambientado em um cenário medieval, focado na exploração de um labirinto repleto de desafios e enigmas. Os jogadores assumem os papéis de Bryana, a guerreira, e Willian, o arqueiro, cada um com habilidades únicas que complementam a jornada. A principal missão é capturar o lendário ovo dourado de um dragão ancestral, enfrentando criaturas místicas, superando armadilhas e desvendando mistérios.
+## Referências
+
+Hollow Knight: No jogo, um cavaleiro sem nome explora um reino em ruínas habitado por insetos, desbloqueando habilidades novas que ajudam a explorar e livrar o reino de uma infecção causada por um deus esquecido.
+![alt text](image.png)
+
+Ori and the Blind Forest: Conta a história de Ori, um espírito materializado que foi adotado por Naru, uma espécie de urso que há muito tempo vivia em uma floresta encantada. 
+![alt text](image-2.png)
