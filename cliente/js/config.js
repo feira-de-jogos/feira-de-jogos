@@ -1,7 +1,7 @@
 export default {
   type: Phaser.AUTO,
-  width: 800,
-  height: 450,
+  width: 854,
+  height: 480,
   parent: 'game-container',
   physics: {
     default: 'arcade',
