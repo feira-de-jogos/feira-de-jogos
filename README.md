@@ -5,17 +5,17 @@ A ideia do jogo consiste em um sistema competitivo 1x1 ou co-op onde o objetivo 
 
 -[Jump King](https://www.youtube.com/watch?v=qL2cQ0JAb4M)
 
-<img src="img/jumpKingFoto.jpg" width="75%" height="75%" justify-content="center" align-items="center" text-align="center"></img>
+<img src="img/readme/jumpKingFoto.jpg" width="75%" height="75%" justify-content="center" align-items="center" text-align="center"></img>
 </div>
 
 -[Only Up](https://www.youtube.com/watch?v=bVFsHqvaI70)
 
-<img src="img/OnlyUp.png" width="75%" height="75%" justify-content="center" align-items="center" text-align="center"></img>
+<img src="img/readme/OnlyUp.png" width="75%" height="75%" justify-content="center" align-items="center" text-align="center"></img>
 </div>
 
 -[Bread & Fred](https://www.youtube.com/watch?v=l04b1i6W_GQ)
 
-<img src="img/Bread&Fred.jpg" width="75%" height="75%" justify-content="center" align-items="center" text-align="center"></img>
+<img src="img/readme/Bread&Fred.jpg" width="75%" height="75%" justify-content="center" align-items="center" text-align="center"></img>
 </div>
 
 ## Universo
