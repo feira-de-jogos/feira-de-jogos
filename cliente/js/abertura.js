@@ -1,4 +1,4 @@
-export default class abertura extends Phaser.Game {
+export default class abertura extends Phaser.Scene {
   constructor () {
     super('abertura')
   }
@@ -6,6 +6,7 @@ export default class abertura extends Phaser.Game {
     preload() {
       this.load.image('fundo', './assets/fundo.png')
     }
+
     create() {
       this.add.image(400,255,'fundo')
         .setInteractive()
