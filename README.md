@@ -18,4 +18,4 @@ Hollow Knight: No jogo, um cavaleiro sem nome explora um reino em ruínas habita
 ![alt text](image.png)
 
 Ori and the Blind Forest: Conta a história de Ori, um espírito materializado que foi adotado por Naru, uma espécie de urso que há muito tempo vivia em uma floresta encantada. 
-![alt text](image-2.png)
+![alt text](image%20copy.png)
