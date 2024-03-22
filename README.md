@@ -15,7 +15,11 @@ O jogo é do tipo metroidvania de ação e aventura ambientado em um cenário me
 ## Referências
 
 Hollow Knight: No jogo, um cavaleiro sem nome explora um reino em ruínas habitado por insetos, desbloqueando habilidades novas que ajudam a explorar e livrar o reino de uma infecção causada por um deus esquecido.
-![alt text](image.png)
+
+![image](https://github.com/mvplay-s/Pilatus/assets/160233270/ac96194c-0365-43c8-a6c0-22453654f578)
+
 
 Ori and the Blind Forest: Conta a história de Ori, um espírito materializado que foi adotado por Naru, uma espécie de urso que há muito tempo vivia em uma floresta encantada. 
-![alt text](image%20copy.png)
+
+![image](https://github.com/mvplay-s/Pilatus/assets/160233270/8aee17e8-43d7-49dd-b6ea-f4c1fa905d22)
+
