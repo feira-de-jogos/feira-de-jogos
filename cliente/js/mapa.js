@@ -6,7 +6,7 @@ export default class mapa extends Phaser.Scene {
       preload() {
         //this.load.tilemapTilledJSON('mapa', '/assets/mapa/mapa.json')
 
-        //this.load.image('bloco', '/assets/mapa/bloco.png')
+        //this.load.image('jumpKing', '/assets/mapa/jumpKing.png')
 
         this.load.spritesheet('cavaleiro-1', './assets/entities/jumpKing.png', {frameWidth: 32, frameHeight: 32})
       }
@@ -17,9 +17,9 @@ export default class mapa extends Phaser.Scene {
         //    key: 'mapa'
         //}]
 
-        //this.tilesetBlocos = this.tilemapMapa.addTileset('bloco')
+        //this.tilesetBlocos = this.tilemapMapa.addTileset('jumpKing')
 
-        //this.layerTerreno = this.tilemapMapa.createLayer('terreno', [this.tilesetGrama])
+        //this.layerTerreno = this.tilemapMapa.createLayer('terreno', [this.tilesetBlocos])
                 
         this.personagem = this.physics.add.sprite(400, 255, 'cavaleiro-1')
 
