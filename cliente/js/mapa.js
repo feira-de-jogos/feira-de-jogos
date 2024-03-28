@@ -19,8 +19,8 @@ export default class mapa extends Phaser.Scene {
 
   create () {
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
-    // agora precisamos dar um this.tilsetOBJETO (este objeto seria o bloco, grama, etc)=this.tilemapMapa.addTilset.Image('Bloco,grama,etc')
 
+    // agora precisamos dar um this.tilsetOBJETO (este objeto seria o bloco, grama, etc)=this.tilemapMapa.addTilset.Image('Bloco,grama,etc')
     this.tilesetBlocosBordas = this.tilemapMapa.addTilesetImage('BlocosBordas')
     this.tilesetBlocosCenarioVerde = this.tilemapMapa.addTilesetImage('BlocosCenarioVerde')
     this.tilesetFundoCavernaAzul = this.tilemapMapa.addTilesetImage('FundoCavernaAzul')
@@ -30,10 +30,13 @@ export default class mapa extends Phaser.Scene {
     this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde])
 
     this.personagem = this.physics.add.sprite(200, 410, 'Boneco')
+
+    // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagem)
 
     // parado direita
-    this.anims.create({
+    this.anims.create
+    ({
       key: 'boneco_parado_direita',
       frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 12 }),
       frameRate: 1,
@@ -41,7 +44,8 @@ export default class mapa extends Phaser.Scene {
     })
 
     // andando para direita
-    this.anims.create({
+    this.anims.create
+    ({
       key: 'boneco_andando_direita',
       frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 17 }),
       frameRate: 5,
@@ -49,7 +53,8 @@ export default class mapa extends Phaser.Scene {
     })
 
     // parado esquerda
-    this.anims.create({
+    this.anims.create
+    ({
       key: 'boneco_parado_esquerda',
       frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 4 }),
       frameRate: 5,
@@ -57,13 +62,15 @@ export default class mapa extends Phaser.Scene {
     })
 
     // andando para esquerda
-    this.anims.create({
+    this.anims.create
+    ({
       key: 'boneco_andando_esquerda',
       frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 0 }),
       frameRate: 5,
       repeat: -1
     })
 
+    //personagem andando para direita ao clicar
     this.personagem
       .setInteractive()
       .on('pointerdown', () => {
