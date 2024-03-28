@@ -6,6 +6,9 @@ export default class cena1 extends Phaser.Scene {
   preload () {
     this.load.image('escola', './assets/escola.png')
     this.load.spritesheet('amy', './assets/amy.png', { frameWidth: 160, frameHeight: 220 })
+    this.load.spritesheet('jake', './assets/jake.png', { frameWidth: 160, frameHeight: 220 })
+    this.load.spritesheet('georgina', './assets/georgina.png', { frameWidth: 160, frameHeight: 220 })
+    this.load.spritesheet('lara', './assets/lara.png', { frameWidth: 160, frameHeight: 220 })
   }
 
   create () {
@@ -15,10 +18,45 @@ export default class cena1 extends Phaser.Scene {
     this.anims.create({
       key: 'amy-falando',
       frames: this.anims.generateFrameNumbers('amy', { start: 0, end: 5 }),
-      frameRate: 3,
+      frameRate: 4,
       repeat: -1
     })
 
     this.personagem.anims.play('amy-falando')
+
+    this.personagem = this.add.sprite(300, 345, 'jake')
+
+    this.anims.create({
+      key: 'jake-falando',
+      frames: this.anims.generateFrameNumbers('jake', { start: 0, end: 5 }),
+      frameRate: 4,
+      repeat: -1
+    })
+
+    this.personagem.anims.play('jake-falando')
+
+    this.personagem = this.add.sprite(500, 345, 'georgina')
+
+    this.anims.create({
+      key: 'georgina-falando',
+      frames: this.anims.generateFrameNumbers('georgina', { start: 0, end: 5 }),
+      frameRate: 4,
+      repeat: -1
+    })
+
+    this.personagem.anims.play('georgina-falando')
+
+    this.personagem = this.add.sprite(700, 345, 'lara')
+
+    this.anims.create({
+      key: 'lara-falando',
+      frames: this.anims.generateFrameNumbers('lara', { start: 0, end: 5 }),
+      frameRate: 4,
+      repeat: -1
+    })
+
+    this.personagem.anims.play('lara-falando')
+
+
   }
 }
