@@ -3,11 +3,11 @@ export default class abertura extends Phaser.Scene {
     super('abertura')
   }
 
-  preload() {
+  preload () {
     this.load.image('fundo', './assets/teste.png')
-  } //colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
+  } // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
 
-  create() {
+  create () {
     this.add.image(427, 240, 'fundo')
       .setInteractive()
       .on('pointerdown', () => {
@@ -15,7 +15,8 @@ export default class abertura extends Phaser.Scene {
         this.game.scene.start('sala')
       })
   }
-  update() {
+
+  update () {
 
   }
 }

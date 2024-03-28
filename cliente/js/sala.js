@@ -3,27 +3,29 @@ export default class sala extends Phaser.Scene {
     super('sala')
   }
 
-  preload() {
-    this.load.image('fundo', './assets/teste.png')
+  preload () {
+    this.load.image('abertura', './assets/teste.png')
     this.load.audio('iniciar', './assets/audio.mp3')
-    //this.load.audio('musica mapa','./assets/')
+    // this.load.audio('musica mapa','./assets/')
   } // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets. IMPORTANTE: um arquivo seria o da imagem e o outro seria o áudio.
-  //basta colocar o mesmo comando para o audio, lembrando que este é o áudio para iniciar o jogo, entrar no jogo.
-  //A música mapa seria a musica de plano de fundo 
+  // basta colocar o mesmo comando para o audio, lembrando que este é o áudio para iniciar o jogo, entrar no jogo.
+  // A música mapa seria a musica de plano de fundo
 
-  create() {
+  create () {
     this.iniciar = this.sound.add('iniciar')
-    //this.sound.add('musica mapa', {loop:true}).play()
+    // this.sound.add('musica mapa', {loop:true}).play()
 
-    this.add.image(427, 240, 'fundo')
+    this.add.image(427, 240, 'abertura')
 
     this.add.text(100, 50, 'sala 1')
       .setInteractive()
       .on('pointerdown', () => {
         this.iniciar.play()
+        this.game.scene.stop('sala')
+        this.game.scene.start('mapa')
       })
   }
 
-  update() {
+  update () {
   }
 }
