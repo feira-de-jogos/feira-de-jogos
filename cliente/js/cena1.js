@@ -5,7 +5,7 @@ export default class cena1 extends Phaser.Scene {
 
   preload () {
     this.load.image('escola', './assets/escola.png')
-    this.load.spritesheet('amy', './assets/amy.png', { frameWidth: 160, frameHeight: 210 })
+    this.load.spritesheet('amy', './assets/amy.png', { frameWidth: 160, frameHeight: 220 })
   }
 
   create () {
