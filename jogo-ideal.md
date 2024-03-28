@@ -1,3 +1,4 @@
+
 Nome da empresa: SJ 99 Entertainment
 Nome do jogo: Missing on Campus
 
@@ -24,11 +25,11 @@ Professor Roger: Um professor aparentemente respeitável do IFSC São José, mas
 Lara: Estudante do IFSC e melhor amiga de Lucas.
 
 > Referências 
-Série Brooklyn Nine-Nine
-Jogo Criminal case
-Jogo de 2023.1 EscapeRoom
+- Série Brooklyn Nine-Nine
+- Jogo Criminal case
+- Jogo de 2023.1 EscapeRoom
 
 > Receitas
-Venda de ingressos.
-Expandir o jogo para diversos estados, como uma franquia de jogos.
-Trabalhar com anúncios durante o jogo. De forma com que os objetos usados na parte física do jogo, sejam uma forma de anunciar marcas.
+- Venda de ingressos.
+- Expandir o jogo para diversos estados, como uma franquia de jogos.
+- Trabalhar com anúncios durante o jogo. De forma com que os objetos usados na parte física do jogo, sejam uma forma de anunciar marcas.
