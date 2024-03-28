@@ -7,7 +7,7 @@ export default class mapa extends Phaser.Scene {
     this.load.tilemapTiledJSON('mapa', '/assets/mapa/MapaProvisorio.json')
 
     this.load.image('BlocosCenarioVerde', './assets/mapa/BlocosCenarioVerde.png')
-    this.load.image('BlocosBordas', './assets/mapa/BlocoBordas.png')
+    this.load.image('BlocosBordas', './assets/mapa/BlocosBordas.png')
     this.load.image('FundoCavernaAzul', './assets/mapa/FundoCavernaAzul.png')
     this.load.image('FundoCavernaAzul2', './assets/mapa/FundoCavernaAzul2.png')
 
