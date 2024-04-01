@@ -5,6 +5,7 @@ Os jogadores assumem o papel de dois detetives, Jake Peralta e Amy Santiago, con
 No diálogo inicial, os detetives chegam no IFSC e são recebidos pela  professora Georgina.
 
 DIÁLOGO 1 (fundo de entrada da escola):
+
 Amy: Olá! Bom dia. Somos os detetives contratados pelos pais de Lara para investigar o desaparecimento dela. Eu sou a Amy e este é o Jake.
 Jake: Olá.
 Georgina: Bom dia. Eu sou a Georgina, professora da Lara. 
@@ -16,6 +17,7 @@ Georgina: Claro. Vamos até a sala 8. Venham comigo.
 
 
 DIÁLOGO 2 (fundo de sala de aula):
+
 Georgina: Aqui é a sala de Lara, e foi o último lugar onde seus colegas a viram. Vou deixá-los sozinhos para que possam trabalhar, espero que encontrem algo que possa ajudar. 
 Jake: Vamos encontrar logo o Lucas, porque eu to morrendo de fome e quero ir pro almoço.
 Amy: Você só pensa em comer. Foca em procurar pistas.
