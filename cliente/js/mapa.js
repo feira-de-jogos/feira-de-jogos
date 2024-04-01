@@ -9,6 +9,11 @@ export default class mapa extends Phaser.Scene {
         //this.load.image('jumpKing', '/assets/mapa/jumpKing.png')
 
         this.load.spritesheet('cavaleiro-1', './assets/entities/jumpKing.png', {frameWidth: 32, frameHeight: 32})
+
+        this.load.spritesheet('cima', '/assets/cima.png', {frameWidth: 64, frameHeight: 64})
+        this.load.spritesheet('baixo', '/assets/baixo.png', {frameWidth: 64, frameHeight: 64})
+        this.load.spritesheet('direita', '/assets/direita.png', {frameWidth: 64, frameHeight: 64})
+        this.load.spritesheet('esquerda', '/assets/esquerda.png', {frameWidth: 64, frameHeight: 64})
       }
   
       create() {
@@ -22,6 +27,15 @@ export default class mapa extends Phaser.Scene {
         //this.layerTerreno = this.tilemapMapa.createLayer('terreno', [this.tilesetBlocos])
                 
         this.personagem = this.physics.add.sprite(400, 255, 'cavaleiro-1')
+
+        this.baixo = this.add.sprite(100, 400, 'cima', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', ()=>{
+          this.cima.setFrame(1)
+        }).on('pointerout', () => {
+          this.cima.setFrame(0)
+        })
 
         this.anims.create({ 
           key: 'cavaleiro-1-idle',
