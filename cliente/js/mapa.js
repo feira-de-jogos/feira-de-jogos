@@ -16,7 +16,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('Boneco', './assets/Boneco.png', { frameWidth: 96, frameHeight: 64 })
 
     // movimentação do personagem
-    this.load.spritesheet('cima', './assets/Controles/SetaTeste.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 64, frameHeight: 64 })
 
@@ -39,17 +39,6 @@ export default class mapa extends Phaser.Scene {
 
     // personagem:
     this.personagem = this.physics.add.sprite(200, 410, 'Boneco')
-
-    // movimentação do personagem
-    this.cima = this.add.sprite(100, 400, 'cima', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-
-      .on('pointerover', () => {
-        this.cima,setFrame(1)})
-
-      .on('pointerout', () => {
-        this.cima.setFrame(0)})
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagem)
@@ -90,18 +79,18 @@ export default class mapa extends Phaser.Scene {
         repeat: -1
       })
 
-      //movimentação do personagem
+    // movimentação do personagem
     this.cima = this.add.sprite(320, 225, 'cima', 0)
       .setScrollFactor(0)
       .setInteractive()
-
       .on('pointerover', () => {
-        this.cima, setFrame(1)
+        this.cima.setFrame(1)
         this.personagem.setVelocityY(-50)
       })
 
       .on('pointerout', () => {
         this.cima.setFrame(0)
+        this.personagem.setVelocityY(0)
       })
 
     // personagem andando para direita ao clicar
