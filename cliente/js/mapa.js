@@ -40,7 +40,7 @@ export default class mapa extends Phaser.Scene {
         this.anims.create({
           key: 'cavaleiro-1-walkingLeft',
           frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 0, end: 1}),
-          frameRate: ,
+          frameRate: 8,
           repeat: -1
         })
 
