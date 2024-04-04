@@ -12,6 +12,8 @@ export default class mapa extends Phaser.Scene {
     this.load.image('BlocosBordas', './assets/mapa/BlocosBordas.png')
     this.load.image('FundoCavernaAzul', './assets/mapa/FundoCavernaAzul.png')
     this.load.image('FundoCavernaAzul2', './assets/mapa/FundoCavernaAzul2.png')
+    this.load.image('Gramas', './assets/mapa/Gramas.png')
+    this.load.image('Pedrinhas', './assets/mapa/Pedrinhas.png')
 
     this.load.spritesheet('Boneco', './assets/Boneco.png', { frameWidth: 96, frameHeight: 64 })
 
@@ -32,13 +34,23 @@ export default class mapa extends Phaser.Scene {
     this.tilesetBlocosCenarioVerde = this.tilemapMapa.addTilesetImage('BlocosCenarioVerde')
     this.tilesetFundoCavernaAzul = this.tilemapMapa.addTilesetImage('FundoCavernaAzul')
     this.tilesetFundoCavernaAzul2 = this.tilemapMapa.addTilesetImage('FundoCavernaAzul2')
+    this.tilesetGramas = this.tilemapMapa.addTilesetImage('Gramas')
+    this.tilesetPedrinhas = this.tilemapMapa.addTilesetImage('Pedrinhas')
 
     // fundo e chão do mapa
     this.layerFundo = this.tilemapMapa.createLayer('Fundo', [this.tilesetFundoCavernaAzul, this.tilesetBlocosBordas, this.tilesetFundoCavernaAzul2])
-    this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde])
+    this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde,])
 
     // personagem:
     this.personagem = this.physics.add.sprite(200, 410, 'Boneco')
+    this.personagemLado = 'direita'
+
+    //Pedrinhas e Gramas:
+    this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas])
+
+    // colisão do personagem:
+    this.layerChao.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.personagem, this.layerChao)
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagem)
@@ -46,23 +58,23 @@ export default class mapa extends Phaser.Scene {
     // parado direita
     this.anims.create({
       key: 'boneco_parado_direita',
-      frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 12 }),
-      frameRate: 1,
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 10, end: 11 }),
+      frameRate: 2,
       repeat: -1
     })
 
     // andando para direita
     this.anims.create({
       key: 'boneco_andando_direita',
-      frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 17 }),
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 11, end: 18 }),
       frameRate: 5,
       repeat: -1
     })
 
     // parado esquerda
     this.anims.create({
-      key: 'boneco_parado_esquerda',
-      frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 4 }),
+      key: 'boneco_parado_esquerda', personagemLado
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 0, end: 0 }),
       frameRate: 5,
       repeat: -1
     })
@@ -70,12 +82,10 @@ export default class mapa extends Phaser.Scene {
     // andando para esquerda
     this.anims.create({
       key: 'boneco_andando_esquerda',
-      frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 0 }),
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 1, end: 9 }),
       frameRate: 5,
       repeat: -1
     })
-
-    // movimentação do personagem
 
     // Movimentação cima
 
@@ -91,9 +101,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerout', () => {
         this.cima.setFrame(0)
         this.personagem.setVelocityY(0)
-        if (this.personagem.body.velocity.x === 0) {
-          (this.personagem.anims.play('' + this.personagemLado))
-        }
+        this.personagem.anims.play('' + this.personagemLado)
       })
 
     // movimentação direita
@@ -105,14 +113,12 @@ export default class mapa extends Phaser.Scene {
         this.direita.setFrame(1)
         this.personagem.setVelocityX(50)
         this.personagemLado = 'direita'
-        this.personagem.anims.play('boneco_parado_direita' + this.personagemLado)
+        this.personagem.anims.play('boneco_parado_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
         this.personagem.setVelocityX(0)
-        if (this.personagem.body.velocity.y === 0) {
-          this.personagem.anims.play('boneco_andando_direita' + this.personagemLado)
-        }
+        this.personagem.anims.play('boneco_andando_' + this.personagemLado)
       })
 
     // Movimentação esquerda
@@ -121,19 +127,15 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        this.cima.setFrame(1)
+        this.esquerda.setFrame(1)
         this.personagem.setVelocityX(-50)
         this.personagemLado = 'esquerda'
-        this.personagem.anims.play('boneco_parado_esquerda' + this.Esquerda)
+        this.personagem.anims.play('boneco_parado_' + this.personagemLado)
       })
-
       .on('pointerout', () => {
-        this.cima.setFrame(0)
+        this.esquerda.setFrame(0)
         this.personagem.setVelocityX(0)
-        if (this.personagem.body.velocity.y === 0) {
-          (
-            this.personagem.anims.play('boneco_andando_esquerda' + this.personagemLado))
-        }
+        this.personagem.anims.play('boneco_andando_' + this.personagemLado)
       })
   }
 
