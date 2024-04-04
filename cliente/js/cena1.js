@@ -4,7 +4,7 @@ export default class cena1 extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('escola', './assets/escola.png')
+    this.load.image('escola2', './assets/escola2.png')
     this.load.spritesheet('amy', './assets/amy.png', { frameWidth: 160, frameHeight: 220 })
     this.load.spritesheet('jake', './assets/jake.png', { frameWidth: 160, frameHeight: 220 })
     this.load.spritesheet('georgina', './assets/georgina.png', { frameWidth: 160, frameHeight: 220 })
@@ -12,8 +12,8 @@ export default class cena1 extends Phaser.Scene {
   }
 
   create () {
-    this.add.image(400, 225, 'escola')
-    this.personagem = this.add.sprite(100, 345, 'amy')
+    this.add.image(400, 225, 'escola2')
+    this.personagem = this.add.sprite(100, 300, 'amy').setScale(1.5)
 
     this.anims.create({
       key: 'amy-falando',
@@ -24,7 +24,7 @@ export default class cena1 extends Phaser.Scene {
 
     this.personagem.anims.play('amy-falando')
 
-    this.personagem = this.add.sprite(300, 345, 'jake')
+    this.personagem = this.add.sprite(300, 300, 'jake').setScale(1.5)
 
     this.anims.create({
       key: 'jake-falando',
@@ -35,7 +35,7 @@ export default class cena1 extends Phaser.Scene {
 
     this.personagem.anims.play('jake-falando')
 
-    this.personagem = this.add.sprite(500, 345, 'georgina')
+    this.personagem = this.add.sprite(500, 275, 'georgina').setScale(1.65)
 
     this.anims.create({
       key: 'georgina-falando',
@@ -46,7 +46,7 @@ export default class cena1 extends Phaser.Scene {
 
     this.personagem.anims.play('georgina-falando')
 
-    this.personagem = this.add.sprite(700, 345, 'lara')
+    this.personagem = this.add.sprite(700, 300, 'lara').setScale(1.5)
 
     this.anims.create({
       key: 'lara-falando',
@@ -56,7 +56,5 @@ export default class cena1 extends Phaser.Scene {
     })
 
     this.personagem.anims.play('lara-falando')
-
-
   }
 }

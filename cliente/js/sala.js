@@ -7,7 +7,7 @@ export default class abertura extends Phaser.Scene {
     this.load.audio('iniciar', './assets/iniciar.mp3')
     this.load.audio('mapa', './assets/mapa.mp3')
 
-    this.load.image('fundo1', './assets/fundo1.png')
+    this.load.image('escola', './assets/escola.png')
   }
 
   create () {
@@ -15,7 +15,7 @@ export default class abertura extends Phaser.Scene {
     this.trilha = this.sound.add('mapa', { loop: true })
     this.trilha.play()
 
-    this.add.image(400, 225, 'fundo1')
+    this.add.image(400, 225, 'escola')
 
     this.add.text(100, 50, 'sala1')
       .setInteractive()
@@ -23,7 +23,7 @@ export default class abertura extends Phaser.Scene {
         this.trilha.stop()
         this.iniciar.play()
         this.game.scene.stop('sala')
-        this.game.scene.start('cena1')
+        this.game.scene.start('cena2')
         this.iniciar.stop()
       })
   }

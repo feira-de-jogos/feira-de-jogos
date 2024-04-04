@@ -4,11 +4,11 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('abertura1', './assets/abertura1.png')
+    this.load.image('telainicial', './assets/telainicial.png')
   }
 
   create () {
-    this.add.image(400, 225, 'abertura1')
+    this.add.image(400, 225, 'telainicial')
       .setInteractive()
       .on('pointerdown', () => {
         this.game.scene.stop('abertura')
