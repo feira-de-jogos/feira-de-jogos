@@ -5,14 +5,14 @@ export default class sala extends Phaser.Scene {
 
   preload () {
     this.load.audio('iniciar', './assets/iniciar.mp3')
-    // this.load.audio('mapa', './assets/mapa.mp3')
+    this.load.audio('mapa', './assets/mapa.mp3')
 
     this.load.image('fundo', './assets/fundo.png')
   }
 
   create () {
     this.iniciar = this.sound.add('iniciar')
-    // this.sound.add('mapa', { loop: true }).play()
+    this.sound.add('mapa', { loop: true }).play()
 
     this.add.image(400, 225, 'fundo')
 

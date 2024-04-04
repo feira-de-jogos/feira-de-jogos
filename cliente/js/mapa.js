@@ -21,7 +21,7 @@ export default class abertura extends Phaser.Scene {
   }
 
   create () {
-    this.sound.add('mapa', { loop: true }).play()
+    // this.sound.add('mapa', { loop: true }).play()
 
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
@@ -67,6 +67,7 @@ export default class abertura extends Phaser.Scene {
     })
     this.personagem.anims.play('salsicha-caramelo-parado')
 
+    // Essa parte abaixo chama a animação a partir de uma ação definida
     this.personagem
       .setInteractive()
       .on('pointerdown', () => {
