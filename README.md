@@ -1,4 +1,4 @@
-Jogo Ideal:
+## Jogo Ideal:
 
 No Instituto Federal de Santa Catarina (IFSC) em São José, a comunidade acadêmica é abalada pelo desaparecimento misterioso de uma aluna promissora, Lara Oliveira. Rumores sombrios pairavam sobre os corredores do câmpus, e a ansiedade cresce à medida que o tempo passa sem nenhuma pista sobre seu paradeiro.
 Os jogadores assumem o papel de dois detetives, Jake Peralta e Amy Santiago, contratados pelos pais de Lara para investigar seu desaparecimento. Com uma série de pistas e a pressão do tempo, vocês se lançam em uma busca desesperada pelos segredos escondidos nas entranhas do IFSC São José.
@@ -106,18 +106,18 @@ Final 2: Os jogadores não conseguem libertar Lara a tempo, eles perdem o jogo. 
 
 
 
-Personagens:
+## Personagens:
 Detetive Jake Peralta: Um detetive experiente com um estilo descontraído, conhecido por sua astúcia e senso de humor peculiar.
 Detetive Amy Santiago: Uma detetive determinada e meticulosa, sempre focada em resolver o caso da maneira mais eficiente possível.
 Lara Oliveira: Uma aluna promissora do IFSC São José, inteligente, curiosa e de poucos amigos.
 Professora Georgina: Uma professora aparentemente respeitável do IFSC São José, mas que esconde segredos sombrios relacionados a experimentos bizarros.
 
-Referências:
+## Referências:
 Série Brooklyn Nine-Nine
 Jogo Criminal case
 Jogo de 2023.1 EscapeRoom
 
-Receitas:
+## Receitas:
 Venda de ingressos.
 Expandir o jogo para diversos estados, como uma franquia de jogos.
 Trabalhar com anúncios durante o jogo. De forma com que os objetos usados na parte física do jogo, sejam uma forma de anunciar marcas.
