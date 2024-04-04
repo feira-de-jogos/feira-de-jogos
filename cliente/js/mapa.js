@@ -2,6 +2,8 @@ export default class mapa extends Phaser.Scene {
     constructor () {
       super('mapa')
     }
+
+    
   
       preload() {
         this.load.tilemapTiledJSON('mapateste', '/assets/mapa/mapteste.json')
@@ -92,9 +94,9 @@ export default class mapa extends Phaser.Scene {
         this.cima = this.add.sprite(260, 400, 'cima', 0)
         .setScrollFactor(0)
         .setInteractive()
-        .on('pointerover', ()=>{
-          this.cima.setFrame(1)
+        .on('pointerdown', ()=>{
           this.personagem.setVelocityY(-50)
+          this.cima.setFrame(1)
         }).on('pointerout', () => {
           this.cima.setFrame(0)
           this.personagem.setVelocityY(0)
