@@ -15,49 +15,30 @@ export default class cena2 extends Phaser.Scene {
     this.estados = [
       {
         texto: {
-          x: 450,
-          y: 230,
+          x: 200,
+          y: 250,
           conteudo: 'Ei, você!'
         },
         imagem: {
           x: 100,
-          y: 300,
-          imagem: 'amy'
+          y: 340,
+          nome: 'amy'
         }
       },
       {
         texto: {
-          x: 450,
-          y: 230,
-          conteudo: 'Hola, que tal!'
+          x: 200,
+          y: 250,
+          conteudo: 'Você, por aqui?!'
         },
         imagem: {
-          x: 600,
-          y: 300,
-          imagem: 'jake'
+          x: 100,
+          y: 340,
+          nome: 'jake'
         }
       }
     ]
-    this.estadoAtual = 0
-
-    this.add.image(400, 225, 'escola2')
-      .setInteractive()
-      .on('pointerdown', () => {
-        this.texto.destroy()
-
-        this.estadoAtual++
-
-        this.texto = this.add.text(
-          this.estados[this.estadoAtual].texto.x,
-          this.estados[this.estadoAtual].texto.y,
-          this.estados[this.estadoAtual].texto.conteudo
-        )
-        this.imagem = this.add.image(
-          this.estados[this.estadoAtual].imagem.x,
-          this.estados[this.estadoAtual].imagem.y,
-          this.estados[this.estadoAtual].imagem.conteudo
-        )
-      })
+    this.estadoAtual = -1
 
     this.anims.create({
       key: 'amy-falando',
@@ -87,14 +68,47 @@ export default class cena2 extends Phaser.Scene {
       repeat: -1
     })
 
+    this.add.sprite(400, 225, 'escola2')
+      .setInteractive()
+      .on('pointerdown', () => {
+        // Chama o próximo estado
+        this.proximoEstado()
+      })
+
+    // Inicia o primeiro estado
+    this.proximoEstado()
+  }
+
+  update () {
+  }
+
+  proximoEstado () {
+    // Se existe uma imagem ou texto, então destrói
+    if (this.imagem) this.imagem.destroy()
+    if (this.texto) this.texto.destroy()
+
+    // Incrementa o estado atual para o próximo
+    this.estadoAtual++
+
+    // Se não existe o próximo estado, então muda de cena
+    if (this.estadoAtual >= this.estados.length) {
+      this.scene.start('cena3')
+      return
+    }
+
+    // Cria a imagem e o texto do estado atual
+    this.imagem = this.add.sprite(
+      this.estados[this.estadoAtual].imagem.x,
+      this.estados[this.estadoAtual].imagem.y,
+      this.estados[this.estadoAtual].imagem.nome
+    )
     this.texto = this.add.text(
       this.estados[this.estadoAtual].texto.x,
       this.estados[this.estadoAtual].texto.y,
       this.estados[this.estadoAtual].texto.conteudo
     )
-    this.imagem = this.add.sprite(100, 300, 'amy').setScale(1.5)
-  }
 
-  update () {
+    // Inicia a animação da imagem
+    this.imagem.anims.play(`${this.estados[this.estadoAtual].imagem.nome}-falando`)
   }
 }
