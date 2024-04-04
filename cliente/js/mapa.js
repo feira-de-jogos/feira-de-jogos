@@ -44,65 +44,98 @@ export default class mapa extends Phaser.Scene {
     this.cameras.main.startFollow(this.personagem)
 
     // parado direita
-    this.anims.create
-      ({
-        key: 'boneco_parado_direita',
-        frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 12 }),
-        frameRate: 1,
-        repeat: -1
-      })
+    this.anims.create({
+      key: 'boneco_parado_direita',
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 12 }),
+      frameRate: 1,
+      repeat: -1
+    })
 
     // andando para direita
-    this.anims.create
-      ({
-        key: 'boneco_andando_direita',
-        frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 17 }),
-        frameRate: 5,
-        repeat: -1
-      })
+    this.anims.create({
+      key: 'boneco_andando_direita',
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 12, end: 17 }),
+      frameRate: 5,
+      repeat: -1
+    })
 
     // parado esquerda
-    this.anims.create
-      ({
-        key: 'boneco_parado_esquerda',
-        frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 4 }),
-        frameRate: 5,
-        repeat: -1
-      })
+    this.anims.create({
+      key: 'boneco_parado_esquerda',
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
 
     // andando para esquerda
-    this.anims.create
-      ({
-        key: 'boneco_andando_esquerda',
-        frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 0 }),
-        frameRate: 5,
-        repeat: -1
-      })
+    this.anims.create({
+      key: 'boneco_andando_esquerda',
+      frames: this.anims.generateFrameNumbers('Boneco', { start: 4, end: 0 }),
+      frameRate: 5,
+      repeat: -1
+    })
 
     // movimentação do personagem
-    this.cima = this.add.sprite(320, 225, 'cima', 0)
+
+    // Movimentação cima
+
+    this.cima = this.add.sprite(700, 390, 'cima', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
         this.cima.setFrame(1)
         this.personagem.setVelocityY(-50)
+        this.personagem.anims.play('' + this.cima)
       })
 
       .on('pointerout', () => {
         this.cima.setFrame(0)
         this.personagem.setVelocityY(0)
+        if (this.personagem.body.velocity.x === 0) {
+          (this.personagem.anims.play('' + this.personagemLado))
+        }
       })
 
-    // personagem andando para direita ao clicar
-    this.personagem
+    // movimentação direita
+
+    this.direita = this.add.sprite(120, 390, 'direita', 0)
+      .setScrollFactor(0)
       .setInteractive()
-      .on('pointerdown', () => {
-        this.personagem.anims.play('boneco_andando_direita')
-        this.personagem.setVelocityX(100)
+      .on('pointerover', () => {
+        this.direita.setFrame(1)
+        this.personagem.setVelocityX(50)
+        this.personagemLado = 'direita'
+        this.personagem.anims.play('boneco_parado_direita' + this.personagemLado)
+      })
+      .on('pointerout', () => {
+        this.direita.setFrame(0)
+        this.personagem.setVelocityX(0)
+        if (this.personagem.body.velocity.y === 0) {
+          this.personagem.anims.play('boneco_andando_direita' + this.personagemLado)
+        }
+      })
+
+    // Movimentação esquerda
+
+    this.esquerda = this.add.sprite(50, 390, 'esquerda', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.cima.setFrame(1)
+        this.personagem.setVelocityX(-50)
+        this.personagemLado = 'esquerda'
+        this.personagem.anims.play('boneco_parado_esquerda' + this.Esquerda)
+      })
+
+      .on('pointerout', () => {
+        this.cima.setFrame(0)
+        this.personagem.setVelocityX(0)
+        if (this.personagem.body.velocity.y === 0) {
+          (
+            this.personagem.anims.play('boneco_andando_esquerda' + this.personagemLado))
+        }
       })
   }
 
-  update () {
-
-  }
+  update () { }
 }
