@@ -8,7 +8,7 @@ export default class mapa extends Phaser.Scene {
 
         //this.load.image('jumpKing', '/assets/mapa/jumpKing.png')
 
-        this.load.spritesheet('cavaleiro-1', './assets/entities/jumpKing.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', {frameWidth: 32, frameHeight: 32})
 
         this.load.spritesheet('cima', '/assets/ui/cima.png', {frameWidth: 64, frameHeight: 64})
         this.load.spritesheet('baixo', '/assets/ui/baixo.png', {frameWidth: 64, frameHeight: 64})
@@ -31,23 +31,30 @@ export default class mapa extends Phaser.Scene {
         
 
         this.anims.create({ 
-          key: 'cavaleiro-1-idle',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 0, end: 1}),
-          frameRate: 1,
+          key: 'cavaleiro-1-idle-direita',
+          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 22, end: 24}),
+          frameRate: 3,
+          repeat: -1
+        })
+
+        this.anims.create({ 
+          key: 'cavaleiro-1-idle-esquerda',
+          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 41, end: 43}),
+          frameRate: 3,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-1-walkingLeft',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 0, end: 1}),
-          frameRate: 8,
+          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 18, end: 20}),
+          frameRate: 5,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-1-walkingRight',
           frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 1, end: 3}),
-          frameRate: 8,
+          frameRate: 5,
           repeat: -1
         })
 
@@ -60,6 +67,8 @@ export default class mapa extends Phaser.Scene {
           this.esquerda.setFrame(1)
           this.personagem.setVelocityX(-50)
         }).on('pointerout', () => {
+          
+          this.personagem.anims.play('cavaleiro-1-idle-esquerda')
           this.esquerda.setFrame(0)
           this.personagem.setVelocityX(0)
         })
@@ -68,9 +77,11 @@ export default class mapa extends Phaser.Scene {
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', ()=>{
+          this.personagem.anims.play('cavaleiro-1-walkingRight')
           this.direita.setFrame(1)
           this.personagem.setVelocityX(50)
         }).on('pointerout', () => {
+          this.personagem.anims.play('cavaleiro-1-idle-direita')
           this.direita.setFrame(0)
           this.personagem.setVelocityX(0)
         })
