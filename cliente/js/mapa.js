@@ -4,9 +4,9 @@ export default class mapa extends Phaser.Scene {
     }
   
       preload() {
-        //this.load.tilemapTilledJSON('mapa', '/assets/mapa/mapa.json')
+        this.load.tilemapTiledJSON('mapateste', '/assets/mapa/mapteste.json')
 
-        //this.load.image('jumpKing', '/assets/mapa/jumpKing.png')
+        this.load.image('map', '/assets/mapa/map.png')
 
         this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', {frameWidth: 32, frameHeight: 32})
 
@@ -17,16 +17,19 @@ export default class mapa extends Phaser.Scene {
       }
   
       create() {
-        //this.sound.add('mapa', {loop:true}).play()
-        //this.tilemapMapa = this.make.tilemap() [{
-        //    key: 'mapa'
-        //}]
+        // this.sound.add('mapa', {loop:true}).play()
+        this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
 
-        //this.tilesetBlocos = this.tilemapMapa.addTileset('jumpKing')
+        this.tilesetBlocos = this.tilemapMapa.addTilesetImage('map')
 
-        //this.layerTerreno = this.tilemapMapa.createLayer('terreno', [this.tilesetBlocos])
+        this.layerTerreno = this.tilemapMapa.createLayer('terreno', [this.tilesetBlocos])
+        this.layerBlocos = this.tilemapMapa.createLayer('blocos', [this.tilesetBlocos])
+        this.layerDecoration = this.tilemapMapa.createLayer('decoracao-1', [this.tilesetBlocos])
+        this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
+
+        
                 
-        this.personagem = this.physics.add.sprite(400, 255, 'cavaleiro-1')
+        this.personagem = this.physics.add.sprite(10, -20, 'cavaleiro-1')
 
         
 
@@ -86,9 +89,25 @@ export default class mapa extends Phaser.Scene {
           this.personagem.setVelocityX(0)
         })
 
+        this.cima = this.add.sprite(260, 400, 'cima', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', ()=>{
+          this.cima.setFrame(1)
+          this.personagem.setVelocityY(-50)
+        }).on('pointerout', () => {
+          this.cima.setFrame(0)
+          this.personagem.setVelocityY(0)
+        })
+
+        this.cameras.main.startFollow(this.personagem)
+        this.layerBlocos.setCollisionByProperty({ collides: true })
+        this.physics.add.collider(this.personagem, this.layerBlocos)
+
       }
   
       update(){
+        
       }
   }
   
