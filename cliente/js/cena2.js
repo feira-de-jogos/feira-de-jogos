@@ -5,25 +5,39 @@ export default class cena2 extends Phaser.Scene {
 
   preload () {
     this.load.image('escola2', './assets/escola2.png')
-    this.load.spritesheet('amy', './assets/amy.png', { frameWidth: 160, frameHeight: 220 })
-    this.load.spritesheet('jake', './assets/jake.png', { frameWidth: 160, frameHeight: 220 })
-    this.load.spritesheet('georgina', './assets/georgina.png', { frameWidth: 160, frameHeight: 220 })
-    this.load.spritesheet('lara', './assets/lara.png', { frameWidth: 160, frameHeight: 220 })
+    this.load.spritesheet('amy', './assets/amy.png', { frameWidth: 160, frameHeight: 225 })
+    this.load.spritesheet('jake', './assets/jake.png', { frameWidth: 160, frameHeight: 225 })
+    this.load.spritesheet('georgina', './assets/georgina.png', { frameWidth: 160, frameHeight: 225 })
+    this.load.spritesheet('lara', './assets/lara.png', { frameWidth: 160, frameHeight: 225 })
   }
 
   create () {
     this.estados = [
       {
+        [
+          {texto, imagem}, {texto, imagem}
+        ]
+
+
+
+
         texto: {
           x: 200,
           y: 250,
           conteudo: 'Ei, você!'
         },
-        imagem: {
+        imagens: [
+          {
           x: 100,
-          y: 340,
-          nome: 'amy'
+          y: 285,
+          imagem: 'amy'
+          },
+          {
+          x: 700,
+          y: 290,
+          imagem: 'georgina'
         }
+      ]
       },
       {
         texto: {
@@ -31,11 +45,11 @@ export default class cena2 extends Phaser.Scene {
           y: 250,
           conteudo: 'Você, por aqui?!'
         },
-        imagem: {
-          x: 100,
-          y: 340,
+        imagem:[ {
+          x: 90,
+          y: 285,
           nome: 'jake'
-        }
+        }]
       }
     ]
     this.estadoAtual = -1
@@ -101,7 +115,10 @@ export default class cena2 extends Phaser.Scene {
       this.estados[this.estadoAtual].imagem.x,
       this.estados[this.estadoAtual].imagem.y,
       this.estados[this.estadoAtual].imagem.nome
-    )
+    ).setScale(1.5)
+
+// this.estados[this.estadoAtual].forEach()
+
     this.texto = this.add.text(
       this.estados[this.estadoAtual].texto.x,
       this.estados[this.estadoAtual].texto.y,

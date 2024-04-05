@@ -13,7 +13,7 @@ export default class cena1 extends Phaser.Scene {
 
   create () {
     this.add.image(400, 225, 'escola2')
-    this.personagem = this.add.sprite(100, 300, 'amy').setScale(1.5)
+    this.personagem = this.add.sprite(100, 300, 'amy').setScale (1.5)
 
     this.anims.create({
       key: 'amy-falando',
