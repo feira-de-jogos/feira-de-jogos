@@ -24,6 +24,12 @@
          "id":2,
          "name":"Fundo",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":false
+                }],
          "startx":0,
          "starty":0,
          "type":"tilelayer",
@@ -54,6 +60,12 @@
          "id":1,
          "name":"Chao",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":false
+                }],
          "startx":0,
          "starty":0,
          "type":"tilelayer",
@@ -84,6 +96,12 @@
          "id":3,
          "name":"Detalhes",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":false
+                }],
          "startx":0,
          "starty":0,
          "type":"tilelayer",
@@ -107,6 +125,12 @@
          "imagewidth":1000,
          "margin":0,
          "name":"FundoCavernaAzul",
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":false
+                }],
          "spacing":0,
          "tilecount":105,
          "tileheight":64,
@@ -120,6 +144,12 @@
          "imagewidth":1000,
          "margin":0,
          "name":"FundoCavernaAzul2",
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":false
+                }],
          "spacing":0,
          "tilecount":105,
          "tileheight":64,
@@ -133,6 +163,12 @@
          "imagewidth":320,
          "margin":0,
          "name":"BlocosCenarioVerde",
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":true
+                }],
          "spacing":0,
          "tilecount":30,
          "tileheight":64,
@@ -418,6 +454,12 @@
          "imagewidth":256,
          "margin":0,
          "name":"BlocosBordas",
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":false
+                }],
          "spacing":0,
          "tilecount":16,
          "tileheight":64,
@@ -431,6 +473,12 @@
          "imagewidth":64,
          "margin":0,
          "name":"Pedrinhas",
+         "properties":[
+                {
+                 "name":"colisao",
+                 "type":"bool",
+                 "value":false
+                }],
          "spacing":0,
          "tilecount":1,
          "tileheight":64,
@@ -448,7 +496,7 @@
                 {
                  "name":"colisao",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }],
          "spacing":0,
          "tilecount":12,

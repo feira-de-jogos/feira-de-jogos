@@ -39,13 +39,13 @@ export default class mapa extends Phaser.Scene {
 
     // fundo e chão do mapa
     this.layerFundo = this.tilemapMapa.createLayer('Fundo', [this.tilesetFundoCavernaAzul, this.tilesetBlocosBordas, this.tilesetFundoCavernaAzul2])
-    this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde,])
+    this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde])
 
     // personagem:
     this.personagem = this.physics.add.sprite(200, 410, 'Boneco')
     this.personagemLado = 'direita'
 
-    //Pedrinhas e Gramas:
+    // Pedrinhas e Gramas:
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas])
 
     // colisão do personagem:
@@ -73,7 +73,7 @@ export default class mapa extends Phaser.Scene {
 
     // parado esquerda
     this.anims.create({
-      key: 'boneco_parado_esquerda', personagemLado
+      key: 'boneco_parado_esquerda',
       frames: this.anims.generateFrameNumbers('Boneco', { start: 0, end: 0 }),
       frameRate: 5,
       repeat: -1
