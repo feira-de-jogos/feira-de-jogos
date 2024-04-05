@@ -1,3 +1,4 @@
+
 export default class mapa extends Phaser.Scene {
     constructor () {
       super('mapa')
@@ -12,15 +13,21 @@ export default class mapa extends Phaser.Scene {
 
         this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', {frameWidth: 32, frameHeight: 32})
 
-        this.load.spritesheet('cima', '/assets/ui/cima.png', {frameWidth: 64, frameHeight: 64})
+        this.load.spritesheet('jump', '/assets/ui/jump.png', {frameWidth: 64, frameHeight: 64})
         this.load.spritesheet('baixo', '/assets/ui/baixo.png', {frameWidth: 64, frameHeight: 64})
         this.load.spritesheet('direita', '/assets/ui/direita.png', {frameWidth: 64, frameHeight: 64})
         this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', {frameWidth: 64, frameHeight: 64})
       }
   
       create() {
+        //const math = require('mathjs');
         // this.sound.add('mapa', {loop:true}).play()
         this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
+
+        var jumpveloX = 0
+        var jumpveloY = 0
+        var ponteiro = false
+        var ponteiroup = false
 
         this.tilesetBlocos = this.tilemapMapa.addTilesetImage('map')
 
@@ -91,21 +98,27 @@ export default class mapa extends Phaser.Scene {
           this.personagem.setVelocityX(0)
         })
 
-        this.cima = this.add.sprite(260, 400, 'cima', 0)
+        this.jump = this.add.sprite(260, 400, 'jump', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
-          this.personagem.setVelocityY(-50)
-          this.cima.setFrame(1)
-        }).on('pointerout', () => {
-          this.cima.setFrame(0)
-          this.personagem.setVelocityY(0)
+          //while (ponteiro){
+            //jumpveloX = jumpveloX + 1
+            //jumpveloY = jumpveloY + 2
+            //if(ponteiro == false){
+              //break
+            //}
+          //}
+          
+          this.jump.setFrame(1)
+        }).on('pointerup', () => {
+          this.jump.setFrame(0)
+          this.personagem.setVelocity(jumpveloX, jumpveloY)
         })
 
         this.cameras.main.startFollow(this.personagem)
         this.layerBlocos.setCollisionByProperty({ collides: true })
         this.physics.add.collider(this.personagem, this.layerBlocos)
-
       }
   
       update(){
