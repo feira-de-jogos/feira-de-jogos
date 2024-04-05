@@ -48,7 +48,8 @@ export default class mapa extends Phaser.Scene {
     // Pedrinhas e Gramas:
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas])
 
-    // colisão do personagem:
+    // colisão de personagem
+
     this.layerChao.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagem, this.layerChao)
 
@@ -137,6 +138,7 @@ export default class mapa extends Phaser.Scene {
         this.personagem.setVelocityX(0)
         this.personagem.anims.play('boneco_andando_' + this.personagemLado)
       })
+
   }
 
   update () { }
