@@ -27,6 +27,8 @@ export default class mapa extends Phaser.Scene {
   }
 
   create () {
+    this.input.addPointer(3)
+
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
     // agora precisamos dar um this.tilsetOBJETO (este objeto seria o bloco, grama, etc)=this.tilemapMapa.addTilset.Image('Bloco,grama,etc')
@@ -43,19 +45,11 @@ export default class mapa extends Phaser.Scene {
 
     // personagem:
     this.personagem = this.physics.add.sprite(200, 410, 'Boneco')
-    this.personagemLado = 'direita'
 
     // Pedrinhas e Gramas:
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas])
 
-    // colisão de personagem
-
-    this.layerChao.setCollisionByProperty({ collides: true })
-    this.physics.add.collider(this.personagem, this.layerChao)
-
-    // após, segue o código para a criação da camera que irá serguir o personagem
-    this.cameras.main.startFollow(this.personagem)
-
+    // movimentação do personagem
     // parado direita
     this.anims.create({
       key: 'boneco_parado_direita',
@@ -88,14 +82,14 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    // Movimentação cima
+    // Pulo
 
-    this.cima = this.add.sprite(700, 390, 'cima', 0)
+    this.cima = this.add.sprite(800, 390, 'cima', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
         this.cima.setFrame(1)
-        this.personagem.setVelocityY(-50)
+        this.personagem.setVelocityY(-500)
         this.personagem.anims.play('' + this.cima)
       })
 
@@ -112,14 +106,14 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.direita.setFrame(1)
-        this.personagem.setVelocityX(50)
+        this.personagem.setVelocityX(200)
         this.personagemLado = 'direita'
-        this.personagem.anims.play('boneco_parado_' + this.personagemLado)
+        this.personagem.anims.play('boneco_andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
         this.personagem.setVelocityX(0)
-        this.personagem.anims.play('boneco_andando_' + this.personagemLado)
+        this.personagem.anims.play('boneco_parado_' + this.personagemLado)
       })
 
     // Movimentação esquerda
@@ -129,16 +123,23 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.esquerda.setFrame(1)
-        this.personagem.setVelocityX(-50)
+        this.personagem.setVelocityX(-200)
         this.personagemLado = 'esquerda'
-        this.personagem.anims.play('boneco_parado_' + this.personagemLado)
+        this.personagem.anims.play('boneco_andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.esquerda.setFrame(0)
         this.personagem.setVelocityX(0)
-        this.personagem.anims.play('boneco_andando_' + this.personagemLado)
+        this.personagem.anims.play('boneco_parado_' + this.personagemLado)
       })
 
+    // colisão de personagem
+
+    this.layerChao.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.personagem, this.layerChao)
+
+    // após, segue o código para a criação da camera que irá serguir o personagem
+    this.cameras.main.startFollow(this.personagem)
   }
 
   update () { }
