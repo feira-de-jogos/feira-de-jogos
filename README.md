@@ -14,7 +14,7 @@ A nossa proposta é promover um jogo de trabalho em dupla. Nele os jogadores vã
 - Hades;
 - Berserk;
 - Saga Dark Souls;
-- A Tay Out;
+- A Way Out;
 - BloodBorne;
 - Castle Crashers;
 - It Takes Two;
