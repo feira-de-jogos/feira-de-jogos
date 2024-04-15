@@ -221,7 +221,12 @@ Escolhido o banco de dados relacional pelas ligações entre a moeda corrente, p
 
 O banco está assim modelado:
 
-<figure><img src=".gitbook/assets/drawSQL-dados-centrais-export-2023-10-17.png" alt=""><figcaption><p>Modelagem do banco de dados relacional. Fonte: <a href="https://drawsql.app/teams/feira-de-jogos/diagrams/dados-centrais">https://drawsql.app/teams/feira-de-jogos/diagrams/dados-centrais</a>.</p></figcaption></figure>
+<figure>
+  <img src=".gitbook/assets/drawSQL-dados-centrais-export-2023-10-17.png" alt="">
+  <figcaption>
+    <p>Modelagem do banco de dados relacional. Fonte: <a ref="https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v1">DrawSQL</a>.</p>
+  </figcaption>
+</figure>
 
 Para PostgreSQL, o código fica assim:
 
