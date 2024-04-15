@@ -219,14 +219,9 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 
 Escolhido o banco de dados relacional pelas ligações entre a moeda corrente, produtos e serviços.
 
-O banco está assim modelado:
+O banco está assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v1)):
 
-<figure>
-  <img src=".gitbook/assets/drawSQL-dados-centrais-export-2023-10-17.png" alt="">
-  <figcaption>
-    <p>Modelagem do banco de dados relacional. Fonte: <a ref="https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v1">DrawSQL</a>.</p>
-  </figcaption>
-</figure>
+![Modelagem do banco de dados, versão 1.](drawSQL-dados-centrais-export-2023-10-17.png)
 
 Para PostgreSQL, o código fica assim:
 
