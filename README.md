@@ -192,9 +192,6 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
   - **401: Unauthorized** - Autenticação de administrador inválida.
   - **500: Erro Interno do Servidor** - Erro interno no servidor durante a atualização do valor do produto.
 
-
-
- 
 ### Operação de máquina:
 
 #### Estoque de máquina:
@@ -219,11 +216,81 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 
 Escolhido o banco de dados relacional pelas ligações entre a moeda corrente, produtos e serviços.
 
-O banco está assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v1)):
+### Versão 2
 
-![Modelagem do banco de dados, versão 1.](drawSQL-dados-centrais-export-2023-10-17.png)
+O banco está assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v2)):
+
+![Modelagem do banco de dados, versão 2.](feira-de-jogos-v2.png)
 
 Para PostgreSQL, o código fica assim:
+
+```psql
+CREATE TABLE "pessoas"(
+    "id" SERIAL NOT NULL,
+    "operador" BOOLEAN NOT NULL DEFAULT '0',
+    "nome" TEXT NOT NULL,
+    "senha" TEXT NULL,
+    "email" TEXT NOT NULL
+);
+ALTER TABLE
+    "pessoas" ADD PRIMARY KEY("id");
+ALTER TABLE
+    "pessoas" ADD CONSTRAINT "pessoas_email_unique" UNIQUE("email");
+CREATE TABLE "maquinas"(
+    "id" SERIAL NOT NULL,
+    "nome" TEXT NOT NULL,
+    "descricao" TEXT NULL,
+    "local" TEXT NULL
+);
+ALTER TABLE
+    "maquinas" ADD PRIMARY KEY("id");
+CREATE TABLE "operacoes"(
+    "id" INTEGER NOT NULL,
+    "origem" INTEGER NOT NULL,
+    "destino" INTEGER NOT NULL,
+    "produto" INTEGER NULL,
+    "valor" INTEGER NOT NULL,
+    "data" TIMESTAMP(0) WITH
+        TIME zone NOT NULL
+);
+ALTER TABLE
+    "operacoes" ADD PRIMARY KEY("id");
+CREATE TABLE "estoque"(
+    "id" SERIAL NOT NULL,
+    "maquina" INTEGER NOT NULL,
+    "produto" INTEGER NOT NULL,
+    "quantidade" INTEGER NOT NULL DEFAULT '0'
+);
+ALTER TABLE
+    "estoque" ADD PRIMARY KEY("id");
+CREATE TABLE "produtos"(
+    "id" SERIAL NOT NULL,
+    "nome" TEXT NOT NULL,
+    "descricao" TEXT NULL,
+    "url" TEXT NULL,
+    "valor" INTEGER NULL
+);
+ALTER TABLE
+    "produtos" ADD PRIMARY KEY("id");
+ALTER TABLE
+    "estoque" ADD CONSTRAINT "estoque_produto_foreign" FOREIGN KEY("produto") REFERENCES "produtos"("id");
+ALTER TABLE
+    "operacoes" ADD CONSTRAINT "operacoes_origem_foreign" FOREIGN KEY("origem") REFERENCES "pessoas"("id");
+ALTER TABLE
+    "operacoes" ADD CONSTRAINT "operacoes_produto_foreign" FOREIGN KEY("produto") REFERENCES "produtos"("id");
+ALTER TABLE
+    "estoque" ADD CONSTRAINT "estoque_maquina_foreign" FOREIGN KEY("maquina") REFERENCES "maquinas"("id");
+ALTER TABLE
+    "operacoes" ADD CONSTRAINT "operacoes_destino_foreign" FOREIGN KEY("destino") REFERENCES "pessoas"("id");
+```
+
+### Versão 1 (legado)
+
+O banco foi assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v1)):
+
+![Modelagem do banco de dados, versão 1.](feira-de-jogos-v1.png)
+
+Para PostgreSQL, o código ficou assim:
 
 ```plsql
 CREATE TABLE "maquinas"(
