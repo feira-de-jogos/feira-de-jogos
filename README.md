@@ -238,9 +238,11 @@ ALTER TABLE
     "pessoas" ADD CONSTRAINT "pessoas_email_unique" UNIQUE("email");
 CREATE TABLE "maquinas"(
     "id" SERIAL NOT NULL,
+    "token" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
     "descricao" TEXT NULL,
-    "local" TEXT NULL
+    "local" TEXT NULL,
+    "ocupada" BOOLEAN NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "maquinas" ADD PRIMARY KEY("id");
@@ -270,7 +272,7 @@ CREATE TABLE "produtos"(
     "nome" TEXT NOT NULL,
     "descricao" TEXT NULL,
     "url" TEXT NULL,
-    "valor" INTEGER NULL
+    "valor" INTEGER NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "produtos" ADD PRIMARY KEY("id");
