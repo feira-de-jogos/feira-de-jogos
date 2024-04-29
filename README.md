@@ -249,9 +249,11 @@ CREATE TABLE "operacoes"(
     "origem" INTEGER NOT NULL,
     "destino" INTEGER NOT NULL,
     "produto" INTEGER NULL,
-    "valor" INTEGER NOT NULL,
+    "valor" INTEGER NOT NULL DEFAULT '0',
     "data" TIMESTAMP(0) WITH
-        TIME zone NOT NULL
+        TIME zone NOT NULL,
+        "2fa" SMALLINT NULL,
+        "concluida" BOOLEAN NOT NULL DEFAULT '0'
 );
 ALTER TABLE
     "operacoes" ADD PRIMARY KEY("id");
