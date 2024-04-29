@@ -44,7 +44,7 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 - **Cadastro:** cadastro e manutenção de conta de usuário;
 - **Banco:** operador financeiro, o banco do sistema econômico.
 
-![Diagrama de blocos dos serviços e seus protocolos](mermaid-diagram-2023-11-06-234505.png)
+![Diagrama de blocos dos serviços e seus protocolos](mermaid-diagram.png)
 
 ## REST API
 
