@@ -33,13 +33,34 @@ input_a_btn = "1"
 input_a_btn_label = "A"
 ```
 
-1. Configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para desativar o botão `SELECT` via *joystick*:
+2. Configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para desativar o botão `SELECT` via *joystick*:
 
 ```ini
 input_enable_hotkey_btn = "nul"
 ```
 
-## Teclado
+## Teclado virtual
+
+O teclado virtual é a aplicação que recebe comenados remotamente e adiciona moedas ao jogo.
+
+1. Adicionar os módulos de *kernel* no final do arquivo `/etc/modules`:
+
+```
+uinput
+evdev
+```
+
+2. Permitir que a aplicação seja executada pelo usuário `pi`, que por padrão já pertence ao grupo `games`. Criar, assim, o arquivo `/etc/udev/rules.d/10-uinput.rules` com o seguinte conteúdo:
+
+```
+KERNEL=="uinput", MODE="0660", GROUP="games"
+```
+
+O arquivo `moeda.py` é um exemplo de como criar um teclado virtual e enviar comandos diretamente para o jogo emulado: adicionar algumas moedas e depois fechar o próprio jogo.
+
+## Teclado físico
+
+O teclado físico não é obrigatório. Seu uso é apenas emergencial para adicionar manualmente moedas e fechar o jogo.
 
 1. Configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `SELECT` na tecla `j` e `START` na tecla `k`:
 
@@ -48,11 +69,11 @@ input_player1_select = "j"
 input_player1_start = "k"
 ```
 
-1. As teclas podem ser usadas também para sair do jogo, ao configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `HOTKEY` na tecla `j` e função de sair do jogo na tecla `k`:
+2. As teclas podem ser usadas também para sair do jogo, ao configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `HOTKEY` na tecla `j` e função de sair do jogo na tecla `k`:
 
 ```ini
 input_enable_hotkey = "j"
 input_exit_emulator = "k"
 ```
 
-Dessa forma, será possível controlar o *arcade* remotamente, bem como permitir a manutenção do equipamento em caso de necessidade.
+Dessa forma, será possível controlar o *arcade* remotamente, bem como permitir a manutenção local do equipamento em caso de necessidade.
