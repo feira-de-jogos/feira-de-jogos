@@ -56,7 +56,7 @@ evdev
 KERNEL=="uinput", MODE="0660", GROUP="games"
 ```
 
-O arquivo `moeda.py` é um exemplo de como criar um teclado virtual e enviar comandos diretamente para o jogo emulado: adicionar algumas moedas e depois fechar o próprio jogo.
+O arquivo [`moeda.py`](moeda.py) é um exemplo de como criar um teclado virtual e enviar comandos diretamente para o jogo emulado: adicionar algumas moedas e depois fechar o próprio jogo.
 
 ## Teclado físico
 
