@@ -7,7 +7,7 @@ O *arcade* será controlado remotamente via teclado virtual. A tecla `SELECT`, q
 1. Deixar os botãos `SELECT` e `HOTKEY` sem função na autoconfiguração. Deve ficar o arquivo `/opt/retropie/configs/all/retroarch/autoconfig/usb\ gamepad.cfg` (ou equivalente) assim:
 
 ```ini
-input_device = "usb gamepad           "
+input_device = "usb gamepad"
 input_driver = "udev"
 input_l_btn = "4"
 input_l_btn_label = "L"
