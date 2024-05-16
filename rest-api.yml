@@ -1,0 +1,128 @@
+openapi: 3.0.3
+info:
+  description: REST API for a game fair
+  title: Game Fair REST API
+  contact:
+    name: Feira de Jogos do IFSC São José
+    email: feiradejogosifscsaojose@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 0.1.0
+externalDocs:
+  url: https://github.com/feira-de-jogos/docs
+servers:
+  - url: https://feira-de-jogos.sj.ifsc.edu.br/api/v2
+tags:
+  - name: user
+    description: User related operations
+  - name: machine
+    description: Machine related operations
+paths:
+  /login:
+    post:
+      description: User authentication
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '302':
+          description: Found
+      security:
+        - user_auth:
+            - read:user
+  /operation:
+    post:
+      description: Bank operation
+      tags:
+        - user
+      requestBody:
+        description: Bank information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/operation'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+      security:
+        - user_auth:
+            - write:user
+            - read:user
+  /transfer:
+    post:
+      description: Transfer operation
+      tags:
+        - user
+      requestBody:
+        description: Transfer information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transfer'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Payment Required
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+      security:
+        - user_auth:
+            - write:user
+            - read:user
+  /statement:
+    post:
+      description: Bank statement
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      security:
+        - user_auth:
+            - read:user
+components:
+  schemas:
+    operation:
+      type: object
+      properties:
+        type:
+          type: string
+        product:
+          type: integer
+        value:
+          type: integer
+    transfer:
+      type: object
+      properties:
+        to:
+          type: integer
+        value:
+          type: integer
+  securitySchemes:
+    user_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://hippogames.dev/api/oauth/redirect
+          scopes:
+            write:user: bank operations
+            read:user: user information
