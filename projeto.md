@@ -120,3 +120,9 @@ Descrição: Digitar no teclado numérico o código de usuário (4 dígitos), o 
 ### Código SQL
 
 ### Código MQTT
+
+# Parte 3: Sistema Econômico Digital ($TJL)
+
+# Referências Bibliográficas
+
+1. NEOYAMA. Folha de dados do motor de passo Neoyama modelo AK17/1.10F6LN1.8 Disponível em [https://neoyama.com.br/conteudo/datasheets/motor_passo/ak17110f6ln18.pdf](https://neoyama.com.br/conteudo/datasheets/motor_passo/ak17110f6ln18.pdf). Acesso em Agosto/2023.
