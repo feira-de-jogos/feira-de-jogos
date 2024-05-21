@@ -12,7 +12,7 @@ Nos anos anteriores, já havia os jogos, mas faltava  atrair o público. Uma ino
 
 Foi preciso, assim, pensar na [economia](economia.md) da Feira, bem como nos [serviços](serviços.md) e padrões para manter todo o evento. Segue o mapa mental da ideia geral:
 
-![Diagrama do funcionamento da feira](infografico.jpg)
+![Diagrama do funcionamento da feira](imagens/infografico.jpg)
 
 Como o projeto depende de financiamento, devido a bolsas de pesquisa e custos de produção e operação (compra dos brindes, material para as máquinas e outros), foi projetado um modelo simples para o segundo semestre de 2023, denominado [**versão 1**](v1.md). Várias melhorias foram feitas para o semestre seguinte, no início de 2024 - a [**versão 2**](v2.md).
 
