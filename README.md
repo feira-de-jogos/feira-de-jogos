@@ -2,7 +2,7 @@
 
 As boas ideias não surgem em escritórios fechados, em horário comercial, sob a luz quase asséptica de lâmpadas fluorescentes.
 
-![Matrix](matrix.jpeg)
+![Matrix](imagens/matrix.jpeg)
 
 Foi em um final de tarde, no bar, tomando café, que dois professores resolveram juntar *hardware* e *software* da melhor forma: com jogos, claro.
 
