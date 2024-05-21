@@ -19,18 +19,6 @@ tags:
   - description: Machine related operations
     name: machine
 paths:
-  /machine:
-    get:
-      description: Machine persistent connection to server
-      responses:
-        "101":
-          description: Switching Protocols
-        "200":
-          description: OK
-      tags:
-        - machine
-      security:
-        - machine_auth: []
   /login:
     post:
       description: User authentication
@@ -53,11 +41,27 @@ paths:
               schema:
                 $ref: "#/components/schemas/login-response"
           description: Found
+        "401":
+          description: Unauthorized
       tags:
         - user
       security:
         - user_auth:
             - read:user
+  /machine:
+    get:
+      description: Machine persistent connection to server
+      responses:
+        "101":
+          description: Switching Protocols
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+      tags:
+        - machine
+      security:
+        - machine_auth: []
   /operation:
     post:
       description: Bank operation
@@ -89,7 +93,68 @@ paths:
         - user
       security:
         - user_auth:
-            - write:user
+            - read:user
+  /2fa:
+    post:
+      description: Two-factor authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/2fa-request"
+        description: two-factor authentication code
+        required: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      tags:
+        - user
+      security:
+        - user_auth:
+            - read:user
+  /games:
+    get:
+      description: Games list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/games-response"
+                type: array
+          description: OK
+        "401":
+          description: Unauthorized
+      tags:
+        - user
+      security:
+        - user_auth:
+            - read:user
+  /products:
+    get:
+      description: Products list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/products-response"
+                type: array
+          description: OK
+        "401":
+          description: Unauthorized
+      tags:
+        - user
+      security:
+        - user_auth:
             - read:user
   /statement:
     get:
@@ -112,6 +177,17 @@ paths:
             - read:user
 components:
   schemas:
+    2fa-request:
+      properties:
+        id:
+          description: operation id
+          example: 1000
+          format: int32
+          type: integer
+        code:
+          description: two-factor authentication code
+          example: 123456
+          type: string
     login-response:
       properties:
         id:
@@ -142,6 +218,53 @@ components:
           example: 1000
           format: int32
           type: integer
+    games-response:
+      properties:
+        id:
+          description: product id
+          example: 1
+          format: int32
+          type: integer
+        name:
+          description: product name
+          example: Super Mario
+          type: string
+        description:
+          description: product description
+          example: Super Mario World
+          type: string
+        image:
+          description: product image
+          example: https://feira-de-jogos.sj.ifsc.edu.br/games/images/super-mario.png
+          type: string
+        url:
+          description: product url
+          example: https://feira-de-jogos.sj.ifsc.edu.br/super-mario
+          type: string
+    products-response:
+      properties:
+        id:
+          description: product id
+          example: 1
+          format: int32
+          type: integer
+        name:
+          description: product name
+          example: water
+          type: string
+        description:
+          description: product description
+          example: mineral water, 500 mL
+          type: string
+        image:
+          description: product image
+          example: https://feira-de-jogos.sj.ifsc.edu.br/products/images/water.png
+          type: string
+        price:
+          description: product price
+          example: 100
+          format: int32
+          type: integer
     statement-response:
       properties:
         id:
@@ -149,10 +272,6 @@ components:
           example: 1000
           format: int32
           type: integer
-        product:
-          description: product name
-          example: Pix
-          type: string
         from:
           description: origin user
           example: João
@@ -160,6 +279,10 @@ components:
         to:
           description: destination user
           example: Maria
+          type: string
+        product:
+          description: product name
+          example: Pix
           type: string
         value:
           description: value to be transferred
@@ -186,5 +309,4 @@ components:
           authorizationUrl: https://hippogames.dev/api/oauth/redirect
           scopes:
             read:user: user information
-            write:user: bank operations
       type: oauth2
