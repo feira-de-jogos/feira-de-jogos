@@ -1,70 +1,66 @@
 openapi: 3.0.3
 info:
-  description: REST API for a game fair
-  title: Game Fair REST API
   contact:
     name: Feira de Jogos do IFSC São José
     email: feiradejogosifscsaojose@gmail.com
+  description: REST API for a game fair
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
+  title: Game Fair REST API
   version: 0.1.0
 externalDocs:
   url: https://github.com/feira-de-jogos/docs
 servers:
   - url: https://feira-de-jogos.sj.ifsc.edu.br/api/v2
 tags:
-  - name: user
-    description: User related operations
-  - name: machine
-    description: Machine related operations
+  - description: User related operations
+    name: user
+  - description: Machine related operations
+    name: machine
 paths:
   /login:
     post:
       description: User authentication
-      tags:
-        - user
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/login-response"
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/login-response"
         "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/login-response"
           description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/login-response"
         "302":
-          description: Found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/login-response"
+          description: Found
       security:
         - user_auth:
             - read:user
   /operation:
     post:
       description: Bank operation
-      tags:
-        - user
       requestBody:
-        description: Bank information
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/operation-request"
+        description: Bank information
         required: true
       responses:
         "200":
-          description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/operation-response"
+          description: OK
         "400":
           description: Bad Request
         "401":
@@ -82,17 +78,15 @@ paths:
   /statement:
     get:
       description: Bank statement
-      tags:
-        - user
       responses:
         "200":
-          description: OK
           content:
             application/json:
               schema:
-                type: array
                 items:
                   $ref: "#/components/schemas/statement-response"
+                type: array
+          description: OK
         "401":
           description: Unauthorized
       security:
@@ -101,70 +95,66 @@ paths:
 components:
   schemas:
     login-response:
-      type: object
       properties:
         id:
-          type: integer
-          format: int32
-          example: 1
           description: user id
+          example: 1
+          format: int32
+          type: integer
     operation-request:
-      type: object
       properties:
         type:
-          type: string
           description: debit, credit or transfer
           example: credit
+          type: string
         to:
-          type: integer
-          format: int32
           description: destination or product id
           example: 1
-        value:
-          type: integer
           format: int32
+          type: integer
+        value:
           description: value to be transferred
           example: 100
+          format: int32
+          type: integer
     operation-response:
-      type: object
       properties:
         id:
-          type: integer
-          format: int32
           description: operation id
           example: 1000
+          format: int32
+          type: integer
     statement-response:
-      type: object
       properties:
         id:
-          type: integer
-          format: int32
           description: operation id
           example: 1000
-        type:
-          type: string
-          description: debit, credit or transfer
-          example: credito
+          format: int32
+          type: integer
         product:
-          type: string
           description: product name
           example: água mineral
+          type: string
+        timestamp:
+          description: operation date and time
+          example: 2024-10-01T00:00:00Z
+          format: date-time
+          type: string
+        type:
+          description: debit, credit or transfer
+          example: credito
+          type: string
         value:
-          type: integer
-          format: int32
           description: value to be transferred
           example: 100
-        timestamp:
-          type: string
-          description: operation date and time
-          format: date-time
-          example: 2024-10-01T00:00:00Z
+          format: int32
+          type: integer
   securitySchemes:
     user_auth:
-      type: oauth2
       flows:
         implicit:
           authorizationUrl: https://hippogames.dev/api/oauth/redirect
           scopes:
-            write:user: bank operations
             read:user: user information
+            write:user: bank operations
+      type: oauth2
