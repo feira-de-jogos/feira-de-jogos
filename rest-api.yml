@@ -19,6 +19,18 @@ tags:
   - description: Machine related operations
     name: machine
 paths:
+  /machine:
+    get:
+      description: Machine persistent connection to server
+      responses:
+        "101":
+          description: Switching Protocols
+        "200":
+          description: OK
+      tags:
+        - machine
+      security:
+        - machine_auth: []
   /login:
     post:
       description: User authentication
@@ -41,6 +53,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/login-response"
           description: Found
+      tags:
+        - user
       security:
         - user_auth:
             - read:user
@@ -71,6 +85,8 @@ paths:
           description: Forbidden
         "429":
           description: Too Many Requests
+      tags:
+        - user
       security:
         - user_auth:
             - write:user
@@ -89,6 +105,8 @@ paths:
           description: OK
         "401":
           description: Unauthorized
+      tags:
+        - user
       security:
         - user_auth:
             - read:user
@@ -108,7 +126,7 @@ components:
           example: credit
           type: string
         to:
-          description: destination or product id
+          description: user destination or product id
           example: 1
           format: int32
           type: integer
@@ -133,23 +151,35 @@ components:
           type: integer
         product:
           description: product name
-          example: água mineral
+          example: Pix
           type: string
-        timestamp:
-          description: operation date and time
-          example: 2024-10-01T00:00:00Z
-          format: date-time
+        from:
+          description: origin user
+          example: João
           type: string
-        type:
-          description: debit, credit or transfer
-          example: credito
+        to:
+          description: destination user
+          example: Maria
           type: string
         value:
           description: value to be transferred
           example: 100
           format: int32
           type: integer
+        timestamp:
+          description: operation date and time
+          example: 2024-10-01T15:00:00Z
+          format: date-time
+          type: string
+        completed:
+          description: operation status
+          example: true
+          type: boolean
   securitySchemes:
+    machine_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
     user_auth:
       flows:
         implicit:
