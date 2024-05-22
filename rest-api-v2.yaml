@@ -8,7 +8,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   title: Game Fair REST API
-  version: 0.1.0
+  version: 2.1.1
 externalDocs:
   url: https://github.com/feira-de-jogos/docs
 servers:
