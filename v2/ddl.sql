@@ -1,21 +1,4 @@
-# Versão 2
-
-Implementação baseada em [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc6749) e [JWT](https://datatracker.ietf.org/doc/html/rfc7519).
-
-## REST API
-
-A REST API está definida no arquivo [rest-api-v2.yaml](rest-api-v2.yaml).
-
-## Banco de dados relacional
-
-O banco está assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v2)):
-
-![Modelagem do banco de dados, versão 2.](imagens/feira-de-jogos-v2.png)
-
-Para PostgreSQL, o código fica assim:
-
-```sql
-CREATE TABLE people(
+CREATE TABLE IF NOT EXISTS people(
     id SERIAL NOT NULL,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
@@ -24,7 +7,7 @@ CREATE TABLE people(
 ALTER TABLE people ADD PRIMARY KEY(id);
 ALTER TABLE people ADD CONSTRAINT people_email_unique UNIQUE(email);
 
-CREATE TABLE machines(
+CREATE TABLE IF NOT EXISTS machines(
     id SERIAL NOT NULL,
     token TEXT NOT NULL,
     name TEXT NOT NULL,
@@ -34,13 +17,13 @@ CREATE TABLE machines(
 );
 ALTER TABLE machines ADD PRIMARY KEY(id);
 
-CREATE TABLE types(
+CREATE TABLE IF NOT EXISTS types(
     id SERIAL NOT NULL,
     name TEXT NOT NULL
 );
 ALTER TABLE types ADD PRIMARY KEY(id);
 
-CREATE TABLE operations(
+CREATE TABLE IF NOT EXISTS operations(
     id SERIAL NOT NULL,
     from INTEGER NULL,
     to INTEGER NOT NULL,
@@ -55,7 +38,7 @@ CREATE INDEX operations_from_index ON operations(from);
 CREATE INDEX operations_to_index ON operations(to);
 CREATE INDEX operations_product_index ON operations(product);
 
-CREATE TABLE stock(
+CREATE TABLE IF NOT EXISTS stock(
     id SERIAL NOT NULL,
     machine INTEGER NOT NULL,
     product INTEGER NOT NULL,
@@ -63,7 +46,7 @@ CREATE TABLE stock(
 );
 ALTER TABLE stock ADD PRIMARY KEY(id);
 
-CREATE TABLE products(
+CREATE TABLE IF NOT EXISTS products(
     id SERIAL NOT NULL,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -80,11 +63,3 @@ ALTER TABLE products ADD CONSTRAINT products_type_foreign FOREIGN KEY(type) REFE
 ALTER TABLE operations ADD CONSTRAINT operations_product_foreign FOREIGN KEY(product) REFERENCES products(id);
 ALTER TABLE stock ADD CONSTRAINT stock_machine_foreign FOREIGN KEY(machine) REFERENCES machines(id);
 ALTER TABLE operations ADD CONSTRAINT operations_to_foreign FOREIGN KEY(to) REFERENCES people(id);
-```
-
-Criação do Banco Central e produção de moeda:
-
-```sql
-INSERT INTO people(name, email, operator) VALUES (true, 'Banco Central', 'feiradejogosifscsaojose@gmail.com', true);
-INSERT INTO operations(to, value, date, completed) VALUES ((SELECT id FROM people WHERE name = 'Banco Central'), 1000000, NOW(), true);
-```
