@@ -87,7 +87,9 @@ Implementação simples ([*basic*](https://datatracker.ietf.org/doc/html/rfc7617
 - Uso do Systemd para gerenciar os serviços da API e MQTT.
 
 ### 11. Diagrama de Blocos
-- Visualização da arquitetura de serviços e protocolos por meio de um ![diagrama de blocos](mermaid-diagram.png).
+- Visualização da arquitetura de serviços e protocolos por meio de um diagrama de blocos:
+
+![diagrama de blocos](mermaid-diagram.png).
 
 ### 12. Atualizações do Sistema
 - Possibilidade de atualização para a API (v2) pós-2023, conforme previsto.
@@ -256,5 +258,3 @@ O banco foi assim modelado (copiado do [original](https://drawsql.app/teams/feir
 ![Modelagem do banco de dados, versão 1.](feira-de-jogos.png)
 
 Para PostgreSQL, os comandos DDL estão no arquivo [ddl.sql](ddl.sql).
-
-![Diagrama de blocos dos serviços e seus protocolos](mermaid-diagram.png)
