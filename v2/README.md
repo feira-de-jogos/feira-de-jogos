@@ -21,12 +21,13 @@ Requisitos não funcionais:
 O acesso é padronizado para microprocessados (aplicações Web) e microcontrolados, baseado em REST API + JSON, uma vez que o sentido das mensagens é, basicamente, do cliente para o servidor.
 
 As aplicações a serem desenvolvidas ao longo do projeto são:
-- **Cadastro:** cadastro e manutenção de conta de usuário;
-- **Banco:** operador financeiro, o banco do sistema econômico.
+
+- **Cadastro**: cadastro e manutenção de conta de usuário;
+- **Banco**: operador financeiro, o banco do sistema econômico.
 
 ## REST API
 
-A REST API está definida no arquivo [rest-api.yaml](rest-api.yaml) em formato [OpenAPI 3.0](https://swagger.io/specification/v3/.
+A REST API está definida no arquivo [rest-api.yaml](rest-api.yaml) em formato [OpenAPI 3.0](https://swagger.io/specification/v3/).
 
 ## Banco de dados relacional
 
