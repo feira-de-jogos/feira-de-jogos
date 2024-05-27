@@ -50,10 +50,10 @@ Entre as aplicações em rede:
 ```mermaid
 sequenceDiagram
   Usuário ->>+ Servidor Web: envia POST /credit
-  Servidor Web ->>+ Banco de Dados: SELECT SQL
-  Banco de Dados ->>- Servidor Web: resposta do SELECT
-  Servidor Web -->+ Banco de Dados: INSERT SQL
-  Banco de Dados -->- Servidor Web: resposta do INSERT
+  Servidor Web ->>+ Banco de Dados: DQL SQL
+  Banco de Dados ->>- Servidor Web: resposta do DQL
+  Servidor Web -->+ Banco de Dados: DML SQL
+  Banco de Dados -->- Servidor Web: resposta do DML
   Servidor Web ->>- Usuário: resposta do POST
 ``` 
 
@@ -61,34 +61,76 @@ Fluxo de escolha do servidor Web na resposta à requisição do usuário:
 
 ```mermaid
 flowchart TD
-    A[Usuário envia POST /credit]
-    B
-    C
-    D[Retorna 401]
-    E
-    F[Retorna 400]
-    G
-    H[Retorna 402]
-    I[Retorna 403]
-    J[Consulta operações\nrecentes no BD]
-    K
-    L[Retorna 429]
-    M[Insere operação de\ncrédito no BD]
-    N[Retorna 200]
+  A[Usuário envia POST /credit]
+  B
+  C
+  D[Retorna 401]
+  E
+  F[Retorna 400]
+  G
+  H[Retorna 402]
+  I[Retorna 403]
+  J[Consulta operações\nrecentes no BD]
+  K
+  L[Retorna 429]
+  M[Insere operação de\ncrédito no BD]
+  N[Retorna 200]
 
-    A --> B{JWT\nválido?}
-    B -->|Sim| C{Requisição\nbem\nformatada?}
-    B -->|Não| D
-    C --> |Sim| E{Valor\nsolicitado\né inteiro\nnatural?}
-    C --> |Não| F
-    E --> |Sim| G{Valor\nacima do\nlimite?}
-    E --> |Não| H
-    G --> |Sim| I
-    G --> |Não| J
-    J --> K{Existe\ncrédito\nrecente?}
-    K --> |Sim| L
-    K --> |Não| M
-    M --> N
+  A --> B{JWT\nválido?}
+  B -->|Sim| C{Requisição\nbem\nformatada?}
+  B -->|Não| D
+  C --> |Sim| E{Valor\nsolicitado\né inteiro\nnatural?}
+  C --> |Não| F
+  E --> |Sim| G{Valor\nacima do\nlimite?}
+  E --> |Não| H
+  G --> |Sim| I
+  G --> |Não| J
+  J --> K{Existe\ncrédito\nrecente?}
+  K --> |Sim| L
+  K --> |Não| M
+  M --> N
+```
+
+### Operação de débito
+
+```mermaid
+sequenceDiagram
+  Usuário ->>+ Servidor Web: envia POST /debit
+  Servidor Web ->>+ Banco de Dados: DQL SQL
+  Banco de Dados ->>- Servidor Web: resposta do DQL
+  Servidor Web -->+ Banco de Dados: DML SQL
+  Banco de Dados -->- Servidor Web: resposta do DML
+  Servidor Web ->>- Usuário: resposta do POST
+```
+
+Fluxo de escolha do servidor Web na resposta à requisição do usuário:
+
+```mermaid
+flowchart TD
+  A[Usuário envia POST /debit]
+  B
+  C
+  D[Retorna 401]
+  E[Consulta estoque\ndo produto no BD]
+  F
+  G[Consulta operações\nrecentes no BD]
+  H[Retorna 403]
+  I
+  J[Retorna 429]
+  K[Insere operação de\n  débito no BD]
+  L[Retorna 200]
+
+  A --> B{JWT\nválido?}
+  B -->|Sim| C{Requisição\nbem\nformatada?}
+  B -->|Não| D
+  C --> |Sim| E
+  E --> F{Produto tem\nem estoque?}
+  F --> |Sim| G
+  F --> |Não| H
+  G --> I{Existe\n  débito\nrecente?}
+  I --> |Sim| J
+  I --> |Não| K
+  K --> L
 ```
 
 ## REST API
