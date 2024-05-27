@@ -25,6 +25,72 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 - **Cadastro**: cadastro e manutenção de conta de usuário;
 - **Banco**: operador financeiro, o banco do sistema econômico.
 
+## Fluxogramas
+
+### Autenticação via O Auth 2.0
+
+Entre as aplicações em rede:
+
+```mermaid
+sequenceDiagram
+  Usuário ->>+ Servidor Web: solicita login
+  Servidor Web ->>+ Google: redireciona login
+  Google ->>+ Usuário: solitica permissão
+  Usuário ->>- Google: concede permissão
+  Google ->>- Servidor Web: gera código de autorização
+  Servidor Web ->>+ Google: troca código por token de acesso
+  Google ->>- Servidor Web: gera JWT
+  Servidor Web ->>- Usuário: retorna JWT
+```
+
+## Operação de crédito
+
+Entre as aplicações em rede:
+
+```mermaid
+sequenceDiagram
+  Usuário ->>+ Servidor Web: envia POST /credit
+  Servidor Web ->>+ Banco de Dados: SELECT SQL
+  Banco de Dados ->>- Servidor Web: resposta do SELECT
+  Servidor Web -->+ Banco de Dados: INSERT SQL
+  Banco de Dados -->- Servidor Web: resposta do INSERT
+  Servidor Web ->>- Usuário: resposta do POST
+``` 
+
+Fluxo de escolha do servidor Web na resposta à requisição do usuário:
+
+```mermaid
+flowchart TD
+    A[Usuário envia POST /credit]
+    B
+    C
+    D[Retorna 401]
+    E
+    F[Retorna 400]
+    G
+    H[Retorna 402]
+    I[Retorna 403]
+    J[Consulta operações\nrecentes no BD]
+    K
+    L[Retorna 429]
+    M[Insere operação de\ncrédito no BD]
+    N[Retorna 200]
+
+    A --> B{JWT\nválido?}
+    B -->|Sim| C{Requisição\nbem\nformatada?}
+    B -->|Não| D
+    C --> |Sim| E{Valor\nsolicitado\né inteiro\nnatural?}
+    C --> |Não| F
+    E --> |Sim| G{Valor\nacima do\nlimite?}
+    E --> |Não| H
+    G --> |Sim| I
+    G --> |Não| J
+    J --> K{Existe\ncrédito\nrecente?}
+    K --> |Sim| L
+    K --> |Não| M
+    M --> N
+```
+
 ## REST API
 
 A REST API está definida no arquivo [rest-api.yaml](rest-api.yaml) em formato [OpenAPI 3.0](https://swagger.io/specification/v3/).
