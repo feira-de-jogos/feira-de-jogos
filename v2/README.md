@@ -119,11 +119,13 @@ flowchart TD
   J[Retorna 429]
   K[Insere operação de\n  débito no BD]
   L[Retorna 200]
+  M[Retorna 400]
 
   A --> B{JWT\nválido?}
   B -->|Sim| C{Requisição\nbem\nformatada?}
   B -->|Não| D
   C --> |Sim| E
+  C --> |Não| M
   E --> F{Produto tem\nem estoque?}
   F --> |Sim| G
   F --> |Não| H
@@ -132,6 +134,54 @@ flowchart TD
   I --> |Não| K
   K --> L
 ```
+### Operação de transferência
+
+```mermaid
+sequenceDiagram
+  Usuário ->>+ Servidor Web: envia POST /transfer
+  Servidor Web ->>+ Banco de Dados: DQL SQL
+  Banco de Dados ->>- Servidor Web: resposta do DQL
+  Servidor Web -->+ Banco de Dados: DML SQL
+  Banco de Dados -->- Servidor Web: resposta do DML
+  Servidor Web ->>- Usuário: resposta do POST
+```
+
+Fluxo de escolha do servidor Web na resposta à requisição do usuário:
+
+```mermaid
+flowchart TD
+  A[Usuário envia POST /transfer]
+  B
+  C
+  D[Retorna 401]
+  E[Consulta saldo\ndo usuário no BD]
+  F
+  G[Consulta operações\nrecentes no BD]
+  H[Retorna 403]
+  I
+  J[Retorna 429]
+  K[Insere operação de\n  transferência no BD]
+  L[Retorna 200]
+  M[Retorna 400]
+  N[Retorna 402]
+  O[Retorna 429]
+
+  A --> B{JWT\nválido?}
+  B -->|Sim| C{Requisição\nbem\nformatada?}
+  B -->|Não| D
+  C --> |Sim| E
+  C --> |Não| M
+  E --> F{Usuário tem\nsaldo suficiente?}
+  F --> |Sim| I{Valor de\ntransferência\nválido?}
+  F --> |Não| N
+  I --> |Sim| G
+  I --> |Não| H
+  G --> J{Existe\n  transferência\nrecente?}
+  J --> |Sim| O
+  J --> |Não| K
+  K --> L
+```
+
 
 ## REST API
 
