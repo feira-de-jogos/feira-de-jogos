@@ -189,8 +189,18 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
+  box Máquina
+    participant Máquina-Engine
+    participant Máquina-Unity
+  end
+  box Serviços em nuvem
+    participant Servidor Web
+    participant Banco de Dados
+  end
+  actor Pessoa
+
   Máquina-Unity ->>+ Servidor Web: GET /ws
-  Servidor Web ->> Máquina-Unity: 101 Switching Protocols
+  Servidor Web --> Máquina-Unity: 101 Switching Protocols
   Máquina-Unity ->> Servidor Web: { "state": "idle" }
 
   Pessoa ->>+ Servidor Web: POST /login
@@ -209,7 +219,9 @@ sequenceDiagram
   Máquina-Unity ->>- Servidor Web: { "state": "releasing", "operation": 1000 }
 
   Máquina-Unity ->>+ Máquina-Engine: POST /engine
-  Máquina-Engine ->> Máquina-Unity: 100 Continue
+  loop
+    Máquina-Engine --> Máquina-Unity: 100 Continue
+  end
   Máquina-Engine ->>- Máquina-Unity: 200 OK
 
   Máquina-Unity ->> Servidor Web: { "state": "idle" }
