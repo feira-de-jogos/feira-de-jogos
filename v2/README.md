@@ -223,7 +223,7 @@ sequenceDiagram
     participant Máquina-Engine
   end
 
-  Máquina-Unity ->>+ Servidor Web: GET /ws
+  Máquina-Unity ->>+ Servidor Web: GET /machine
   Servidor Web -->> Máquina-Unity: 101 Switching Protocols
   Máquina-Unity ->> Servidor Web: { "state": "idle" }
 
