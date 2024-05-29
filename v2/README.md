@@ -200,7 +200,7 @@ sequenceDiagram
   actor Pessoa
 
   Máquina-Unity ->>+ Servidor Web: GET /ws
-  Servidor Web --> Máquina-Unity: 101 Switching Protocols
+  Servidor Web -->> Máquina-Unity: 101 Switching Protocols
   Máquina-Unity ->> Servidor Web: { "state": "idle" }
 
   Pessoa ->>+ Servidor Web: POST /login
@@ -220,7 +220,7 @@ sequenceDiagram
 
   Máquina-Unity ->>+ Máquina-Engine: POST /engine
   loop
-    Máquina-Engine --> Máquina-Unity: 100 Continue
+    Máquina-Engine -->> Máquina-Unity: 100 Continue
   end
   Máquina-Engine ->>- Máquina-Unity: 200 OK
 
