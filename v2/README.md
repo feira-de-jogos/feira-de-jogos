@@ -233,7 +233,7 @@ sequenceDiagram
   Usuário ->>+ Servidor Web: POST /debit
   Servidor Web ->>- Usuário: 200 OK
 
-  Servidor Web  ->>+ Máquina-Unity: { "state": "2fa", "Usuário": "First name", "code": 86, "operation": 1000 }
+  Servidor Web  ->>+ Máquina-Unity: { "state": "2fa", "username": "First name", "code": 86, "operation": 1000 }
   Máquina-Unity ->>- Servidor Web: { "state": "2fa", "operation": 1000 }
 
   Usuário ->>+ Servidor Web: POST /2fa
