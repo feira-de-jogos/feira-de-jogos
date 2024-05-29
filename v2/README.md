@@ -25,7 +25,7 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 - **Cadastro**: cadastro e manutenção de conta de usuário;
 - **Banco**: operador financeiro, o banco do sistema econômico.
 
-## Fluxogramas
+## Trocas de Mensagens e Fluxogramas
 
 ### Autenticação via O Auth 2.0
 
@@ -119,9 +119,8 @@ flowchart TD
   J[Consulta estoque\ndo produto no BD]
   K[Insere operação de\ndébito no BD]
   L
-  M[Atualiza\nestoque no BD]
-  N[Retorna 403]
-  O[Retorna 200]
+  M[Retorna 403]
+  N[Retorna 200]
 
   A --> B{JWT\nválido?}
   B -->|Sim| C{Requisição\nbem\nformatada?}
@@ -134,10 +133,9 @@ flowchart TD
   I --> |Físico| J
   I --> |Digital| K
   J --> L{Produto em\nestoque?}
-  L --> |Sim| M
-  L --> |Não| N
-  M --> K
-  K --> O
+  L --> |Sim| K
+  L --> |Não| M
+  K --> N
 ```
 ### Operação de transferência
 
@@ -187,6 +185,40 @@ flowchart TD
   K --> L
 ```
 
+### Interação com Máquina de Vendas
+
+```mermaid
+sequenceDiagram
+  Máquina-Unity ->>+ Servidor Web: GET /ws
+  Servidor Web ->> Máquina-Unity: 101 Switching Protocols
+  Máquina-Unity ->> Servidor Web: { "state": "idle" }
+
+  Pessoa ->>+ Servidor Web: POST /login
+  Servidor Web ->>- Pessoa: 200 OK
+  
+  Pessoa ->>+ Servidor Web: POST /debit
+  Servidor Web ->>- Pessoa: 200 OK
+
+  Servidor Web  ->>+ Máquina-Unity: { "state": "2fa", "pessoa": "First name", "code": 86, "operation": 1000 }
+  Máquina-Unity ->>- Servidor Web: { "state": "2fa", "operation": 1000 }
+
+  Pessoa ->>+ Servidor Web: POST /2fa
+  Servidor Web ->>- Pessoa: 200 OK
+
+  Servidor Web ->>+ Máquina-Unity : { "state": "releasing", "product": 1, "operation": 1000 }
+  Máquina-Unity ->>- Servidor Web: { "state": "releasing", "operation": 1000 }
+
+  Máquina-Unity ->>+ Máquina-Engine: POST /engine
+  Máquina-Engine ->> Máquina-Unity: 100 Continue
+  Máquina-Engine ->>- Máquina-Unity: 200 OK
+
+  Máquina-Unity ->> Servidor Web: { "state": "idle" }
+
+  Servidor Web ->>+ Banco de Dados: SQL DML: atualizar estoque e operação concluída
+  Banco de Dados ->>- Servidor Web: SQL DML: banco atualizado
+
+  Servidor Web ->>- Máquina-Unity: 200 OK
+```
 
 ## REST API
 
