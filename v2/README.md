@@ -33,6 +33,12 @@ Entre as aplicações em rede:
 
 ```mermaid
 sequenceDiagram
+  actor Usuário
+  box Serviços em nuvem
+    participant Servidor Web
+    participant Google
+  end
+  
   Usuário ->>+ Servidor Web: solicita login
   Servidor Web ->>+ Google: redireciona login
   Google ->>+ Usuário: solitica permissão
@@ -49,6 +55,12 @@ Entre as aplicações em rede:
 
 ```mermaid
 sequenceDiagram
+  actor Usuário
+  box Serviços em nuvem
+    participant Servidor Web
+    participant Banco de Dados
+  end
+
   Usuário ->>+ Servidor Web: envia POST /credit
   Servidor Web ->>+ Banco de Dados: DQL SQL
   Banco de Dados ->>- Servidor Web: resposta do DQL
@@ -95,6 +107,12 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
+  actor Usuário
+  box Serviços em nuvem
+    participant Servidor Web
+    participant Banco de Dados
+  end
+  
   Usuário ->>+ Servidor Web: envia POST /debit
   Servidor Web ->>+ Banco de Dados: DQL SQL
   Banco de Dados ->>- Servidor Web: resposta do DQL
@@ -141,6 +159,12 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
+  actor Usuário
+  box Serviços em nuvem
+    participant Servidor Web
+    participant Banco de Dados
+  end
+
   Usuário ->>+ Servidor Web: envia POST /transfer
   Servidor Web ->>+ Banco de Dados: DQL SQL
   Banco de Dados ->>- Servidor Web: resposta do DQL
@@ -189,31 +213,31 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
-  box Máquina
-    participant Máquina-Engine
-    participant Máquina-Unity
-  end
+  actor Usuário
   box Serviços em nuvem
     participant Servidor Web
     participant Banco de Dados
   end
-  actor Pessoa
+  box Máquina
+    participant Máquina-Unity
+    participant Máquina-Engine
+  end
 
   Máquina-Unity ->>+ Servidor Web: GET /ws
   Servidor Web -->> Máquina-Unity: 101 Switching Protocols
   Máquina-Unity ->> Servidor Web: { "state": "idle" }
 
-  Pessoa ->>+ Servidor Web: POST /login
-  Servidor Web ->>- Pessoa: 200 OK
+  Usuário ->>+ Servidor Web: POST /login
+  Servidor Web ->>- Usuário: 200 OK
   
-  Pessoa ->>+ Servidor Web: POST /debit
-  Servidor Web ->>- Pessoa: 200 OK
+  Usuário ->>+ Servidor Web: POST /debit
+  Servidor Web ->>- Usuário: 200 OK
 
-  Servidor Web  ->>+ Máquina-Unity: { "state": "2fa", "pessoa": "First name", "code": 86, "operation": 1000 }
+  Servidor Web  ->>+ Máquina-Unity: { "state": "2fa", "Usuário": "First name", "code": 86, "operation": 1000 }
   Máquina-Unity ->>- Servidor Web: { "state": "2fa", "operation": 1000 }
 
-  Pessoa ->>+ Servidor Web: POST /2fa
-  Servidor Web ->>- Pessoa: 200 OK
+  Usuário ->>+ Servidor Web: POST /2fa
+  Servidor Web ->>- Usuário: 200 OK
 
   Servidor Web ->>+ Máquina-Unity : { "state": "releasing", "product": 1, "operation": 1000 }
   Máquina-Unity ->>- Servidor Web: { "state": "releasing", "operation": 1000 }
