@@ -211,6 +211,19 @@ flowchart TD
 
 ### Interação com Máquina de Vendas
 
+A máquina de vendas opera com máquina de estados:
+
+```mermaid
+stateDiagram-v2
+  [*] --> idle
+  idle --> 2fa
+  2fa --> idle
+  2fa --> releasing
+  releasing -->  idle
+  idle --> [*]
+```
+Um exemplo de uso é o melhor cenário, onde o usuário faz a operação de débito, confirma com autenticação de dois fatores e a compra é concluída:
+
 ```mermaid
 sequenceDiagram
   actor Usuário
