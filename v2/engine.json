@@ -35,7 +35,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/engine-request"
+                "$ref": "#/components/schemas/engineRequest"
               }
             }
           }
@@ -67,7 +67,7 @@
   },
   "components": {
     "schemas": {
-      "engine-request": {
+      "engineRequest": {
         "properties": {
           "engine": {
             "description": "engine id",

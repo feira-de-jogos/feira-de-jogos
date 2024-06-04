@@ -40,7 +40,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/login-response"
+                  "$ref": "#/components/schemas/loginResponse"
                 }
               }
             },
@@ -50,7 +50,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/login-response"
+                  "$ref": "#/components/schemas/loginResponse"
                 }
               }
             },
@@ -60,7 +60,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/login-response"
+                  "$ref": "#/components/schemas/loginResponse"
                 }
               }
             },
@@ -113,7 +113,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/credit-request"
+                "$ref": "#/components/schemas/creditRequest"
               }
             }
           },
@@ -125,7 +125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/credit-response"
+                  "$ref": "#/components/schemas/creditResponse"
                 }
               }
             },
@@ -174,7 +174,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/debit-request"
+                "$ref": "#/components/schemas/debitRequest"
               }
             }
           },
@@ -186,7 +186,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/debit-response"
+                  "$ref": "#/components/schemas/debitResponse"
                 }
               }
             },
@@ -232,7 +232,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/transfer-request"
+                "$ref": "#/components/schemas/transferRequest"
               }
             }
           },
@@ -244,7 +244,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/transfer-response"
+                  "$ref": "#/components/schemas/transferResponse"
                 }
               }
             },
@@ -293,7 +293,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/mfa-request"
+                "$ref": "#/components/schemas/mfaRequest"
               }
             }
           },
@@ -335,7 +335,7 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/games-response"
+                    "$ref": "#/components/schemas/gamesResponse"
                   },
                   "type": "array"
                 }
@@ -368,7 +368,7 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/products-response"
+                    "$ref": "#/components/schemas/productsResponse"
                   },
                   "type": "array"
                 }
@@ -401,7 +401,7 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/statement-response"
+                    "$ref": "#/components/schemas/statementResponse"
                   },
                   "type": "array"
                 }
@@ -428,7 +428,7 @@
   },
   "components": {
     "schemas": {
-      "mfa-request": {
+      "mfaRequest": {
         "properties": {
           "operation": {
             "description": "operation id",
@@ -443,7 +443,7 @@
           }
         }
       },
-      "login-response": {
+      "loginResponse": {
         "properties": {
           "user": {
             "description": "user id",
@@ -453,7 +453,7 @@
           }
         }
       },
-      "credit-request": {
+      "creditRequest": {
         "properties": {
           "product": {
             "description": "product id",
@@ -469,7 +469,7 @@
           }
         }
       },
-      "credit-response": {
+      "creditResponse": {
         "properties": {
           "operation": {
             "description": "operation id",
@@ -479,7 +479,7 @@
           }
         }
       },
-      "debit-request": {
+      "debitRequest": {
         "properties": {
           "machine": {
             "description": "machine id",
@@ -495,7 +495,7 @@
           }
         }
       },
-      "debit-response": {
+      "debitResponse": {
         "properties": {
           "operation": {
             "description": "operation id",
@@ -505,7 +505,7 @@
           }
         }
       },
-      "transfer-request": {
+      "transferRequest": {
         "properties": {
           "to": {
             "description": "user id",
@@ -521,7 +521,7 @@
           }
         }
       },
-      "transfer-response": {
+      "transferResponse": {
         "properties": {
           "operation": {
             "description": "operation id",
@@ -531,7 +531,7 @@
           }
         }
       },
-      "games-response": {
+      "gamesResponse": {
         "properties": {
           "product": {
             "description": "product id",
@@ -561,7 +561,7 @@
           }
         }
       },
-      "products-response": {
+      "productsResponse": {
         "properties": {
           "product": {
             "description": "product id",
@@ -598,7 +598,7 @@
           }
         }
       },
-      "statement-response": {
+      "statementResponse": {
         "properties": {
           "operation": {
             "description": "operation id",
