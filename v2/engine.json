@@ -1,0 +1,89 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "contact": {
+      "name": "Feira de Jogos do IFSC São José",
+      "email": "feiradejogosifscsaojose@gmail.com"
+    },
+    "description": "REST API for a game fair",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "title": "Game Fair REST API",
+    "version": "2.0.0"
+  },
+  "externalDocs": {
+    "url": "https://github.com/feira-de-jogos/docs"
+  },
+  "servers": [
+    {
+      "url": "https://engine.local/api/v2"
+    }
+  ],
+  "tags": [
+    {
+      "description": "Machine related operations",
+      "name": "machine"
+    }
+  ],
+  "paths": {
+    "/engine": {
+      "post": {
+        "description": "Engine API",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/engine-request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "100": {
+            "description": "Continue"
+          },
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        },
+        "tags": [
+          "machine"
+        ],
+        "security": [
+          {
+            "machine_auth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "engine-request": {
+        "properties": {
+          "engine": {
+            "description": "engine id",
+            "example": 1,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "machine_auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
