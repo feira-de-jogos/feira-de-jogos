@@ -11,7 +11,7 @@
       "url": "https://opensource.org/licenses/MIT"
     },
     "title": "Game Fair REST API",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "externalDocs": {
     "url": "https://github.com/feira-de-jogos/docs"
@@ -41,9 +41,6 @@
           }
         },
         "responses": {
-          "100": {
-            "description": "Continue"
-          },
           "200": {
             "description": "OK"
           },
