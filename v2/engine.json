@@ -18,7 +18,7 @@
   },
   "servers": [
     {
-      "url": "https://engine.local/api/v2"
+      "url": "http://engine.local/api/v2"
     }
   ],
   "tags": [
@@ -56,11 +56,6 @@
         },
         "tags": [
           "machine"
-        ],
-        "security": [
-          {
-            "machine_auth": []
-          }
         ]
       }
     }
@@ -76,13 +71,6 @@
             "type": "integer"
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "machine_auth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
