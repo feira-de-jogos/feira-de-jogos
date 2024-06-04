@@ -225,12 +225,11 @@ stateDiagram-v2
 
 ## APIs e estrutura do banco de dados relacional
 
-As REST APIs estão definida em formato [OpenAPI 3.0](https://swagger.io/specification/v3/) nos arquivos:
+As REST APIs estão definida em formato  nos arquivos:
 
-- [rest-api.json](rest-api.json): serviço em nuvem para operações bancárias.
-- [engine.json](engine.json): controle dos motores da máquina de vendas.
-
-De forma complementar ao arquivo [rest-api.json](rest-api.json), a troca de mensagens entre máquina de vendas e serviços em nuvem está no arquivo [machine.json](machine.json) em formato [AsyncAPI 3.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0).
+- [rest-api.json](rest-api.json) (formato [OpenAPI 3.0](https://swagger.io/specification/v3/)): operações bancárias entre usuários e banco central. As operações entre máquinas e banco central são via WebSocket, estendendo a REST API em:
+  - [machine.json](machine.json) (formato [AsyncAPI 3.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0)): troca de mensagens via WebSocket entre máquinas e serviços em nuvem.
+- [engine.json](engine.json) (formato [OpenAPI 3.0](https://swagger.io/specification/v3/)): controle dos motores da máquina de vendas.
 
 Já o banco está assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v2)):
 
