@@ -1,0 +1,182 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "contact": {
+      "name": "Feira de Jogos do IFSC São José",
+      "email": "feiradejogosifscsaojose@gmail.com"
+    },
+    "description": "REST API for a game fair",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "title": "Game Fair REST API",
+    "version": "2.0.1",
+    "externalDocs": {
+      "url": "https://github.com/feira-de-jogos/docs"
+    },
+    "tags": [
+      {
+        "name": "machine",
+        "description": "From machine to server"
+      },
+      {
+        "name": "server",
+        "description": "From server to machine"
+      }
+    ]
+  },
+  "servers": {
+    "production": {
+      "host": "feira-de-jogos.dev.br",
+      "description": "WebSocket server",
+      "pathname": "/api/v2/machine",
+      "protocol": "wss"
+    }
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "state": {
+      "messages": {
+        "stateUpdate": {
+          "$ref": "#/components/messages/stateUpdate"
+        },
+        "stateMFA": {
+          "$ref": "#/components/messages/stateMFA"
+        },
+        "stateReleasing": {
+          "$ref": "#/components/messages/stateReleasing"
+        }
+      }
+    }
+  },
+  "operations": {
+    "onStateUpdate": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/state"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/state/messages/stateUpdate"
+        }
+      ]
+    },
+    "onStateMFA": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/state"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/state/messages/stateMFA"
+        }
+      ],
+      "reply": {
+        "messages": [
+          {
+            "$ref": "#/channels/state/messages/stateUpdate"
+          }
+        ]
+      }
+    },
+    "onStateReleasing": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/state"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/state/messages/stateReleasing"
+        }
+      ],
+      "reply": {
+        "messages": [
+          {
+            "$ref": "#/channels/state/messages/stateUpdate"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "stateUpdate": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "description": "State updated"
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "state": "idle",
+              "operation": 1000
+            }
+          ]
+        }
+      },
+      "stateMFA": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "User's first name"
+            },
+            "code": {
+              "type": "integer",
+              "format": "int32",
+              "description": "MFA code"
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "username": "John",
+              "code": 86,
+              "operation": 1000
+            }
+          ]
+        }
+      },
+      "stateReleasing": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "product": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Product id"
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "product": 1,
+              "operation": 1000
+            }
+          ]
+        }
+      }
+    }
+  }
+}

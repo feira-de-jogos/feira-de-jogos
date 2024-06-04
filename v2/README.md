@@ -216,12 +216,25 @@ A máquina de vendas opera com máquina de estados:
 ```mermaid
 stateDiagram-v2
   [*] --> idle
-  idle --> 2fa
-  2fa --> idle
-  2fa --> releasing
+  idle --> mfa
+  mfa --> idle
+  mfa --> releasing
   releasing -->  idle
   idle --> [*]
 ```
+
+## APIs e estrutura do banco de dados relacional
+
+A REST API está definida no arquivo [rest-api.json](rest-api.json) em formato [OpenAPI 3.0](https://swagger.io/specification/v3/). A troca de mensagens entre máquina de vendas e servidor está no arquivo [machine.json](machine.json) em formato [AsyncAPI 3.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0).
+
+Já o banco está assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v2)):
+
+![Modelagem do banco de dados, versão 2.](feira-de-jogos.png)
+
+Para PostgreSQL, os comandos DDL e DML estão no arquivo [ddl.sql](ddl.sql) e [dml.sql](dml.sql), respectivamente.
+
+### Exemplo de cenário: melhor caso (usuário compra produto)
+
 Um exemplo de uso é o melhor cenário, onde o usuário faz a operação de débito, confirma com autenticação de dois fatores e a compra é concluída:
 
 ```mermaid
@@ -238,7 +251,7 @@ sequenceDiagram
 
   Máquina-Unity ->>+ Servidor Web: GET /machine
   Servidor Web -->> Máquina-Unity: 101 Switching Protocols
-  Máquina-Unity ->> Servidor Web: { "state": "idle" }
+  Máquina-Unity ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 0 }
 
   Usuário ->>+ Servidor Web: POST /login
   Servidor Web ->>- Usuário: 200 OK
@@ -246,14 +259,14 @@ sequenceDiagram
   Usuário ->>+ Servidor Web: POST /debit
   Servidor Web ->>- Usuário: 200 OK
 
-  Servidor Web  ->>+ Máquina-Unity: { "state": "2fa", "username": "First name", "code": 86, "operation": 1000 }
-  Máquina-Unity ->>- Servidor Web: { "state": "2fa", "operation": 1000 }
+  Servidor Web  ->>+ Máquina-Unity: "stateMFA": { "username": "John", "code": 86, "operation": 1000 }
+  Máquina-Unity ->>- Servidor Web: "stateUpdate": { "state": "mfa", "operation": 1000 }
 
-  Usuário ->>+ Servidor Web: POST /2fa
+  Usuário ->>+ Servidor Web: POST /mfa
   Servidor Web ->>- Usuário: 200 OK
 
-  Servidor Web ->>+ Máquina-Unity : { "state": "releasing", "product": 1, "operation": 1000 }
-  Máquina-Unity ->>- Servidor Web: { "state": "releasing", "operation": 1000 }
+  Servidor Web ->>+ Máquina-Unity: "stateReleasing": { "product": 1, "operation": 1000 }
+  Máquina-Unity ->>- Servidor Web: "stateUpdate": { "state": "releasing", "operation": 1000 }
 
   Máquina-Unity ->>+ Máquina-Engine: POST /engine
   loop
@@ -261,23 +274,10 @@ sequenceDiagram
   end
   Máquina-Engine ->>- Máquina-Unity: 200 OK
 
-  Máquina-Unity ->> Servidor Web: { "state": "idle" }
+  Máquina-Unity ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 1000 }
 
   Servidor Web ->>+ Banco de Dados: SQL DML: atualizar estoque e operação concluída
   Banco de Dados ->>- Servidor Web: SQL DML: banco atualizado
 
   Servidor Web ->>- Máquina-Unity: 200 OK
 ```
-
-## REST API
-
-A REST API está definida no arquivo [rest-api.yaml](rest-api.yaml) em formato [OpenAPI 3.0](https://swagger.io/specification/v3/).
-
-## Banco de dados relacional
-
-O banco está assim modelado (copiado do [original](https://drawsql.app/teams/feira-de-jogos/diagrams/feira-de-jogos-v2)):
-
-![Modelagem do banco de dados, versão 2.](feira-de-jogos.png)
-
-Para PostgreSQL, os comandos DDL estão no arquivo [ddl.sql](ddl.sql).
-Já os comandos DML estão no arquivo [dml.sql](dml.sql).
