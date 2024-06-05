@@ -44,6 +44,12 @@
           "200": {
             "description": "OK"
           },
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
           "503": {
             "description": "Service Unavailable"
           }

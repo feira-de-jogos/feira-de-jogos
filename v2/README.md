@@ -273,9 +273,6 @@ sequenceDiagram
   Máquina-Unity ->>- Servidor Web: "stateUpdate": { "state": "releasing", "operation": 1000 }
 
   Máquina-Unity ->>+ Máquina-Engine: POST /engine
-  loop
-    Máquina-Engine -->> Máquina-Unity: 100 Continue
-  end
   Máquina-Engine ->>- Máquina-Unity: 200 OK
 
   Máquina-Unity ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 1000 }
