@@ -11,7 +11,7 @@
       "url": "https://opensource.org/licenses/MIT"
     },
     "title": "Game Fair REST API",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "externalDocs": {
       "url": "https://github.com/feira-de-jogos/docs"
     },
@@ -36,7 +36,8 @@
   },
   "defaultContentType": "application/json",
   "channels": {
-    "state": {
+    "vending-machine": {
+      "address": "vending-machine",
       "messages": {
         "stateUpdate": {
           "$ref": "#/components/messages/stateUpdate"
@@ -48,34 +49,45 @@
           "$ref": "#/components/messages/stateReleasing"
         }
       }
+    },
+    "arcade": {
+      "address": "arcade",
+      "messages": {
+        "coinInsert": {
+          "$ref": "#/components/messages/coinInsert"
+        },
+        "coinInserted": {
+          "$ref": "#/components/messages/coinInserted"
+        }
+      }
     }
   },
   "operations": {
     "onStateUpdate": {
       "action": "receive",
       "channel": {
-        "$ref": "#/channels/state"
+        "$ref": "#/channels/vending-machine"
       },
       "messages": [
         {
-          "$ref": "#/channels/state/messages/stateUpdate"
+          "$ref": "#/channels/vending-machine/messages/stateUpdate"
         }
       ]
     },
     "onStateMFA": {
       "action": "receive",
       "channel": {
-        "$ref": "#/channels/state"
+        "$ref": "#/channels/vending-machine"
       },
       "messages": [
         {
-          "$ref": "#/channels/state/messages/stateMFA"
+          "$ref": "#/channels/vending-machine/messages/stateMFA"
         }
       ],
       "reply": {
         "messages": [
           {
-            "$ref": "#/channels/state/messages/stateUpdate"
+            "$ref": "#/channels/vending-machine/messages/stateUpdate"
           }
         ]
       }
@@ -83,20 +95,49 @@
     "onStateReleasing": {
       "action": "receive",
       "channel": {
-        "$ref": "#/channels/state"
+        "$ref": "#/channels/vending-machine"
       },
       "messages": [
         {
-          "$ref": "#/channels/state/messages/stateReleasing"
+          "$ref": "#/channels/vending-machine/messages/stateReleasing"
         }
       ],
       "reply": {
         "messages": [
           {
-            "$ref": "#/channels/state/messages/stateUpdate"
+            "$ref": "#/channels/vending-machine/messages/stateUpdate"
           }
         ]
       }
+    },
+    "onCoinInsert": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/arcade"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/arcade/messages/coinInsert"
+        }
+      ],
+      "reply": {
+        "messages": [
+          {
+            "$ref": "#/channels/arcade/messages/coinInserted"
+          }
+        ]
+      }
+    },
+    "onCoinInserted": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/arcade"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/arcade/messages/coinInserted"
+        }
+      ]
     }
   },
   "components": {
@@ -107,7 +148,7 @@
           "properties": {
             "state": {
               "type": "string",
-              "description": "State updated"
+              "description": "Vending machine state updated"
             },
             "operation": {
               "type": "integer",
@@ -173,6 +214,46 @@
             {
               "product": 1,
               "operation": 1000
+            }
+          ]
+        }
+      },
+      "coinInsert": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "arcade": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Arcade id"
+            },
+            "coins": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of coins"
+            }
+          },
+          "examples": [
+            {
+              "arcade": 1,
+              "coins": 1
+            }
+          ]
+        }
+      },
+      "coinInserted": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "arcade": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Arcade id"
+            }
+          },
+          "examples": [
+            {
+              "arcade": 1
             }
           ]
         }
