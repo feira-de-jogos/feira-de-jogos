@@ -280,7 +280,7 @@ sequenceDiagram
 
 ### Exemplo de cenário: melhor caso em que usuário insere moeda no fliperama (*arcade*)
 
-Um exemplo de uso é o melhor cenário de inserção de moeda no fliperama, onde o usuário faz a operação de débito e confirma com autenticação de dois fatores e, assim, a máquina de fliperama atualiza o saldo:
+Um exemplo de uso é o melhor cenário de inserção de moeda no fliperama, onde o usuário faz a operação de débito e a máquina de fliperama atualiza o saldo:
 
 ```mermaid
 sequenceDiagram
