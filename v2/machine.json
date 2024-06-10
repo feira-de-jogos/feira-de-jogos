@@ -176,7 +176,8 @@
             "code": {
               "type": "integer",
               "format": "int32",
-              "description": "MFA code"
+              "description": "MFA code",
+              "minimum": 10
             },
             "operation": {
               "type": "integer",
@@ -201,7 +202,8 @@
             "product": {
               "type": "integer",
               "format": "int32",
-              "description": "Product id"
+              "description": "Product id",
+              "minimum": 0
             },
             "operation": {
               "type": "integer",
@@ -225,18 +227,27 @@
             "arcade": {
               "type": "integer",
               "format": "int32",
-              "description": "Arcade id"
+              "description": "Arcade id",
+              "minimum": 0
             },
             "coins": {
               "type": "integer",
               "format": "int32",
-              "description": "Number of coins"
+              "description": "Number of coins",
+              "minimum": 0
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
             }
           },
           "examples": [
             {
               "arcade": 1,
-              "coins": 1
+              "coins": 1,
+              "operation": 1000
             }
           ]
         }
@@ -248,12 +259,20 @@
             "arcade": {
               "type": "integer",
               "format": "int32",
-              "description": "Arcade id"
+              "description": "Arcade id",
+              "minimum": 0
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
             }
           },
           "examples": [
             {
-              "arcade": 1
+              "arcade": 1,
+              "operation": 1000
             }
           ]
         }
