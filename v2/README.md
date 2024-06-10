@@ -237,9 +237,9 @@ Já o banco está assim modelado (copiado do [original](https://drawsql.app/team
 
 Para PostgreSQL, os comandos DDL e DML estão no arquivo [ddl.sql](ddl.sql) e [dml.sql](dml.sql), respectivamente.
 
-### Exemplo de cenário: melhor caso (usuário compra produto)
+### Exemplo de cenário: melhor caso em que usuário compra produto na máquina de vendas
 
-Um exemplo de uso é o melhor cenário, onde o usuário faz a operação de débito, confirma com autenticação de dois fatores e a compra é concluída:
+Um exemplo de uso é o melhor cenário de compra de produto na máquina de vendas, onde o usuário faz a operação de débito e confirma com autenticação de dois fatores e, assim, a compra é concluída:
 
 ```mermaid
 sequenceDiagram
@@ -248,14 +248,11 @@ sequenceDiagram
     participant Servidor Web
     participant Banco de Dados
   end
-  box Máquina
-    participant Máquina-Unity
-    participant Máquina-Engine
-  end
+  participant Vending Machine
 
-  Máquina-Unity ->>+ Servidor Web: GET /machine
-  Servidor Web -->> Máquina-Unity: 101 Switching Protocols
-  Máquina-Unity ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 0 }
+  Vending Machine ->>+ Servidor Web: GET /machine
+  Servidor Web -->> Vending Machine: 101 Switching Protocols
+  Vending Machine ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 0 }
 
   Usuário ->>+ Servidor Web: POST /login
   Servidor Web ->>- Usuário: 200 OK
@@ -263,22 +260,52 @@ sequenceDiagram
   Usuário ->>+ Servidor Web: POST /debit
   Servidor Web ->>- Usuário: 200 OK
 
-  Servidor Web  ->>+ Máquina-Unity: "stateMFA": { "username": "John", "code": 86, "operation": 1000 }
-  Máquina-Unity ->>- Servidor Web: "stateUpdate": { "state": "mfa", "operation": 1000 }
+  Servidor Web  ->>+ Vending Machine: "stateMFA": { "username": "John", "code": 86, "operation": 1000 }
+  Vending Machine ->>- Servidor Web: "stateUpdate": { "state": "mfa", "operation": 1000 }
 
   Usuário ->>+ Servidor Web: POST /mfa
   Servidor Web ->>- Usuário: 200 OK
 
-  Servidor Web ->>+ Máquina-Unity: "stateReleasing": { "product": 1, "operation": 1000 }
-  Máquina-Unity ->>- Servidor Web: "stateUpdate": { "state": "releasing", "operation": 1000 }
+  Servidor Web ->>+ Vending Machine: "stateReleasing": { "product": 1, "operation": 1000 }
+  Vending Machine ->>- Servidor Web: "stateUpdate": { "state": "releasing", "operation": 1000 }
+  Servidor Web -->> Usuário: Release product
 
-  Máquina-Unity ->>+ Máquina-Engine: POST /engine
-  Máquina-Engine ->>- Máquina-Unity: 200 OK
-
-  Máquina-Unity ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 1000 }
+  Vending Machine ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 1000 }
 
   Servidor Web ->>+ Banco de Dados: SQL DML: atualizar estoque e operação concluída
   Banco de Dados ->>- Servidor Web: SQL DML: banco atualizado
 
-  Servidor Web ->>- Máquina-Unity: 200 OK
+  Servidor Web ->>- Vending Machine: 200 OK
+```
+
+### Exemplo de cenário: melhor caso em que usuário insere moeda no fliperama (*arcade*)
+
+Um exemplo de uso é o melhor cenário de inserção de moeda no fliperama, onde o usuário faz a operação de débito e confirma com autenticação de dois fatores e, assim, a máquina de fliperama atualiza o saldo:
+
+```mermaid
+sequenceDiagram
+  actor Usuário
+  box Serviços em nuvem
+    participant Servidor Web
+    participant Banco de Dados
+  end
+  participant Arcade
+  
+  Arcade ->>+ Servidor Web: GET /machine
+  Servidor Web -->> Arcade: 101 Switching Protocols
+  
+  Usuário ->>+ Servidor Web: POST /login
+  Servidor Web ->>- Usuário: 200 OK
+  
+  Usuário ->>+ Servidor Web: POST /debit
+  Servidor Web ->>- Usuário: 200 OK
+
+  Servidor Web  ->>+ Arcade: "coinInsert": { "arcade": "1", "coins": 1, "operation": 1000 }
+  Arcade ->>- Servidor Web: "coinInserted": { "arcade": "1", "operation": 1000 }
+  Servidor Web -->> Usuário: Adição de moedas no fliperama
+
+  Servidor Web ->>+ Banco de Dados: SQL DML: operação concluída
+  Banco de Dados ->>- Servidor Web: SQL DML: banco atualizado
+
+  Servidor Web ->>- Arcade: 200 OK
 ```
