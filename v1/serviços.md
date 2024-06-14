@@ -1,34 +1,35 @@
-# Preparação do ambiente do servidor
+# Preparação do ambiente dos serviços em nuvem
 
-## Arquivos
+Todas as aplicações rodaram em mesmo servidor, dado o pequeno volume de processamento e de armazenamento de cada uma. 
 
-### Variáveis de ambiente
+## Serviços
 
-Arquivo `.env` do repositório `rest-api`:
+A distrição usada, Debian Linux, usa o Systemd para o gerenciamento de processos. Nos casos em que foi necessário adicionar configuração do Systemd, o arquivo de serviço foi adicionado ao diretório `/etc/systemd/system`.
 
-```ini
-PGDATABASE="feira"
-PGPASSWORD="feira"
-PGHOST="localhost"
-PGUSER="feira"
-PGPORT="5432"
-PORT="3000"
-GOOGLE_CLIENT_ID="***" # ID de credencial criado no GCP
-COOKIE_SECRET="***" # Hash para gerar cookie
-```
+### Broker MQTT: Mosquitto
 
-Arquivo `.env` do repositório `mqtt-api`:
+Arquivo de configuração do acesso via rede local do `mosquitto`, `/etc/mosquitto/conf.d/local.conf`:
 
 ```ini
-MQTT_URI="mqtt://feira:feira@feira-de-jogos.sj.ifsc.edu.br"
-PGDATABASE="feira"
-PGPASSWORD="feira"
-PGHOST="localhost"
-PGUSER="feira"
-PGPORT="5432"
+listener 1883
 ```
 
-### Serviços em rede
+Arquivo de configuração de acesso via WebSocket, com NGINX como _proxy_ reverso, do `mosquitto`, `/etc/mosquitto/conf.d/remoto.conf`:
+
+```ini
+listener 8080 ::1
+protocol websockets
+```
+
+Arquivo de configuração da autenticação do `mosquitto`, `/etc/mosquitto/conf.d/senharemoto.conf`:
+
+```ini
+password_file /etc/mosquitto/pwfile
+```
+
+O arquivo com as senhas foi gerado pelo comando `mosquitto_passwd`.
+
+### Proxy reverso HTTPS: NGINX
 
 _Site_ padrão do NGINX, `/etc/nginx/sites-enabled/default`:
 
@@ -79,6 +80,8 @@ server {
 }
 ```
 
+### Servidor STUN/TURN: Coturn
+
 Arquivo padrão do Coturn, `/etc/turnserver.conf`:
 
 ```ini
@@ -113,28 +116,7 @@ lt-cred-mech
 user=adcipt:adcipt20232
 ```
 
-Arquivo de configuração do acesso via rede local do `mosquitto`, `/etc/mosquitto/conf.d/local.conf`:
-
-```ini
-listener 1883
-```
-
-Arquivo de configuração de acesso via WebSocket, com NGINX como _proxy_ reverso, do `mosquitto`, `/etc/mosquitto/conf.d/remoto.conf`:
-
-```ini
-listener 8080 ::1
-protocol websockets
-```
-
-Arquivo de configuração da autenticação do `mosquitto`, `/etc/mosquitto/conf.d/senharemoto.conf`:
-
-```ini
-password_file /etc/mosquitto/pwfile
-```
-
-O arquivo com as senhas foi gerado pelo comando `mosquitto_passwd`.
-
-### Serviços adicionados ao Systemd
+### REST API: aplicação Node.js
 
 Serviço API, `/etc/systemd/system/api.service`:
 
@@ -154,6 +136,21 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
+Arquivo `.env` do repositório `rest-api`:
+
+```ini
+PGDATABASE="feira"
+PGPASSWORD="feira"
+PGHOST="localhost"
+PGUSER="feira"
+PGPORT="5432"
+PORT="3000"
+GOOGLE_CLIENT_ID="***" # ID de credencial criado no GCP
+COOKIE_SECRET="***" # Hash para gerar cookie
+```
+
+### MQTT API: aplicação Node.js
+
 Serviço API, `/etc/systemd/system/mqtt.service`:
 
 ```ini
@@ -170,4 +167,15 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+```
+
+Arquivo `.env` do repositório `mqtt-api`:
+
+```ini
+MQTT_URI="mqtt://feira:feira@feira-de-jogos.sj.ifsc.edu.br"
+PGDATABASE="feira"
+PGPASSWORD="feira"
+PGHOST="localhost"
+PGUSER="feira"
+PGPORT="5432"
 ```
