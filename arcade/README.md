@@ -2,6 +2,8 @@
 
 O *arcade* será controlado remotamente via teclado virtual. A tecla `SELECT`, que é usada nos emuladores MAME (e derivados) também como `COIN` (de adicionar moeda), deverá ser exclusiva do teclado. O mesmo deve ser feito com `HOTKEY`, para evitar saída do jogo ou outras funções especiais do RetroArch, como salvar e recuperar estado de jogo.
 
+As teclas `J` e `K` serão usadas para adicionar moedas (`HOTKEY`/`COIN`) e fechar o jogo (`EXIT` quando combinada com `HOTKEY`), respectivamente. O teclado físico será usado apenas em caso de emergência.
+
 ## Joystick
 
 1. Deixar os botãos `SELECT` e `HOTKEY` sem função na autoconfiguração. Deve ficar o arquivo `/opt/retropie/configs/all/retroarch/autoconfig/usb\ gamepad.cfg` (ou equivalente) assim:
@@ -56,7 +58,29 @@ evdev
 KERNEL=="uinput", MODE="0660", GROUP="games"
 ```
 
-O arquivo [`moeda.py`](moeda.py) é um exemplo de como criar um teclado virtual e enviar comandos diretamente para o jogo emulado: adicionar algumas moedas e depois fechar o próprio jogo.
+O arquivo a seguir é um exemplo de como criar um teclado virtual, adicionar algumas moedas e depois fechar o próprio jogo:
+
+```python
+from evdev import UInput, ecodes as e
+from time import sleep
+
+ui = UInput(name='Banco Central')
+
+for i in range(4):
+    print(i)
+    ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
+    ui.syn() # Envia o comando
+    sleep(0.250)
+    ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
+    ui.syn() # Envia o comando
+    sleep(2)
+
+print('closing game')
+ui.write(e.EV_KEY, e.KEY_J, 2)  # Mantém pressionada a tecla J
+ui.write(e.EV_KEY, e.KEY_K, 1)  # Pressiona a tecla K
+ui.syn() # Envia o comando com as duas teclas combinadas
+ui.close()
+```
 
 ## Teclado físico
 
