@@ -31,7 +31,7 @@ O arquivo com as senhas foi gerado pelo comando `mosquitto_passwd`.
 
 ### Proxy reverso HTTPS: NGINX
 
-_Site_ padrão do NGINX, `/etc/nginx/sites-enabled/default`:
+_Site_ padrão, arquivo `/etc/nginx/sites-enabled/default`:
 
 ```
 server {
@@ -136,7 +136,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
-Arquivo `.env` do repositório `rest-api`:
+Arquivo `.env`:
 
 ```ini
 PGDATABASE="feira"

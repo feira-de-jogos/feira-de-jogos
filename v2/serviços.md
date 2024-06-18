@@ -2,9 +2,9 @@
 
 ## Serviços
 
-### Proxy reverso HTTPS
+### Proxy reverso HTTPS: NGINX
 
-_Site_ padrão do NGINX, `/etc/nginx/sites-enabled/default`:
+_Site_ padrão, arquivo `/etc/nginx/sites-enabled/default`:
 
 ```nginx
 server {
@@ -73,4 +73,13 @@ server {
     }
   }
 }
+```
+
+### REST-API: aplicação Node.js
+
+
+Arquivo `.env`:
+
+```ini
+GOOGLE_CLIENT_ID="***" # ID de credencial criado no GCP
 ```
