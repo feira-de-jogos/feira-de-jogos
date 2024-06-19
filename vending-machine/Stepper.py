@@ -17,7 +17,7 @@ class MotorDePasso:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pinos, GPIO.OUT)
 
-    def girar_passos(self, num_passos, sentido_horario=True, velocidade=1, modo="passo_completo"):
+    def girar_passos(self, num_passos, sentido_horario=True, velocidade=0.0080, modo="passo_completo"):
         """
         Gira o motor de passo um número específico de passos.
 
@@ -49,7 +49,7 @@ class MotorDePasso:
         except Exception as e:
             print(f"Erro durante a rotação do motor: {e}")
 
-    def girar_angulo(self, graus, sentido_horario=True, velocidade=1, modo="passo_completo"):
+    def girar_angulo(self, graus, sentido_horario=True, velocidade=0.0080, modo="passo_completo"):
         """
         Gira o motor de passo para um ângulo específico.
 
