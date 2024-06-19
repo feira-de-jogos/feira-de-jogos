@@ -9,7 +9,7 @@ motor2 = MotorDePasso([21, 20, 16, 12], 400)
 motor3 = MotorDePasso([1, 8, 7, 25], 400)
 
 def eject_product(product_id):
-    print(f"Ejetando produto com o ID: {}")
+    print(f"Ejetando produto com o ID: {product_id}")
 
     
     if product_id == 1:
