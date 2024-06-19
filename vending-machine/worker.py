@@ -16,13 +16,11 @@ def eject_product(product_id):
         motor1.girar_passos(200)
 
     if product_id == 2:
-        motor1.girar_passos(200)
+        motor2.girar_passos(200)
 
     if product_id == 3:
-        motor1.girar_passos(200)
+        motor3.girar_passos(200)
 
-
-    time.sleep(10.0)
     set_ejection_state('s')
     print("Produto ejetado com sucesso!")
 
