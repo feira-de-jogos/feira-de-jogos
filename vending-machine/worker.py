@@ -4,22 +4,23 @@ from Stepper import MotorDePasso
 
 initialize_state_file()
 
-motor1 = MotorDePasso([26, 6, 13, 5], 200)
-motor2 = MotorDePasso([21, 20, 16, 12], 200)
-motor3 = MotorDePasso([1, 8, 7, 25], 200)
+motor1 = MotorDePasso([26, 6, 13, 5], 400)
+motor2 = MotorDePasso([21, 20, 16, 12], 400)
+motor3 = MotorDePasso([1, 8, 7, 25], 400)
 
 def eject_product(product_id):
     print(f"Ejetando produto com o ID: {}")
 
     
     if product_id == 1:
-        motor1.girar_passos(200)
+        motor1.girar_passos(400)
 
-    if product_id == 2:
-        motor2.girar_passos(200)
+    elif product_id == 2:
+        motor2.girar_passos(400)
 
-    if product_id == 3:
-        motor3.girar_passos(200)
+    elif product_id == 3:
+        motor3.girar_passos(400)
+    
 
     set_ejection_state('s')
     print("Produto ejetado com sucesso!")
