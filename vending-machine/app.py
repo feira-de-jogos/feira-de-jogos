@@ -1,28 +1,9 @@
 from flask import Flask, request, jsonify
-import os
+from utils import initialize_state_file, get_ejection_state, set_ejection_state
 
 app = Flask(__name__)
 productsList = ['1', '2', '3']
 STATE_FILE = 'machineState.txt'
-
-
-def initialize_state_file():
-    if not os.path.exists(STATE_FILE):
-        with open(STATE_FILE, 'w') as f:
-            f.write('w')
-        print(f"Created {STATE_FILE} with initial state 'w'")
-
-
-def get_ejection_state():
-    with open(STATE_FILE, 'r') as f:
-        return f.read(1)  # Lê apenas o primeiro caractere
-
-
-def set_ejection_state(state):
-    with open(STATE_FILE, 'w') as f:
-        f.write(state)
-    print(f"Set ejection state to: {state}")
-
 
 initialize_state_file()
 
@@ -59,4 +40,4 @@ def engine():
 
 if __name__ == '__main__':
     print(f"Initial ejection state: {get_ejection_state()}")
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

@@ -28,15 +28,8 @@ class MotorDePasso:
             modo (str, optional): Modo de passo (padrão: "passo_completo").
                 Opções: "passo_completo", "meio_passo", "micro_passo".
         """
-        sequencia = {
-            "passo_completo": [0x09, 0x01, 0x03, 0x02],
-            "meio_passo": [0x09, 0x08, 0x0c, 0x04, 0x06, 0x02, 0x03, 0x01],
-            "micro_passo": [0x09, 0x0a, 0x02, 0x06, 0x04, 0x05, 0x01, 0x09,
-                            0x09, 0x0a, 0x02, 0x06, 0x04, 0x05, 0x01, 0x09]
-        }
 
-        if modo not in sequencia:
-            raise ValueError("Modo de passo inválido. Escolha entre 'passo_completo', 'meio_passo' ou 'micro_passo'.")
+        sequencia = {"passo_completo": ["1000", "1100", "0100", "0110", "0010", "0011", "0001", "1001"]}
 
         # Define a direção (horário ou anti-horário)
         if not sentido_horario:
@@ -45,9 +38,13 @@ class MotorDePasso:
         # Gira o motor
         try:
             for _ in range(num_passos):
-                for valor in sequencia[modo]:
-                    for i in range(4):
-                        GPIO.output(self.pinos[i], (valor >> i) & 0x01)
+                for bit in sequencia[modo]:
+                    for pin in range(4):
+                        md = bit[pin]
+                        if md != "0":
+                                GPIO.output(self.pinos[pin], True)
+                        else:
+                                GPIO.output(self.pinos[pin], False)
                     time.sleep(velocidade)
         except Exception as e:
             print(f"Erro durante a rotação do motor: {e}")
@@ -71,7 +68,7 @@ class MotorDePasso:
         """Desliga o motor e limpa os pinos GPIO."""
         GPIO.cleanup()
 
-# Exemplo de uso:
+"""# Exemplo de uso:
 if __name__ == "__main__":
     # Crie uma instância do motor de passo (ajuste os pinos conforme necessário)
     pinos_motor = [17, 18, 22, 23]
@@ -86,4 +83,4 @@ if __name__ == "__main__":
 
     finally:
         # Desligue o motor e limpe os pinos GPIO
-        motor.desligar()
+        motor.desligar()"""
