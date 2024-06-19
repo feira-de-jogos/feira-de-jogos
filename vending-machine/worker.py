@@ -5,7 +5,7 @@ from Stepper import MotorDePasso
 initialize_state_file()
 
 motor1 = MotorDePasso([26, 6, 13, 5], 200)
-motor2 = MotorDePasso([21, 16, 20, 12], 200)
+motor2 = MotorDePasso([21, 20, 16, 12], 200)
 motor3 = MotorDePasso([1, 8, 7, 25], 200)
 
 def eject_product(product_id):
