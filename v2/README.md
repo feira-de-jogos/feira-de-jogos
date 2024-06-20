@@ -307,3 +307,5 @@ sequenceDiagram
 ```
 
 ## Preparação do ambiente de serviços em nuvem
+
+Os [serviços em nuvem](serviços.md) são preparados com Docker e Docker Compose.

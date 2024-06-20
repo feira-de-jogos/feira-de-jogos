@@ -8,3 +8,11 @@ Para rodar o ambiente, é preciso criar os seguintes arquivos e conteúdos no di
 
 - `env-db-postgres-password`: a senha mestre do banco de dados relacional PostgreSQL.
 - `env-rest-api-google-client-id`: ID de credencial criado no GCP.
+
+E então, rodar o comando:
+
+```bash
+make
+```
+
+Uma vez operacional, o ambiente é acessível em: https://feira-de-jogos.dev.br.
