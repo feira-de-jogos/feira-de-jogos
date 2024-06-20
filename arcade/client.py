@@ -21,7 +21,12 @@ async def disconnect():
 
 
 async def main():
-    await sio.connect("https://feira-de-jogos.dev.br", socketio_path="/api/v2/machine/", namespaces=["/arcade"], transports=['websocket'])
+    await sio.connect(
+        "https://feira-de-jogos.dev.br",
+        socketio_path="/api/v2/machine/",
+        namespaces=["/arcade"],
+        transports=["websocket"],
+    )
     await sio.wait()
 
 
