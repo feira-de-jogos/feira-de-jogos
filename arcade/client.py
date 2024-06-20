@@ -4,13 +4,13 @@ import socketio
 sio = socketio.AsyncClient()
 
 
-@sio.event
+@sio.event(namespace="/arcade")
 async def connect():
     print("connection established")
-    await sio.emit("state", "idle")
+    await sio.emit("state", "idle", namespace="/arcade")
 
 
-@sio.on("state")
+@sio.event(namespace="/arcade")
 async def state(data):
     print("message received with ", data)
 
@@ -21,7 +21,7 @@ async def disconnect():
 
 
 async def main():
-    await sio.connect("http://localhost:8080", transports=["websocket"])
+    await sio.connect("http://feira-de-jogos.dev.br", socketio_path="/api/v2/machine/", namespaces=["/arcade"], transports=['websocket'])
     await sio.wait()
 
 
