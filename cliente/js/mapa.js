@@ -24,13 +24,13 @@ export default class mapa extends Phaser.Scene {
         // this.sound.add('mapa', {loop:true}).play()
         this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
 
-        var jumpForce = -600
-        let maxJumpTime = 500
+        var jumpForce = -60
+        let maxJumpTime = 50
 
         var jumpTimer = 0
         let jumping = false
-        var maxJumpHeight = 200
-        var maxJumpDistance = 150
+        var maxJumpHeight = 20
+        var maxJumpDistance = 15
 
         
 
@@ -110,13 +110,26 @@ export default class mapa extends Phaser.Scene {
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
-          while (pointer){
-            //if(onGround){
-              //jumping = true
-              //jumpTimer = 0
+          while (ponteiro){
+            if(onGround){
+              jumping = true
+              jumpTimer = 0
 
-              //player.setVelocityY(jumpForce)
-            //}
+              this.personagem.setVelocityY(jumpForce)
+            }
+            if(jumping && jumpTimer < maxJumpTime && onGround){
+              let jumpFactor = jumpTimer / maxJumpTime
+              let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
+              this.personagem.setVelocityY(currentJumpForce)
+              jumpTimer+=this.time.deltaTime
+
+            } else{
+              jumping = false
+            }
+
+            if(this.personagem.y <= this.personagem.initialY - maxJumpHeight && onGround){
+              this.personagem.setVelocityY(0)
+            }
             
             //jumpveloY = jumpveloY + 2
             //if(ponteiro == false){
@@ -128,7 +141,7 @@ export default class mapa extends Phaser.Scene {
           this.jump.setFrame(1)
         }).on('pointerup', () => {
           this.jump.setFrame(0)
-          this.personagem.setVelocity(jumpveloX, jumpveloY)
+          //this.personagem.setVelocity(jumpveloX, jumpveloY)
         })
 
         this.cameras.main.startFollow(this.personagem)
@@ -137,7 +150,7 @@ export default class mapa extends Phaser.Scene {
       }
   
       update(){
-        let onGround = player.body.onFloor() || player.body.touching.down
+        var onGround = this.personagem.body.onFloor() || this.personagem.body.touching.layerBlocos
       }
   }
   
