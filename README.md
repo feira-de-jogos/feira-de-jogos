@@ -1,4 +1,4 @@
-# jogo
+# Jogo
 
 ## Premissa do Jogo
 
