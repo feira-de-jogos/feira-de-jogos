@@ -24,8 +24,16 @@ export default class mapa extends Phaser.Scene {
         // this.sound.add('mapa', {loop:true}).play()
         this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
 
-        var jumpveloX = 0
-        var jumpveloY = 0
+        var jumpForce = -600
+        let maxJumpTime = 500
+
+        var jumpTimer = 0
+        let jumping = false
+        var maxJumpHeight = 200
+        var maxJumpDistance = 150
+
+        
+
         var ponteiro = false
         var ponteiroup = false
 
@@ -102,13 +110,20 @@ export default class mapa extends Phaser.Scene {
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
-          //while (ponteiro){
-            //jumpveloX = jumpveloX + 1
+          while (pointer){
+            //if(onGround){
+              //jumping = true
+              //jumpTimer = 0
+
+              //player.setVelocityY(jumpForce)
+            //}
+            
             //jumpveloY = jumpveloY + 2
             //if(ponteiro == false){
               //break
             //}
-          //}
+          }
+          this.personagem.setVelocityY(jumpForce)
           
           this.jump.setFrame(1)
         }).on('pointerup', () => {
@@ -122,7 +137,7 @@ export default class mapa extends Phaser.Scene {
       }
   
       update(){
-        
+        let onGround = player.body.onFloor() || player.body.touching.down
       }
   }
   
