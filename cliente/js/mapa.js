@@ -48,7 +48,7 @@ export default class mapa extends Phaser.Scene {
 
         
                 
-        this.personagem = this.physics.add.sprite(10, -20, 'cavaleiro-1')
+        this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-1')
 
         
 
@@ -112,16 +112,17 @@ export default class mapa extends Phaser.Scene {
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
-          if(this.personagem.Arcade.Types.Physics.Arcade.ArcadePhysicsCallback.collideTiles(this.personagem, this.tilesetBlocos)){
+          if(this.personagem.body.blocked.down){
             jumping = true
             jumpTimer = 0
-            console.log('no chao')
-            //this.personagem.setVelocityY(jumpForce)
+            console.log('iniciando pulo')
+          }else{
+            jumping = false
           }
 
-          if(jumping && jumpTimer < maxJumpTime && this.personagem.Types.Physics.Arcade.ArcadePhysicsCallback.collideTiles(this.personagem,this.tilesetBlocos)){
+          if(jumping && jumpTimer < maxJumpTime){
+            jumping = false
             console.log('pulando')
-            print('pulando')
             let jumpFactor = jumpTimer / maxJumpTime
             let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
             this.personagem.setVelocityY(currentJumpForce)
