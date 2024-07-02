@@ -112,35 +112,36 @@ export default class mapa extends Phaser.Scene {
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
-          while (ponteiro){
-            if(this.personagem.touching.down){
-              jumping = true
-              jumpTimer = 0
-
-              this.personagem.setVelocityY(jumpForce)
-            }
-            if(jumping && jumpTimer < maxJumpTime && this.personagem.touching.down){
-              let jumpFactor = jumpTimer / maxJumpTime
-              let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
-              this.personagem.setVelocityY(currentJumpForce)
-              jumpTimer+=this.time.deltaTime
-
-            } else{
-              jumping = false
-            }
-
-            if(this.personagem.y <= this.personagem.initialY - maxJumpHeight && onGround){
-              this.personagem.setVelocityY(0)
-            }
-            
-            //jumpveloY = jumpveloY + 2
-            //if(ponteiro == false){
-              //break
-            //}
+          if(this.personagem.Arcade.Types.Physics.Arcade.ArcadePhysicsCallback.collideTiles(this.personagem, this.tilesetBlocos)){
+            jumping = true
+            jumpTimer = 0
+            console.log('no chao')
+            //this.personagem.setVelocityY(jumpForce)
           }
-          this.personagem.setVelocityY(jumpForce)
+
+          if(jumping && jumpTimer < maxJumpTime && this.personagem.Types.Physics.Arcade.ArcadePhysicsCallback.collideTiles(this.personagem,this.tilesetBlocos)){
+            console.log('pulando')
+            print('pulando')
+            let jumpFactor = jumpTimer / maxJumpTime
+            let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
+            this.personagem.setVelocityY(currentJumpForce)
+            jumpTimer+=this.time.deltaTime
+
+          } else{
+            jumping = false
+          }
+
+          if(this.personagem.y <= this.personagem.initialY - maxJumpHeight && onGround){
+            this.personagem.setVelocityY(0)
+          }
           
-          this.jump.setFrame(1)
+          //jumpveloY = jumpveloY + 2
+          //if(ponteiro == false){
+            //break
+          //}
+        //this.personagem.setVelocityY(jumpForce)
+        
+        //this.jump.setFrame(1)
         }).on('pointerup', () => {
           this.jump.setFrame(0)
           //this.personagem.setVelocity(jumpveloX, jumpveloY)
