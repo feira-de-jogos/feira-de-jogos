@@ -27,6 +27,8 @@ export default class mapa extends Phaser.Scene {
         var jumpForce = -60
         let maxJumpTime = 50
 
+        var onGround;
+
         var jumpTimer = 0
         let jumping = false
         var maxJumpHeight = 20
@@ -111,13 +113,13 @@ export default class mapa extends Phaser.Scene {
         .setInteractive()
         .on('pointerdown', ()=>{
           while (ponteiro){
-            if(onGround){
+            if(this.personagem.touching.down){
               jumping = true
               jumpTimer = 0
 
               this.personagem.setVelocityY(jumpForce)
             }
-            if(jumping && jumpTimer < maxJumpTime && onGround){
+            if(jumping && jumpTimer < maxJumpTime && this.personagem.touching.down){
               let jumpFactor = jumpTimer / maxJumpTime
               let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
               this.personagem.setVelocityY(currentJumpForce)
@@ -150,7 +152,7 @@ export default class mapa extends Phaser.Scene {
       }
   
       update(){
-        var onGround = this.personagem.body.onFloor() || this.personagem.body.touching.layerBlocos
+        var onGround = this.personagem.body.touching.down
       }
   }
   
