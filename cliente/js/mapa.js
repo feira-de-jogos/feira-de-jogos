@@ -112,6 +112,11 @@ export default class mapa extends Phaser.Scene {
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
+          while(true){
+          jumpTimer+=1
+          if(jumpTimer > maxJumpTime){
+            jumpTimer = maxJumpTime
+          }
           if(this.personagem.body.blocked.down){
             jumping = true
             jumpTimer = 0
@@ -120,29 +125,19 @@ export default class mapa extends Phaser.Scene {
             jumping = false
           }
 
-          if(jumping && jumpTimer < maxJumpTime){
+          if(jumping && jumpTimer <= maxJumpTime){
             jumping = false
             console.log('pulando')
             let jumpFactor = jumpTimer / maxJumpTime
             let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
-            this.personagem.setVelocityY(currentJumpForce)
+            this.personagem.setVelocity(currentJumpForce)
             jumpTimer+=this.time.deltaTime
-
+            break
           } else{
             jumping = false
           }
-
-          if(this.personagem.y <= this.personagem.initialY - maxJumpHeight && onGround){
-            this.personagem.setVelocityY(0)
-          }
-          
-          //jumpveloY = jumpveloY + 2
-          //if(ponteiro == false){
-            //break
-          //}
-        //this.personagem.setVelocityY(jumpForce)
-        
-        //this.jump.setFrame(1)
+        }
+        this.jump.setFrame(1)
         }).on('pointerup', () => {
           this.jump.setFrame(0)
           //this.personagem.setVelocity(jumpveloX, jumpveloY)
