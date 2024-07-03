@@ -1,3 +1,5 @@
+ALTER DATABASE "feira" SET timezon TO 'America/Sao_Paulo';
+
 CREATE TABLE "people"(
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
