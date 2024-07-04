@@ -1,5 +1,12 @@
 {
+  "devDependencies": {
+    "standard": "*"
+  },
   "dependencies": {
-    "express": "^4.18.3"
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  },
+  "scripts": {
+    "start": "node servidor.js"
   }
 }
