@@ -25,6 +25,11 @@ class Game extends Phaser.Game {
     }
     this.iceServers = { iceServers }
 
+    this.socket.on('connect', () => {
+      console.log('Conectado ao servidor!')
+    })
+
+
 
     this.scene.add('abertura', abertura)
     this.scene.add('sala', sala)
