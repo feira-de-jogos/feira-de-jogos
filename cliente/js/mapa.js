@@ -24,8 +24,8 @@ export default class mapa extends Phaser.Scene {
         // this.sound.add('mapa', {loop:true}).play()
         this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
 
-        var jumpForce = -60
-        let maxJumpTime = 50
+        var jumpForce = -160
+        let maxJumpTime = 150
 
         var onGround;
 
@@ -120,14 +120,12 @@ export default class mapa extends Phaser.Scene {
           if(this.personagem.body.blocked.down){
             jumping = true
             jumpTimer = 0
-            console.log('iniciando pulo')
           }else{
             jumping = false
           }
 
           if(jumping && jumpTimer <= maxJumpTime){
             jumping = false
-            console.log('pulando')
             let jumpFactor = jumpTimer / maxJumpTime
             let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
             this.personagem.setVelocity(currentJumpForce)
@@ -135,6 +133,7 @@ export default class mapa extends Phaser.Scene {
             break
           } else{
             jumping = false
+            break
           }
         }
         this.jump.setFrame(1)
