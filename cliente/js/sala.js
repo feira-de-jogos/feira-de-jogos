@@ -4,25 +4,56 @@ export default class sala extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('abertura', './assets/teste.png')
+    // música de abertura:
     this.load.audio('iniciar', './assets/audio.mp3')
-    // this.load.audio('musica mapa','./assets/')
-  } // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets. IMPORTANTE: um arquivo seria o da imagem e o outro seria o áudio.
-  // basta colocar o mesmo comando para o audio, lembrando que este é o áudio para iniciar o jogo, entrar no jogo.
-  // A música mapa seria a musica de plano de fundo
+
+    // Abertura:
+    this.load.image('abertura', './assets/teste.png')
+  }
 
   create () {
+    // música de iniciar o jogo:
     this.iniciar = this.sound.add('iniciar')
-    // this.sound.add('musica mapa', {loop:true}).play()
 
+    // Imagem de abertura do jogo:
     this.add.image(427, 240, 'abertura')
 
-    this.add.text(100, 50, 'sala 1')
+    // texto da sala:
+    this.mensagem = this.add.text(100, 50, 'sala 1', {
+      fontSize: '32px',
+      fill: '#fff',
+      fontFamily: 'Times New Roman'
+    })
+
+      // Torna o botão interativo:
       .setInteractive()
       .on('pointerdown', () => {
         this.iniciar.play()
-        this.game.scene.stop('sala')
-        this.game.scene.start('mapa')
+
+        // Variavel global da sala:
+        globalThis.game.sala = 1
+
+        // Emite o evento de entrar na sala
+        globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
+
+        // Define o evento de recebimento da mansagem 'jogadores'
+        globalThis.game.socket.on('jogadores', (jogadores) => {
+          // Se o segundo jogador já estiver conectado, inicia o jogo
+          if (jogadores.segundo) {
+            // Apresenta texto na tela
+            this.mensagem.setText('Conectando...')
+
+            // Define a variável global dos jogadores
+            globalThis.game.jogadores = jogadores
+
+            // Para a cena atual e inicia a cena do mapa
+            globalThis.game.scene.stop('sala')
+            globalThis.game.scene.start('mapa')
+          } else if (jogadores.primeiro) {
+            // Se o primeiro jogador já estiver conectado, aguarda o segundo
+            this.mensagem.setText('Aguardando segundo jogador...')
+          }
+        })
       })
   }
 

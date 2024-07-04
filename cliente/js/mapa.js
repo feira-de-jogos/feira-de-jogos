@@ -27,8 +27,13 @@ export default class mapa extends Phaser.Scene {
   }
 
   create () {
+    //adiciona o ponteiro de pointer:
     this.input.addPointer(3)
 
+    //som de fundo:
+    // this.sound.add('musica mapa', {loop:true}).play()
+
+    //cria o objeto tilemap (mapa)
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
     // agora precisamos dar um this.tilsetOBJETO (este objeto seria o bloco, grama, etc)=this.tilemapMapa.addTilset.Image('Bloco,grama,etc')
