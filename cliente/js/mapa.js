@@ -25,7 +25,7 @@ export default class mapa extends Phaser.Scene {
         this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
 
         var jumpForce = -160
-        let maxJumpTime = 150
+        var maxJumpTime = 150
 
         var onGround;
 
@@ -36,6 +36,7 @@ export default class mapa extends Phaser.Scene {
 
         var deltaTime = Phaser.Time.Clock
 
+        var dir_lados
         
 
         var ponteiro = false
@@ -89,6 +90,7 @@ export default class mapa extends Phaser.Scene {
         .on('pointerover', ()=>{
           if(this.personagem.body.blocked.down){
             this.personagem.anims.play('cavaleiro-1-walkingLeft')
+            this.dir_lados = +1
             this.esquerda.setFrame(1)
             this.personagem.setVelocityX(-50)
           }
@@ -106,6 +108,7 @@ export default class mapa extends Phaser.Scene {
         .on('pointerover', ()=>{
           if(this.personagem.body.blocked.down){
             this.personagem.anims.play('cavaleiro-1-walkingRight')
+            this.dir_lados = -1
             this.direita.setFrame(1)
             this.personagem.setVelocityX(50)
           }
@@ -125,8 +128,7 @@ export default class mapa extends Phaser.Scene {
           console.log(deltaTime.now)
         this.jump.setFrame(1)
         }).on('pointerup', () => {
-          while(true){
-            jumpTimer+=1
+            console.log("jumpTimer:" + jumpTimer)
             if(jumpTimer > maxJumpTime){
               jumpTimer = maxJumpTime
             }
@@ -139,16 +141,20 @@ export default class mapa extends Phaser.Scene {
   
             if(jumping && jumpTimer <= maxJumpTime){
               jumping = false
-              let jumpFactor = jumpTimer / maxJumpTime
-              let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
+
+              console.log("MaxJumpTime:" + maxJumpTime)
+              var jumpFactor = jumpTimer / maxJumpTime
+              console.log("JumpFactor: " + jumpFactor)
+              var currentJumpForce = ((jumpForce - (jumpForce * jumpFactor)) * this.dir_lados) * 2
+              console.log("currentJumpForce: " + currentJumpForce)
               this.personagem.setVelocity(currentJumpForce)
-              jumpTimer+=this.time.deltaTime
-              break
+              jumpTimer = 0
+
+              
             } else{
               jumping = false
-              break
+              
             }
-          }
           this.jump.setFrame(0)
           //this.personagem.setVelocity(jumpveloX, jumpveloY)
         })
