@@ -34,6 +34,8 @@ export default class mapa extends Phaser.Scene {
         var maxJumpHeight = 20
         var maxJumpDistance = 15
 
+        var deltaTime = 0
+
         
 
         var ponteiro = false
@@ -119,32 +121,35 @@ export default class mapa extends Phaser.Scene {
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
-          while(true){
           jumpTimer+=1
-          if(jumpTimer > maxJumpTime){
-            jumpTimer = maxJumpTime
-          }
-          if(this.personagem.body.blocked.down){
-            jumping = true
-            jumpTimer = 0
-          }else{
-            jumping = false
-          }
-
-          if(jumping && jumpTimer <= maxJumpTime){
-            jumping = false
-            let jumpFactor = jumpTimer / maxJumpTime
-            let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
-            this.personagem.setVelocity(currentJumpForce)
-            jumpTimer+=this.time.deltaTime
-            break
-          } else{
-            jumping = false
-            break
-          }
-        }
+          deltaTime = Phaser.Time.Clock.now
+          console.log(deltaTime)
         this.jump.setFrame(1)
         }).on('pointerup', () => {
+          while(true){
+            jumpTimer+=1
+            if(jumpTimer > maxJumpTime){
+              jumpTimer = maxJumpTime
+            }
+            if(this.personagem.body.blocked.down){
+              jumping = true
+              jumpTimer = 0
+            }else{
+              jumping = false
+            }
+  
+            if(jumping && jumpTimer <= maxJumpTime){
+              jumping = false
+              let jumpFactor = jumpTimer / maxJumpTime
+              let currentJumpForce = jumpForce - (jumpForce * jumpFactor)
+              this.personagem.setVelocity(currentJumpForce)
+              jumpTimer+=this.time.deltaTime
+              break
+            } else{
+              jumping = false
+              break
+            }
+          }
           this.jump.setFrame(0)
           //this.personagem.setVelocity(jumpveloX, jumpveloY)
         })
