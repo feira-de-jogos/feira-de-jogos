@@ -34,7 +34,7 @@ export default class mapa extends Phaser.Scene {
         var maxJumpHeight = 20
         var maxJumpDistance = 15
 
-        var deltaTime = 0
+        var deltaTime = Phaser.Time.Clock
 
         
 
@@ -122,8 +122,7 @@ export default class mapa extends Phaser.Scene {
         .setInteractive()
         .on('pointerdown', ()=>{
           jumpTimer+=1
-          deltaTime = Phaser.Time.Clock.now
-          console.log(deltaTime)
+          console.log(deltaTime.now)
         this.jump.setFrame(1)
         }).on('pointerup', () => {
           while(true){
