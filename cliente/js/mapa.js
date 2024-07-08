@@ -17,7 +17,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('BlocosTeto', './assets/mapa/BlocosTeto.png')
     this.load.image('BlocosBordas', './assets/mapa/BlocosBordas.png')
     this.load.image('Gramas', './assets/mapa/Gramas.png')
-    this.load.image('GramasAmarelas', './assets/mapa/GramasAmarelas.png')
+    this.load.image('GramasAmarela', './assets/mapa/GramasAmarela.png')
     this.load.image('GramasAzul', './assets/mapa/GramasAzul.png')
     this.load.image('GramasVermelho', './assets/mapa/GramasVermelho.png')
     this.load.image('GramasRoxo', './assets/mapa/GramasRoxo.png')
@@ -31,7 +31,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('BenPlayer1', './assets/BenPlayer1.png', { frameWidth: 48, frameHeight: 64 })
 
     // movimentação do personagem
-    this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 64, frameHeight: 64 }) 
     this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 64, frameHeight: 64 })
 
@@ -40,7 +40,7 @@ export default class mapa extends Phaser.Scene {
   }
 
   create () {
-    // adiciona o ponteiro de pointer:
+    // adiciona o ponteiro de toque:
     this.input.addPointer(3)
 
     // som de fundo:
@@ -64,7 +64,7 @@ export default class mapa extends Phaser.Scene {
     this.tilesetFundoCavernaVermelho = this.tilemapMapa.addTilesetImage('FundoCavernaVermelho')
     this.tilesetFundoCavernaAmarela = this.tilemapMapa.addTilesetImage('FundoCavernaAmarela')
     this.tilesetGramas = this.tilemapMapa.addTilesetImage('Gramas')
-    this.tilesetGramasAmarelas = this.tilemapMapa.addTilesetImage('GramasAmarelas')
+    this.tilesetGramasAmarela = this.tilemapMapa.addTilesetImage('GramasAmarela')
     this.tilesetGramasAzul = this.tilemapMapa.addTilesetImage('GramasAzul')
     this.tilesetGramasVermelho = this.tilemapMapa.addTilesetImage('GramasVermelho')
     this.tilesetGramasRoxo = this.tilemapMapa.addTilesetImage('GramasRoxo')
@@ -77,11 +77,11 @@ export default class mapa extends Phaser.Scene {
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
     // personagem:
-    this.personagem = this.physics.add.sprite(200, 410, 'BenPlayer1')
+    this.personagem = this.physics.add.sprite(3065, 2656, 'BenPlayer1')
     this.personagemLado = 'direita'
 
     // Pedrinhas e Gramas:
-    this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarelas, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+    this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
 
     // movimentação do personagem:
 
