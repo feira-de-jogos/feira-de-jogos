@@ -22,6 +22,7 @@ export default class tilemapMapa extends Phaser.Scene {
 
     // Carrega as spritesheets dos personagens e artefatos
     this.load.spritesheet('salsicha-caramelo', './assets/salsicha-caramelo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('salsicha-marrom', './assets/salsicha-marrom.png', { frameWidth: 64, frameHeight: 64 })
 
     // Carrega o plugin do joystick virtual
     this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true)
@@ -30,10 +31,6 @@ export default class tilemapMapa extends Phaser.Scene {
   create () {
     // Adiciona um ponteiro de toque (padrão: 2)
     this.input.addPointer(3)
-
-    // Adiciona o som de fundo e o som da coruja
-    // this.sound.add('mapa', { loop: true }).play()
-    // this.corujaPio = this.sound.add('coruja')
 
     // Configuração o objeto do mapa
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -118,11 +115,15 @@ export default class tilemapMapa extends Phaser.Scene {
       // Gera mensagem de log para informar que o usuário está fora da partida
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
 
+      // Encerra a cena atual e inicia a cena de sala
+      globalThis.game.scene.stop('mapa')
+      globalThis.game.scene.start('sala')
+    } else {
       // Define o atributo do tileset para gerar colisão
       this.layerParedes.setCollisionByProperty({ collides: true })
+
       // Adiciona colisão entre o personagem e as paredes
       this.physics.add.collider(this.personagemLocal, this.layerParedes)
-
 
       // Criação do personagem e suas animações
       this.personagem = this.physics.add.sprite(400, 225, 'salsicha-caramelo')
@@ -158,15 +159,16 @@ export default class tilemapMapa extends Phaser.Scene {
       // Início do follow da câmera
       this.cameras.main.startFollow(this.personagem)
     }
+  }
 
-    update() {
-      this.handleJoystickMove()
-    }
+  update () {
+    this.handleJoystickMove()
+  }
 
-    handleJoystickMove() {
-      const speed = 100 // Velocidade constante do personagem
-      const threshold = 0.1 // Limite mínimo de força para considerar o movimento
-    }
+  handleJoystickMove () {
+    const speed = 100 // Velocidade constante do personagem
+    const threshold = 0.1 // Limite mínimo de força para considerar o movimento
+
     // Movimenta o personagem com base na direção do joystick
     const angle = Phaser.Math.DegToRad(this.joystick.angle) // Converte o ângulo para radianos
     const force = this.joystick.force

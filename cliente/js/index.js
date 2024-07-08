@@ -17,7 +17,7 @@ class Game extends Phaser.Game {
     }
 
     // eslint-disable-next-line no-undef
-    this.socket = io({ path: '/jogo/socket.io/' })
+    this.socket = io()
     this.socket.on('connect', () => {
       console.log('Conectado ao servidor!')
     })
