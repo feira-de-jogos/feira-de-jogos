@@ -7,7 +7,7 @@ export default class sala extends Phaser.Scene {
     // Carrega o som de início
     //this.load.audio('iniciar', './assets/iniciar.mp3')
 
-    // Carrega a imagem de fundo
+    //   Carrega a imagem de fundo
     this.load.image('fundo', './assets/fundo.png')
   }
 

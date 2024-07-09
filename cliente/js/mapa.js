@@ -1,6 +1,6 @@
-export default class sala extends Phaser.Scene {
+export default class mapa extends Phaser.Scene {
     constructor () {
-      super('sala')
+      super('mapa')
     }
 
     preload(){}
