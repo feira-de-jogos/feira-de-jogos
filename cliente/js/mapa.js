@@ -170,14 +170,10 @@ export default class mapa extends Phaser.Scene {
           this.personagem.anims.play('cavaleiro-1-jump-start')
           this.jump.setFrame(0)
           jumpTimer+=1
-          console.log(deltaTime.now)
           this.while = true
         this.jump.setFrame(1)
         }).on('pointerup', () => {
           this.while = false
-          console.log("entrou")
-          console.log(this.contador)
-            console.log("jumpTimer:" + jumpTimer)
             if(jumpTimer > maxJumpTime){
               jumpTimer = maxJumpTime
             }
@@ -190,13 +186,9 @@ export default class mapa extends Phaser.Scene {
   
             if(jumping && jumpTimer <= maxJumpTime){
               jumping = false
-
-              console.log("MaxJumpTime:" + maxJumpTime)
               var jumpFactor = jumpTimer / maxJumpTime
-              console.log("JumpFactor: " + jumpFactor)
               var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados) 
               var currentJumpForceY = -155 * this.contador
-              console.log("currentJumpForce: " + currentJumpForceX + currentJumpForceY)
               this.personagem.setVelocity(currentJumpForceX, currentJumpForceY)
               jumpTimer = 0
               if(this.dir_direita){
@@ -223,17 +215,14 @@ export default class mapa extends Phaser.Scene {
       update(){
         if(!this.personagem.body.blocked.down){
           if(this.personagem.body.velocity.y > 0 && this.dir_direita){
-            console.log("Entrou no direita")
             this.personagem.anims.play('cavaleiro-3-jump-right')
             this.jump.setFrame(0)
             this.entrar = true
             
           } else if(this.personagem.body.velocity.y > 0 && this.dir_esquerda){
-            console.log("Entrou no esquerda")
             this.personagem.anims.play('cavaleiro-3-jump-left')
             this.jump.setFrame(0)
             this.entrar = true
-            
           }
         }
         if(this.personagem.body.blocked.down && this.entrar && this.dir_esquerda){
