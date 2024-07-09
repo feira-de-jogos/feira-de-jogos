@@ -31,9 +31,9 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('BenPlayer1', './assets/BenPlayer1.png', { frameWidth: 48, frameHeight: 64 })
 
     // movimentação do personagem
-    this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 64, frameHeight: 64 }) 
-    this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 128, frameHeight: 128 })
 
     // ao ter o mapa pronto, basta adiciona-lo no final deste código acima. Lembrando que o mapa irá estar no assets>>mapa
     // lembrando também que temos que colocar todos os assets dentro do preload, para assim podermos carrega-los através do comando this.preload.image('')
@@ -73,7 +73,7 @@ export default class mapa extends Phaser.Scene {
     // fundo e chão do mapa
     this.layerFundo = this.tilemapMapa.createLayer('Fundo', [this.tilesetFundoCavernaAzul, this.tilesetFundoCavernaRoxa, this.tilesetFundoCavernaVerde, this.tilesetFundoCavernaVermelho, this.tilesetFundoCavernaAmarela, this.tilesetBlocosBordas])
     this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde, this.tilesetBlocosCenarioAmarelo, this.tilesetBlocosCenarioVermelho, this.tilesetBlocosCenarioAzul, this.tilesetBlocosCenarioRoxo])
-    this.layerParede = this.tilemapMapa.createLayer('Parede', [this.tilesetBlocosTeto])
+    this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto])
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
     // personagem:
@@ -133,7 +133,7 @@ export default class mapa extends Phaser.Scene {
 
     // Pulo para direita:
 
-    this.cima = this.add.sprite(800, 390, 'cima', 0)
+    this.cima = this.add.sprite(800, 375, 'cima', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
@@ -150,7 +150,7 @@ export default class mapa extends Phaser.Scene {
 
     // movimentação direita
 
-    this.direita = this.add.sprite(120, 390, 'direita', 0)
+    this.direita = this.add.sprite(200, 375, 'direita', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
@@ -167,7 +167,7 @@ export default class mapa extends Phaser.Scene {
 
     // Movimentação esquerda
 
-    this.esquerda = this.add.sprite(50, 390, 'esquerda', 0)
+    this.esquerda = this.add.sprite(64, 375, 'esquerda', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
@@ -186,6 +186,9 @@ export default class mapa extends Phaser.Scene {
 
     this.layerChao.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagem, this.layerChao)
+
+    this.layerParedes.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.personagem, this.layerParedes)
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagem)
