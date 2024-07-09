@@ -6,6 +6,9 @@ export default class mapa extends Phaser.Scene {
   preload () {
     // lembrando que temos que carregar o som como primeiro de tudo, até acima do mapa, apartir do mesmo comando:
     // this.load.audio()
+
+    // Sprites load
+
     this.load.tilemapTiledJSON('mapa', '/assets/mapa/Mapa.json')
 
     this.load.image('BlocosCenarioVerde', './assets/mapa/BlocosCenarioVerde.png')
@@ -28,15 +31,16 @@ export default class mapa extends Phaser.Scene {
     this.load.image('FundoCavernaVermelho', './assets/mapa/FundoCavernaVermelho.png')
     this.load.image('FundoCavernaAmarela', './assets/mapa/FundoCavernaAmarela.png')
 
-    this.load.spritesheet('BenPlayer1', './assets/BenPlayer1.png', { frameWidth: 48, frameHeight: 64 })
+    this.load.spritesheet('BenPlayer1', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 64 })
 
-    // movimentação do personagem
+    // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 128, frameHeight: 128 })
-
-    // ao ter o mapa pronto, basta adiciona-lo no final deste código acima. Lembrando que o mapa irá estar no assets>>mapa
-    // lembrando também que temos que colocar todos os assets dentro do preload, para assim podermos carrega-los através do comando this.preload.image('')
+    this.load.spritesheet('AtqEsp', './assets/Constroles/AtqEsp', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('habFaca', './assets/Constroles/HabFaca', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('AtqMac', './assets/Constroles/AtMac', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('habDef', './assets/Constroles/HabDef', { frameWidth: 128, frameHeight: 128 })
   }
 
   create () {
@@ -49,7 +53,7 @@ export default class mapa extends Phaser.Scene {
     // cria o objeto tilemap (mapa)
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
-    // agora precisamos dar um this.tilsetOBJETO (este objeto seria o bloco, grama, etc)=this.tilemapMapa.addTilset.Image('Bloco,grama,etc')
+    // Tilesets
     this.tilesetBlocosBordas = this.tilemapMapa.addTilesetImage('BlocosBordas')
     this.tilesetBlocosCenarioVerde = this.tilemapMapa.addTilesetImage('BlocosCenarioVerde')
     this.tilesetBlocosCenarioAmarelo = this.tilemapMapa.addTilesetImage('BlocosCenarioAmarelo')
@@ -70,7 +74,7 @@ export default class mapa extends Phaser.Scene {
     this.tilesetGramasRoxo = this.tilemapMapa.addTilesetImage('GramasRoxo')
     this.tilesetPedrinhas = this.tilemapMapa.addTilesetImage('Pedrinhas')
 
-    // fundo e chão do mapa
+    // Layers
     this.layerFundo = this.tilemapMapa.createLayer('Fundo', [this.tilesetFundoCavernaAzul, this.tilesetFundoCavernaRoxa, this.tilesetFundoCavernaVerde, this.tilesetFundoCavernaVermelho, this.tilesetFundoCavernaAmarela, this.tilesetBlocosBordas])
     this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde, this.tilesetBlocosCenarioAmarelo, this.tilesetBlocosCenarioVermelho, this.tilesetBlocosCenarioAzul, this.tilesetBlocosCenarioRoxo])
     this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto])
@@ -80,10 +84,10 @@ export default class mapa extends Phaser.Scene {
     this.personagem = this.physics.add.sprite(3065, 2656, 'BenPlayer1')
     this.personagemLado = 'direita'
 
-    // Pedrinhas e Gramas:
+    // Detalhes
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
 
-    // movimentação do personagem:
+    // ANIMAÇÃO PERSONAGEM:
 
     // parado direita
     this.anims.create({
@@ -131,7 +135,9 @@ export default class mapa extends Phaser.Scene {
       frameRate: 1
     })
 
-    // Pulo para direita:
+    // MOVIMENTÇÃO PERSONAGEM
+
+    // Pulo
 
     this.cima = this.add.sprite(800, 375, 'cima', 0)
       .setScrollFactor(0)
@@ -182,6 +188,21 @@ export default class mapa extends Phaser.Scene {
         this.personagem.anims.play('BenPlayer1_parado_' + this.personagemLado)
       })
 
+    // Ataque
+
+    this.AtqEsp = this.add.sprite(780, 350, 'AtqEsp', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {})
+      .on('pointerout', () => {})
+
+    // Habilidade
+
+    this.HabFaca = this.add.sprite(820, 350, 'HabFaca', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {})
+      .on('pointerout', () => {})
     // colisão de personagem
 
     this.layerChao.setCollisionByProperty({ collides: true })
