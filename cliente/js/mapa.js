@@ -209,7 +209,7 @@ export default class mapa extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.personagem)
         this.layerBlocos.setCollisionByProperty({ collides: true })
-        this.physics.add.collider(this.personagem, this.layerBlocos)
+        this.physics.add.collider(this.personagem, this.layerBlocos, this.bounce, null, this)
       }
   
       update(){
@@ -243,6 +243,12 @@ export default class mapa extends Phaser.Scene {
             this.contador=1.5
           }
           this.contador+=0.02
+        }
+      }
+
+      bounce (){
+        if(this.personagem.body.collides){
+          this.personagem.body.velocity= -this.personagem.body.velocity
         }
       }
   }
