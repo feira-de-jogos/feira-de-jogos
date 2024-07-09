@@ -4,6 +4,9 @@ export default class mapa extends Phaser.Scene {
       super('mapa')
       this.dir_direita = undefined
       this.dir_esquerda = undefined
+      this.entrar = undefined
+      this.while = undefined
+      this.contador = 0
     }
 
     
@@ -27,7 +30,7 @@ export default class mapa extends Phaser.Scene {
         // this.sound.add('mapa', {loop:true}).play()
         this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
 
-        var jumpForce = -160
+        var jumpForce = -120
         var maxJumpTime = 150
 
         var onGround;
@@ -168,8 +171,12 @@ export default class mapa extends Phaser.Scene {
           this.jump.setFrame(0)
           jumpTimer+=1
           console.log(deltaTime.now)
+          this.while = true
         this.jump.setFrame(1)
         }).on('pointerup', () => {
+          this.while = false
+          console.log("entrou")
+          console.log(this.contador)
             console.log("jumpTimer:" + jumpTimer)
             if(jumpTimer > maxJumpTime){
               jumpTimer = maxJumpTime
@@ -187,22 +194,19 @@ export default class mapa extends Phaser.Scene {
               console.log("MaxJumpTime:" + maxJumpTime)
               var jumpFactor = jumpTimer / maxJumpTime
               console.log("JumpFactor: " + jumpFactor)
-              var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
-              var currentJumpForceY = -255
+              var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados) 
+              var currentJumpForceY = -155 * this.contador
               console.log("currentJumpForce: " + currentJumpForceX + currentJumpForceY)
               this.personagem.setVelocity(currentJumpForceX, currentJumpForceY)
               jumpTimer = 0
               if(this.dir_direita){
                 this.personagem.anims.play('cavaleiro-2-jump-right')
                 this.jump.setFrame(0)
-                this.dir_direita = false
-              } else if(dir_esquerda){
+              } else if(this.dir_esquerda){
                 this.personagem.anims.play('cavaleiro-2-jump-left')
-                this.jump.setFrame(0)
-                this.dir_esquerda = false
-                
+                this.jump.setFrame(0) 
               }
-              
+              this.contador = 0
             } else{
               jumping = false
               
@@ -218,17 +222,39 @@ export default class mapa extends Phaser.Scene {
   
       update(){
         if(!this.personagem.body.blocked.down){
-          console.log("Entrou no if")
-          console.log(this.dir_direita)
           if(this.personagem.body.velocity.y > 0 && this.dir_direita){
-            console.log("Entrou no segundo if")
+            console.log("Entrou no direita")
             this.personagem.anims.play('cavaleiro-3-jump-right')
             this.jump.setFrame(0)
+            this.entrar = true
+            
           } else if(this.personagem.body.velocity.y > 0 && this.dir_esquerda){
+            console.log("Entrou no esquerda")
             this.personagem.anims.play('cavaleiro-3-jump-left')
             this.jump.setFrame(0)
+            this.entrar = true
+            
           }
-       }
+        }
+        if(this.personagem.body.blocked.down && this.entrar && this.dir_esquerda){
+          this.personagem.anims.play('cavaleiro-1-idle-esquerda')
+          this.esquerda.setFrame(0)
+          this.entrar = false
+          this.dir_esquerda = true
+          this.personagem.setVelocity(0, 0)
+        }else if(this.personagem.body.blocked.down && this.entrar && this.dir_direita){
+          this.personagem.anims.play('cavaleiro-1-idle-direita')
+          this.direita.setFrame(0)
+          this.entrar = false
+          this.dir_direita = true
+          this.personagem.setVelocity(0, 0)
+        }
+        if(this.while){
+          if(this.contador >= 1.5){
+            this.contador=1.5
+          }
+          this.contador+=0.02
+        }
       }
   }
   
