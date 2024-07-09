@@ -2,8 +2,8 @@
 export default class mapa extends Phaser.Scene {
     constructor () {
       super('mapa')
-      this.dir_direita = undefined
-      this.dir_esquerda = undefined
+      this.dir_direita = true
+      this.dir_esquerda = false
       this.entrar = undefined
       this.while = undefined
       this.contador = 0
@@ -41,7 +41,7 @@ export default class mapa extends Phaser.Scene {
         var maxJumpDistance = 15
 
         var deltaTime = Phaser.Time.Clock
-        var dir_lados
+        var dir_lados = -1
         
 
         var ponteiro = false
@@ -163,7 +163,7 @@ export default class mapa extends Phaser.Scene {
           }
         })
 
-        this.jump = this.add.sprite(260, 400, 'jump', 0)
+        this.jump = this.add.sprite(700, 400, 'jump', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
