@@ -112,57 +112,90 @@ export default class tilemapMapa extends Phaser.Scene {
         globalThis.game.localConnection.addIceCandidate(candidate)
       })
 
+      // Cria os sprites dos personagens local e remoto
+      this.personagemLocal = this.physics.add.sprite(400, 225, 'salsicha-marrom')
+      this.personagemRemoto = this.physics.add.sprite(400, 225, 'salsicha-caramelo')
+    } else {
       // Gera mensagem de log para informar que o usuário está fora da partida
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
 
       // Encerra a cena atual e inicia a cena de sala
       globalThis.game.scene.stop('mapa')
       globalThis.game.scene.start('sala')
-    } else {
-      // Define o atributo do tileset para gerar colisão
-      this.layerParedes.setCollisionByProperty({ collides: true })
+    }
 
-      // Adiciona colisão entre o personagem e as paredes
-      this.physics.add.collider(this.personagemLocal, this.layerParedes)
+    // Define o atributo do tileset para gerar colisão
+    this.layerParedes.setCollisionByProperty({ collides: true })
 
-      // Criação do personagem e suas animações
-      this.personagem = this.physics.add.sprite(400, 225, 'salsicha-caramelo')
-      this.anims.create({
-        key: 'salsicha-caramelo-parado',
-        frames: this.anims.generateFrameNumbers('salsicha-caramelo', { start: 0, end: 1 }),
-        frameRate: 2,
-        repeat: -1
-      })
-      this.anims.create({
-        key: 'salsicha-caramelo-direita',
-        frames: this.anims.generateFrameNumbers('salsicha-caramelo', { start: 1, end: 3 }),
-        frameRate: 7,
-        repeat: -1
-      })
-      this.anims.create({
-        key: 'salsicha-caramelo-esquerda',
-        frames: this.anims.generateFrameNumbers('salsicha-caramelo', { start: 6, end: 8 }),
-        frameRate: 7,
-        repeat: -1
-      })
-      this.personagem.anims.play('salsicha-caramelo-parado')
+    // Adiciona colisão entre o personagem e as paredes
+    this.physics.add.collider(this.personagemLocal, this.layerParedes)
 
-      // Configuração do plugin do joystick virtual
-      this.joystick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-        x: 120,
-        y: 360,
-        radius: 50, // Raio do joystick
-        base: this.add.circle(120, 360, 50, 0x888888),
-        thumb: this.add.circle(120, 360, 25, 0xcccccc)
-      })
+    this.anims.create({
+      key: 'salsicha-parado',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 1 }),
+      frameRate: 2,
+      repeat: -1
+    })
 
-      // Início do follow da câmera
-      this.cameras.main.startFollow(this.personagem)
+    this.anims.create({
+      key: 'salsicha-direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 1, end: 3 }),
+      frameRate: 7,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'salsicha-esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 6, end: 8 }),
+      frameRate: 7,
+      repeat: -1
+    })
+
+    // Configuração do plugin do joystick virtual
+    this.joystick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+      x: 120,
+      y: 360,
+      radius: 50, // Raio do joystick
+      base: this.add.circle(120, 360, 50, 0x888888),
+      thumb: this.add.circle(120, 360, 25, 0xcccccc)
+    }).on('update', this.handleJoystickMove, this)
+
+    // Início do follow da câmera
+    this.cameras.main.startFollow(this.personagemLocal)
+    this.personagemLocal.lado = 'direita'
+
+    globalThis.game.dadosJogo.onmessage = (event) => {
+      const dados = JSON.parse(event.data)
+
+      // Verifica se os dados recebidos contêm informações sobre o personagem
+      if (dados.personagem) {
+        this.personagemRemoto.x = dados.personagem.x
+        this.personagemRemoto.y = dados.personagem.y
+        this.personagemRemoto.setFrame(dados.personagem.frame)
+      }
     }
   }
 
+
   update () {
-    this.handleJoystickMove()
+    try {
+      // Envia os dados do jogo somente se houver conexão aberta
+      if (globalThis.game.dadosJogo.readyState === 'open') {
+        // Verifica que o personagem local existe
+        if (this.personagemLocal) {
+          // Envia os dados do personagem local via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            personagem: {
+              x: this.personagemLocal.x,
+              y: this.personagemLocal.y,
+              frame: this.personagemLocal.frame.name
+            }
+          }))
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao enviar os dados do jogo: ', error)
+    }
   }
 
   handleJoystickMove () {
@@ -177,26 +210,28 @@ export default class tilemapMapa extends Phaser.Scene {
       const velocityX = Math.cos(angle) * speed
       const velocityY = Math.sin(angle) * speed
 
-      this.personagem.setVelocity(velocityX, velocityY)
+      this.personagemLocal.setVelocity(velocityX, velocityY)
 
       // Animação do personagem conforme a direção do movimento
       if (Math.abs(velocityX) > Math.abs(velocityY)) {
         if (velocityX > 0) {
-          this.personagem.anims.play('salsicha-caramelo-direita', true)
+          this.personagemLocal.lado = 'direita'
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true)
         } else {
-          this.personagem.anims.play('salsicha-caramelo-esquerda', true)
+          this.personagemLocal.lado = 'esquerda'
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true)
         }
       } else {
         if (velocityY > 0) {
-          this.personagem.anims.play('salsicha-caramelo-direita', true) // Mude isso se houver uma animação de movimento para baixo
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true) // Mude isso se houver uma animação de movimento para baixo
         } else {
-          this.personagem.anims.play('salsicha-caramelo-esquerda', true) // Mude isso se houver uma animação de movimento para cima
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true) // Mude isso se houver uma animação de movimento para cima
         }
       }
     } else {
       // Se a força do joystick for baixa, o personagem para
-      this.personagem.setVelocity(0)
-      this.personagem.anims.play('salsicha-caramelo-parado', true)
+      this.personagemLocal.setVelocity(0)
+      this.personagemLocal.anims.play('salsicha-parado', true)
     }
   }
 }
