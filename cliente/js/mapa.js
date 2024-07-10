@@ -32,15 +32,17 @@ export default class mapa extends Phaser.Scene {
     this.load.image('FundoCavernaAmarela', './assets/mapa/FundoCavernaAmarela.png')
 
     this.load.spritesheet('BenPlayer1', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 64 })
+    
+
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('AtqEsp', './assets/Constroles/AtqEsp', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('habFaca', './assets/Constroles/HabFaca', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('AtqMac', './assets/Constroles/AtMac', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('habDef', './assets/Constroles/HabDef', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('AtqEsp', './assets/Controles/AtqEsp.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('HabFaca', './assets/Controles/HabFaca.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
   }
 
   create () {
@@ -190,7 +192,7 @@ export default class mapa extends Phaser.Scene {
 
     // Ataque
 
-    this.AtqEsp = this.add.sprite(780, 350, 'AtqEsp', 0)
+    this.AtqEsp = this.add.sprite(800, 230, 'AtqEsp', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {})
@@ -198,7 +200,7 @@ export default class mapa extends Phaser.Scene {
 
     // Habilidade
 
-    this.HabFaca = this.add.sprite(820, 350, 'HabFaca', 0)
+    this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {})
