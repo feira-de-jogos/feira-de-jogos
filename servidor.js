@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => { })
 })
 
-app.use(express.static('../cliente/'))
+app.use(express.static('./cliente/'))
 server.listen(PORT, () =>
   console.log(`Servidor em execução na porta ${PORT}!`)
 )
