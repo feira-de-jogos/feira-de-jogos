@@ -176,7 +176,6 @@ export default class tilemapMapa extends Phaser.Scene {
     }
   }
 
-
   update () {
     try {
       // Envia os dados do jogo somente se houver conexão aberta
