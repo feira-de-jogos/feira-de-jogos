@@ -31,26 +31,6 @@ io.on('connection', (socket) => {
 
     io.to(sala).emit('jogadores', jogadores)
   })
-  socket.on('botaoc2-publicar', (sala, estado) => {
-    socket.to(sala).emit('botaoc2-notificar', estado)
-  })
-  socket.on('alavanca2-publicar', (sala, estado) => {
-    socket.to(sala).emit('alavanca2-notificar', estado)
-  })
-  socket.on('portasobe2-publicar', (sala, estado) => {
-    socket.to(sala).emit('portasobe2-notificar', estado)
-  })
-  socket.on('estado-publicar', (sala, estado) => {
-    socket.to(sala).emit('estado-notificar', estado)
-  })
-
-  socket.on('artefatos-publicar', (sala, artefatos) => {
-    socket.to(sala).emit('artefatos-notificar', artefatos)
-  })
-
-  socket.on('cena-publicar', (sala, cena) => {
-    socket.to(sala).emit('cena-notificar', cena)
-  })
 
   socket.on('offer', (sala, description) => {
     socket.to(sala).emit('offer', description)
