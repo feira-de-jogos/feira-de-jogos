@@ -239,10 +239,10 @@ export default class mapa extends Phaser.Scene {
           this.personagem.setVelocity(0, 0)
         }
         if(this.while){
-          if(this.contador >= 1.5){
-            this.contador=1.5
+          if(this.contador >= 2){
+            this.contador=2
           }
-          this.contador+=0.02
+          this.contador+=0.04
         }
       }
 
