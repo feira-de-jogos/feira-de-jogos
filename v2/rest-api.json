@@ -392,6 +392,36 @@
         ]
       }
     },
+    "/balance": {
+      "get": {
+        "description": "User balance",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/balanceResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
     "/statement": {
       "get": {
         "description": "Bank statement",
@@ -593,6 +623,16 @@
           "stock": {
             "description": "stock quantity",
             "example": 10,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "balanceResponse": {
+        "properties": {
+          "balance": {
+            "description": "user balance",
+            "example": 100,
             "format": "int32",
             "type": "integer"
           }
