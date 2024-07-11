@@ -31,7 +31,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('FundoCavernaVermelho', './assets/mapa/FundoCavernaVermelho.png')
     this.load.image('FundoCavernaAmarela', './assets/mapa/FundoCavernaAmarela.png')
 
-    this.load.spritesheet('BenPlayer1', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 64 })
+    this.load.spritesheet('BenPlayer1', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 48 })
     
 
 
@@ -147,7 +147,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerover', () => {
         this.cima.setFrame(1)
         if (this.personagem.body.blocked.down) {
-          this.personagem.setVelocityY(-550)
+          this.personagem.setVelocityY(-600)
           this.personagem.anims.play('BenPlayer1_pulando_' + this.personagemLado)
         }
       })
@@ -163,7 +163,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.direita.setFrame(1)
-        this.personagem.setVelocityX(180)
+        this.personagem.setVelocityX(250)
         this.personagemLado = 'direita'
         this.personagem.anims.play('BenPlayer1_andando_' + this.personagemLado)
       })
