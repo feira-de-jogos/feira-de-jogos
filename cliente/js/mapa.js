@@ -34,6 +34,7 @@ export default class mapa extends Phaser.Scene {
         var jumpForce = -220
         var maxJumpTime = 150
 
+        this.cameras.main.setZoom(1.7)
         var onGround;
 
         var jumpTimer = 0
@@ -138,7 +139,7 @@ export default class mapa extends Phaser.Scene {
         })
 
 
-        this.esquerda = this.add.sprite(100, 400, 'esquerda', 0)
+        this.esquerda = this.add.sprite(220, 550, 'esquerda', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', ()=>{
@@ -158,7 +159,7 @@ export default class mapa extends Phaser.Scene {
           }
         })
 
-        this.direita = this.add.sprite(180, 400, 'direita', 0)
+        this.direita = this.add.sprite(340, 550, 'direita', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', ()=>{
@@ -178,7 +179,7 @@ export default class mapa extends Phaser.Scene {
           }
         })
 
-        this.jump = this.add.sprite(700, 400, 'jump', 0)
+        this.jump = this.add.sprite(580, 550, 'jump', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', ()=>{
