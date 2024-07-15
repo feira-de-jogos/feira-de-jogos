@@ -4,6 +4,9 @@ export default class mapa extends Phaser.Scene {
   }
 
   preload () {
+    //Carrega os sons
+
+
     // Carrega o mapa
     this.load.tilemapTiledJSON('mapa', './assets/mapa/mapa.json')
 
@@ -19,6 +22,9 @@ export default class mapa extends Phaser.Scene {
 
     // Carrega o personagem
     this.load.spritesheet('Belinha', './assets/Belinha.png', {frameWidth: 32, frameHeight: 32})
+  
+    //Carrega as imagens dos botões
+    
   }
 
   create () {
