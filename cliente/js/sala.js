@@ -26,7 +26,6 @@ export default class abertura extends Phaser.Scene {
     })
       .setInteractive() // Permite que o texto seja clicável
       .on('pointerdown', () => {
-    
         // Define a variável global da sala
         globalThis.game.sala = 1
 

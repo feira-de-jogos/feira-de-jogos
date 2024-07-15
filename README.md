@@ -27,7 +27,8 @@ Alex: Um geólogo lunar apaixonado pela descoberta de novos minerais e recursos.
 Mario
 Jogos de Labirinto
 
-## Receitas:
-Venda de ingressos.
-Expandir o jogo para diversos estados, como uma franquia de jogos.
-Trabalhar com anúncios durante o jogo. De forma com que os objetos usados na parte física do jogo, sejam uma forma de anunciar marcas.
+## Receitas
+
+- Venda de ingressos.
+- Expandir o jogo para diversos estados, como uma franquia de jogos.
+- Trabalhar com anúncios durante o jogo, de forma com que os objetos usados na parte física do jogo, sejam uma forma de anunciar marcas.
