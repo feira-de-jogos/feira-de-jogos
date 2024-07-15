@@ -82,20 +82,103 @@ export default class mapa extends Phaser.Scene {
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
     // personagem:
-    this.personagem = this.physics.add.sprite(3065, 2656, 'BenPlayer1')
+    this.personagem = this.physics.add.sprite(2542, 2664, 'BenPlayer1')
     this.personagemLado = 'direita'
 
-    // portais
-    this.portal1 = this.physics.add.sprite(2543,2664, 'Vazio')
+    // Portais:
+
+    //Portal Verde para Roxo:
+    this.portal1 = this.physics.add.sprite(2500,2130, 'Vazio')
     this.portal1.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagem, this.portal1, () => {
       this.cameras.main.fadeOut(100)
-      this.personagem.x = 3065
-      this.personagem.y = 2656
+      this.personagem.x = 1981
+      this.personagem.y = 2152
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
         camera.fadeIn(100)
       })
     })
+
+    //Portal Roxo para Verde:
+    this.portal2 = this.physics.add.sprite(2048, 2152, 'Vazio')
+    this.portal2.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal2, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 2650
+      this.personagem.y = 2150
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
+    this.portal3 = this.physics.add.sprite(4800, 2152, 'Vazio')
+    this.portal3.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal3, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 5291
+      this.personagem.y = 2132
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
+    this.portal4 = this.physics.add.sprite(5180, 2152, 'Vazio')
+    this.portal4.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal4, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 4720
+      this.personagem.y = 2132
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
+    this.portal5 = this.physics.add.sprite(3794, 1530, 'Vazio')
+    this.portal5.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal5, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 3840
+      this.personagem.y = 1000
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
+    this.portal6 = this.physics.add.sprite(3780, 1200, 'Vazio')
+    this.portal6.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal6, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 3786
+      this.personagem.y = 1680
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+    
+    //Portal Grama para Fogo:
+    this.portal7 = this.physics.add.sprite(3980, 2800, 'Vazio')
+    this.portal7.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal7, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 3984
+      this.personagem.y = 3284
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
+    //Portal Fogo para Verde:
+    this.portal8 = this.physics.add.sprite(3984, 3129, 'Vazio')
+    this.portal8.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal8, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 4000
+      this.personagem.y = 2630
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
 
     // Detalhes
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
