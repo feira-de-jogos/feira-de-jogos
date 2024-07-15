@@ -11,11 +11,14 @@ export default class mapa extends Phaser.Scene {
     this.load.image('geral', './assets/mapa/tileindustrial64pxgeral.png')
 
     // Carregar spritesheets
-    this.load.spritesheet('personagem', './assets/personagens/Alex.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('alex', './assets/personagens/alex.png', { frameWidth: 36, frameHeight: 64 })
     this.load.spritesheet('blocoquebra', './assets/animacoes/card.png', { frameWidth: 32, frameHeight: 32 })
 
-    // Carrega o plugin do joystick virtual
-    this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true)
+    // Carrega as imagens dos botões
+    this.load.spritesheet('cima', './assets/cima.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('baixo', './assets/baixo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('esquerda', './assets/esquerda.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('direita', './assets/direita.png', { frameWidth: 64, frameHeight: 64 })
   }
 
   create () {
@@ -32,10 +35,157 @@ export default class mapa extends Phaser.Scene {
     this.layerchao = this.tilemapMapa.createLayer('chao', [this.tilesetGeral])
     this.layerparedes = this.tilemapMapa.createLayer('paredes', [this.tilesetGeral])
 
+    if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
+      globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
+      globalThis.game.dadosJogo = globalThis.game.remoteConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
+
+      globalThis.game.remoteConnection.onicecandidate = function ({ candidate }) {
+        candidate && globalThis.game.socket.emit('candidate', globalThis.game.sala, candidate)
+      }
+
+      globalThis.game.remoteConnection.ontrack = function ({ streams: [midia] }) {
+        globalThis.game.audio.srcObject = midia
+      }
+
+      if (globalThis.game.midias) {
+        globalThis.game.midias.getTracks()
+          .forEach((track) => globalThis.game.remoteConnection.addTrack(track, globalThis.game.midias))
+      }
+
+      globalThis.game.socket.on('offer', (description) => {
+        globalThis.game.remoteConnection.setRemoteDescription(description)
+          .then(() => globalThis.game.remoteConnection.createAnswer())
+          .then((answer) => globalThis.game.remoteConnection.setLocalDescription(answer))
+          .then(() => globalThis.game.socket.emit('answer', globalThis.game.sala, globalThis.game.remoteConnection.localDescription))
+      })
+
+      globalThis.game.socket.on('candidate', (candidate) => {
+        globalThis.game.remoteConnection.addIceCandidate(candidate)
+      })
+
+      // Cria os sprites dos personagens local e remoto
+      this.personagemLocal = this.physics.add.sprite(3500, 7200, 'alex')
+    } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
+      globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
+      globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
+
+      globalThis.game.localConnection.onicecandidate = function ({ candidate }) {
+        candidate && globalThis.game.socket.emit('candidate', globalThis.game.sala, candidate)
+      }
+
+      globalThis.game.localConnection.ontrack = function ({ streams: [stream] }) {
+        globalThis.game.audio.srcObject = stream
+      }
+
+      if (globalThis.game.midias) {
+        globalThis.game.midias.getTracks()
+          .forEach((track) => globalThis.game.localConnection.addTrack(track, globalThis.game.midias))
+      }
+
+      globalThis.game.localConnection.createOffer()
+        .then((offer) => globalThis.game.localConnection.setLocalDescription(offer))
+        .then(() => globalThis.game.socket.emit('offer', globalThis.game.sala, globalThis.game.localConnection.localDescription))
+
+      globalThis.game.socket.on('answer', (description) => {
+        globalThis.game.localConnection.setRemoteDescription(description)
+      })
+
+      globalThis.game.socket.on('candidate', (candidate) => {
+        globalThis.game.localConnection.addIceCandidate(candidate)
+      })
+
+      // Cria os sprites dos personagens local e remoto
+      this.personagemLocal = this.physics.add.sprite(3500, 7200, 'alex')
+    }
+
     // Define o atributo do tileset para gerar colisão
     this.layerparedes.setCollisionByProperty({ collides: true })
+
     // Adiciona colisão entre o personagem e as paredes
-    //this.physics.add.collider(this.personagem, this.layerparedes)
+    this.physics.add.collider(this.personagemLocal, this.layerparedes)
+    this.cameras.main.startFollow(this.personagemLocal)
+
+    this.cima = this.add.sprite(100, 250, 'cima', 0)
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Altera o frame do botão para pressionado
+
+        this.cima.setFrame(1)
+
+        // Faz o personagem andar para cima
+        this.personagemLocal.setVelocityY(-250)
+
+        // Anima o personagem voando
+        this.personagemLocal.anims.play('personagem-costas-' + this.personagemLocal.lado)
+      })
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
+        this.cima.setFrame(0)
+
+        // Para o personagem
+        this.personagemLocal.setVelocityY(0)
+      })
+
+    this.baixo = this.add.sprite(100, 350, 'baixo', 0)
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Altera o frame do botão para pressionado
+        this.baixo.setFrame(1)
+
+        // Faz o personagem andar para baixo
+        this.personagemLocal.setVelocityY(250)
+      })
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
+        this.baixo.setFrame(0)
+
+        // Para o personagem
+        this.personagemLocal.setVelocityY(0)
+      })
+
+    this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Altera o frame do botão para pressionado
+        this.esquerda.setFrame(1)
+
+        // Faz o personagem voar para a esquerda
+        this.personagemLocal.setVelocityX(-250)
+
+        // Muda a variável de controle do lado do personagem
+        this.personagemLocal.lado = 'esquerda'
+      })
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
+        this.esquerda.setFrame(0)
+
+        // Para o personagem
+        this.personagemLocal.setVelocityX(0)
+      })
+
+    this.direita = this.add.sprite(700, 350, 'direita', 0)
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Altera o frame do botão para pressionado
+        this.direita.setFrame(1)
+
+        // Faz o personagem voar para a direita
+        this.personagemLocal.setVelocityX(250)
+
+        // Muda a variável de controle do lado do personagem
+        this.personagemLocal.lado = 'direita'
+      })
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
+        this.direita.setFrame(0)
+
+        // Para o personagem
+        this.personagemLocal.setVelocityX(0)
+      })
   }
 
   update () { }
