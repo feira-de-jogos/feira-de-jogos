@@ -11,14 +11,10 @@ export default class tilemapMapa extends Phaser.Scene {
     this.load.tilemapTiledJSON('mapa', './assets/mapa/mapa.json')
 
     // Carrega as imagens do mapa
-    this.load.image('blocos', './assets/mapa/blocos.png')
-    this.load.image('grama', './assets/mapa/grama.png')
-    this.load.image('itens', './assets/mapa/itens.png')
-    this.load.image('paredes', './assets/mapa/paredes.png')
-    this.load.image('pedras', './assets/mapa/pedras.png')
-    this.load.image('plantas', './assets/mapa/plantas.png')
-    this.load.image('sombras-plantas', './assets/mapa/sombras-plantas.png')
-    this.load.image('sombras', './assets/mapa/sombras.png')
+    this.load.image('assets', './assets/mapa/assets.png')
+    this.load.image('tiles', './assets/mapa/tiles.png')
+    this.load.image('Restaurante', './assets/mapa/restaurante2.png')
+    this.load.image('water_animation_demo', './assets/mapa/water_animation_demo.png')
 
     // Carrega as spritesheets dos personagens e artefatos
     this.load.spritesheet('salsicha-caramelo', './assets/salsicha-caramelo.png', { frameWidth: 64, frameHeight: 64 })
@@ -36,21 +32,24 @@ export default class tilemapMapa extends Phaser.Scene {
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
     // Cria os tilesets do mapa
-    this.tilesetBlocos = this.tilemapMapa.addTilesetImage('blocos')
-    this.tilesetGrama = this.tilemapMapa.addTilesetImage('grama')
-    this.tilesetItens = this.tilemapMapa.addTilesetImage('itens')
-    this.tilesetParedes = this.tilemapMapa.addTilesetImage('paredes')
-    this.tilesetPedras = this.tilemapMapa.addTilesetImage('pedras')
-    this.tilesetPlantas = this.tilemapMapa.addTilesetImage('plantas')
-    this.tilesetSombrasPlantas = this.tilemapMapa.addTilesetImage('sombras-plantas')
-    this.tilesetSombras = this.tilemapMapa.addTilesetImage('sombras')
+    this.tilesetassets = this.tilemapMapa.addTilesetImage('assets')
+    this.tilesettiles = this.tilemapMapa.addTilesetImage('tiles')
+    this.tilesetrestaurante = this.tilemapMapa.addTilesetImage('Restaurante')
+    this.tilesetagua = this.tilemapMapa.addTilesetImage('water_animation_demo')
 
     // Cria as camadas do mapa
-    this.layerTerreno = this.tilemapMapa.createLayer('terreno', [this.tilesetGrama])
-    this.layerSombras = this.tilemapMapa.createLayer('sombras', [this.tilesetSombrasPlantas, this.tilesetSombras])
-    this.layerPlantas = this.tilemapMapa.createLayer('plantas', [this.tilesetPlantas])
-    this.layerItens = this.tilemapMapa.createLayer('itens', [this.tilesetItens])
-    this.layerParedes = this.tilemapMapa.createLayer('paredes', [this.tilesetBlocos, this.tilesetParedes])
+    this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesettiles])
+    this.layerAnimacaoAgua = this.tilemapMapa.createLayer('AnimacaoAgua', [this.tilesetagua])
+    this.layerSombra = this.tilemapMapa.createLayer('Sombra', [this.tilesettiles])
+    this.layerMontanha = this.tilemapMapa.createLayer('Montanha', [this.tilesettiles])
+    this.layerCaminhobarro = this.tilemapMapa.createLayer('Caminhobarro', [this.tilesettiles])
+    this.layerCaminhoGrama = this.tilemapMapa.createLayer('CaminhoGrama', [this.tilesettiles])
+    this.layerCaminhoMadeira = this.tilemapMapa.createLayer('Madeira', [this.tilesetassets])
+    this.layerCaminhoObjetosCenario = this.tilemapMapa.createLayer('ObjetosCenario', [this.tilesetassets])
+    this.layerCaminhoObjetoscenario2 = this.tilemapMapa.createLayer('Objetoscenario2', [this.tilesetassets])
+    this.layerCaminhoPonteeagua = this.tilemapMapa.createLayer('Ponteeagua', [this.tilesetassets])
+    this.layerCaminhoPontedois = this.tilemapMapa.createLayer('Pontedois', [this.tilesetassets])
+    this.layerRestaurante = this.tilemapMapa.createLayer('Restaurante', [this.tilesetrestaurante])
 
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -125,10 +124,10 @@ export default class tilemapMapa extends Phaser.Scene {
     }
 
     // Define o atributo do tileset para gerar colisão
-    this.layerParedes.setCollisionByProperty({ collides: true })
+    // this.layerParedes.setCollisionByProperty({ collides: true })
 
     // Adiciona colisão entre o personagem e as paredes
-    this.physics.add.collider(this.personagemLocal, this.layerParedes)
+    // this.physics.add.collider(this.personagemLocal, this.layerParedes)
 
     this.anims.create({
       key: 'salsicha-parado',
