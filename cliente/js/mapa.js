@@ -20,7 +20,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('sombras', './assets/mapa/sombras.png')
 
     // Carrega o personagem
-    this.load.spritesheet('Belinha', './assets/Belinha.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('Belinha', './assets/personagens/Belinha.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega as imagens dos botões
     this.load.image('cima', './assets/botoes/cima.png')
@@ -79,7 +79,7 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(400, 225, 'belinha')
+      this.personagemLocal = this.physics.add.sprite(1000, 800, 'Belinha')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -110,7 +110,7 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(400, 225, 'belinha')
+      this.personagemLocal = this.physics.add.sprite(1000, 800, 'Belinha')
     } else {
       // Gera mensagem de log para informar que o usuário está fora da partida
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
@@ -129,52 +129,32 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        // Toca o som da coruja
-        this.corujaPio.play()
-
-        // Altera o frame do botão para pressionado
-        this.cima.setFrame(1)
-
-        // Altera o frame do botão para o estado original
-        this.cima.setFrame(0)
+        this.personagemLocal.setVelocityY(-200)
+      })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        // Toca o som da coruja
-        this.corujaPio.play()
-
-        // Altera o frame do botão para pressionado
-        this.baixo.setFrame(1)
-
+        this.personagemLocal.setVelocityY(200)
+      })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-
-        // Altera o frame do botão para pressionado
-        this.esquerda.setFrame(1)
-
         // Muda a variável de controle do lado do personagem
         this.personagemLocal.lado = 'esquerda'
-          
-    
-        // Altera o frame do botão para o estado original
-        this.esquerda.setFrame(0)
+
+        this.personagemLocal.setVelocityX(-200)
+      })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-      
-
-        // Altera o frame do botão para pressionado
-        this.direita.setFrame(1)
-
-        // Altera o frame do botão para o estado original
-        this.direita.setFrame(0)
+        this.personagemLocal.setVelocityX(200)
+      })
 
     // Inicia a câmera seguindo o personagem
     this.cameras.main.startFollow(this.personagemLocal)
@@ -194,10 +174,8 @@ export default class mapa extends Phaser.Scene {
         this.personagemRemoto.y = dados.personagem.y
         this.personagemRemoto.setFrame(dados.personagem.frame)
       }
-
-      update()
-
-
     }
   }
+
+  update () { }
 }
