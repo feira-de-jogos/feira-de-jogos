@@ -110,22 +110,75 @@ export default class mapa extends Phaser.Scene {
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
         // Altera o frame do botão para pressionado
-
         this.cima.setFrame(1)
 
         // Faz o personagem andar para cima
         this.personagemLocal.setVelocityY(-250)
 
-        // Anima o personagem voando
-        this.personagemLocal.anims.play('personagem-costas-' + this.personagemLocal.lado)
+        // Anima o personagem andando para cima
+        this.personagemLocal.anims.play('personagem-cima')
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.cima.setFrame(0)
 
-        // Para o personagem
+        // Faz o personagem parar
         this.personagemLocal.setVelocityY(0)
+
+        // Anima o personagem parado
+        this.personagemLocal.anims.play('personagem-parado')
       })
+
+    // Para o personagem
+
+    this.anims.create({
+      key: 'personagem-esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 13,
+        end: 19
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 4,
+        end: 11
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-cima',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 21,
+        end: 23
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-baixo',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 0,
+        end: 3
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-parado',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 1,
+        end: 1
+      }),
+      frameRate: 1
+    })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // não se move com a câmera
@@ -136,13 +189,18 @@ export default class mapa extends Phaser.Scene {
 
         // Faz o personagem andar para baixo
         this.personagemLocal.setVelocityY(250)
+        // Anima o personagem andando para baixo
+        this.personagemLocal.anims.play('personagem-baixo')
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.baixo.setFrame(0)
 
-        // Para o personagem
+        // Para o personagem velocidade
         this.personagemLocal.setVelocityY(0)
+
+        // Anima o personagem parado
+        this.personagemLocal.anims.play('personagem-parado')
       })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
@@ -156,7 +214,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.setVelocityX(-250)
 
         // Muda a variável de controle do lado do personagem
-        this.personagemLocal.lado = 'esquerda'
+        this.personagemLocal.anims.play('personagem-esquerda')
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
@@ -164,6 +222,9 @@ export default class mapa extends Phaser.Scene {
 
         // Para o personagem
         this.personagemLocal.setVelocityX(0)
+
+        // Anima o personagem parado
+        this.personagemLocal.anims.play('personagem-parado')
       })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
@@ -177,7 +238,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.setVelocityX(250)
 
         // Muda a variável de controle do lado do personagem
-        this.personagemLocal.lado = 'direita'
+        this.personagemLocal.anims.play('personagem-direita') = 'direita'
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
@@ -185,6 +246,9 @@ export default class mapa extends Phaser.Scene {
 
         // Para o personagem
         this.personagemLocal.setVelocityX(0)
+
+        // Anima o personagem parado
+        this.personagemLocal.anims.play('personagem-parado')
       })
   }
 
