@@ -30,10 +30,9 @@ export default class mapa extends Phaser.Scene {
     this.load.image('FundoCavernaVerde', './assets/mapa/FundoCavernaVerde.png')
     this.load.image('FundoCavernaVermelho', './assets/mapa/FundoCavernaVermelho.png')
     this.load.image('FundoCavernaAmarela', './assets/mapa/FundoCavernaAmarela.png')
+    this.load.image('Vazio', './assets/mapa/Vazio.png')
 
     this.load.spritesheet('BenPlayer1', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 48 })
-    
-
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -85,6 +84,18 @@ export default class mapa extends Phaser.Scene {
     // personagem:
     this.personagem = this.physics.add.sprite(3065, 2656, 'BenPlayer1')
     this.personagemLado = 'direita'
+
+    // portais
+    this.portal1 = this.physics.add.sprite(2543,2664, 'Vazio')
+    this.portal1.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.portal1, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagem.x = 3065
+      this.personagem.y = 2656
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
 
     // Detalhes
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
@@ -195,16 +206,16 @@ export default class mapa extends Phaser.Scene {
     this.AtqEsp = this.add.sprite(800, 230, 'AtqEsp', 0)
       .setScrollFactor(0)
       .setInteractive()
-      .on('pointerover', () => {})
-      .on('pointerout', () => {})
+      .on('pointerover', () => { })
+      .on('pointerout', () => { })
 
     // Habilidade
 
     this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
       .setScrollFactor(0)
       .setInteractive()
-      .on('pointerover', () => {})
-      .on('pointerout', () => {})
+      .on('pointerover', () => { })
+      .on('pointerout', () => { })
     // colisão de personagem
 
     this.layerChao.setCollisionByProperty({ collides: true })

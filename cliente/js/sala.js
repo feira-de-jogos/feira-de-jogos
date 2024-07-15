@@ -8,7 +8,7 @@ export default class sala extends Phaser.Scene {
     this.load.audio('iniciar', './assets/audio.mp3')
 
     // Abertura:
-    this.load.image('abertura', './assets/teste.png')
+    this.load.image('abertura', './assets/Cenas/CenadeJogos.png')
   }
 
   create () {

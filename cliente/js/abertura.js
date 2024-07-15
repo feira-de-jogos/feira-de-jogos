@@ -4,7 +4,7 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('fundo', './assets/teste.png')
+    this.load.image('fundo', './assets/Cenas/TeladeFundo.png')
   } // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
 
   create () {
