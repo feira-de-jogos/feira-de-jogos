@@ -23,6 +23,10 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('Belinha', './assets/Belinha.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega as imagens dos botões
+    this.load.image('cima', './assets/botoes/cima.png')
+    this.load.image('baixo', './assets/botoes/baixo.png')
+    this.load.image('esquerda', './assets/botoes/esquerda.png')
+    this.load.image('direita', './assets/botoes/direita.png')
   }
 
   create () {
@@ -121,26 +125,6 @@ export default class mapa extends Phaser.Scene {
     // Adiciona colisão entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerSob)
 
-    this.anims.create({
-      key: 'personagem-parado-esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 0,
-        end: 1
-      }),
-      frameRate: 1,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key: 'personagem-parado-direita',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 6,
-        end: 7
-      }),
-      frameRate: 1,
-      repeat: -1
-    })
-
     this.cima = this.add.sprite(100, 250, 'cima', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
@@ -151,24 +135,8 @@ export default class mapa extends Phaser.Scene {
         // Altera o frame do botão para pressionado
         this.cima.setFrame(1)
 
-        // Faz o personagem voar para cima
-        this.personagemLocal.setVelocityY(-100)
-
-        // Anima o personagem voando
-        this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
-      })
-      .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.cima.setFrame(0)
-
-        // Para o personagem
-        this.personagemLocal.setVelocityY(0)
-
-        // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
-        if (this.personagemLocal.body.velocity.x === 0) {
-          this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
-        }
-      })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // não se move com a câmera
@@ -180,103 +148,36 @@ export default class mapa extends Phaser.Scene {
         // Altera o frame do botão para pressionado
         this.baixo.setFrame(1)
 
-        // Faz o personagem voar para baixo
-        this.personagemLocal.setVelocityY(100)
-
-        // Anima o personagem voando
-        this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
-      })
-      .on('pointerup', () => {
-        // Altera o frame do botão para o estado original
-        this.baixo.setFrame(0)
-
-        // Para o personagem
-        this.personagemLocal.setVelocityY(0)
-
-        // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
-        if (this.personagemLocal.body.velocity.x === 0) {
-          this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
-        }
-      })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        // Toca o som da coruja
-        this.corujaPio.play()
 
         // Altera o frame do botão para pressionado
         this.esquerda.setFrame(1)
 
-        // Faz o personagem voar para a esquerda
-        this.personagemLocal.setVelocityX(-100)
-
         // Muda a variável de controle do lado do personagem
         this.personagemLocal.lado = 'esquerda'
-
-        // Anima o personagem voando
-        this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
-      })
-      .on('pointerup', () => {
+          
+    
         // Altera o frame do botão para o estado original
         this.esquerda.setFrame(0)
-
-        // Para o personagem
-        this.personagemLocal.setVelocityX(0)
-
-        // Se o personagem não estiver se movendo na vertical, anima o personagem parado
-        if (this.personagemLocal.body.velocity.y === 0) {
-          this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
-        }
-      })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        // Toca o som da coruja
-        this.corujaPio.play()
+      
 
         // Altera o frame do botão para pressionado
         this.direita.setFrame(1)
 
-        // Faz o personagem voar para a direita
-        this.personagemLocal.setVelocityX(100)
-
-        // Muda a variável de controle do lado do personagem
-        this.personagemLocal.lado = 'direita'
-
-        // Anima o personagem voando
-        this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
-      })
-      .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.direita.setFrame(0)
 
-        // Para o personagem
-        this.personagemLocal.setVelocityX(0)
-
-        // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
-        if (this.personagemLocal.body.velocity.y === 0) {
-          this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
-        }
-      })
-
     // Inicia a câmera seguindo o personagem
     this.cameras.main.startFollow(this.personagemLocal)
-
-    // Começa a cena com o personagem virado para a esquerda
-    this.personagemLocal.lado = 'esquerda'
-
-    // Começa a cena com o personagem animado parado
-    this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
-
-    this.anims.create({
-      key: 'nuvem',
-      frames: this.anims.generateFrameNumbers('nuvem', { start: 0, end: 7 }),
-      frameRate: 32
-    })
 
     // Gera mensagem de log quando a conexão de dados é aberta
     globalThis.game.dadosJogo.onopen = () => {
