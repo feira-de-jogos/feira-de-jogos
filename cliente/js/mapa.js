@@ -33,6 +33,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('Vazio', './assets/mapa/Vazio.png')
 
     this.load.spritesheet('BenPlayer1', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('BenPlayer2', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 48 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -81,235 +82,324 @@ export default class mapa extends Phaser.Scene {
     this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto])
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
-    // personagem:
-    this.personagem = this.physics.add.sprite(2542, 2664, 'BenPlayer1')
-    this.personagemLado = 'direita'
+    if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
+      globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
+      globalThis.game.dadosJogo = globalThis.game.remoteConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
 
-    // Portais:
+      globalThis.game.remoteConnection.onicecandidate = function ({ candidate }) {
+        candidate && globalThis.game.socket.emit('candidate', globalThis.game.sala, candidate)
+      }
 
-    //Portal Verde para Roxo:
-    this.portal1 = this.physics.add.sprite(2500,2130, 'Vazio')
-    this.portal1.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal1, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 1981
-      this.personagem.y = 2152
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
+      globalThis.game.remoteConnection.ontrack = function ({ streams: [midia] }) {
+        globalThis.game.audio.srcObject = midia
+      }
 
-    //Portal Roxo para Verde:
-    this.portal2 = this.physics.add.sprite(2048, 2152, 'Vazio')
-    this.portal2.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal2, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 2650
-      this.personagem.y = 2150
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
+      if (globalThis.game.midias) {
+        globalThis.game.midias.getTracks()
+          .forEach((track) => globalThis.game.remoteConnection.addTrack(track, globalThis.game.midias))
+      }
 
-    this.portal3 = this.physics.add.sprite(4800, 2152, 'Vazio')
-    this.portal3.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal3, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 5291
-      this.personagem.y = 2132
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
-
-    this.portal4 = this.physics.add.sprite(5180, 2152, 'Vazio')
-    this.portal4.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal4, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 4720
-      this.personagem.y = 2132
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
-
-    this.portal5 = this.physics.add.sprite(3794, 1530, 'Vazio')
-    this.portal5.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal5, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 3840
-      this.personagem.y = 1000
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
-
-    this.portal6 = this.physics.add.sprite(3780, 1200, 'Vazio')
-    this.portal6.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal6, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 3786
-      this.personagem.y = 1680
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
-    
-    //Portal Grama para Fogo:
-    this.portal7 = this.physics.add.sprite(3980, 2800, 'Vazio')
-    this.portal7.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal7, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 3984
-      this.personagem.y = 3284
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
-
-    //Portal Fogo para Verde:
-    this.portal8 = this.physics.add.sprite(3984, 3129, 'Vazio')
-    this.portal8.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagem, this.portal8, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagem.x = 4000
-      this.personagem.y = 2630
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
-
-
-    // Detalhes
-    this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
-
-    // ANIMAÇÃO PERSONAGEM:
-
-    // parado direita
-    this.anims.create({
-      key: 'BenPlayer1_parado_direita',
-      frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 0, end: 1 }),
-      frameRate: 1,
-      repeat: -1
-    })
-
-    // parado esquerda
-    this.anims.create({
-      key: 'BenPlayer1_parado_esquerda',
-      frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 4, end: 5 }),
-      frameRate: 1,
-      repeat: -1
-    })
-
-    // andando para direita
-    this.anims.create({
-      key: 'BenPlayer1_andando_direita',
-      frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 2, end: 3 }),
-      frameRate: 2,
-      repeat: -1
-    })
-
-    // andando para esquerda
-    this.anims.create({
-      key: 'BenPlayer1_andando_esquerda',
-      frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 6, end: 7 }),
-      frameRate: 2,
-      repeat: -1
-    })
-
-    // Pulando para direita:
-    this.anims.create({
-      key: 'BenPlayer1_pulando_direita',
-      frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 9, end: 9 }),
-      frameRate: 1
-    })
-
-    // pulando para esquerda
-    this.anims.create({
-      key: 'BenPlayer1_pulando_esquerda',
-      frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 8, end: 8 }),
-      frameRate: 1
-    })
-
-    // MOVIMENTÇÃO PERSONAGEM
-
-    // Pulo
-
-    this.cima = this.add.sprite(800, 375, 'cima', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
-        this.cima.setFrame(1)
-        if (this.personagem.body.blocked.down) {
-          this.personagem.setVelocityY(-600)
-          this.personagem.anims.play('BenPlayer1_pulando_' + this.personagemLado)
-        }
-      })
-      .on('pointerout', () => {
-        this.cima.setFrame(0)
-        this.personagem.anims.play('BenPlayer1_parado_' + this.personagemLado)
+      globalThis.game.socket.on('offer', (description) => {
+        globalThis.game.remoteConnection.setRemoteDescription(description)
+          .then(() => globalThis.game.remoteConnection.createAnswer())
+          .then((answer) => globalThis.game.remoteConnection.setLocalDescription(answer))
+          .then(() => globalThis.game.socket.emit('answer', globalThis.game.sala, globalThis.game.remoteConnection.localDescription))
       })
 
-    // movimentação direita
-
-    this.direita = this.add.sprite(200, 375, 'direita', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
-        this.direita.setFrame(1)
-        this.personagem.setVelocityX(250)
-        this.personagemLado = 'direita'
-        this.personagem.anims.play('BenPlayer1_andando_' + this.personagemLado)
-      })
-      .on('pointerout', () => {
-        this.direita.setFrame(0)
-        this.personagem.setVelocityX(0)
-        this.personagem.anims.play('BenPlayer1_parado_' + this.personagemLado)
+      globalThis.game.socket.on('candidate', (candidate) => {
+        globalThis.game.remoteConnection.addIceCandidate(candidate)
       })
 
-    // Movimentação esquerda
+      // Cria os sprites dos personagens local e remoto
+      this.personagemLocal = this.physics.add.sprite(400, 225, 'BenPlayer1')
+      this.personagemRemoto = this.physics.add.sprite(400, 225, 'BenPlayer2')
+    } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
+      globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
+      globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
 
-    this.esquerda = this.add.sprite(64, 375, 'esquerda', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
-        this.esquerda.setFrame(1)
-        this.personagem.setVelocityX(-180)
-        this.personagemLado = 'esquerda'
-        this.personagem.anims.play('BenPlayer1_andando_' + this.personagemLado)
+      globalThis.game.localConnection.onicecandidate = function ({ candidate }) {
+        candidate && globalThis.game.socket.emit('candidate', globalThis.game.sala, candidate)
+      }
+
+      globalThis.game.localConnection.ontrack = function ({ streams: [stream] }) {
+        globalThis.game.audio.srcObject = stream
+      }
+
+      if (globalThis.game.midias) {
+        globalThis.game.midias.getTracks()
+          .forEach((track) => globalThis.game.localConnection.addTrack(track, globalThis.game.midias))
+      }
+
+      globalThis.game.localConnection.createOffer()
+        .then((offer) => globalThis.game.localConnection.setLocalDescription(offer))
+        .then(() => globalThis.game.socket.emit('offer', globalThis.game.sala, globalThis.game.localConnection.localDescription))
+
+      globalThis.game.socket.on('answer', (description) => {
+        globalThis.game.localConnection.setRemoteDescription(description)
       })
-      .on('pointerout', () => {
-        this.esquerda.setFrame(0)
-        this.personagem.setVelocityX(0)
-        this.personagem.anims.play('BenPlayer1_parado_' + this.personagemLado)
+
+      globalThis.game.socket.on('candidate', (candidate) => {
+        globalThis.game.localConnection.addIceCandidate(candidate)
       })
 
-    // Ataque
+      // Cria os sprites dos personagens local e remoto:
+      this.personagemLocal = this.physics.add.sprite(2542, 2664, 'BenPlayer1')
+      this.personagemLocalLado = 'direita'
 
-    this.AtqEsp = this.add.sprite(800, 230, 'AtqEsp', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => { })
-      .on('pointerout', () => { })
+      this.personagemRemoto = this.add.sprite(2650, 2664, 'BenPlayer2')
+      this.personagemRemotoLado = 'direita'
+      
+      // PORTAIS:
 
-    // Habilidade
+      // Portal Verde para Roxo:
+      this.portal1 = this.physics.add.sprite(2500, 2130, 'Vazio')
+      this.portal1.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal1, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 1981
+        this.personagem.y = 2152
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
 
-    this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => { })
-      .on('pointerout', () => { })
-    // colisão de personagem
+      // Portal Roxo para Verde:
+      this.portal2 = this.physics.add.sprite(2048, 2152, 'Vazio')
+      this.portal2.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal2, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 2650
+        this.personagem.y = 2150
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
 
-    this.layerChao.setCollisionByProperty({ collides: true })
-    this.physics.add.collider(this.personagem, this.layerChao)
+      // Portal Verde para Amarelo:
+      this.portal3 = this.physics.add.sprite(4800, 2152, 'Vazio')
+      this.portal3.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal3, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 5291
+        this.personagem.y = 2132
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
 
-    this.layerParedes.setCollisionByProperty({ collides: true })
-    this.physics.add.collider(this.personagem, this.layerParedes)
+      // Portal Amarelo para Verde:
+      this.portal4 = this.physics.add.sprite(5180, 2152, 'Vazio')
+      this.portal4.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal4, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 4720
+        this.personagem.y = 2132
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
 
-    // após, segue o código para a criação da camera que irá serguir o personagem
-    this.cameras.main.startFollow(this.personagem)
+      // Portal Verde para Gelo:
+      this.portal5 = this.physics.add.sprite(3794, 1530, 'Vazio')
+      this.portal5.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal5, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 3840
+        this.personagem.y = 1000
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
+
+      // Portal Gelo para Verde:
+      this.portal6 = this.physics.add.sprite(3780, 1200, 'Vazio')
+      this.portal6.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal6, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 3786
+        this.personagem.y = 1680
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
+
+      // Portal Grama para Fogo:
+      this.portal7 = this.physics.add.sprite(3980, 2800, 'Vazio')
+      this.portal7.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal7, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 3984
+        this.personagem.y = 3284
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
+
+      // Portal Fogo para Verde:
+      this.portal8 = this.physics.add.sprite(3984, 3129, 'Vazio')
+      this.portal8.body.setAllowGravity(false)
+      this.physics.add.overlap(this.personagem, this.portal8, () => {
+        this.cameras.main.fadeOut(100)
+        this.personagem.x = 4000
+        this.personagem.y = 2630
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(100)
+        })
+      })
+
+      // Detalhes
+      this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+
+      // ANIMAÇÃO PERSONAGEM:
+
+      // parado direita
+      this.anims.create({
+        key: 'BenPlayer1_parado_direita',
+        frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 0, end: 1 }),
+        frameRate: 1,
+        repeat: -1
+      })
+
+      // parado esquerda
+      this.anims.create({
+        key: 'BenPlayer1_parado_esquerda',
+        frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 4, end: 5 }),
+        frameRate: 1,
+        repeat: -1
+      })
+
+      // andando para direita
+      this.anims.create({
+        key: 'BenPlayer1_andando_direita',
+        frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 2, end: 3 }),
+        frameRate: 2,
+        repeat: -1
+      })
+
+      // andando para esquerda
+      this.anims.create({
+        key: 'BenPlayer1_andando_esquerda',
+        frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 6, end: 7 }),
+        frameRate: 2,
+        repeat: -1
+      })
+
+      // Pulando para direita:
+      this.anims.create({
+        key: 'BenPlayer1_pulando_direita',
+        frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 9, end: 9 }),
+        frameRate: 1
+      })
+
+      // pulando para esquerda
+      this.anims.create({
+        key: 'BenPlayer1_pulando_esquerda',
+        frames: this.anims.generateFrameNumbers('BenPlayer1', { start: 8, end: 8 }),
+        frameRate: 1
+      })
+
+      // MOVIMENTÇÃO PERSONAGEM
+
+      // Pulo
+
+      this.cima = this.add.sprite(800, 375, 'cima', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.cima.setFrame(1)
+          if (this.personagem.body.blocked.down) {
+            this.personagem.setVelocityY(-600)
+            this.personagem.anims.play('BenPlayer1_pulando_' + this.personagemLado)
+          }
+        })
+        .on('pointerout', () => {
+          this.cima.setFrame(0)
+          this.personagem.anims.play('BenPlayer1_parado_' + this.personagemLado)
+        })
+
+      // movimentação direita
+
+      this.direita = this.add.sprite(200, 375, 'direita', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.direita.setFrame(1)
+          this.personagem.setVelocityX(250)
+          this.personagemLado = 'direita'
+          this.personagem.anims.play('BenPlayer1_andando_' + this.personagemLado)
+        })
+        .on('pointerout', () => {
+          this.direita.setFrame(0)
+          this.personagem.setVelocityX(0)
+          this.personagem.anims.play('BenPlayer1_parado_' + this.personagemLado)
+        })
+
+      // Movimentação esquerda
+
+      this.esquerda = this.add.sprite(64, 375, 'esquerda', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.esquerda.setFrame(1)
+          this.personagem.setVelocityX(-180)
+          this.personagemLado = 'esquerda'
+          this.personagem.anims.play('BenPlayer1_andando_' + this.personagemLado)
+        })
+        .on('pointerout', () => {
+          this.esquerda.setFrame(0)
+          this.personagem.setVelocityX(0)
+          this.personagem.anims.play('BenPlayer1_parado_' + this.personagemLado)
+        })
+
+      // Ataque
+
+      this.AtqEsp = this.add.sprite(800, 230, 'AtqEsp', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { })
+        .on('pointerout', () => { })
+
+      // Habilidade
+
+      this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { })
+        .on('pointerout', () => { })
+        
+      // colisão de personagem
+
+      this.layerChao.setCollisionByProperty({ collides: true })
+      this.physics.add.collider(this.personagem, this.layerChao)
+
+      this.layerParedes.setCollisionByProperty({ collides: true })
+      this.physics.add.collider(this.personagem, this.layerParedes)
+
+      // após, segue o código para a criação da camera que irá serguir o personagem
+      this.cameras.main.startFollow(this.personagem)
+    }
   }
 
-  update () { }
+  update () {
+    // Alguns frames podem estar (ainda) sem personagem ou nuvem,
+    // por isso é necessário verificar se existem antes de enviar
+    try {
+      // Envia os dados do jogo somente se houver conexão aberta
+      if (globalThis.game.dadosJogo.readyState === 'open') {
+        // Verifica que o personagem local existe
+        if (this.personagemLocal) {
+          // Envia os dados do personagem local via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            personagem: {
+              x: this.personagemLocal.x,
+              y: this.personagemLocal.y,
+              frame: this.personagemLocal.frame.name
+            }
+          }))
+        }
+      }
+    } catch (e) {
+      console.log('Erro ao enviar dados do jogo: ', e)
+    }
+  }
 }
