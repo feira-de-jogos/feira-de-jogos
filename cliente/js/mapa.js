@@ -10,8 +10,9 @@ export default class mapa extends Phaser.Scene {
     // Carregar as imagens do mapa
     this.load.image('geral', './assets/mapa/tileindustrial64pxgeral.png')
 
-    // Carregar spritesheets
+    // Carregar spritesheets e animação do cartão
     this.load.spritesheet('alex', './assets/personagens/alex.png', { frameWidth: 36, frameHeight: 64 })
+    this.load.spritesheet('stella', './assets/personagens/stella.png', { frameWidth: 36, frameHeight: 64 })
     this.load.spritesheet('blocoquebra', './assets/animacoes/card.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega as imagens dos botões
@@ -65,6 +66,7 @@ export default class mapa extends Phaser.Scene {
 
       // Cria os sprites dos personagens local e remoto
       this.personagemLocal = this.physics.add.sprite(3500, 7200, 'alex')
+      this.personagemRemoto = this.physics.add.sprite(3500, 7200, 'stella')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -95,7 +97,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(3500, 7200, 'alex')
+      this.personagemLocal = this.physics.add.sprite(3500, 7200, 'stella')
+      this.personagemRemoto = this.physics.add.sprite(3500, 7200, 'alex')
     }
 
     // Define o atributo do tileset para gerar colisão
@@ -134,8 +137,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 13,
-        end: 19
+        start: 11,
+        end: 18
       }),
       frameRate: 10,
       repeat: -1
@@ -144,8 +147,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 4,
-        end: 11
+        start: 3,
+        end: 10
       }),
       frameRate: 10,
       repeat: -1
@@ -154,28 +157,28 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-cima',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 21,
-        end: 23
+        start: 20,
+        end: 21
       }),
-      frameRate: 10,
+      frameRate: 5,
       repeat: -1
     })
 
     this.anims.create({
       key: 'personagem-baixo',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 0,
-        end: 3
+        start: 1,
+        end: 2
       }),
-      frameRate: 10,
+      frameRate: 5,
       repeat: -1
     })
 
     this.anims.create({
       key: 'personagem-parado',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 1,
-        end: 1
+        start: 0,
+        end: 0
       }),
       frameRate: 1
     })
@@ -210,7 +213,7 @@ export default class mapa extends Phaser.Scene {
         // Altera o frame do botão para pressionado
         this.esquerda.setFrame(1)
 
-        // Faz o personagem voar para a esquerda
+        // Faz o personagem andar para a esquerda
         this.personagemLocal.setVelocityX(-250)
 
         // Muda a variável de controle do lado do personagem
@@ -234,11 +237,11 @@ export default class mapa extends Phaser.Scene {
         // Altera o frame do botão para pressionado
         this.direita.setFrame(1)
 
-        // Faz o personagem voar para a direita
+        // Faz o personagem andar para a direita
         this.personagemLocal.setVelocityX(250)
 
         // Muda a variável de controle do lado do personagem
-        this.personagemLocal.anims.play('personagem-direita') = 'direita'
+        this.personagemLocal.anims.play('personagem-direita')
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
@@ -250,7 +253,40 @@ export default class mapa extends Phaser.Scene {
         // Anima o personagem parado
         this.personagemLocal.anims.play('personagem-parado')
       })
+
+
+      globalThis.game.dadosJogo.onmessage = (event) => {
+        const dados = JSON.parse(event.data)
+  
+        // Verifica se os dados recebidos contêm informações sobre o personagem
+        if (dados.personagem) {
+          this.personagemRemoto.x = dados.personagem.x
+          this.personagemRemoto.y = dados.personagem.y
+          this.personagemRemoto.setFrame(dados.personagem.frame)
+        }
+      }
+
   }
 
-  update () { }
+  update () { 
+    try {
+      // Envia os dados do jogo somente se houver conexão aberta
+      if (globalThis.game.dadosJogo.readyState === 'open') {
+        // Verifica que o personagem local existe
+        if (this.personagemLocal) {
+          // Envia os dados do personagem local via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            personagem: {
+              x: this.personagemLocal.x,
+              y: this.personagemLocal.y,
+              frame: this.personagemLocal.frame.name
+            }
+          }))
+        }
+      }
+    } catch (error) {
+          // Gera mensagem de erro na console
+          console.error(error)
+    }
+  }
 }
