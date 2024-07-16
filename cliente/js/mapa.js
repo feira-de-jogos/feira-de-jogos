@@ -35,7 +35,6 @@ export default class mapa extends Phaser.Scene {
         var maxJumpTime = 150
 
         this.cameras.main.setZoom(1.7)
-        var onGround;
 
         var jumpTimer = 0
         let jumping = false
@@ -220,7 +219,6 @@ export default class mapa extends Phaser.Scene {
               
             }
           this.jump.setFrame(0)
-          //this.personagem.setVelocity(jumpveloX, jumpveloY)
         })
 
         this.cameras.main.startFollow(this.personagem)
