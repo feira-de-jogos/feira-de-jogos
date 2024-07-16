@@ -52,16 +52,16 @@ export default class sala extends Phaser.Scene {
           this.salas.forEach(sala => {
             sala.texto.destroy()
           })
+
+          // Variavel global da sala:
+          globalThis.game.sala = sala.numero
+
+          // Emite o evento de entrar na sala
+          globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
         })
     })
-    // Variavel global da sala:
-    globalThis.game.sala = sala.numero
-
-    // Emite o evento de entrar na sala
-    globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
 
     // Define o evento de recebimento da mansagem 'jogadores'
-
     globalThis.game.socket.on('jogadores', (jogadores) => {
       // Se o segundo jogador já estiver conectado, inicia o jogo
 
