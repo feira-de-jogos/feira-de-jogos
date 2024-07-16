@@ -13,11 +13,14 @@ export default class mapa extends Phaser.Scene {
     
   
       preload() {
+        this.load.audio('mapa', './assets/mapa.mp3')
+
         this.load.tilemapTiledJSON('mapateste', '/assets/mapa/mapteste.json')
 
         this.load.image('map', '/assets/mapa/map.png')
 
         this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', {frameWidth: 32, frameHeight: 32})
 
         this.load.spritesheet('jump', '/assets/ui/jump.png', {frameWidth: 64, frameHeight: 64})
         this.load.spritesheet('baixo', '/assets/ui/baixo.png', {frameWidth: 64, frameHeight: 64})
@@ -28,7 +31,7 @@ export default class mapa extends Phaser.Scene {
       create() {
         this.input.addPointer(3)
         //const math = require('mathjs');
-        // this.sound.add('mapa', {loop:true}).play()
+        this.sound.add('mapa', {loop:true}).play()
         this.tilemapMapa = this.make.tilemap({  key: 'mapateste'})
 
         var jumpForce = -220
@@ -55,84 +58,143 @@ export default class mapa extends Phaser.Scene {
         this.layerDecoration = this.tilemapMapa.createLayer('decoracao-1', [this.tilesetBlocos])
         this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
 
-        
-                
-        this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-1')
-
+        if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
+          globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
+          globalThis.game.dadosJogo = globalThis.game.remoteConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
+    
+          globalThis.game.remoteConnection.onicecandidate = function ({ candidate }) {
+            candidate && globalThis.game.socket.emit('candidate', globalThis.game.sala, candidate)
+          }
+    
+          globalThis.game.remoteConnection.ontrack = function ({ streams: [midia] }) {
+            globalThis.game.audio.srcObject = midia
+          }
+    
+          if (globalThis.game.midias) {
+            globalThis.game.midias.getTracks()
+              .forEach((track) => globalThis.game.remoteConnection.addTrack(track, globalThis.game.midias))
+          }
+    
+          globalThis.game.socket.on('offer', (description) => {
+            globalThis.game.remoteConnection.setRemoteDescription(description)
+              .then(() => globalThis.game.remoteConnection.createAnswer())
+              .then((answer) => globalThis.game.remoteConnection.setLocalDescription(answer))
+              .then(() => globalThis.game.socket.emit('answer', globalThis.game.sala, globalThis.game.remoteConnection.localDescription))
+          })
+    
+          globalThis.game.socket.on('candidate', (candidate) => {
+            globalThis.game.remoteConnection.addIceCandidate(candidate)
+          })
+    
+          // Cria os sprites dos personagens local e remoto
+          this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-1')
+          this.personagemRemoto = this.add.sprite(10, -60, 'cavaleiro-2')
+        } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
+          globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
+          globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
+    
+          globalThis.game.localConnection.onicecandidate = function ({ candidate }) {
+            candidate && globalThis.game.socket.emit('candidate', globalThis.game.sala, candidate)
+          }
+    
+          globalThis.game.localConnection.ontrack = function ({ streams: [stream] }) {
+            globalThis.game.audio.srcObject = stream
+          }
+    
+          if (globalThis.game.midias) {
+            globalThis.game.midias.getTracks()
+              .forEach((track) => globalThis.game.localConnection.addTrack(track, globalThis.game.midias))
+          }
+    
+          globalThis.game.localConnection.createOffer()
+            .then((offer) => globalThis.game.localConnection.setLocalDescription(offer))
+            .then(() => globalThis.game.socket.emit('offer', globalThis.game.sala, globalThis.game.localConnection.localDescription))
+    
+          globalThis.game.socket.on('answer', (description) => {
+            globalThis.game.localConnection.setRemoteDescription(description)
+          })
+    
+          globalThis.game.socket.on('candidate', (candidate) => {
+            globalThis.game.localConnection.addIceCandidate(candidate)
+          })
+          }
+          // Cria os sprites dos personagens local e remoto
+          this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-2')
+          this.personagemRemoto = this.add.sprite(10, -60, 'cavaleiro-1')
         
 
         this.anims.create({ 
           key: 'cavaleiro-1-idle-direita',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 22, end: 24}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 22, end: 24}),
           frameRate: 5,
           repeat: -1
         })
 
         this.anims.create({ 
           key: 'cavaleiro-1-idle-esquerda',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 41, end: 43}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 41, end: 43}),
           frameRate: 5,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-1-walkingLeft',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 18, end: 20}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 18, end: 20}),
           frameRate: 8,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-1-walkingRight',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 1, end: 3}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 1, end: 3}),
           frameRate: 8,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-2-jump-right',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 5, end: 5}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 5, end: 5}),
           frameRate: 1,
           repeat: -1
         })
         this.anims.create({
           key: 'cavaleiro-3-jump-right',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 6, end: 6}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 6, end: 6}),
           frameRate: 1,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-1-jump-start',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 17, end: 17}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 17, end: 17}),
           frameRate: 1,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-2-jump-left',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 16, end: 16}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 16, end: 16}),
           frameRate: 1,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-3-jump-left',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 15, end: 15}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 15, end: 15}),
           frameRate: 1,
           repeat: -1
         })
 
         this.anims.create({
           key: 'cavaleiro-1-colide-right',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 8, end: 8}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 8, end: 8}),
           frameRate: 1,
           repeat: -1
         })
         
         this.anims.create({
           key: 'cavaleiro-1-colide-left',
-          frames: this.anims.generateFrameNumbers('cavaleiro-1', {start: 13, end: 13}),
+          frames: this.anims.generateFrameNumbers(this.personagem.texture.key, {start: 13, end: 13}),
           frameRate: 1,
           repeat: -1
         })
@@ -224,9 +286,41 @@ export default class mapa extends Phaser.Scene {
         this.cameras.main.startFollow(this.personagem)
         this.layerBlocos.setCollisionByProperty({ collides: true })
         this.physics.add.collider(this.personagem, this.layerBlocos, this.bounce, null, this)
+        
+        globalThis.game.dadosJogo.onmessage = (event) => {
+          const dados = JSON.parse(event.data)
+    
+          // Verifica se os dados recebidos contêm informações sobre o personagem
+          if (dados.personagem) {
+            this.personagemRemoto.x = dados.personagem.x
+            this.personagemRemoto.y = dados.personagem.y
+            this.personagemRemoto.setFrame(dados.personagem.frame)
+          }
+      
+        }
       }
   
       update(){
+        try {
+          // Envia os dados do jogo somente se houver conexão aberta
+          if (globalThis.game.dadosJogo.readyState === 'open') {
+            // Verifica que o personagem local existe
+            if (this.personagem) {
+              // Envia os dados do personagem local via DataChannel
+              globalThis.game.dadosJogo.send(JSON.stringify({
+                personagem: {
+                  x: this.personagem.x,
+                  y: this.personagem.y,
+                  frame: this.personagem.frame.name
+                }
+              }))
+            }
+          }
+        } catch (error) {
+          // Gera mensagem de erro na console
+          console.error(error)
+        }
+
         this.velocidadeX = this.personagem.body.velocity.x
         if(!this.personagem.body.blocked.down){
             if(this.personagem.body.velocity.y > 0 && this.dir_direita && !this.bounced){

@@ -7,6 +7,8 @@ class Game extends Phaser.Game {
   constructor () {
     super(config)
 
+    this.audio = document.querySelector('audio')
+
     let iceServers
     if (window.location.host === 'feira-de-jogos.dev.br') {
       this.socket = io({ path: '/jogo/socket.io/' })
@@ -34,7 +36,7 @@ class Game extends Phaser.Game {
     this.scene.add('abertura', abertura)
     this.scene.add('sala', sala)
     this.scene.add('mapa', mapa)
-    this.scene.start('mapa')
+    this.scene.start('abertura')
   }
 }
 

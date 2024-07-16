@@ -18,6 +18,7 @@ export default class abertura extends Phaser.Scene {
           })
           .catch((error) => console.error(error))
 
+          //globalThis.game.scale.startFullScreen()
           this.game.scene.stop('abertura')
           this.game.scene.start('sala')
         })
