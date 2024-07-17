@@ -9,7 +9,7 @@ url = getenv("URL", default="wss://feira-de-jogos.dev.br")
 socketio_path = getenv("SOCKETIO_PATH", default="/api/v2/machine")
 namespace = getenv("NAMESPACE", default="/vending-machine")
 jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
-secret_key = getenv("SECRET_KEY", default="")
+secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 
 sio = socketio.AsyncClient()
 

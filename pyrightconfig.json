@@ -1,6 +1,0 @@
-{
-  "include": [
-    "vending-machine/websocket/**"
-  ],
-  "venv": "venv"
-}
