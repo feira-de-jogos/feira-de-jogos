@@ -1,2 +1,4 @@
-python-socketio[asyncio_client]
+python-dotenv
 asyncio
+python-socketio[asyncio_client]
+pyjwt
