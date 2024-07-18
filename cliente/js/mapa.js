@@ -202,18 +202,22 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         if (this.personagem.body.blocked.down) {
-          this.dir_direita = false
-          this.dir_esquerda = true
-          this.personagem.anims.play('cavaleiro-1-walkingLeft')
-          dir_lados = +1
-          this.esquerda.setFrame(1)
-          this.personagem.setVelocityX(-70)
+          if (this.while = false) {
+            this.dir_direita = false
+            this.dir_esquerda = true
+            this.personagem.anims.play('cavaleiro-1-walkingLeft')
+            dir_lados = +1
+            this.esquerda.setFrame(1)
+            this.personagem.setVelocityX(-70)
+          }
         }
       }).on('pointerout', () => {
         if (this.personagem.body.blocked.down) {
-          this.personagem.anims.play('cavaleiro-1-idle-esquerda')
-          this.esquerda.setFrame(0)
-          this.personagem.setVelocityX(0)
+          if (this.while) {
+            this.personagem.anims.play('cavaleiro-1-idle-esquerda')
+            this.esquerda.setFrame(0)
+            this.personagem.setVelocityX(0)
+          }
         }
       })
 
