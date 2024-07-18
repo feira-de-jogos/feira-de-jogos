@@ -33,7 +33,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('Vazio', './assets/mapa/Vazio.png')
 
     this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
-    this.load.spritesheet('LeoVen2', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -112,7 +112,7 @@ export default class mapa extends Phaser.Scene {
 
       // Cria os sprites dos personagens local e remoto
       this.personagemLocal = this.physics.add.sprite(2640, 2660, 'LeoVen')
-      this.personagemRemoto = this.add.sprite(2640, 2660, 'LeoVen2')
+      this.personagemRemoto = this.add.sprite(2640, 2660, 'BenVen')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -143,7 +143,7 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto:
-      this.personagemLocal = this.physics.add.sprite(2640, 2660, 'LeoVen2')
+      this.personagemLocal = this.physics.add.sprite(2640, 2660, 'BenVen')
       this.personagemRemoto = this.add.sprite(2650, 2660, 'LeoVen')
     }
 
