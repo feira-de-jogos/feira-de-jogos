@@ -32,8 +32,8 @@ export default class mapa extends Phaser.Scene {
     this.load.image('FundoCavernaAmarela', './assets/mapa/FundoCavernaAmarela.png')
     this.load.image('Vazio', './assets/mapa/Vazio.png')
 
-    this.load.spritesheet('BenPlayer1', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 48 })
-    this.load.spritesheet('BenPlayer2', './assets/personagens/BenPlayer1.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('LeoVen2', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -111,8 +111,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(400, 225, 'BenPlayer1')
-      this.personagemRemoto = this.add.sprite(400, 225, 'BenPlayer2')
+      this.personagemLocal = this.physics.add.sprite(2640, 2660, 'LeoVen')
+      this.personagemRemoto = this.add.sprite(2640, 2660, 'LeoVen2')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -143,11 +143,12 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto:
-      this.personagemLocal = this.physics.add.sprite(2542, 2664, 'BenPlayer2')
-      this.personagemLocalLado = 'direita'
-      this.personagemRemoto = this.add.sprite(2650, 2664, 'BenPlayer1')
+      this.personagemLocal = this.physics.add.sprite(2640, 2660, 'LeoVen2')
+      this.personagemRemoto = this.add.sprite(2650, 2660, 'LeoVen')
     }
-    
+
+    this.personagemLocalLado = 'direita'
+
     // PORTAIS:
 
     // Portal Verde para Roxo:
@@ -253,48 +254,48 @@ export default class mapa extends Phaser.Scene {
 
     // parado direita
     this.anims.create({
-      key: 'BenPlayer1_parado_direita',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 1 }),
-      frameRate: 1,
+      key: 'LeoVen_parado_direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 5, end: 9 }),
+      frameRate: 2,
       repeat: -1
     })
 
     // parado esquerda
     this.anims.create({
-      key: 'BenPlayer1_parado_esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 4, end: 5 }),
-      frameRate: 1,
+      key: 'LeoVen_parado_esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 4 }),
+      frameRate: 2,
       repeat: -1
     })
 
     // andando para direita
     this.anims.create({
-      key: 'BenPlayer1_andando_direita',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 2, end: 3 }),
-      frameRate: 2,
+      key: 'LeoVen_andando_direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 20, end: 27 }),
+      frameRate: 8,
       repeat: -1
     })
 
     // andando para esquerda
     this.anims.create({
-      key: 'BenPlayer1_andando_esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 6, end: 7 }),
-      frameRate: 2,
+      key: 'LeoVen_andando_esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 11, end: 18 }),
+      frameRate: 8,
       repeat: -1
     })
 
     // Pulando para direita:
     this.anims.create({
-      key: 'BenPlayer1_pulando_direita',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 9, end: 9 }),
-      frameRate: 1
+      key: 'LeoVen_pulando_direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 33, end: 37 }),
+      frameRate: 8
     })
 
     // pulando para esquerda
     this.anims.create({
-      key: 'BenPlayer1_pulando_esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 8, end: 8 }),
-      frameRate: 1
+      key: 'LeoVen_pulando_esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 28, end: 32 }),
+      frameRate: 8
     })
 
     // MOVIMENTÇÃO PERSONAGEM
@@ -308,12 +309,12 @@ export default class mapa extends Phaser.Scene {
         this.cima.setFrame(1)
         if (this.personagemLocal.body.blocked.down) {
           this.personagemLocal.setVelocityY(-600)
-          this.personagemLocal.anims.play('BenPlayer1_pulando_' + this.personagemLado)
+          this.personagemLocal.anims.play('LeoVen_pulando_' + this.personagemLado)
         }
       })
       .on('pointerout', () => {
         this.cima.setFrame(0)
-        this.personagemLocal.anims.play('BenPlayer1_parado_' + this.personagemLado)
+        // this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
       })
 
     // movimentação direita
@@ -323,14 +324,14 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.direita.setFrame(1)
-        this.personagemLocal.setVelocityX(250)
+        this.personagemLocal.setVelocityX(200)
         this.personagemLado = 'direita'
-        this.personagemLocal.anims.play('BenPlayer1_andando_' + this.personagemLado)
+        this.personagemLocal.anims.play('LeoVen_andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.anims.play('BenPlayer1_parado_' + this.personagemLado)
+        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
       })
 
     // Movimentação esquerda
@@ -340,14 +341,14 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.esquerda.setFrame(1)
-        this.personagemLocal.setVelocityX(-180)
+        this.personagemLocal.setVelocityX(-200)
         this.personagemLado = 'esquerda'
-        this.personagemLocal.anims.play('BenPlayer1_andando_' + this.personagemLado)
+        this.personagemLocal.anims.play('LeoVen_andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.esquerda.setFrame(0)
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.anims.play('BenPlayer1_parado_' + this.personagemLado)
+        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
       })
 
     // Ataque
@@ -376,6 +377,17 @@ export default class mapa extends Phaser.Scene {
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagemLocal)
+
+    globalThis.game.dadosJogo.onmessage = (event) => {
+      const dados = JSON.parse(event.data)
+
+      // Verifica se os dados recebidos contêm informações sobre o personagem
+      if (dados.personagem) {
+        this.personagemRemoto.x = dados.personagem.x
+        this.personagemRemoto.y = dados.personagem.y
+        this.personagemRemoto.setFrame(dados.personagem.frame)
+      }
+    }
   }
 
   update () {
