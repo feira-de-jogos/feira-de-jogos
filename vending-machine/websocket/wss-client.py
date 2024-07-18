@@ -14,18 +14,18 @@ secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 sio = socketio.AsyncClient()
 
 
-@sio.event
+@sio.event(namespace=namespace)
 async def connect():
     print("connection established")
+    await sio.emit("state", "ready", namespace=namespace)
 
 
-@sio.event
+@sio.event(namespace=namespace)
 async def onState(data):
-    print("message received with ", data)
-    await sio.emit("my response", {"response": "my response"})
+    print("message received:", data)
 
 
-@sio.event
+@sio.event(namespace=namespace)
 async def disconnect():
     print("disconnected from server")
 
@@ -40,7 +40,6 @@ async def main():
         namespaces=namespace,
         auth={"token": token},
     )
-    await sio.emit("state", "ready", namespace=namespace)
     await sio.wait()
 
 
