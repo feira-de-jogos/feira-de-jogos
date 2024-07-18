@@ -8,6 +8,7 @@ export default class mapa extends Phaser.Scene {
     this.while = undefined
     this.contador = 0
     this.bounced = undefined
+    this.blocked = true
   }
 
   preload () {
@@ -201,23 +202,19 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        if (this.personagem.body.blocked.down) {
-          if (this.while == false) {
-            this.dir_direita = false
-            this.dir_esquerda = true
-            this.personagem.anims.play('cavaleiro-1-walkingLeft')
-            dir_lados = +1
-            this.esquerda.setFrame(1)
-            this.personagem.setVelocityX(-70)
-          }
+        if (this.personagem.body.blocked.down && this.blocked === true) {
+          this.dir_direita = false
+          this.dir_esquerda = true
+          this.personagem.anims.play('cavaleiro-1-walkingLeft')
+          dir_lados = +1
+          this.esquerda.setFrame(1)
+          this.personagem.setVelocityX(-70)
         }
       }).on('pointerout', () => {
-        if (this.personagem.body.blocked.down) {
-          if (this.while) {
-            this.personagem.anims.play('cavaleiro-1-idle-esquerda')
-            this.esquerda.setFrame(0)
-            this.personagem.setVelocityX(0)
-          }
+        if (this.personagem.body.blocked.down && this.blocked === true) {
+          this.personagem.anims.play('cavaleiro-1-idle-esquerda')
+          this.esquerda.setFrame(0)
+          this.personagem.setVelocityX(0)
         }
       })
 
@@ -225,7 +222,7 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        if (this.personagem.body.blocked.down) {
+        if (this.personagem.body.blocked.down && this.blocked === true) {
           this.personagem.anims.play('cavaleiro-1-walkingRight')
           dir_lados = -1
           this.dir_direita = true
@@ -234,7 +231,7 @@ export default class mapa extends Phaser.Scene {
           this.personagem.setVelocityX(70)
         }
       }).on('pointerout', () => {
-        if (this.personagem.body.blocked.down) {
+        if (this.personagem.body.blocked.down && this.blocked === true) {
           this.personagem.anims.play('cavaleiro-1-idle-direita')
           this.direita.setFrame(0)
           this.personagem.setVelocityX(0)
@@ -277,6 +274,7 @@ export default class mapa extends Phaser.Scene {
             this.jump.setFrame(0)
           }
           this.contador = 0
+          this.blocked = true
         } else {
           jumping = false
         }
@@ -356,6 +354,7 @@ export default class mapa extends Phaser.Scene {
       this.personagem.setVelocity(0, 0)
     }
     if (this.while) {
+      this.blocked = false
       if (this.contador >= 2.2) {
         this.contador = 2.2
       }
