@@ -53,33 +53,33 @@ export default class abertura extends Phaser.Scene {
             sala.texto.destroy()
           })
 
-       // Define a variável global da sala
+          // Define a variável global da sala
           globalThis.game.sala = sala.numero
 
-        // Emite o evento 'entrar-na-sala' para o servidor
-        globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
-      })
-  })
+          // Emite o evento 'entrar-na-sala' para o servidor
+          globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
+        })
+    })
 
-  // Define o evento de recebimento da mansagem 'jogadores'
-  globalThis.game.socket.on('jogadores', (jogadores) => {
-    // Se o segundo jogador já estiver conectado, inicia o jogo
-    if (jogadores.segundo) {
-      // Apresenta texto na tela
-      this.mensagem.setText('Conectando...')
+    // Define o evento de recebimento da mansagem 'jogadores'
+    globalThis.game.socket.on('jogadores', (jogadores) => {
+      // Se o segundo jogador já estiver conectado, inicia o jogo
+      if (jogadores.segundo) {
+        // Apresenta texto na tela
+        this.mensagem.setText('Conectando...')
 
-      // Define a variável global dos jogadores
-      globalThis.game.jogadores = jogadores
+        // Define a variável global dos jogadores
+        globalThis.game.jogadores = jogadores
 
-      // Para a cena atual e inicia a cena do mapa
-      globalThis.game.scene.stop('sala')
-      globalThis.game.scene.start('mapa')
-    } else if (jogadores.primeiro) {
-      // Se o primeiro jogador já estiver conectado, aguarda o segundo
-      this.mensagem.setText('Aguardando segundo jogador...')
-    }
-  })
-}
+        // Para a cena atual e inicia a cena do mapa
+        globalThis.game.scene.stop('sala')
+        globalThis.game.scene.start('mapa')
+      } else if (jogadores.primeiro) {
+        // Se o primeiro jogador já estiver conectado, aguarda o segundo
+        this.mensagem.setText('Aguardando segundo jogador...')
+      }
+    })
+  }
 
   update () {
   }

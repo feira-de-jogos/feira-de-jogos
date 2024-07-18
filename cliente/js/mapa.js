@@ -10,16 +10,19 @@ export default class mapa extends Phaser.Scene {
     // Carregar as imagens do mapa
     this.load.image('geral', './assets/mapa/tileindustrial64pxgeral.png')
 
-    // Carregar spritesheets e animação do cartão
+    // Carregar spritesheets e cartao
     this.load.spritesheet('alex', './assets/personagens/alex.png', { frameWidth: 36, frameHeight: 64 })
     this.load.spritesheet('stella', './assets/personagens/stella.png', { frameWidth: 36, frameHeight: 64 })
-    this.load.spritesheet('blocoquebra', './assets/animacoes/card.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('alien', './assets/personagens/alien.png', { frameWidth: 37, frameHeight: 48 })
+    this.load.spritesheet('cartao', './assets/animacoes/cartao.png', { frameWidth: 32, frameHeight: 32 })
+
 
     // Carrega as imagens dos botões
-    this.load.spritesheet('cima', './assets/cima.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('baixo', './assets/baixo.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('esquerda', './assets/esquerda.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('direita', './assets/direita.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('cima', './assets/botoes/cima.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('baixo', './assets/botoes/baixo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('esquerda', './assets/botoes/esquerda.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('direita', './assets/botoes/direita.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('tela-cheia', './assets/botoes/tela-cheia.png', { frameWidth: 56, frameHeight: 56 })
   }
 
   create () {
@@ -65,7 +68,7 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(3500, 7200, 'alex')
+      this.personagemLocal = this.physics.add.sprite(3540, 7200, 'alex')
       this.personagemRemoto = this.physics.add.sprite(3500, 7200, 'stella')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -101,18 +104,18 @@ export default class mapa extends Phaser.Scene {
       this.personagemRemoto = this.physics.add.sprite(3500, 7200, 'alex')
     }
 
-    // Define o atributo do tileset para gerar colisão
+    // Define o atributo do tileset para gerar colisao
     this.layerparedes.setCollisionByProperty({ collides: true })
 
-    // Adiciona colisão entre o personagem e as paredes
+    // Adiciona colisao entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerparedes)
     this.cameras.main.startFollow(this.personagemLocal)
 
     this.cima = this.add.sprite(100, 250, 'cima', 0)
-      .setScrollFactor(0) // não se move com a câmera
-      .setInteractive() // permite interação com o sprite
+      .setScrollFactor(0) // nao se move com a câmera
+      .setInteractive() // permite interaçao com o sprite
       .on('pointerdown', () => {
-        // Altera o frame do botão para pressionado
+        // Altera o frame do botao para pressionado
         this.cima.setFrame(1)
 
         // Faz o personagem andar para cima
@@ -122,7 +125,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('personagem-cima')
       })
       .on('pointerup', () => {
-        // Altera o frame do botão para o estado original
+        // Altera o frame do botao para o estado original
         this.cima.setFrame(0)
 
         // Faz o personagem parar
@@ -131,6 +134,9 @@ export default class mapa extends Phaser.Scene {
         // Anima o personagem parado
         this.personagemLocal.anims.play('personagem-parado')
       })
+
+
+
 
     // Para o personagem
 
@@ -184,10 +190,10 @@ export default class mapa extends Phaser.Scene {
     })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
-      .setScrollFactor(0) // não se move com a câmera
-      .setInteractive() // permite interação com o sprite
+      .setScrollFactor(0) // nao se move com a câmera
+      .setInteractive() // permite interaçao com o sprite
       .on('pointerdown', () => {
-        // Altera o frame do botão para pressionado
+        // Altera o frame do botao para pressionado
         this.baixo.setFrame(1)
 
         // Faz o personagem andar para baixo
@@ -196,7 +202,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('personagem-baixo')
       })
       .on('pointerup', () => {
-        // Altera o frame do botão para o estado original
+        // Altera o frame do botao para o estado original
         this.baixo.setFrame(0)
 
         // Para o personagem velocidade
@@ -207,10 +213,10 @@ export default class mapa extends Phaser.Scene {
       })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
-      .setScrollFactor(0) // não se move com a câmera
-      .setInteractive() // permite interação com o sprite
+      .setScrollFactor(0) // nao se move com a câmera
+      .setInteractive() // permite interaçao com o sprite
       .on('pointerdown', () => {
-        // Altera o frame do botão para pressionado
+        // Altera o frame do botao para pressionado
         this.esquerda.setFrame(1)
 
         // Faz o personagem andar para a esquerda
@@ -220,7 +226,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('personagem-esquerda')
       })
       .on('pointerup', () => {
-        // Altera o frame do botão para o estado original
+        // Altera o frame do botao para o estado original
         this.esquerda.setFrame(0)
 
         // Para o personagem
@@ -231,10 +237,10 @@ export default class mapa extends Phaser.Scene {
       })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
-      .setScrollFactor(0) // não se move com a câmera
-      .setInteractive() // permite interação com o sprite
+      .setScrollFactor(0) // nao se move com a câmera
+      .setInteractive() // permite interaçao com o sprite
       .on('pointerdown', () => {
-        // Altera o frame do botão para pressionado
+        // Altera o frame do botao para pressionado
         this.direita.setFrame(1)
 
         // Faz o personagem andar para a direita
@@ -244,7 +250,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('personagem-direita')
       })
       .on('pointerup', () => {
-        // Altera o frame do botão para o estado original
+        // Altera o frame do botao para o estado original
         this.direita.setFrame(0)
 
         // Para o personagem
@@ -255,22 +261,123 @@ export default class mapa extends Phaser.Scene {
       })
 
 
-      globalThis.game.dadosJogo.onmessage = (event) => {
-        const dados = JSON.parse(event.data)
-  
-        // Verifica se os dados recebidos contêm informações sobre o personagem
-        if (dados.personagem) {
-          this.personagemRemoto.x = dados.personagem.x
-          this.personagemRemoto.y = dados.personagem.y
-          this.personagemRemoto.setFrame(dados.personagem.frame)
-        }
-      }
+    globalThis.game.dadosJogo.onmessage = (event) => {
+      const dados = JSON.parse(event.data)
 
+      // Verifica se os dados recebidos contêm informações sobre o personagem
+      if (dados.personagem) {
+        this.personagemRemoto.x = dados.personagem.x
+        this.personagemRemoto.y = dados.personagem.y
+        this.personagemRemoto.setFrame(dados.personagem.frame)
+      }
+    }
+
+    // Animaçao cartao //
+    this.anims.create({
+      key: 'cartao-girando',
+      frames: this.anims.generateFrameNumbers('cartao', {
+        start: 0,
+        end: 7
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    // posições dos cartões //
+
+    this.cartao = [
+      {
+        x: 3570,
+        y: 7200
+      },
+      {
+        x: 344,
+        y: 12168
+      },
+      {
+        x: 312,
+        y: 11872
+      },
+      {
+        x: 104,
+        y: 11768
+      },
+      {
+        x: 344,
+        y: 11488
+      },
+      {
+        x: 248,
+        y: 11368
+      },
+      {
+        x: 424,
+        y: 11136
+      },
+      {
+        x: 392,
+        y: 10848
+      },
+      {
+        x: 272,
+        y: 10448
+      },
+      {
+        x: 104,
+        y: 10128
+      },
+      {
+        x: 64,
+        y: 9744
+      },
+      {
+        x: 344,
+        y: 9488
+      },
+      {
+        x: 224,
+        y: 9016
+      },
+      {
+        x: 328,
+        y: 8728
+      },
+      {
+        x: 104,
+        y: 8496
+      },
+      {
+        x: 160,
+        y: 8120
+      },
+      {
+        x: 248,
+        y: 7760
+      },
+      {
+        x: 48,
+        y: 7328
+      },
+      {
+        x: 248,
+        y: 6984
+      },
+      {
+        x: 232,
+        y: 6664
+      }
+    ]
+
+    this.cartao.forEach((cartao) => {
+      cartao.objeto = this.physics.add.sprite(cartao.x, cartao.y, 'cartao')
+      cartao.objeto.anims.play('cartao-girando')
+      this.physics.add.collider(this.personagemLocal, cartao.objeto, this.coletar_cartao, null, this)
+    })
   }
 
-  update () { 
+  update () {
     try {
-      // Envia os dados do jogo somente se houver conexão aberta
+      // Envia os dados do jogo somente se houver conexao aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
         // Verifica que o personagem local existe
         if (this.personagemLocal) {
@@ -285,8 +392,12 @@ export default class mapa extends Phaser.Scene {
         }
       }
     } catch (error) {
-          // Gera mensagem de erro na console
-          console.error(error)
+      // Gera mensagem de erro na console
+      console.error(error)
     }
+  }
+
+  coletar_cartao (personagem, cartao) {
+    cartao.setVisible(false)
   }
 }
