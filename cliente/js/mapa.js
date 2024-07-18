@@ -202,7 +202,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         if (this.personagem.body.blocked.down) {
-          if (this.while = false) {
+          if (this.while == false) {
             this.dir_direita = false
             this.dir_esquerda = true
             this.personagem.anims.play('cavaleiro-1-walkingLeft')
