@@ -31,8 +31,6 @@ class Game extends Phaser.Game {
       console.log('Conectado ao servidor!')
     })
 
-
-
     this.scene.add('abertura', abertura)
     this.scene.add('sala', sala)
     this.scene.add('mapa', mapa)
