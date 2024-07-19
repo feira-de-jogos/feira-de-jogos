@@ -5,10 +5,11 @@ export default class mapa extends Phaser.Scene {
 
   preload () {
     // Carregar o mapa
-    this.load.tilemapTiledJSON('mapa', './assets/mapa/mapaindustrial.json')
+    this.load.tilemapTiledJSON('mapa', './assets/mapa/dugeonfinal.json')
 
     // Carregar as imagens do mapa
-    this.load.image('geral', './assets/mapa/tileindustrial64pxgeral.png')
+    this.load.image('tileset_sf', './assets/mapa/tileset_sf.png')
+    this.load.image('blocopreto', './assets/mapa/blocopreto.png')
 
     // Carregar spritesheets e cartao
     this.load.spritesheet('alex', './assets/personagens/alex.png', { frameWidth: 36, frameHeight: 64 })
