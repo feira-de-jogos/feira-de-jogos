@@ -55,14 +55,14 @@ export default class sala extends Phaser.Scene {
       // Se o segundo jogador já estiver conectado, inicia o jogo
       if (jogadores.segundo) {
         // Apresenta texto na tela
-        this.mensagem.setText('Conectando...')
+        //this.mensagem.setText('Conectando...')
 
         // Define a variável global dos jogadores
         globalThis.game.jogadores = jogadores
 
         // Para a cena atual e inicia a cena do mapa
         globalThis.game.scene.stop('sala')
-        globalThis.game.scene.start('mapa')
+        globalThis.game.scene.start('finalFeliz')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
         this.mensagem.setText('Aguardando segundo jogador...')
