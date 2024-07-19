@@ -366,12 +366,12 @@ export default class mapa extends Phaser.Scene {
   bounce (personagem, blocos) {
     if (this.personagem.body.blocked.right) {
       this.bounced = true
-      this.personagem.body.velocity.x = -this.velocidadeX
+      this.personagem.body.velocity.x = -this.velocidadeX + 120
       this.personagem.anims.play('cavaleiro-1-colide-right')
       this.direita.setFrame(0)
     } else if (this.personagem.body.blocked.left) {
       this.bounced = true
-      this.personagem.body.velocity.x = -this.velocidadeX
+      this.personagem.body.velocity.x = -this.velocidadeX 
       this.personagem.anims.play('cavaleiro-1-colide-left')
       this.esquerda.setFrame(0)
     }
