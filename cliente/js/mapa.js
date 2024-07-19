@@ -16,7 +16,6 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('alien', './assets/personagens/alien.png', { frameWidth: 37, frameHeight: 48 })
     this.load.spritesheet('cartao', './assets/animacoes/cartao.png', { frameWidth: 32, frameHeight: 32 })
 
-
     // Carrega as imagens dos botões
     this.load.spritesheet('cima', './assets/botoes/cima.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('baixo', './assets/botoes/baixo.png', { frameWidth: 64, frameHeight: 64 })
@@ -106,6 +105,8 @@ export default class mapa extends Phaser.Scene {
 
     // Define o atributo do tileset para gerar colisao
     this.layerparedes.setCollisionByProperty({ collides: true })
+    // Adiciona colisão entre o personagem e as paredes
+    this.physics.add.collider(this.personagemLocal, this.layerParedes, this.finalTriste, null, this)
 
     // Adiciona colisao entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerparedes)
@@ -134,9 +135,6 @@ export default class mapa extends Phaser.Scene {
         // Anima o personagem parado
         this.personagemLocal.anims.play('personagem-parado')
       })
-
-
-
 
     // Para o personagem
 
@@ -260,7 +258,6 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('personagem-parado')
       })
 
-
     globalThis.game.dadosJogo.onmessage = (event) => {
       const dados = JSON.parse(event.data)
 
@@ -287,7 +284,7 @@ export default class mapa extends Phaser.Scene {
 
     this.cartao = [
       {
-        x: 3570,
+        x: 3580,
         y: 7200
       },
       {
@@ -371,8 +368,14 @@ export default class mapa extends Phaser.Scene {
     this.cartao.forEach((cartao) => {
       cartao.objeto = this.physics.add.sprite(cartao.x, cartao.y, 'cartao')
       cartao.objeto.anims.play('cartao-girando')
-      this.physics.add.collider(this.personagemLocal, cartao.objeto, this.coletar_cartao, null, this)
     })
+
+    // Adiciona placar de cartoes coletadas pelos dois jogadores
+    this.pontos = this.add.text(10, 10, 'Cartões: ' + this.cartoesColetados, {
+      fontSize: '32px',
+      fill: '#0',
+      fontFamily: 'Courier New'
+    }).setScrollFactor(0)
   }
 
   update () {
@@ -399,5 +402,20 @@ export default class mapa extends Phaser.Scene {
 
   coletar_cartao (personagem, cartao) {
     cartao.setVisible(false)
+
+    // Atualiza o placar de cartões coletados pelos dois jogadores
+    const cartoesColetados = this.cartao.filter(cartao => !cartao.active).length
+    this.pontos.setText('Cartões: ' + cartoesColetados)
+
+    if (cartoesColetados > 1) {
+      this.scene.stop('mapa')
+      this.scene.start('finalFeliz')
+    }
+  }
+
+  finalTriste () {
+    // Encerra a cena atual e inicia a cena de final triste
+    this.scene.stop('mapa')
+    this.scene.start('finalTriste')
   }
 }
