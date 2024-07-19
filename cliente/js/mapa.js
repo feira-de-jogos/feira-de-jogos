@@ -1,4 +1,3 @@
-
 export default class mapa extends Phaser.Scene {
   constructor () {
     super('mapa')
@@ -261,6 +260,7 @@ export default class mapa extends Phaser.Scene {
 
         if (jumping && jumpTimer <= maxJumpTime) {
           jumping = false
+          this.personagem.setVelocityX(0)
           var jumpFactor = jumpTimer / maxJumpTime
           var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
           var currentJumpForceY = -305 * this.contador
@@ -364,7 +364,6 @@ export default class mapa extends Phaser.Scene {
   }
 
   bounce (personagem, blocos) {
-
     if (this.personagem.body.blocked.right) {
       this.bounced = true
       this.personagem.body.velocity.x = -this.velocidadeX
@@ -376,5 +375,11 @@ export default class mapa extends Phaser.Scene {
       this.personagem.anims.play('cavaleiro-1-colide-left')
       this.esquerda.setFrame(0)
     }
+  }
+
+  finalTriste () {
+    // Encerra a cena atual e inicia a cena de final triste
+    this.scene.stop('mapa')
+    this.scene.start('finalTriste')
   }
 }
