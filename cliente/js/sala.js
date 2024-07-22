@@ -62,7 +62,7 @@ export default class sala extends Phaser.Scene {
 
         // Para a cena atual e inicia a cena do mapa
         globalThis.game.scene.stop('sala')
-        globalThis.game.scene.start('mapa')
+        globalThis.game.scene.start('finalFeliz')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
         this.mensagem.setText('Aguardando segundo jogador...')
