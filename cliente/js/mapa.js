@@ -105,11 +105,9 @@ export default class mapa extends Phaser.Scene {
 
     // Define o atributo do tileset para gerar colisao
     this.layerparedes.setCollisionByProperty({ collides: true })
-    // Adiciona colisão entre o personagem e as paredes
-    this.physics.add.collider(this.personagemLocal, this.layerParedes, this.finalTriste, null, this)
-
-    // Adiciona colisao entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerparedes)
+
+    // Câmera segue o personagem local
     this.cameras.main.startFollow(this.personagemLocal)
 
     this.cima = this.add.sprite(100, 250, 'cima', 0)
@@ -258,17 +256,6 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('personagem-parado')
       })
 
-    globalThis.game.dadosJogo.onmessage = (event) => {
-      const dados = JSON.parse(event.data)
-
-      // Verifica se os dados recebidos contêm informações sobre o personagem
-      if (dados.personagem) {
-        this.personagemRemoto.x = dados.personagem.x
-        this.personagemRemoto.y = dados.personagem.y
-        this.personagemRemoto.setFrame(dados.personagem.frame)
-      }
-    }
-
     // Animaçao cartao //
     this.anims.create({
       key: 'cartao-girando',
@@ -280,8 +267,7 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    // posições dos cartões //
-
+    // posições dos cartões
     this.cartao = [
       {
         x: 3580,
@@ -368,6 +354,16 @@ export default class mapa extends Phaser.Scene {
     this.cartao.forEach((cartao) => {
       cartao.objeto = this.physics.add.sprite(cartao.x, cartao.y, 'cartao')
       cartao.objeto.anims.play('cartao-girando')
+      cartao.colisao = this.physics.add.overlap(this.personagemLocal, cartao.objeto, () => {
+        cartao.objeto.setVisible(false)
+
+        // Atualiza o placar de cartões coletados pelos dois jogadores
+        // const cartoesColetados = this.cartao.filter(cartao => !cartao.active).length
+        // if (cartoesColetados > 1) {
+        //   this.scene.stop('mapa')
+        //   this.scene.start('finalFeliz')
+        // }
+      }, null, this)
     })
 
     // Adiciona placar de cartoes coletadas pelos dois jogadores
@@ -376,6 +372,28 @@ export default class mapa extends Phaser.Scene {
       fill: '#0',
       fontFamily: 'Courier New'
     }).setScrollFactor(0)
+
+    globalThis.game.dadosJogo.onmessage = (event) => {
+      const dados = JSON.parse(event.data)
+
+      // Verifica se os dados recebidos contêm informações sobre o personagem
+      if (dados.personagem) {
+        this.personagemRemoto.x = dados.personagem.x
+        this.personagemRemoto.y = dados.personagem.y
+        this.personagemRemoto.setFrame(dados.personagem.frame)
+      }
+
+      // Verifica se os dados recebidos contêm informações sobre os cartões
+      if (dados.cartao) {
+        // Atualiza a visibilidade dos cartões
+        this.cartao.forEach((cartao, i) => {
+          // Atualiza a visibilidade do cartão
+          if (!dados.cartao[i].visible) {
+            cartao.objeto.disableBody(true, true)
+          }
+        })
+      }
+    }
   }
 
   update () {
@@ -393,29 +411,23 @@ export default class mapa extends Phaser.Scene {
             }
           }))
         }
+
+        // Verifica se o personagem local coletou o cartão
+        if (this.cartao) {
+          // Envia os dados das nuvens via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            cartao: this.cartao.map(cartao => (cartao => ({
+              visible: cartao.objeto.visible
+            }))(cartao))
+          }))
+        }
+
+        // Atualiza o placar de nuvens coletadas pelos dois jogadores
+        this.pontos.setText('Cartões: ' + this.cartao.filter(cartao => !cartao.objeto.active).length)
       }
     } catch (error) {
       // Gera mensagem de erro na console
       console.error(error)
     }
-  }
-
-  coletar_cartao (personagem, cartao) {
-    cartao.setVisible(false)
-
-    // Atualiza o placar de cartões coletados pelos dois jogadores
-    const cartoesColetados = this.cartao.filter(cartao => !cartao.active).length
-    this.pontos.setText('Cartões: ' + cartoesColetados)
-
-    if (cartoesColetados > 1) {
-      this.scene.stop('mapa')
-      this.scene.start('finalFeliz')
-    }
-  }
-
-  finalTriste () {
-    // Encerra a cena atual e inicia a cena de final triste
-    this.scene.stop('mapa')
-    this.scene.start('finalTriste')
   }
 }
