@@ -8,7 +8,7 @@ export default class sala extends Phaser.Scene {
     // this.load.audio('iniciar', './assets/iniciar.mp3')
 
     //   Carrega a imagem de fundo
-    this.load.image('fundo', './assets/fundo.png')
+    this.load.image('logo', './assets/logo.png')
   }
 
   create () {
@@ -16,7 +16,7 @@ export default class sala extends Phaser.Scene {
     // this.iniciar = this.sound.add('iniciar')
 
     // Adiciona a imagem de fundo
-    this.add.image(400, 225, 'fundo')
+    this.add.image(400, 225, 'logo')
 
     // Adiciona o texto da sala
     this.mensagem = this.add.text(100, 50, 'Sala 1', {
