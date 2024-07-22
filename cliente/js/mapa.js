@@ -33,11 +33,13 @@ export default class mapa extends Phaser.Scene {
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
     // Cria os tilesets do mapa
-    this.tilesetGeral = this.tilemapMapa.addTilesetImage('geral')
+    this.tilesetGeral = this.tilemapMapa.addTilesetImage('tileset_sf')
 
     // Camadas do mapa e personagem
+    this.layerfundo = this.tilemapMapa.createLayer('fundo', [this.tilesetGeral])
     this.layerchao = this.tilemapMapa.createLayer('chao', [this.tilesetGeral])
     this.layerparedes = this.tilemapMapa.createLayer('paredes', [this.tilesetGeral])
+    this.layerobjetos = this.tilemapMapa.createLayer('objetos', [this.tilesetGeral])
 
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -100,13 +102,15 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(3500, 7200, 'stella')
-      this.personagemRemoto = this.physics.add.sprite(3500, 7200, 'alex')
+      this.personagemLocal = this.physics.add.sprite(3600, 6200, 'stella')
+      this.personagemRemoto = this.physics.add.sprite(3600, 6200, 'alex')
     }
 
     // Define o atributo do tileset para gerar colisao
     this.layerparedes.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerparedes)
+    this.layerobjetos.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.personagemLocal, this.layerobjetos)
 
     // Câmera segue o personagem local
     this.cameras.main.startFollow(this.personagemLocal)
