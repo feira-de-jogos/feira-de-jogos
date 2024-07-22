@@ -3,18 +3,22 @@ export default class finalFeliz extends Phaser.Scene {
     super('finalFeliz')
   }
 
-  preload () { }
+  preload () { 
+    this.load.image('CenaVitoria', './assets/Cenas/CenaVitoria.png')
+  } 
+  
+  // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
 
   create () {
-    // Adiciona o texto de parabéns e a possibilidade de reiniciar o jogo
-    this.mensagem = this.add.text(100, 50, 'Parabéns! Você conseguiu!', {
-      fontSize: '32px',
-      fill: '#fff',
-      fontFamily: 'Courier New'
-    })
+
+    this.add.image(427, 240, 'CenaVitoria')
       .setInteractive()
       .on('pointerdown', () => {
-        location.reload()
+        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+          .then((stream) => {
+            globalThis.game.midias = stream
+          })
+          .catch((error) => console.error(error))
       })
 
     // Inicializa o Google Sign-In

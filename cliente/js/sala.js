@@ -19,7 +19,7 @@ export default class sala extends Phaser.Scene {
     this.add.image(427, 240, 'abertura')
 
     // texto da sala:
-    this.mensagem = this.add.text(100, 50, 'sala 1', {
+    this.mensagem = this.add.text(100, 50, 'salas', {
       fontSize: '32px',
       fill: '#fff',
       fontFamily: 'Times New Roman'

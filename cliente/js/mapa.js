@@ -31,9 +31,11 @@ export default class mapa extends Phaser.Scene {
     this.load.image('FundoCavernaVermelho', './assets/mapa/FundoCavernaVermelho.png')
     this.load.image('FundoCavernaAmarela', './assets/mapa/FundoCavernaAmarela.png')
     this.load.image('Vazio', './assets/mapa/Vazio.png')
+    // this.load.image('Vidateste', './assets/Controles/Vidateste.png')
 
     this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 48, frameHeight: 48 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -43,6 +45,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('HabFaca', './assets/Controles/HabFaca.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('Vidateste', './assets/Controles/Vidateste.png', { frameWidth: 380, frameHeight: 128 })
   }
 
   create () {
@@ -247,6 +250,16 @@ export default class mapa extends Phaser.Scene {
       })
     })
 
+    // Morte do Personagem:
+    this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagemLocal.x = 2640
+      this.personagemLocal.y = 2660
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    }, null, this)
+
     // Detalhes
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
 
@@ -299,6 +312,10 @@ export default class mapa extends Phaser.Scene {
     })
 
     // MOVIMENTÇÃO PERSONAGEM
+
+    //VIDA:
+    //this.Vida = this.add.sprite(this.personagemLocal.x, this.personagemLocal.y, 'Vidateste', 0)
+      // .setScrollFactor(0)
 
     // Pulo
 
@@ -357,13 +374,19 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        this.AtqEsp.setFrame(1);
-        this.personagemLocal.anims.play('LeoVen_ataque_' + this.personagemLado);
+        this.AtqEsp.setFrame(1)
+        this.personagemLocal.anims.play('LeoVenAtk_ataque_' + this.personagemLado)
       })
       .on('pointerout', () => {
-        this.AtqEsp.setFrame(0);
-        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado);
-      });
+        this.AtqEsp.setFrame(0)
+        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
+      })
+
+    this.anims.create({
+      key: 'LeoVenAtk_ataque_esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 5 }),
+      frameRate: 8
+    })
 
     // Habilidade
 
