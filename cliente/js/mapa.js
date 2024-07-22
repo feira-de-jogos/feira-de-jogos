@@ -351,13 +351,19 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
       })
 
-    // Ataque
+    // Ataques LEO:
 
-    this.AtqEsp = this.add.sprite(800, 230, 'AtqEsp', 0)
+    this.AtqEsp = this.add.sprite(800, 230, 'AtqMac', 0)
       .setScrollFactor(0)
       .setInteractive()
-      .on('pointerover', () => { })
-      .on('pointerout', () => { })
+      .on('pointerover', () => {
+        this.AtqEsp.setFrame(1);
+        this.personagemLocal.anims.play('LeoVen_ataque_' + this.personagemLado);
+      })
+      .on('pointerout', () => {
+        this.AtqEsp.setFrame(0);
+        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado);
+      });
 
     // Habilidade
 
