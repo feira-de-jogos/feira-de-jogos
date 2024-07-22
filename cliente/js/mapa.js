@@ -70,8 +70,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(3540, 7200, 'alex')
-      this.personagemRemoto = this.physics.add.sprite(3500, 7200, 'stella')
+      this.personagemLocal = this.physics.add.sprite(3540, 6200, 'alex')
+      this.personagemRemoto = this.physics.add.sprite(3540, 6200, 'stella')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -102,8 +102,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(3600, 6200, 'stella')
-      this.personagemRemoto = this.physics.add.sprite(3600, 6200, 'alex')
+      this.personagemLocal = this.physics.add.sprite(3540, 6200, 'stella')
+      this.personagemRemoto = this.physics.add.sprite(3540, 6200, 'alex')
     }
 
     // Define o atributo do tileset para gerar colisao
@@ -275,84 +275,32 @@ export default class mapa extends Phaser.Scene {
     // posições dos cartões
     this.cartao = [
       {
-        x: 3580,
-        y: 7200
+        x: 3366,
+        y: 3877
       },
       {
-        x: 344,
-        y: 12168
+        x: 2798,
+        y: 6408
       },
       {
-        x: 312,
-        y: 11872
+        x: 4998,
+        y: 7584
       },
       {
-        x: 104,
-        y: 11768
+        x: 3474,
+        y: 8224
       },
       {
-        x: 344,
-        y: 11488
+        x: 2660,
+        y: 7776
       },
       {
-        x: 248,
-        y: 11368
+        x: 6624,
+        y: 6873
       },
       {
-        x: 424,
-        y: 11136
-      },
-      {
-        x: 392,
-        y: 10848
-      },
-      {
-        x: 272,
-        y: 10448
-      },
-      {
-        x: 104,
-        y: 10128
-      },
-      {
-        x: 64,
-        y: 9744
-      },
-      {
-        x: 344,
-        y: 9488
-      },
-      {
-        x: 224,
-        y: 9016
-      },
-      {
-        x: 328,
-        y: 8728
-      },
-      {
-        x: 104,
-        y: 8496
-      },
-      {
-        x: 160,
-        y: 8120
-      },
-      {
-        x: 248,
-        y: 7760
-      },
-      {
-        x: 48,
-        y: 7328
-      },
-      {
-        x: 248,
-        y: 6984
-      },
-      {
-        x: 232,
-        y: 6664
+        x: 5830,
+        y: 5216
       }
     ]
 
@@ -363,11 +311,11 @@ export default class mapa extends Phaser.Scene {
         cartao.objeto.setVisible(false)
 
         // Atualiza o placar de cartões coletados pelos dois jogadores
-        // const cartoesColetados = this.cartao.filter(cartao => !cartao.active).length
-        // if (cartoesColetados > 1) {
-        //   this.scene.stop('mapa')
-        //   this.scene.start('finalFeliz')
-        // }
+        const cartoesColetados = this.cartao.filter(cartao => !cartao.active).length
+        if (cartoesColetados > 7) {
+        this.scene.stop('mapa')
+        this.scene.start('finalFeliz')
+        }
       }, null, this)
     })
 
