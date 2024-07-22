@@ -1,6 +1,6 @@
 ## Meowze: Aventura no Labirinto dos Gatos
 
-Em Meowze, é um jogo encantador e divertido que captura a essência clássica do Pac-Man com uma reviravolta felina. Os jogadores assumem o papel de adoráveis gatinhos cujo único objetivo é devorar deliciosas cookies espalhadas por labirintos coloridos. No entanto, há um desafio à espreita: em vez dos tradicionais fantasmas, os inimigos são cachorros travessos que patrulham freneticamente o labirinto.
+Meowze, um jogo encantador e divertido que captura a essência clássica do Pac-Man com uma reviravolta felina. Os jogadores assumem o papel de adoráveis gatinhos cujo único objetivo é devorar deliciosas cookies espalhadas por labirintos coloridos. No entanto, há um desafio à espreita: em vez dos tradicionais fantasmas, os inimigos são cachorros travessos que patrulham freneticamente o labirinto.
 Os jogadores devem navegar habilmente pelos corredores, planejando rotas estratégicas para evitar os cachorros enquanto coletam todas as cookies. Como no Pac-Man, há elementos estratégicos e de perseguição envolvidos: os cachorros podem surpreender os jogadores, obrigando-os a improvisar e usar power-ups especiais para virar o jogo a seu favor.
 
 ## Personagens
