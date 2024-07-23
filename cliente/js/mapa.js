@@ -13,7 +13,10 @@ export default class mapa extends Phaser.Scene {
     this.load.image('grama', './assets/mapa/grama.png')
     this.load.image('cerca', './assets/mapa/cerca.png')
     this.load.image('cookies', './assets/mapa/cookies.png')
-    
+    this.load.image('arvore', './assets/mapa/arvore.png')
+    this.load.image('casa', './assets/mapa/casa.png')
+
+
   
 
     // Carrega o personagem
