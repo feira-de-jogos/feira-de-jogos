@@ -4,11 +4,11 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('fundo', './assets/fundo.png')
+    this.load.image('logo', './assets/logo.png')
   }
 
   create () {
-    this.add.image(400, 225, 'fundo')
+    this.add.image(400, 225, 'logo')
       .setInteractive()
       .on('pointerdown', () => {
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
@@ -20,7 +20,7 @@ export default class abertura extends Phaser.Scene {
         globalThis.game.scene.stop('abertura')
         globalThis.game.scene.start('sala')
       })
-      .preFX.addBlur()
+      
   }
 
   update () {
