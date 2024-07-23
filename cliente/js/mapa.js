@@ -121,9 +121,9 @@ export default class mapa extends Phaser.Scene {
     }
 
     // Define o atributo do tileset para gerar colisão
-    this.layerSob.setCollisionByProperty({ collides: true })
+    this.layercerca.setCollisionByProperty({ collides: true })
     // Adiciona colisão entre o personagem e as paredes
-    this.physics.add.collider(this.personagemLocal, this.layerSob)
+    this.physics.add.collider(this.personagemLocal, this.layercerca)
 
     this.cima = this.add.sprite(100, 250, 'cima', 0)
       .setScrollFactor(0) // não se move com a câmera
