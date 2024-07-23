@@ -130,14 +130,14 @@ export default class mapa extends Phaser.Scene {
     })
     this.anims.create({
       key: 'fogueira',
-      frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 22, end: 24 }),
+      frames: this.anims.generateFrameNumbers("fogueira", { start: 0, end: 2 }),
       frameRate: 12,
       repeat: -1
     })
 
     this.anims.create({
       key: 'cavaleiro-1-idle-esquerda',
-      frames: this.anims.generateFrameNumbers("fogueira", { start: 0, end: 2 }),
+      frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 42, end: 44 }),
       frameRate: 5,
       repeat: -1
     })
