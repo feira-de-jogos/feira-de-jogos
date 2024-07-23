@@ -10,14 +10,11 @@ export default class mapa extends Phaser.Scene {
     this.load.tilemapTiledJSON('mapa', './assets/mapa/mapa.json')
 
     // Carrega as imagens do mapa
-    this.load.image('blocos', './assets/mapa/blocos.png')
     this.load.image('grama', './assets/mapa/grama.png')
-    this.load.image('itens', './assets/mapa/itens.png')
-    this.load.image('paredes', './assets/mapa/paredes.png')
-    this.load.image('pedras', './assets/mapa/pedras.png')
-    this.load.image('plantas', './assets/mapa/plantas.png')
-    this.load.image('sombras-plantas', './assets/mapa/sombras-plantas.png')
-    this.load.image('sombras', './assets/mapa/sombras.png')
+    this.load.image('cerca', './assets/mapa/cerca.png')
+    this.load.image('cookies', './assets/mapa/cookies.png')
+    
+  
 
     // Carrega o personagem
     this.load.spritesheet('Belinha', './assets/personagens/Belinha.png', { frameWidth: 32, frameHeight: 32 })
