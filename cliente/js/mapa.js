@@ -24,6 +24,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('baixo', '/assets/ui/baixo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', '/assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 64, frameHeight: 64 })
   }
 
   create () {
@@ -127,10 +128,16 @@ export default class mapa extends Phaser.Scene {
       frameRate: 5,
       repeat: -1
     })
+    this.anims.create({
+      key: 'fogueira',
+      frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 22, end: 24 }),
+      frameRate: 12,
+      repeat: -1
+    })
 
     this.anims.create({
       key: 'cavaleiro-1-idle-esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 41, end: 43 }),
+      frames: this.anims.generateFrameNumbers("fogueira", { start: 0, end: 2 }),
       frameRate: 5,
       repeat: -1
     })
