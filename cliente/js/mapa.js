@@ -382,22 +382,17 @@ export default class mapa extends Phaser.Scene {
     if (this.personagem.body.blocked.right) {
       if (this.personagem.body.blocked.down) {
         this.personagem.body.velocity.x = -this.velocidadeX + 70
-        console.log('direita')
       } else if (!this.personagem.body.blocked.down) {
         this.bounced = true
         this.personagem.body.velocity.x = -this.velocidadeX + 30
-        console.log(this.personagem.body.velocity.x)
-        this.personagem.anims.play('cavaleiro-1-colide-right')
         this.direita.setFrame(0)
       }
-    } else if (this.personagem.body.blocked.left && !this.personagem.body.blocked.down) {
+    } else if (this.personagem.body.blocked.left) {
       if (this.personagem.body.blocked.down) {
         this.personagem.body.velocity.x = -this.velocidadeX - 70
       } else if (!this.personagem.body.blocked.down) {
         this.bounced = true
         this.personagem.body.velocity.x = -this.velocidadeX - 30
-        console.log(this.personagem.body.velocity.x)
-        this.personagem.anims.play('cavaleiro-1-colide-left')
         this.esquerda.setFrame(0)
       }
     }
