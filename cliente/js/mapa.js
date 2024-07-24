@@ -16,6 +16,7 @@ export default class mapa extends Phaser.Scene {
     this.load.tilemapTiledJSON('mapateste', '/assets/mapa/mapteste.json')
 
     this.load.image('map', '/assets/mapa/map.png')
+    this.load.image('floresta2', '/assets/background/3.png')
     this.load.image('floresta', '/assets/background/2.png')
     this.load.image('inicio', '/assets/background/1.png')
 
@@ -52,8 +53,9 @@ export default class mapa extends Phaser.Scene {
     var ponteiro = false
     var ponteiroup = false
 
-    this.add.image(80, 600, 'floresta')
-    this.add.image(80, -120, 'inicio')
+    this.add.image(110, -840, 'floresta2')
+    this.add.image(110, -480, 'floresta')
+    this.add.image(110, -120, 'inicio')
 
     this.tilesetBlocos = this.tilemapMapa.addTilesetImage('map')
 
