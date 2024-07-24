@@ -263,10 +263,9 @@ sequenceDiagram
   Servidor Web ->>- Usuário: 200 OK
 
   Servidor Web ->>+ Vending Machine: "stateReleasing": { "product": 1, "operation": 1000 }
-  Vending Machine ->>- Servidor Web: "stateUpdate": { "state": "releasing", "operation": 1000 }
+  Vending Machine ->> Servidor Web: "stateUpdate": { "state": "releasing", "operation": 1000 }
   Servidor Web -->> Usuário: Release product
-
-  Vending Machine ->> Servidor Web: "stateUpdate": { "state": "idle", "operation": 1000 }
+  Vending Machine ->>- Servidor Web: "stateUpdate": { "state": "idle", "operation": 1000 }
 
   Servidor Web ->>+ Banco de Dados: SQL DML: atualizar estoque e operação concluída
   Banco de Dados ->>- Servidor Web: SQL DML: banco atualizado
