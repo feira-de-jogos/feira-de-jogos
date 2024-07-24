@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-class MotorDePasso:
+class Stepper:
     def __init__(self, pinos, passos_por_volta=360):
         """
         Inicializa o motor de passo bipolar.

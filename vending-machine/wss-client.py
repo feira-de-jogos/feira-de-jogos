@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import asyncio
 import socketio
 import jwt
-
+#from stepper import Stepper
 
 load_dotenv()
 url = getenv("URL", default="wss://feira-de-jogos.dev.br")
@@ -13,6 +13,7 @@ jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
 secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 
 
+#stepper = Stepper(pinos=[17, 18, 22, 23])
 sio = socketio.AsyncClient()
 
 
@@ -25,7 +26,9 @@ async def connect():
 @sio.event(namespace=namespace)
 async def onState(data):
     print("message received:", data)
-
+#   if (data == 'mfa'):
+#       stepper.girar_angulo(360, sentido_horario=True, velocidade=0.0080, modo="passo_completo")
+    
 
 @sio.event(namespace=namespace)
 async def disconnect():
