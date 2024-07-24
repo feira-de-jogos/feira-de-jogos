@@ -209,10 +209,10 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         if (this.personagem.body.blocked.down && this.blocked === true) {
-          this.dir_direita = false
-          this.dir_esquerda = true
           this.personagem.anims.play('cavaleiro-1-walkingLeft')
           dir_lados = +1
+          this.dir_esquerda = true
+          this.dir_direita = false
           this.esquerda.setFrame(1)
           this.personagem.setVelocityX(-70)
         }
@@ -354,6 +354,7 @@ export default class mapa extends Phaser.Scene {
       this.dir_esquerda = true
       this.personagem.setVelocity(0, 0)
     } else if (this.personagem.body.blocked.down && this.entrar && this.dir_direita) {
+      console.log('teste')
       this.bounced = false
       this.personagem.anims.play('cavaleiro-1-idle-direita')
       this.direita.setFrame(0)
@@ -368,20 +369,30 @@ export default class mapa extends Phaser.Scene {
       }
       this.contador += 0.03
     }
-    console.log(this.personagem.texture.key)
   }
 
   bounce (personagem, blocos) {
     if (this.personagem.body.blocked.right) {
-      this.bounced = true
-      this.personagem.body.velocity.x = -this.velocidadeX + 120
-      this.personagem.anims.play('cavaleiro-1-colide-right')
-      this.direita.setFrame(0)
-    } else if (this.personagem.body.blocked.left) {
-      this.bounced = true
-      this.personagem.body.velocity.x = -this.velocidadeX
-      this.personagem.anims.play('cavaleiro-1-colide-left')
-      this.esquerda.setFrame(0)
+      if (this.personagem.body.blocked.down) {
+        this.personagem.body.velocity.x = -this.velocidadeX + 70
+        console.log('direita')
+      } else if (!this.personagem.body.blocked.down) {
+        this.bounced = true
+        this.personagem.body.velocity.x = -this.velocidadeX + 30
+        console.log(this.personagem.body.velocity.x)
+        this.personagem.anims.play('cavaleiro-1-colide-right')
+        this.direita.setFrame(0)
+      }
+    } else if (this.personagem.body.blocked.left && !this.personagem.body.blocked.down) {
+      if (this.personagem.body.blocked.down) {
+        this.personagem.body.velocity.x = -this.velocidadeX - 70
+      } else if (!this.personagem.body.blocked.down) {
+        this.bounced = true
+        this.personagem.body.velocity.x = -this.velocidadeX - 30
+        console.log(this.personagem.body.velocity.x)
+        this.personagem.anims.play('cavaleiro-1-colide-left')
+        this.esquerda.setFrame(0)
+      }
     }
   }
 
