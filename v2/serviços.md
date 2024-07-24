@@ -2,12 +2,18 @@
 
 Na primeira versão do ambiente, os serviços eram gerenciados pelo `systemd`.
 
-Na segunda versão, a mais atual, é usado o Docker Compose. Os serviços são configurados e iniciados no repositório [`nuvem`](https://github.com/feira-de-jogos/nuvem). 
+Na segunda versão, a mais atual, é usado o Docker Compose. Os serviços são configurados e iniciados no repositório [`rest-api`](https://github.com/feira-de-jogos/rest-api). 
 
-Para rodar o ambiente, é preciso criar os seguintes arquivos e conteúdos no diretório raiz daquele repositório:
+Para rodar o ambiente, é preciso criar o arquivo `.env`, no diretório raiz daquele repositório, com o seguinte conteúdo:
 
-- `env-db-postgres-password`: a senha mestre do banco de dados relacional PostgreSQL.
-- `env-rest-api-google-client-id`: ID de credencial criado no GCP.
+- `GOOGLE_CLIENT_ID`: ID de credencial OAuth criado no GCP;
+- `PGDATABASE`: base de dados relacional;
+- `PGPASSWORD`: senha de acesso ao banco de dados;
+- `PGHOST`: servidor do banco de dados;
+- `PGUSER`: usuário do banco de dados;
+- `PGPORT`: porta do banco de dados;
+- `TOKEN_SECRET_KEY_VENDING_MACHINE`: chave de assinatura do JWT da máquina de vendas;
+- `TOKEN_SECRET_KEY_ARCADE`: chave de assinatura do JWT dos fliperamas.
 
 E então, rodar o comando:
 
