@@ -17,12 +17,16 @@
     },
     "tags": [
       {
-        "name": "machine",
-        "description": "From machine to server"
+        "$ref": "#/components/tags/arcade2server"
       },
       {
-        "name": "server",
-        "description": "From server to machine"
+        "$ref": "#/components/tags/server2arcade"
+      },
+      {
+        "$ref": "#/components/tags/vending-machine2server"
+      },
+      {
+        "$ref": "#/components/tags/server2vending-machine"
       }
     ]
   },
@@ -40,26 +44,67 @@
       "address": "vending-machine",
       "messages": {
         "stateUpdate": {
-          "$ref": "#/components/messages/stateUpdate"
+          "$ref": "#/components/messages/stateUpdate",
+          "tags": [
+            {
+              "$ref": "#/components/tags/vending-machine2server"
+            }
+          ]
         },
         "stateMFA": {
-          "$ref": "#/components/messages/stateMFA"
+          "$ref": "#/components/messages/stateMFA",
+          "tags": [
+            {
+              "$ref": "#/components/tags/server2vending-machine"
+            }
+          ]
         },
         "stateReleasing": {
-          "$ref": "#/components/messages/stateReleasing"
+          "$ref": "#/components/messages/stateReleasing",
+          "tags": [
+            {
+              "$ref": "#/components/tags/server2vending-machine"
+            }
+          ]
         }
-      }
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/vending-machine2server"
+        },
+        {
+          "$ref": "#/components/tags/server2vending-machine"
+        }
+      ]
     },
     "arcade": {
       "address": "arcade",
       "messages": {
         "coinInsert": {
-          "$ref": "#/components/messages/coinInsert"
+          "$ref": "#/components/messages/coinInsert",
+          "tags": [
+            {
+              "$ref": "#/components/tags/server2arcade"
+            }
+          ]
         },
         "coinInserted": {
-          "$ref": "#/components/messages/coinInserted"
+          "$ref": "#/components/messages/coinInserted",
+          "tags": [
+            {
+              "$ref": "#/components/tags/arcade2server"
+            }
+          ]
         }
-      }
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/arcade2server"
+        },
+        {
+          "$ref": "#/components/tags/server2arcade"
+        }
+      ]
     }
   },
   "operations": {
@@ -71,6 +116,11 @@
       "messages": [
         {
           "$ref": "#/channels/vending-machine/messages/stateUpdate"
+        }
+      ],
+      "tags": [
+        {
+          "$ref": "#/components/tags/vending-machine2server"
         }
       ]
     },
@@ -90,7 +140,12 @@
             "$ref": "#/channels/vending-machine/messages/stateUpdate"
           }
         ]
-      }
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/server2vending-machine"
+        }
+      ]
     },
     "onStateReleasing": {
       "action": "receive",
@@ -108,7 +163,12 @@
             "$ref": "#/channels/vending-machine/messages/stateUpdate"
           }
         ]
-      }
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/server2vending-machine"
+        }
+      ]
     },
     "onCoinInsert": {
       "action": "receive",
@@ -126,7 +186,12 @@
             "$ref": "#/channels/arcade/messages/coinInserted"
           }
         ]
-      }
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/server2arcade"
+        }
+      ]
     },
     "onCoinInserted": {
       "action": "receive",
@@ -136,6 +201,11 @@
       "messages": [
         {
           "$ref": "#/channels/arcade/messages/coinInserted"
+        }
+      ],
+      "tags": [
+        {
+          "$ref": "#/components/tags/arcade2server"
         }
       ]
     }
@@ -276,6 +346,24 @@
             }
           ]
         }
+      }
+    },
+    "tags": {
+      "arcade2server": {
+        "name": "arcade2server",
+        "description": "From arcade to server"
+      },
+      "server2arcade": {
+        "name": "server2arcade",
+        "description": "From server to arcade"
+      },
+      "vending-machine2server": {
+        "name": "vending-machine2arcade",
+        "description": "From vending machine to server"
+      },
+      "server2vending-machine": {
+        "name": "server2vending-machine",
+        "description": "From server to vending machine"
       }
     }
   }
