@@ -16,6 +16,8 @@ export default class mapa extends Phaser.Scene {
     this.load.tilemapTiledJSON('mapateste', '/assets/mapa/mapteste.json')
 
     this.load.image('map', '/assets/mapa/map.png')
+    this.load.image('floresta', '/assets/background/2.png')
+    this.load.image('inicio', '/assets/background/1.png')
 
     this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
@@ -49,6 +51,9 @@ export default class mapa extends Phaser.Scene {
 
     var ponteiro = false
     var ponteiroup = false
+
+    this.add.image(80, 600, 'floresta')
+    this.add.image(80, -120, 'inicio')
 
     this.tilesetBlocos = this.tilemapMapa.addTilesetImage('map')
 
@@ -86,8 +91,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-1')
-      this.personagemRemoto = this.add.sprite(10, -60, 'cavaleiro-2')
+      this.personagem = this.physics.add.sprite(50, -60, 'cavaleiro-1')
+      this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-2')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -118,8 +123,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-2')
-      this.personagemRemoto = this.add.sprite(10, -60, 'cavaleiro-1')
+      this.personagem = this.physics.add.sprite(50, -60, 'cavaleiro-2')
+      this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-1')
     }
 
     this.anims.create({
