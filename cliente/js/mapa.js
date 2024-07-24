@@ -255,46 +255,49 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerdown', () => {
-        this.personagem.anims.play('cavaleiro-1-jump-start')
-        this.jump.setFrame(0)
-        jumpTimer += 1
-        this.while = true
-        this.personagem.setVelocityX(0)
-        this.jump.setFrame(1)
-      }).on('pointerup', () => {
-        this.while = false
-        if (jumpTimer > maxJumpTime) {
-          jumpTimer = maxJumpTime
-        }
         if (this.personagem.body.blocked.down) {
-          jumping = true
-          jumpTimer = 0
-        } else {
-          jumping = false
+          this.personagem.anims.play('cavaleiro-1-jump-start')
+          this.jump.setFrame(0)
+          jumpTimer += 1
+          this.while = true
+          this.personagem.setVelocityX(0)
+          this.jump.setFrame(1)
         }
-
-        if (jumping && jumpTimer <= maxJumpTime) {
-          jumping = false
-
-          var jumpFactor = jumpTimer / maxJumpTime
-          var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
-          var currentJumpForceY = -305 * this.contador
-          this.personagem.setVelocity(currentJumpForceX, currentJumpForceY)
-          jumpTimer = 0
-          if (this.dir_direita) {
-            this.personagem.anims.play('cavaleiro-2-jump-right')
-            this.jump.setFrame(0)
-          } else if (this.dir_esquerda) {
-            this.personagem.anims.play('cavaleiro-2-jump-left')
-            this.jump.setFrame(0)
+      }).on('pointerup', () => {
+        if (this.personagem.body.blocked.down) {
+          this.while = false
+          if (jumpTimer > maxJumpTime) {
+            jumpTimer = maxJumpTime
           }
-          this.contador = 0
-          this.blocked = true
-        } else {
-          jumping = false
-        }
-        this.jump.setFrame(0)
-      })
+          if (this.personagem.body.blocked.down) {
+            jumping = true
+            jumpTimer = 0
+          } else {
+            jumping = false
+          }
+
+          if (jumping && jumpTimer <= maxJumpTime) {
+            jumping = false
+
+            var jumpFactor = jumpTimer / maxJumpTime
+            var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
+            var currentJumpForceY = -305 * this.contador
+            this.personagem.setVelocity(currentJumpForceX, currentJumpForceY)
+            jumpTimer = 0
+            if (this.dir_direita) {
+              this.personagem.anims.play('cavaleiro-2-jump-right')
+              this.jump.setFrame(0)
+            } else if (this.dir_esquerda) {
+              this.personagem.anims.play('cavaleiro-2-jump-left')
+              this.jump.setFrame(0)
+            }
+            this.contador = 0
+            this.blocked = true
+          } else {
+            jumping = false
+          }
+          this.jump.setFrame(0)
+        } })
 
     this.cameras.main.startFollow(this.personagem)
     this.layerBlocos.setCollisionByProperty({ collides: true })
