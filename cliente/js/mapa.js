@@ -40,16 +40,15 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('PortaBoss', './assets/PortaBoss.png', { frameWidth: 96, frameHeight: 96 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('barradevida', './assets/Controles/barradevida.png', { frameWidth: 128, frameHeight: 32 })
     this.load.spritesheet('AtqEsp', './assets/Controles/AtqEsp.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('HabFaca', './assets/Controles/HabFaca.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('barradevida', './assets/Controles/barradevida.png', { frameWidth: 128, frameHeight: 32 })
   }
 
   create () {
@@ -92,6 +91,18 @@ export default class mapa extends Phaser.Scene {
     this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto, this.tilesetpedra])
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
+    // Porta do Boss:
+    this.PortaBoss = this.physics.add.sprite(3606, 2664, 'PortaBoss')
+    this.PortaBoss.body.setAllowGravity(false)
+    this.anims.create({
+      key: 'PortaBoss',
+      frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 8 }),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.PortaBoss.anims.play('PortaBoss')
+
     // dois players
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -121,7 +132,6 @@ export default class mapa extends Phaser.Scene {
         globalThis.game.remoteConnection.addIceCandidate(candidate)
       })
 
-      // Cria os sprites dos personagens local e remoto
       this.personagemLocal = this.physics.add.sprite(5441, 1060, 'LeoVen')
       this.personagemRemoto = this.add.sprite(5480, 1060, 'BenVen')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
@@ -156,6 +166,19 @@ export default class mapa extends Phaser.Scene {
       // Cria os sprites dos personagens local e remoto:
       this.personagemLocal = this.physics.add.sprite(5480, 1060, 'BenVen')
       this.personagemRemoto = this.add.sprite(5441, 1060, 'LeoVen')
+
+      //Ataques BEN:
+      this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { })
+        .on('pointerout', () => { })
+      
+        this.AtqEsp = this.add.sprite(800, 320, 'AtqEsp', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { })
+        .on('pointerout', () => { })
     }
 
     this.personagemLocalLado = 'direita'
@@ -287,8 +310,8 @@ export default class mapa extends Phaser.Scene {
     this.portal8.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
       this.cameras.main.fadeOut(100)
-      this.personagemLocal.x = 1000
-      this.personagemLocal.y = 3752
+      this.personagemLocal.x = 682
+      this.personagemLocal.y = 3580
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
         camera.fadeIn(100)
       })
@@ -411,34 +434,6 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.setVelocityX(0)
         this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
       })
-
-    // Ataques LEO:
-
-    this.AtqEsp = this.add.sprite(800, 230, 'AtqMac', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
-        this.AtqEsp.setFrame(1)
-        this.personagemLocal.anims.play('LeoVenAtk_ataque_' + this.personagemLado)
-      })
-      .on('pointerout', () => {
-        this.AtqEsp.setFrame(0)
-        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
-      })
-
-    this.anims.create({
-      key: 'LeoVenAtk_ataque_esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 5 }),
-      frameRate: 8
-    })
-
-    // Habilidade
-
-    this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => { })
-      .on('pointerout', () => { })
 
     // colisão de personagem
 
