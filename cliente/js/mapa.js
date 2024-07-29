@@ -25,12 +25,15 @@ export default class mapa extends Phaser.Scene {
 
     this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('particula-jump', './assets/particles/jump_particle.png', { frameWidth: 32, frameHeight: 32 })
 
     this.load.spritesheet('jump', '/assets/ui/jump.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('baixo', '/assets/ui/baixo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', '/assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
+
+    this.load.image('decoracao1', '/assets/decoracao/fg2.png')
   }
 
   create () {
@@ -69,9 +72,11 @@ export default class mapa extends Phaser.Scene {
     this.layerBlocos = this.tilemapMapa.createLayer('blocos', [this.tilesetBlocos])
     this.layerDecoration = this.tilemapMapa.createLayer('decoracao-1', [this.tilesetBlocos])
     this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
-    
+
     //código para adicionar e animar a fogueira
-    this.fogueira = this.add.sprite(309,-144, 'fogueira')
+    this.fogueira = this.add.sprite(309, -144, 'fogueira')
+
+    this.add.image(110, -480, 'decoracao1')
 
     this.anims.create({
       key: 'fogueira',
@@ -81,9 +86,6 @@ export default class mapa extends Phaser.Scene {
     })
 
     this.fogueira.anims.play('fogueira')
-
-
-
 
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -151,12 +153,19 @@ export default class mapa extends Phaser.Scene {
     }
 
     this.anims.create({
+      key: 'jump_particle',
+      frames: this.anims.generateFrameNumbers('particula-jump', { start: 0, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
       key: 'cavaleiro-1-idle-direita',
       frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 22, end: 24 }),
       frameRate: 5,
       repeat: -1
     })
-  
+
     this.anims.create({
       key: 'cavaleiro-1-idle-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 41, end: 43 }),
