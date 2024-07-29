@@ -211,6 +211,9 @@ export default class tilemapMapa extends Phaser.Scene {
 
       this.personagemLocal.setVelocity(velocityX, velocityY)
 
+      // console.log('x: ', this.personagemLocal.x)
+      // console.log('y: ', this.personagemLocal.y)
+
       // Animação do personagem conforme a direção do movimento
       if (Math.abs(velocityX) > Math.abs(velocityY)) {
         if (velocityX > 0) {
