@@ -31,11 +31,15 @@ export default class mapa extends Phaser.Scene {
     this.load.image('FundoCavernaVermelho', './assets/mapa/FundoCavernaVermelho.png')
     this.load.image('FundoCavernaAmarela', './assets/mapa/FundoCavernaAmarela.png')
     this.load.image('Vazio', './assets/mapa/Vazio.png')
-    // this.load.image('Vidateste', './assets/Controles/Vidateste.png')
+    this.load.image('pedra', './assets/mapa/pedra.png')
+    this.load.image('inicio', './assets/mapa/inicio.png')
+    this.load.image('arenaboss', './assets/mapa/arenaboss.png')
 
     this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -45,7 +49,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('HabFaca', './assets/Controles/HabFaca.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('Vidateste', './assets/Controles/Vidateste.png', { frameWidth: 380, frameHeight: 128 })
+    this.load.spritesheet('barradevida', './assets/Controles/barradevida.png', { frameWidth: 128, frameHeight: 32 })
   }
 
   create () {
@@ -78,13 +82,17 @@ export default class mapa extends Phaser.Scene {
     this.tilesetGramasVermelho = this.tilemapMapa.addTilesetImage('GramasVermelho')
     this.tilesetGramasRoxo = this.tilemapMapa.addTilesetImage('GramasRoxo')
     this.tilesetPedrinhas = this.tilemapMapa.addTilesetImage('Pedrinhas')
+    this.tilesetpedra = this.tilemapMapa.addTilesetImage('pedra')
+    this.tilesetinicio = this.tilemapMapa.addTilesetImage('inicio')
+    this.tilesetarenaboss = this.tilemapMapa.addTilesetImage('arenaboss')
 
     // Layers
-    this.layerFundo = this.tilemapMapa.createLayer('Fundo', [this.tilesetFundoCavernaAzul, this.tilesetFundoCavernaRoxa, this.tilesetFundoCavernaVerde, this.tilesetFundoCavernaVermelho, this.tilesetFundoCavernaAmarela, this.tilesetBlocosBordas])
-    this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde, this.tilesetBlocosCenarioAmarelo, this.tilesetBlocosCenarioVermelho, this.tilesetBlocosCenarioAzul, this.tilesetBlocosCenarioRoxo])
-    this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto])
+    this.layerFundo = this.tilemapMapa.createLayer('Fundo', [this.tilesetFundoCavernaAzul, this.tilesetFundoCavernaRoxa, this.tilesetFundoCavernaVerde, this.tilesetFundoCavernaVermelho, this.tilesetFundoCavernaAmarela, this.tilesetBlocosBordas, this.tilesetinicio, this.tilesetarenaboss])
+    this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde, this.tilesetBlocosCenarioAmarelo, this.tilesetBlocosCenarioVermelho, this.tilesetBlocosCenarioAzul, this.tilesetBlocosCenarioRoxo, this.tilesetpedra, this.tilesetBlocosTeto])
+    this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto, this.tilesetpedra])
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
+    // dois players
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.remoteConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -114,8 +122,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(2640, 2660, 'LeoVen')
-      this.personagemRemoto = this.add.sprite(2640, 2660, 'BenVen')
+      this.personagemLocal = this.physics.add.sprite(5441, 1060, 'LeoVen')
+      this.personagemRemoto = this.add.sprite(5480, 1060, 'BenVen')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -146,8 +154,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto:
-      this.personagemLocal = this.physics.add.sprite(2640, 2660, 'BenVen')
-      this.personagemRemoto = this.add.sprite(2650, 2660, 'LeoVen')
+      this.personagemLocal = this.physics.add.sprite(5480, 1060, 'BenVen')
+      this.personagemRemoto = this.add.sprite(5441, 1060, 'LeoVen')
     }
 
     this.personagemLocalLado = 'direita'
@@ -250,6 +258,42 @@ export default class mapa extends Phaser.Scene {
       })
     })
 
+    // Portal inicio para Verde:
+    this.portal8 = this.physics.add.sprite(6577, 1030, 'Vazio')
+    this.portal8.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagemLocal.x = 2640
+      this.personagemLocal.y = 2660
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
+    // Portal verde para inicio:
+    this.portal8 = this.physics.add.sprite(2543, 2660, 'Vazio')
+    this.portal8.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagemLocal.x = 6500
+      this.personagemLocal.y = 1060
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
+    // Portal verde para boss:
+    this.portal8 = this.physics.add.sprite(3606, 2664, 'Vazio')
+    this.portal8.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
+      this.cameras.main.fadeOut(100)
+      this.personagemLocal.x = 1000
+      this.personagemLocal.y = 3752
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
     // Morte do Personagem:
     this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
       this.cameras.main.fadeOut(100)
@@ -313,9 +357,9 @@ export default class mapa extends Phaser.Scene {
 
     // MOVIMENTÇÃO PERSONAGEM
 
-    //VIDA:
-    //this.Vida = this.add.sprite(this.personagemLocal.x, this.personagemLocal.y, 'Vidateste', 0)
-      // .setScrollFactor(0)
+    // VIDA:
+    // this.Vida = this.add.sprite(this.personagemLocal.x, this.personagemLocal.y, 'barradevida', 0)
+    // .setScrollFactor(0)
 
     // Pulo
 
@@ -403,6 +447,9 @@ export default class mapa extends Phaser.Scene {
 
     this.layerParedes.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerParedes)
+
+    this.layerObstaculos.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.personagemLocal, this.layerObstaculos)
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagemLocal)
