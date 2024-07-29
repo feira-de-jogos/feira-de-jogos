@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 import asyncio
 import socketio
 import jwt
-
-# from stepper import Stepper
+from stepper import Stepper
 
 load_dotenv()
 url = getenv("URL", default="wss://feira-de-jogos.dev.br")
@@ -14,7 +13,10 @@ jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
 secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 
 
-# stepper = Stepper(pinos=[17, 18, 22, 23])
+motores = []
+motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
+motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
+motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
 sio = socketio.AsyncClient()
 
 
@@ -30,16 +32,38 @@ async def connect():
 
 @sio.event(namespace=namespace)
 async def onStateMFA(req):
-    message = {"stateUpdate": {"state": "mfa", "operation": req["operation"]}}
+    """
+    Recebe a solicitação para autenticação em duas etapas
+    """
+    username = req["username"]
+    code = req["code"]
+    operation = req["operation"]
+
+    print("Olá, %s! Seu código de autenticação é %s." % (username, code))
+
+    message = {"stateUpdate": {"state": "mfa", "operation": operation}}
     await sio.emit(message, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
 async def onStateReleasing(req):
-    message = {"stateUpdate": {"state": "releasing", "operation": req["operation"]}}
+    """
+    Recebe a solicitação para liberar o produto
+    """
+    product = req["product"]
+    operation = req["operation"]
+
+    message = {"stateUpdate": {"state": "releasing", "operation": operation}}
     await sio.emit(message, namespace=namespace)
-    # stepper.girar_angulo(360, sentido_horario=True, velocidade=0.0080, modo="passo_completo")
-    message = {"stateUpdate": {"state": "idle", "operation": req["operation"]}}
+
+    try:
+        motores[product].girar_angulo(
+            360, sentido_horario=True, tempo=0.008, modo="passo_completo"
+        )
+    finally:
+        motores[product].desligar()
+
+    message = {"stateUpdate": {"state": "idle", "operation": operation}}
     await sio.emit(message, namespace=namespace)
 
 
@@ -52,6 +76,9 @@ async def disconnect():
 
 
 async def main():
+    """
+    Função principal
+    """
     message = {"machine": "vending-machine", "id": 0}
     token = jwt.encode(message, secret_key, algorithm=jwt_algorithm)
     await sio.connect(
