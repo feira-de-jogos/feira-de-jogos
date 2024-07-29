@@ -16,6 +16,12 @@ export default class mapa extends Phaser.Scene {
     this.load.tilemapTiledJSON('mapateste', '/assets/mapa/mapteste.json')
 
     this.load.image('map', '/assets/mapa/map.png')
+    this.load.image('esgoto2', '/assets/background/8.png')
+    this.load.image('esgoto', '/assets/background/7.png')
+    this.load.image('comecoesgoto', '/assets/background/4.png')
+    this.load.image('floresta2', '/assets/background/3.png')
+    this.load.image('floresta', '/assets/background/2.png')
+    this.load.image('inicio', '/assets/background/1.png')
 
     this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
@@ -49,6 +55,13 @@ export default class mapa extends Phaser.Scene {
 
     var ponteiro = false
     var ponteiroup = false
+
+    this.add.image(110, -1920, 'esgoto2')
+    this.add.image(110, -1560, 'esgoto')
+    this.add.image(110, -1200, 'comecoesgoto')
+    this.add.image(110, -840, 'floresta2')
+    this.add.image(110, -480, 'floresta')
+    this.add.image(110, -120, 'inicio')
 
     this.tilesetBlocos = this.tilemapMapa.addTilesetImage('map')
 
@@ -101,8 +114,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-1')
-      this.personagemRemoto = this.add.sprite(10, -60, 'cavaleiro-2')
+      this.personagem = this.physics.add.sprite(50, -60, 'cavaleiro-1')
+      this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-2')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -133,8 +146,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagem = this.physics.add.sprite(10, -60, 'cavaleiro-2')
-      this.personagemRemoto = this.add.sprite(10, -60, 'cavaleiro-1')
+      this.personagem = this.physics.add.sprite(50, -60, 'cavaleiro-2')
+      this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-1')
     }
 
     this.anims.create({
@@ -218,10 +231,10 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         if (this.personagem.body.blocked.down && this.blocked === true) {
-          this.dir_direita = false
-          this.dir_esquerda = true
           this.personagem.anims.play('cavaleiro-1-walkingLeft')
           dir_lados = +1
+          this.dir_esquerda = true
+          this.dir_direita = false
           this.esquerda.setFrame(1)
           this.personagem.setVelocityX(-70)
         }
@@ -257,46 +270,49 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerdown', () => {
-        this.personagem.anims.play('cavaleiro-1-jump-start')
-        this.jump.setFrame(0)
-        jumpTimer += 1
-        this.while = true
-        this.personagem.setVelocityX(0)
-        this.jump.setFrame(1)
-      }).on('pointerup', () => {
-        this.while = false
-        if (jumpTimer > maxJumpTime) {
-          jumpTimer = maxJumpTime
-        }
         if (this.personagem.body.blocked.down) {
-          jumping = true
-          jumpTimer = 0
-        } else {
-          jumping = false
+          this.personagem.anims.play('cavaleiro-1-jump-start')
+          this.jump.setFrame(0)
+          jumpTimer += 1
+          this.while = true
+          this.personagem.setVelocityX(0)
+          this.jump.setFrame(1)
         }
-
-        if (jumping && jumpTimer <= maxJumpTime) {
-          jumping = false
-
-          var jumpFactor = jumpTimer / maxJumpTime
-          var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
-          var currentJumpForceY = -305 * this.contador
-          this.personagem.setVelocity(currentJumpForceX, currentJumpForceY)
-          jumpTimer = 0
-          if (this.dir_direita) {
-            this.personagem.anims.play('cavaleiro-2-jump-right')
-            this.jump.setFrame(0)
-          } else if (this.dir_esquerda) {
-            this.personagem.anims.play('cavaleiro-2-jump-left')
-            this.jump.setFrame(0)
+      }).on('pointerup', () => {
+        if (this.personagem.body.blocked.down) {
+          this.while = false
+          if (jumpTimer > maxJumpTime) {
+            jumpTimer = maxJumpTime
           }
-          this.contador = 0
-          this.blocked = true
-        } else {
-          jumping = false
-        }
-        this.jump.setFrame(0)
-      })
+          if (this.personagem.body.blocked.down) {
+            jumping = true
+            jumpTimer = 0
+          } else {
+            jumping = false
+          }
+
+          if (jumping && jumpTimer <= maxJumpTime) {
+            jumping = false
+
+            var jumpFactor = jumpTimer / maxJumpTime
+            var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
+            var currentJumpForceY = -305 * this.contador
+            this.personagem.setVelocity(currentJumpForceX, currentJumpForceY)
+            jumpTimer = 0
+            if (this.dir_direita) {
+              this.personagem.anims.play('cavaleiro-2-jump-right')
+              this.jump.setFrame(0)
+            } else if (this.dir_esquerda) {
+              this.personagem.anims.play('cavaleiro-2-jump-left')
+              this.jump.setFrame(0)
+            }
+            this.contador = 0
+            this.blocked = true
+          } else {
+            jumping = false
+          }
+          this.jump.setFrame(0)
+        } })
 
     this.cameras.main.startFollow(this.personagem)
     this.layerBlocos.setCollisionByProperty({ collides: true })
@@ -363,6 +379,7 @@ export default class mapa extends Phaser.Scene {
       this.dir_esquerda = true
       this.personagem.setVelocity(0, 0)
     } else if (this.personagem.body.blocked.down && this.entrar && this.dir_direita) {
+      console.log('teste')
       this.bounced = false
       this.personagem.anims.play('cavaleiro-1-idle-direita')
       this.direita.setFrame(0)
@@ -377,20 +394,25 @@ export default class mapa extends Phaser.Scene {
       }
       this.contador += 0.03
     }
-    console.log(this.personagem.texture.key)
   }
 
   bounce (personagem, blocos) {
     if (this.personagem.body.blocked.right) {
-      this.bounced = true
-      this.personagem.body.velocity.x = -this.velocidadeX + 120
-      this.personagem.anims.play('cavaleiro-1-colide-right')
-      this.direita.setFrame(0)
+      if (this.personagem.body.blocked.down) {
+        this.personagem.body.velocity.x = -this.velocidadeX + 70
+      } else if (!this.personagem.body.blocked.down) {
+        this.bounced = true
+        this.personagem.body.velocity.x = -this.velocidadeX + 30
+        this.direita.setFrame(0)
+      }
     } else if (this.personagem.body.blocked.left) {
-      this.bounced = true
-      this.personagem.body.velocity.x = -this.velocidadeX
-      this.personagem.anims.play('cavaleiro-1-colide-left')
-      this.esquerda.setFrame(0)
+      if (this.personagem.body.blocked.down) {
+        this.personagem.body.velocity.x = -this.velocidadeX - 70
+      } else if (!this.personagem.body.blocked.down) {
+        this.bounced = true
+        this.personagem.body.velocity.x = -this.velocidadeX - 30
+        this.esquerda.setFrame(0)
+      }
     }
   }
 
