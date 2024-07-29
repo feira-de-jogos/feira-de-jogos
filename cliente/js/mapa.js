@@ -122,22 +122,63 @@ export default class mapa extends Phaser.Scene {
     this.layerCerca.setCollisionByProperty({ collides: true })
     
     // Adiciona colisão entre o personagem e as paredes
-    this.physics.add.collider(this.personagemLocal, this.layerCerca)
+    this.physics.add.collider(this.personagemLocal, this.layerCerca, () =>{this.personagemLocal.anims.play('personagem-parado-baixo')}, null, this)
+
+    this.anims.create({
+      key: 'personagem-parado-cima',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 13,
+        end: 13
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-caminhando-cima',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 12,
+        end: 14
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-parado-baixo',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 2,
+        end: 2
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-caminhando-baixo',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
+        start: 1,
+        end: 3
+      }),
+      frameRate: 10,
+      repeat: -1
+    })
+
     this.anims.create({
       key: 'personagem-parado-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 0,
-        end: 1
+        start: 5,
+        end: 5
       }),
       frameRate: 1,
       repeat: -1
     })
 
     this.anims.create({
-      key: 'personagem-voando-esquerda',
+      key: 'personagem-caminhando-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 2,
-        end: 5
+        start: 4,
+        end: 6
       }),
       frameRate: 10,
       repeat: -1
@@ -146,17 +187,17 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-parado-direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 6,
-        end: 7
+        start: 8,
+        end: 9
       }),
       frameRate: 1,
       repeat: -1
     })
 
     this.anims.create({
-      key: 'personagem-voando-direita',
+      key: 'personagem-caminhando-direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 8,
+        start: 7,
         end: 11
       }),
       frameRate: 10,
@@ -193,6 +234,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.lado = 'esquerda'
 
         this.personagemLocal.setVelocityX(-200)
+        this.personagemLocal.anims.play('personagem-caminhando-esquerda')
       })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
@@ -200,6 +242,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
         this.personagemLocal.setVelocityX(200)
+        this.personagemLocal.anims.play('personagem-caminhando-direita')
       })
 
     // Inicia a câmera seguindo o personagem
