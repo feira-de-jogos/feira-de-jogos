@@ -40,7 +40,11 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('PortaBoss', './assets/PortaBoss.png', { frameWidth: 96, frameHeight: 96 })
+    this.load.spritesheet('PortaBoss', './assets/spritesmapa/PortaBoss.png', { frameWidth: 96, frameHeight: 96 })
+    this.load.spritesheet('altarcristalamarelo', './assets/spritesmapa/altarcristalamarelo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('altarcristalfogo', './assets/spritesmapa/altarcristalfogo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('altarcristalgelo', './assets/spritesmapa/altarcristalgelo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('altarcristalroxo', './assets/spritesmapa/altarcristalroxo.png', { frameWidth: 64, frameHeight: 64 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -49,6 +53,8 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('barradevida', './assets/Controles/barradevida.png', { frameWidth: 128, frameHeight: 32 })
     this.load.spritesheet('AtqEsp', './assets/Controles/AtqEsp.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('HabFaca', './assets/Controles/HabFaca.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
   }
 
   create () {
@@ -92,16 +98,55 @@ export default class mapa extends Phaser.Scene {
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
     // Porta do Boss:
-    this.PortaBoss = this.physics.add.sprite(3606, 2664, 'PortaBoss')
+    this.PortaBoss = this.physics.add.sprite(3606, 2600, 'PortaBoss')
     this.PortaBoss.body.setAllowGravity(false)
+    this.PortaBoss.setScale(2)
     this.anims.create({
       key: 'PortaBoss',
-      frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 8 }),
-      frameRate: 8,
+      frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 0 }),
+      frameRate: 0,
       repeat: -1
     })
 
-    this.PortaBoss.anims.play('PortaBoss')
+    // Altar Cristal Amarelo:
+    this.altarcristalamarelo = this.physics.add.sprite(7113, 2600, 'altarcristalamarelo')
+    this.altarcristalamarelo.body.setAllowGravity(false)
+    this.anims.create({
+      key: 'altarcristalamarelo',
+      frames: this.anims.generateFrameNumbers('altarcristalamarelo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // Altar Cristal Fogo:
+    this.altarcristalfogo = this.physics.add.sprite(3030, 4200, 'altarcristalfogo')
+    this.altarcristalfogo.body.setAllowGravity(false)
+    this.anims.create({
+      key: 'altarcristalfogo',
+      frames: this.anims.generateFrameNumbers('altarcristalfogo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // Altar Cristal Gelo:
+    this.altarcristalgelo = this.physics.add.sprite(3798, 613, 'altarcristalgelo')
+    this.altarcristalgelo.body.setAllowGravity(false)
+    this.anims.create({
+      key: 'altarcristalgelo',
+      frames: this.anims.generateFrameNumbers('altarcristalgelo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // Altar Cristal Roxo:
+    this.altarcristalroxo = this.physics.add.sprite(1623, 1570, 'altarcristalroxo')
+    this.altarcristalroxo.body.setAllowGravity(false)
+    this.anims.create({
+      key: 'altarcristalroxo',
+      frames: this.anims.generateFrameNumbers('altarcristalroxo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
 
     // dois players
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
@@ -132,8 +177,25 @@ export default class mapa extends Phaser.Scene {
         globalThis.game.remoteConnection.addIceCandidate(candidate)
       })
 
+      // Cria os sprites dos personagens local e remoto (LEO):
       this.personagemLocal = this.physics.add.sprite(5441, 1060, 'LeoVen')
       this.personagemRemoto = this.add.sprite(5480, 1060, 'BenVen')
+
+      // Detalhes
+      this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+
+      // Ataques LEO:
+      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { })
+        .on('pointerout', () => { })
+
+      this.AtqMac = this.add.sprite(800, 240, 'AtqMac', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { })
+        .on('pointerout', () => { })
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -163,18 +225,21 @@ export default class mapa extends Phaser.Scene {
         globalThis.game.localConnection.addIceCandidate(candidate)
       })
 
-      // Cria os sprites dos personagens local e remoto:
+      // Cria os sprites dos personagens local e remoto (BEN):
       this.personagemLocal = this.physics.add.sprite(5480, 1060, 'BenVen')
       this.personagemRemoto = this.add.sprite(5441, 1060, 'LeoVen')
 
-      //Ataques BEN:
+      // Detalhes
+      this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+
+      // Ataques BEN:
       this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', () => { })
         .on('pointerout', () => { })
-      
-        this.AtqEsp = this.add.sprite(800, 320, 'AtqEsp', 0)
+
+      this.AtqEsp = this.add.sprite(800, 240, 'AtqEsp', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', () => { })
@@ -327,9 +392,6 @@ export default class mapa extends Phaser.Scene {
       })
     }, null, this)
 
-    // Detalhes
-    this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
-
     // ANIMAÇÃO PERSONAGEM:
 
     // parado direita
@@ -380,10 +442,6 @@ export default class mapa extends Phaser.Scene {
 
     // MOVIMENTÇÃO PERSONAGEM
 
-    // VIDA:
-    // this.Vida = this.add.sprite(this.personagemLocal.x, this.personagemLocal.y, 'barradevida', 0)
-    // .setScrollFactor(0)
-
     // Pulo
 
     this.cima = this.add.sprite(800, 375, 'cima', 0)
@@ -398,7 +456,6 @@ export default class mapa extends Phaser.Scene {
       })
       .on('pointerout', () => {
         this.cima.setFrame(0)
-        // this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
       })
 
     // movimentação direita
