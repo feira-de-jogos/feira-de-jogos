@@ -24,7 +24,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('baixo', '/assets/ui/baixo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', '/assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
   }
 
   create () {
@@ -56,6 +56,21 @@ export default class mapa extends Phaser.Scene {
     this.layerBlocos = this.tilemapMapa.createLayer('blocos', [this.tilesetBlocos])
     this.layerDecoration = this.tilemapMapa.createLayer('decoracao-1', [this.tilesetBlocos])
     this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
+    
+    //código para adicionar e animar a fogueira
+    this.fogueira = this.add.sprite(309,-144, 'fogueira')
+
+    this.anims.create({
+      key: 'fogueira',
+      frames: this.anims.generateFrameNumbers('fogueira', { start: 0, end: 2 }),
+      frameRate: 12,
+      repeat: -1
+    })
+
+    this.fogueira.anims.play('fogueira')
+
+
+
 
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -128,16 +143,10 @@ export default class mapa extends Phaser.Scene {
       frameRate: 5,
       repeat: -1
     })
-    this.anims.create({
-      key: 'fogueira',
-      frames: this.anims.generateFrameNumbers("fogueira", { start: 0, end: 2 }),
-      frameRate: 12,
-      repeat: -1
-    })
-
+  
     this.anims.create({
       key: 'cavaleiro-1-idle-esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 42, end: 44 }),
+      frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 41, end: 43 }),
       frameRate: 5,
       repeat: -1
     })
