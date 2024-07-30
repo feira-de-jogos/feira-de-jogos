@@ -25,7 +25,6 @@ Alex: Um geólogo lunar apaixonado pela descoberta de novos minerais e recursos.
 
 ## Referências:
 Mario
-Jogos de Labirinto
 
 ## Receitas
 

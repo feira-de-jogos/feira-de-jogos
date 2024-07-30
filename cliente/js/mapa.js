@@ -313,8 +313,8 @@ export default class mapa extends Phaser.Scene {
         // Atualiza o placar de cartões coletados pelos dois jogadores
         const cartoesColetados = this.cartao.filter(cartao => !cartao.active).length
         if (cartoesColetados > 7) {
-        this.scene.stop('mapa')
-        this.scene.start('finalFeliz')
+          this.scene.stop('mapa')
+          this.scene.start('finalFeliz')
         }
       }, null, this)
     })
