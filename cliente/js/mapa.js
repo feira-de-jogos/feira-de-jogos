@@ -32,8 +32,12 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('direita', '/assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
+<<<<<<< HEAD
 
     this.load.image('decoracao1', '/assets/decoracao/fg2.png')
+=======
+    this.load.spritesheet('torch', '/assets/decoracao/torch.png',{ frameWidth: 32, frameHeight:32})
+>>>>>>> a452812fa505bded5b9e3c6e66ce947081194e7a
   }
 
   create () {
@@ -74,9 +78,14 @@ export default class mapa extends Phaser.Scene {
     this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
 
     //código para adicionar e animar a fogueira
+<<<<<<< HEAD
     this.fogueira = this.add.sprite(309, -144, 'fogueira')
 
     this.add.image(110, -480, 'decoracao1')
+=======
+    this.fogueira = this.add.sprite(309,-144, 'fogueira')
+    //this.torch = this.add.sprite(309,-144, 'torch')
+>>>>>>> a452812fa505bded5b9e3c6e66ce947081194e7a
 
     this.anims.create({
       key: 'fogueira',
