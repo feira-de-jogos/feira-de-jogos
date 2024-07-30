@@ -33,6 +33,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('torch', '/assets/decoracao/torch.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('coroa', '/assets/decoracao/coroa.png', { frameWidth: 32, frameHeight: 32 })
   }
 
   create () {
@@ -235,6 +236,17 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
+    this.coroa = this.physics.add.sprite(160, -2120, 'coroa')
+    this.coroa.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagem, this.coroa, () => {
+      this.cameras.main.fadeOut(100)
+      this.scene.stop('mapa')
+      this.scene.start('finalFeliz')
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    })
+
     this.esquerda = this.add.sprite(220, 550, 'esquerda', 0)
       .setScrollFactor(0)
       .setInteractive()
@@ -347,6 +359,7 @@ export default class mapa extends Phaser.Scene {
   }
 
   update () {
+    console.log(this.personagem.body.y)
     try {
       // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
