@@ -35,16 +35,21 @@ export default class mapa extends Phaser.Scene {
     this.load.image('inicio', './assets/mapa/inicio.png')
     this.load.image('arenaboss', './assets/mapa/arenaboss.png')
 
+    // Sprites Personagens e Monstros:
     this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('PortaBoss', './assets/spritesmapa/PortaBoss.png', { frameWidth: 96, frameHeight: 96 })
+    this.load.spritesheet('boss', './assets/personagens/boss.png', { frameWidth: 86, frameHeight: 86 })
+    this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
+
+    // Sprites Altares e objetos:
     this.load.spritesheet('altarcristalamarelo', './assets/spritesmapa/altarcristalamarelo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('altarcristalfogo', './assets/spritesmapa/altarcristalfogo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('altarcristalgelo', './assets/spritesmapa/altarcristalgelo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('altarcristalroxo', './assets/spritesmapa/altarcristalroxo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('PortaBoss', './assets/spritesmapa/PortaBoss.png', { frameWidth: 96, frameHeight: 96 })
 
     // Sprites Botões
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -55,6 +60,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('HabFaca', './assets/Controles/HabFaca.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
+  
   }
 
   create () {
@@ -144,6 +150,38 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'altarcristalroxo',
       frames: this.anims.generateFrameNumbers('altarcristalroxo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    //Boss:
+    this.boss = this.physics.add.sprite(1308, 3691, 'boss')
+    this.boss.body.setAllowGravity(false)
+    this.boss.setScale(2)
+    this.anims.create({
+      key: 'boss',
+      frames: this.anims.generateFrameNumbers('boss', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    //ogrogelo:
+    this.ogrogelo = this.physics.add.sprite(3316, 198, 'ogrogelo')
+    this.ogrogelo.body.setAllowGravity(false)
+    this.ogrogelo.setScale(0.9)
+    this.anims.create({
+      key: 'ogrogelo',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    //dragaozinho:
+    this.dragaozinho = this.physics.add.sprite(3600, 232, 'dragaozinho')
+    this.dragaozinho.body.setAllowGravity(false)
+    this.anims.create({
+      key: 'dragaozinho',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 0, end: 0 }),
       frameRate: 0,
       repeat: -1
     })
