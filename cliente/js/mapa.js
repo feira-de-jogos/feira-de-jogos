@@ -4,6 +4,12 @@ export default class mapa extends Phaser.Scene {
   }
 
   preload () {
+
+    // Carrega os sons
+    this.load.audio('iniciar', './assets/iniciar.mp3')
+    //this.load.audio('coruja', './assets/coruja.mp3')
+
+
     // Carregar o mapa
     this.load.tilemapTiledJSON('mapa', './assets/mapa/dugeonfinal.json')
 
@@ -28,6 +34,10 @@ export default class mapa extends Phaser.Scene {
   create () {
     // Adiciona ponteiro
     this.input.addPointer(3)
+
+    // Adiciona o som de fundo e o som da coruja
+    this.sound.add('iniciar', { loop: true }).play()
+    //this.corujaPio = this.sound.add('coruja')
 
     // Cria objeto do mapa
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -71,7 +81,7 @@ export default class mapa extends Phaser.Scene {
 
       // Cria os sprites dos personagens local e remoto
       this.personagemLocal = this.physics.add.sprite(3540, 6200, 'alex')
-      this.personagemRemoto = this.physics.add.sprite(3540, 6200, 'stella')
+      this.personagemRemoto = this.physics.add.sprite(3570, 6300, 'stella')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -102,7 +112,7 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(3540, 6200, 'stella')
+      this.personagemLocal = this.physics.add.sprite(3570, 6200, 'stella')
       this.personagemRemoto = this.physics.add.sprite(3540, 6200, 'alex')
     }
 
@@ -279,8 +289,8 @@ export default class mapa extends Phaser.Scene {
         y: 3877
       },
       {
-        x: 2798,
-        y: 6408
+        x: 3171,
+        y: 4428
       },
       {
         x: 4998,
@@ -365,9 +375,12 @@ export default class mapa extends Phaser.Scene {
           }))
         }
 
+        console.log('x: ', this.personagemLocal.x)
+        console.log('y: ', this.personagemLocal.y)
+
         // Verifica se o personagem local coletou o cartão
         if (this.cartao) {
-          // Envia os dados das nuvens via DataChannel
+          // Envia os dados dos cartoes via DataChannel
           globalThis.game.dadosJogo.send(JSON.stringify({
             cartao: this.cartao.map(cartao => (cartao => ({
               visible: cartao.objeto.visible
@@ -375,7 +388,7 @@ export default class mapa extends Phaser.Scene {
           }))
         }
 
-        // Atualiza o placar de nuvens coletadas pelos dois jogadores
+        // Atualiza o placar de cartoes coletadas pelos dois jogadores
         this.pontos.setText('Cartões: ' + this.cartao.filter(cartao => !cartao.objeto.active).length)
       }
     } catch (error) {
