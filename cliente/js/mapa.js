@@ -40,6 +40,7 @@ export default class tilemapMapa extends Phaser.Scene {
     this.tilesetagua = this.tilemapMapa.addTilesetImage('water_animation_demo')
 
     // Cria as camadas do mapa
+    this.layerColisao = this.tilemapMapa.createLayer('Colisao', [this.tilesettiles])
     this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesettiles])
     this.layerAnimacaoAgua = this.tilemapMapa.createLayer('AnimacaoAgua', [this.tilesetagua])
     this.layerSombra = this.tilemapMapa.createLayer('Sombra', [this.tilesettiles])
@@ -82,8 +83,8 @@ export default class tilemapMapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(-1100, 500, 'salsicha-caramelo')
-      this.personagemRemoto = this.physics.add.sprite(-1100, 5, 'salsicha-marrom')
+      this.personagemLocal = this.physics.add.sprite(-1150, -250, 'salsicha-caramelo')
+      this.personagemRemoto = this.physics.add.sprite(-50, 1380, 'salsicha-marrom')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -114,8 +115,8 @@ export default class tilemapMapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(-1100, -5, 'salsicha-marrom')
-      this.personagemRemoto = this.physics.add.sprite(-1000, 225, 'salsicha-caramelo')
+      this.personagemLocal = this.physics.add.sprite(-50, 1380, 'salsicha-marrom')
+      this.personagemRemoto = this.physics.add.sprite(-1150, -250, 'salsicha-caramelo')
     } else {
       // Gera mensagem de log para informar que o usuário está fora da partida
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
@@ -126,10 +127,10 @@ export default class tilemapMapa extends Phaser.Scene {
     }
 
     // Define o atributo do tileset para gerar colisão
-    this.layerChao.setCollisionByProperty({ collides: true })
+    this.layerColisao.setCollisionByProperty({ collides: true })
 
     // Adiciona colisão entre o personagem e as paredes
-    this.physics.add.collider(this.personagemLocal, this.layerChao)
+    this.physics.add.collider(this.personagemLocal, this.layerColisao)
 
     this.anims.create({
       key: 'salsicha-parado-direita',
