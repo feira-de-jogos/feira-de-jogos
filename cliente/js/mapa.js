@@ -21,7 +21,6 @@ export default class tilemapMapa extends Phaser.Scene {
     this.load.spritesheet('salsicha-marrom', './assets/salsicha-marrom.png', { frameWidth: 64, frameHeight: 64 })
     // this.load.spritesheet('salsicha', './assets/salsisha.png', { frameWidth: 64, frameHeight: 64 })
 
-
     // Carrega o plugin do joystick virtual
     this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true)
   }
@@ -122,15 +121,17 @@ export default class tilemapMapa extends Phaser.Scene {
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
 
       // Encerra a cena atual e inicia a cena de sala
-      globalThis.game.scene.stop('mapa')
-      globalThis.game.scene.start('sala')
+      this.scene.stop('mapa')
+      this.scene.start('sala')
     }
 
     // Define o atributo do tileset para gerar colisão
     this.layerColisao.setCollisionByProperty({ collides: true })
+    this.layerChao.setCollisionByProperty({ collides: true })
 
     // Adiciona colisão entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerColisao)
+    this.physics.add.collider(this.personagemLocal, this.layerChao)
 
     this.anims.create({
       key: 'salsicha-parado-direita',
@@ -249,4 +250,15 @@ export default class tilemapMapa extends Phaser.Scene {
       }
     }
   }
+  // finalTriste () {
+  // Encerra a cena atual e inicia a cena de final triste
+  // this.scene.stop('mapa')
+  // this.scene.start('finalTriste')
+  // }
+
+  // finalFeliz () {
+  // Encerra a cena atual e inicia a cena de final triste
+  // this.scene.stop('mapa')
+  // this.scene.start('finalFeliz')
+  // }
 }
