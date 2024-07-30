@@ -303,6 +303,7 @@ export default class mapa extends Phaser.Scene {
           if (jumping && jumpTimer <= maxJumpTime) {
             jumping = false
 
+            if (this.particula_jump) {this.particula_jump.destroy()}
             this.particula_jump = this.add.sprite(this.personagem.body.x, this.personagem.body.y + 15, 'particula_jump')
             this.particula_jump.anims.play('particula_jump')
             var jumpFactor = jumpTimer / maxJumpTime
