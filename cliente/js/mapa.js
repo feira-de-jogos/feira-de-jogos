@@ -25,19 +25,14 @@ export default class mapa extends Phaser.Scene {
 
     this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
-    this.load.spritesheet('particula-jump', './assets/particles/jump_particle.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('particula_jump', './assets/particles/jump_particle.png', { frameWidth: 32, frameHeight: 32 })
 
     this.load.spritesheet('jump', '/assets/ui/jump.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('baixo', '/assets/ui/baixo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', '/assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
-<<<<<<< HEAD
-
-    this.load.image('decoracao1', '/assets/decoracao/fg2.png')
-=======
-    this.load.spritesheet('torch', '/assets/decoracao/torch.png',{ frameWidth: 32, frameHeight:32})
->>>>>>> a452812fa505bded5b9e3c6e66ce947081194e7a
+    this.load.spritesheet('torch', '/assets/decoracao/torch.png', { frameWidth: 32, frameHeight: 32 })
   }
 
   create () {
@@ -78,14 +73,10 @@ export default class mapa extends Phaser.Scene {
     this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
 
     //código para adicionar e animar a fogueira
-<<<<<<< HEAD
     this.fogueira = this.add.sprite(309, -144, 'fogueira')
+    //this.torch = this.add.sprite(309, -144, 'torch')
 
-    this.add.image(110, -480, 'decoracao1')
-=======
-    this.fogueira = this.add.sprite(309,-144, 'fogueira')
-    //this.torch = this.add.sprite(309,-144, 'torch')
->>>>>>> a452812fa505bded5b9e3c6e66ce947081194e7a
+
 
     this.anims.create({
       key: 'fogueira',
@@ -162,10 +153,10 @@ export default class mapa extends Phaser.Scene {
     }
 
     this.anims.create({
-      key: 'jump_particle',
-      frames: this.anims.generateFrameNumbers('particula-jump', { start: 0, end: 4 }),
-      frameRate: 5,
-      repeat: -1
+      key: 'particula_jump',
+      frames: this.anims.generateFrameNumbers('particula_jump', { start: 0, end: 4 }),
+      frameRate: 30,
+      repeat: 1
     })
 
     this.anims.create({
@@ -312,6 +303,8 @@ export default class mapa extends Phaser.Scene {
           if (jumping && jumpTimer <= maxJumpTime) {
             jumping = false
 
+            this.particula_jump = this.add.sprite(this.personagem.body.x, this.personagem.body.y + 15, 'particula_jump')
+            this.particula_jump.anims.play('particula_jump')
             var jumpFactor = jumpTimer / maxJumpTime
             var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
             var currentJumpForceY = -305 * this.contador
@@ -330,7 +323,11 @@ export default class mapa extends Phaser.Scene {
             jumping = false
           }
           this.jump.setFrame(0)
-        } })
+          this.particula_jump.once('animationcomplete', () => {
+            this.particula_jump.destroy()
+          })
+        }
+      })
 
     this.cameras.main.startFollow(this.personagem)
     this.layerBlocos.setCollisionByProperty({ collides: true })
