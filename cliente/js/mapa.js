@@ -216,14 +216,16 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        this.personagemLocal.setVelocityY(-200)
+        this.personagemLocal.setVelocityX(0)
+        this.personagemLocal.setVelocityY(-150)
       })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        this.personagemLocal.setVelocityY(200)
+        this.personagemLocal.setVelocityX(0)
+        this.personagemLocal.setVelocityY(150)
       })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
@@ -233,7 +235,8 @@ export default class mapa extends Phaser.Scene {
         // Muda a variável de controle do lado do personagem
         this.personagemLocal.lado = 'esquerda'
 
-        this.personagemLocal.setVelocityX(-200)
+        this.personagemLocal.setVelocityY(0)
+        this.personagemLocal.setVelocityX(-150)
         this.personagemLocal.anims.play('personagem-caminhando-esquerda')
       })
 
@@ -241,7 +244,8 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0) // não se move com a câmera
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        this.personagemLocal.setVelocityX(200)
+        this.personagemLocal.setVelocityY(0)
+        this.personagemLocal.setVelocityX(150)
         this.personagemLocal.anims.play('personagem-caminhando-direita')
       })
 
