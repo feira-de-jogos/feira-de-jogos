@@ -17,7 +17,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('tileset_sf', './assets/mapa/tileset_sf.png')
     this.load.image('blocopreto', './assets/mapa/blocopreto.png')
 
-    // Carregar spritesheets e cartao
+    // Carregar spritesheets
     this.load.spritesheet('alex', './assets/personagens/alex.png', { frameWidth: 36, frameHeight: 64 })
     this.load.spritesheet('stella', './assets/personagens/stella.png', { frameWidth: 36, frameHeight: 64 })
     this.load.spritesheet('alien', './assets/personagens/alien.png', { frameWidth: 37, frameHeight: 48 })
@@ -35,9 +35,8 @@ export default class mapa extends Phaser.Scene {
     // Adiciona ponteiro
     this.input.addPointer(3)
 
-    // Adiciona o som de fundo e o som da coruja
+    // Adiciona o som de fundo
     this.sound.add('iniciar', { loop: true }).play()
-    //this.corujaPio = this.sound.add('coruja')
 
     // Cria objeto do mapa
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -150,7 +149,6 @@ export default class mapa extends Phaser.Scene {
       })
 
     // Para o personagem
-
     this.anims.create({
       key: 'personagem-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
