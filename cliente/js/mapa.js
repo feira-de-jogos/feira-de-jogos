@@ -57,10 +57,9 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('barradevida', './assets/Controles/barradevida.png', { frameWidth: 128, frameHeight: 32 })
     this.load.spritesheet('AtqEsp', './assets/Controles/AtqEsp.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('HabFaca', './assets/Controles/HabFaca.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('HabFlecha', './assets/Controles/HabFlecha.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
-  
   }
 
   create () {
@@ -154,7 +153,7 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    //Boss:
+    // Boss:
     this.boss = this.physics.add.sprite(1308, 3691, 'boss')
     this.boss.body.setAllowGravity(false)
     this.boss.setScale(2)
@@ -165,7 +164,7 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    //ogrogelo:
+    // ogrogelo:
     this.ogrogelo = this.physics.add.sprite(3316, 198, 'ogrogelo')
     this.ogrogelo.body.setAllowGravity(false)
     this.ogrogelo.setScale(0.9)
@@ -176,8 +175,8 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    //dragaozinho:
-    this.dragaozinho = this.physics.add.sprite(3600, 232, 'dragaozinho')
+    // dragaozinho:
+    this.dragaozinho = this.physics.add.sprite(6918, 1950, 'dragaozinho')
     this.dragaozinho.body.setAllowGravity(false)
     this.anims.create({
       key: 'dragaozinho',
@@ -271,7 +270,7 @@ export default class mapa extends Phaser.Scene {
       this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
 
       // Ataques BEN:
-      this.HabFaca = this.add.sprite(670, 320, 'HabFaca', 0)
+      this.HabFlecha = this.add.sprite(670, 320, 'HabFlecha', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', () => { })
@@ -283,6 +282,9 @@ export default class mapa extends Phaser.Scene {
         .on('pointerover', () => { })
         .on('pointerout', () => { })
     }
+
+    this.barradevida = this.add.sprite(80, 30, 'barradevida', 0)
+      .setScrollFactor(0)
 
     this.personagemLocalLado = 'direita'
 
@@ -539,7 +541,13 @@ export default class mapa extends Phaser.Scene {
     this.physics.add.collider(this.personagemLocal, this.layerParedes)
 
     this.layerObstaculos.setCollisionByProperty({ collides: true })
-    this.physics.add.collider(this.personagemLocal, this.layerObstaculos)
+    this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
+      this.barradevida.setFrame(this.barradevida.frame.name + 1)
+      if (this.barradevida.frame.name === 5) {
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
+      }
+    }, null, this)
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagemLocal)
