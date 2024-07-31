@@ -135,10 +135,14 @@ flowchart TD
   H[Retorna 429]
   I
   J[Consulta estoque\ndo produto no BD]
-  K[Insere operação de\ndébito no BD]
+  K
   L
   M[Retorna 403]
-  N[Retorna 200]
+  N[Insere operação de\ndébito no BD]
+  O[Retorna 200]
+  P[Retorna 403]
+  Q
+  R[Retorna 403]
 
   A --> B{JWT\nválido?}
   B -->|Sim| C{Requisição\nbem\nformatada?}
@@ -148,13 +152,18 @@ flowchart TD
   E --> G{Existe\ndébito\nrecente?}
   G --> |Sim| H
   G --> |Não| I{Produto\nfísico ou\ndigital?}
-  I --> |Físico| J
+  I --> |Físico| Q{Máquina\nocupada?}
   I --> |Digital| K
+  Q --> |Não| J
+  Q --> |Sim| R
   J --> L{Produto em\nestoque?}
-  L --> |Sim| K
+  L --> |Sim| K{Usuário\ntem crédito\nem conta?}
   L --> |Não| M
-  K --> N
+  K --> |Sim| N
+  K --> |Não| P
+  N --> O
 ```
+
 ### Operação de transferência
 
 ```mermaid
