@@ -16,20 +16,18 @@ export default class mapa extends Phaser.Scene {
     this.load.image('casa', './assets/mapa/casa.png')
     this.load.image('arbusto', './assets/mapa/arbusto.png')
 
-  
-
     // Carrega o personagem
-    this.load.spritesheet('Belinha', './assets/personagens/Belinha.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('Boo', './assets/personagens/Boo.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('Missy', './assets/personagens/Missy.png', { frameWidth: 32, frameHeight: 32 })
-    this.load.spritesheet('Piquitinha', './assets/personagens/Piquitinha.png', { frameWidth: 32, frameHeight: 32 })
-
 
     // Carrega as imagens dos botões
     this.load.image('cima', './assets/botoes/cima.png')
     this.load.image('baixo', './assets/botoes/baixo.png')
     this.load.image('esquerda', './assets/botoes/esquerda.png')
     this.load.image('direita', './assets/botoes/direita.png')
+
+    this.load.spritesheet('cookie', './assets/cookies.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('moedinha', './assets/moedinha.png', { frameWidth: 32, frameHeight: 32 })
   }
 
   create () {
@@ -40,7 +38,7 @@ export default class mapa extends Phaser.Scene {
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
     // Cria os tilesets do mapa
-  
+
     this.tilesetGrama = this.tilemapMapa.addTilesetImage('grama')
     this.tilesetCerca = this.tilemapMapa.addTilesetImage('cerca')
     this.tilesetArvore = this.tilemapMapa.addTilesetImage('arvore')
@@ -51,7 +49,6 @@ export default class mapa extends Phaser.Scene {
     this.layerCerca = this.tilemapMapa.createLayer('cerca', [this.tilesetCerca])
     this.layerCasa = this.tilemapMapa.createLayer('casa', [this.tilesetCasa])
     this.layerArbusto = this.tilemapMapa.createLayer('arbusto', [this.tilesetArvore])
-
 
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -82,7 +79,7 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(200, 200, 'Belinha')
+      this.personagemLocal = this.physics.add.sprite(200, 200, 'Missy')
       this.personagemRemoto = this.add.sprite(200, 200, 'Boo')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -115,14 +112,16 @@ export default class mapa extends Phaser.Scene {
 
       // Cria os sprites dos personagens local e remoto
       this.personagemLocal = this.physics.add.sprite(200, 200, 'Boo')
-      this.personagemRemoto = this.add.sprite(200, 200, 'Belinha')
+      this.personagemRemoto = this.add.sprite(200, 200, 'Missy')
     }
 
     // Define o atributo do tileset para gerar colisão
     this.layerCerca.setCollisionByProperty({ collides: true })
-    
+    this.layerArbusto.setCollisionByProperty({ collides: true })
+
     // Adiciona colisão entre o personagem e as paredes
-    this.physics.add.collider(this.personagemLocal, this.layerCerca, () =>{this.personagemLocal.anims.play('personagem-parado-baixo')}, null, this)
+    this.physics.add.collider(this.personagemLocal, this.layerCerca, () => { this.personagemLocal.anims.play('personagem-parado-baixo') }, null, this)
+    this.physics.add.collider(this.personagemLocal, this.layerArbusto, () => { this.personagemLocal.anims.play('personagem-parado-baixo') }, null, this)
 
     this.anims.create({
       key: 'personagem-parado-cima',
@@ -258,6 +257,134 @@ export default class mapa extends Phaser.Scene {
     globalThis.game.dadosJogo.onopen = () => {
       console.log('Conexão de dados aberta!')
     }
+    // posições das moedinhas
+    this.moedinha = [
+      {
+        x: 80,
+        y: 80
+      },
+      {
+        x: 4998,
+        y: 7584
+      },
+      {
+        x: 3474,
+        y: 8224
+      },
+      {
+        x: 2660,
+        y: 7776
+      },
+      {
+        x: 6624,
+        y: 6873
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      }
+    ]
+    // Animaçao da moedinha
+    this.anims.create({
+      key: 'moedinha',
+      frames: this.anims.generateFrameNumbers('moedinha', {
+        start: 0,
+        end: 0
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.moedinha.forEach((moedinha) => {
+      moedinha.objeto = this.physics.add.sprite(moedinha.x, moedinha.y, 'moedinha')
+      moedinha.objeto.anims.play('moedinha')
+      moedinha.colisao = this.physics.add.overlap(this.personagemLocal, moedinha.objeto, () => {
+        moedinha.objeto.disableBody(true, true)
+
+        const moedinhaColetados = this.moedinha.filter(moedinha => !moedinha.objeto.active).length
+        if (moedinhaColetados > 6) {
+          this.scene.stop('mapa')
+          this.scene.start('finalFeliz')
+        }
+      }, null, this)
+    })
+
+    // posições dos cookies
+    this.cookies = [
+      {
+        x: 32,
+        y: 80
+      },
+      {
+        x: 4998,
+        y: 7584
+      },
+      {
+        x: 3474,
+        y: 8224
+      },
+      {
+        x: 2660,
+        y: 7776
+      },
+      {
+        x: 6624,
+        y: 6873
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      }
+    ]
+
+    // Animaçao do cookie
+    this.anims.create({
+      key: 'cookie-girando',
+      frames: this.anims.generateFrameNumbers('cookie', {
+        start: 0,
+        end: 6
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.cookies.forEach((cookie) => {
+      cookie.objeto = this.physics.add.sprite(cookie.x, cookie.y, 'cookie')
+      cookie.objeto.anims.play('cookie-girando')
+      cookie.colisao = this.physics.add.overlap(this.personagemLocal, cookie.objeto, () => {
+        cookie.objeto.disableBody(true, true)
+
+        const cookiesColetados = this.cookies.filter(cookie => !cookie.objeto.active).length
+        if (cookiesColetados > 6) {
+          this.scene.stop('mapa')
+          this.scene.start('finalFeliz')
+        }
+      }, null, this)
+    })
 
     // Processa as mensagens recebidas via DataChannel
     globalThis.game.dadosJogo.onmessage = (event) => {
@@ -268,6 +395,17 @@ export default class mapa extends Phaser.Scene {
         this.personagemRemoto.x = dados.personagem.x
         this.personagemRemoto.y = dados.personagem.y
         this.personagemRemoto.setFrame(dados.personagem.frame)
+      }
+
+      // Verifica se os dados recebidos contêm informações sobre os cookies
+      if (dados.cookies) {
+        // Atualiza a visibilidade dos cartões
+        this.cookies.forEach((cookie, i) => {
+          // Atualiza a visibilidade do cartão
+          if (!dados.cookies[i].visible) {
+            cookie.objeto.disableBody(true, true)
+          }
+        })
       }
     }
   }
@@ -287,6 +425,15 @@ export default class mapa extends Phaser.Scene {
               y: this.personagemLocal.y,
               frame: this.personagemLocal.frame.name
             }
+          }))
+        }
+
+        if (this.cookies) {
+          // Envia os dados dos cartoes via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            cookies: this.cookies.map(cookie => (cookie => ({
+              visible: cookie.objeto.visible
+            }))(cookie))
           }))
         }
       }

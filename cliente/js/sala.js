@@ -5,7 +5,7 @@ export default class sala extends Phaser.Scene {
 
   preload () {
     // Carrega o som de início
-    //this.load.audio('iniciar', './assets/iniciar.mp3')
+    // this.load.audio('iniciar', './assets/iniciar.mp3')
 
     // Carrega a imagem de fundo
     this.load.image('logo', './assets/logo.png')
@@ -13,7 +13,7 @@ export default class sala extends Phaser.Scene {
 
   create () {
     // Define o objeto de som
-    //this.iniciar = this.sound.add('iniciar')
+    // this.iniciar = this.sound.add('iniciar')
 
     // Adiciona a imagem de fundo
     this.add.image(400, 225, 'logo').setTint(0xaaaaaa)
@@ -54,7 +54,7 @@ export default class sala extends Phaser.Scene {
           })
 
           // Toca o som de início
-          //this.iniciar.play()
+          // this.iniciar.play()
 
           // Define a variável global da sala
           globalThis.game.sala = sala.numero

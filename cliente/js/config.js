@@ -10,6 +10,7 @@ export default {
       debug: true
     }
   },
+  pixelArt: true,
   scale: {
     mode: Phaser.Scale.FIT,
     parent: 'game-container',

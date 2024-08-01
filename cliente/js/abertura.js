@@ -20,7 +20,6 @@ export default class abertura extends Phaser.Scene {
         globalThis.game.scene.stop('abertura')
         globalThis.game.scene.start('sala')
       })
-      
   }
 
   update () {
