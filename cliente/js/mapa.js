@@ -165,8 +165,8 @@ export default class mapa extends Phaser.Scene {
     })
 
     // ogrogelo:
-    this.ogrogelo = this.physics.add.sprite(3316, 198, 'ogrogelo')
-    this.ogrogelo.body.setAllowGravity(false)
+    this.ogrogelo = this.physics.add.sprite(3316, 150, 'ogrogelo')
+    this.ogrogelo.body.setAllowGravity(true)
     this.ogrogelo.setScale(0.9)
     this.anims.create({
       key: 'ogrogelo',
@@ -532,13 +532,55 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
       })
 
-    // colisão de personagem
+    // Animação Ogrogelo:
+    this.anims.create({
+      key: 'ogrogelo_andando_direita',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 1, end: 4 }),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.ogrogelo.anims.play('ogrogelo_andando_esquerda')
+    this.ogrogelo.setVelocityX(100)
+
+    this.anims.create({
+      key: 'ogrogelo_andando_esquerda',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 10, end: 13 }),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    // vazio para ogrogelo:
+    this.blocoColisao2 = this.physics.add.sprite(3636, 230, 'Vazio')
+    this.blocoColisao = this.physics.add.sprite(3130, 230, 'Vazio')
+    this.blocoColisao.body.setAllowGravity(false)
+    this.physics.add.collider(this.ogrogelo, this.blocoColisao, this.blocoColisao2, () => {
+      if (this.ogrogelo.body.blocked.right) {
+        this.ogrogelo.setVelocityX(100)
+        this.ogrogelo.anims.play('ogrogelo_andando_esquerda')
+      } else if (this.ogrogelo.body.blocked.left) {
+        this.ogrogelo.setVelocityX(-100)
+        this.ogrogelo.anims.play('ogrogelo_andando_direita')
+      }
+    })
+
+    // colisão de personagens:
 
     this.layerChao.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerChao)
+    this.physics.add.collider(this.ogrogelo, this.layerChao)
 
     this.layerParedes.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerParedes)
+    this.physics.add.collider(this.ogrogelo, this.layerParedes)
+
+    this.physics.add.collider(this.ogrogelo, this.personagemLocal, () => {
+      this.barradevida.setFrame(this.barradevida.frame.name + 1)
+      if (this.barradevida.frame.name === 5) {
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
+      }
+    }, null, this)
 
     this.layerObstaculos.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
@@ -548,6 +590,10 @@ export default class mapa extends Phaser.Scene {
         this.scene.start('finalTriste')
       }
     }, null, this)
+
+    // colisão do ogrogelo:
+    this.layerChao.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.ogrogelo, this.layerChao)
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagemLocal)

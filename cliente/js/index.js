@@ -5,6 +5,7 @@ import mapa from './mapa.js'
 import finalFeliz from './finalFeliz.js'
 import finalTriste from './finalTriste.js'
 
+
 class Game extends Phaser.Game {
   constructor () {
     super(config)
