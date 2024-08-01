@@ -540,8 +540,8 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    this.ogrogelo.anims.play('ogrogelo_andando_esquerda')
-    this.ogrogelo.setVelocityX(100)
+    this.ogrogelo.anims.play('andando_direita')
+    this.ogrogelo.setVelocityX(70)
 
     this.anims.create({
       key: 'ogrogelo_andando_esquerda',
@@ -549,19 +549,40 @@ export default class mapa extends Phaser.Scene {
       frameRate: 8,
       repeat: -1
     })
+    this.ogrogelo.anims.play('andando_esquerda')
+    this.ogrogelo.setVelocityX(-70)
 
-    // vazio para ogrogelo:
-    this.blocoColisao2 = this.physics.add.sprite(3636, 230, 'Vazio')
-    this.blocoColisao = this.physics.add.sprite(3130, 230, 'Vazio')
-    this.blocoColisao.body.setAllowGravity(false)
-    this.physics.add.collider(this.ogrogelo, this.blocoColisao, this.blocoColisao2, () => {
-      if (this.ogrogelo.body.blocked.right) {
-        this.ogrogelo.setVelocityX(100)
-        this.ogrogelo.anims.play('ogrogelo_andando_esquerda')
-      } else if (this.ogrogelo.body.blocked.left) {
-        this.ogrogelo.setVelocityX(-100)
-        this.ogrogelo.anims.play('ogrogelo_andando_direita')
+    this.ogros = [
+      {
+        x: 3316,
+        y: 150,
+        sprite: 'ogrogelo'
+      },
+      {
+        x: 3636,
+        y: 230
       }
+    ]
+    this.ogros.forEach((ogro) => {
+      ogro.objeto = this.physics.add.sprite(ogro.x, ogro.y, ogro.sprite)
+
+      ogro.blocoDireita = this.physics.add.sprite(3636, 230, 'Vazio')
+      ogro.blocoDireita.body
+        .setAllowGravity(false)
+        .setImmovable(true)
+      this.physics.add.collider(ogro.objeto, ogro.blocoDireita, () => {
+        ogro.objeto.anims.play(ogros.sprite + '_andando_esquerda')
+        ogro.objeto.setVelocityX(-70)
+      })
+
+      ogro.blocoEsquerda = this.physics.add.sprite(3130, 230, 'Vazio')
+      ogro.blocoEsquerda.body
+        .setAllowGravity(false)
+        .setImmovable(true)
+      this.physics.add.collider(ogro.objeto, ogro.blocoEsquerda, () => {
+        ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
+        ogro.objeto.setVelocityX(70)
+      })
     })
 
     // colisão de personagens:
