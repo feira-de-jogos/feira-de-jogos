@@ -127,8 +127,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-parado-cima',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 13,
-        end: 13
+        start: 11,
+        end: 11
       }),
       frameRate: 10,
       repeat: -1
@@ -137,8 +137,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-caminhando-cima',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 12,
-        end: 14
+        start: 10,
+        end: 12
       }),
       frameRate: 10,
       repeat: -1
@@ -147,8 +147,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-parado-baixo',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 2,
-        end: 2
+        start: 1,
+        end: 1
       }),
       frameRate: 10,
       repeat: -1
@@ -157,8 +157,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-caminhando-baixo',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 1,
-        end: 3
+        start: 0,
+        end: 2
       }),
       frameRate: 10,
       repeat: -1
@@ -167,8 +167,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-parado-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 5,
-        end: 5
+        start: 4,
+        end: 4
       }),
       frameRate: 1,
       repeat: -1
@@ -177,8 +177,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-caminhando-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 4,
-        end: 6
+        start: 3,
+        end: 5
       }),
       frameRate: 10,
       repeat: -1
@@ -187,8 +187,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-parado-direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 8,
-        end: 9
+        start: 7,
+        end: 7
       }),
       frameRate: 1,
       repeat: -1
@@ -197,8 +197,8 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-caminhando-direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 7,
-        end: 11
+        start: 6,
+        end: 9
       }),
       frameRate: 10,
       repeat: -1
@@ -218,6 +218,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.personagemLocal.setVelocityX(0)
         this.personagemLocal.setVelocityY(-150)
+        this.personagemLocal.anims.play('personagem-caminhando-cima')
       })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
@@ -226,6 +227,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.personagemLocal.setVelocityX(0)
         this.personagemLocal.setVelocityY(150)
+        this.personagemLocal.anims.play('personagem-caminhando-baixo')
       })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
