@@ -1,26 +1,35 @@
-xport default class finalFeliz extends Phaser.Scene {
+export default class selacaopersonagem extends Phaser.Scene {
   constructor () {
-    super('selecaoPersonagem')
+    super('selecaopersonagem')
   }
 
   preload () {
-    this.load.image('selecaoPersonagem', './assets/cenas/teladeselecao.png')
+    // Abertura:
+    this.load.image('teladeselecao', './assets/Cenas/teladeselecao.png')
+    this.load.image('vazioparaselecao', './assets/Cenas/vazioparaselecao.png')
   }
 
   create () {
-    this.add.image(427, 240, 'selecaoPersonagem')
+    this.add.image(427, 240, 'teladeselecao')
+
+    this.Leo = this.add.image(220, 250, 'vazioparaselecao')
       .setInteractive()
       .on('pointerdown', () => {
-        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-          .then((stream) => {
-            globalThis.game.midias = stream
-          })
-          .catch((error) => console.error(error))
+        globalThis.game.personagemLocal = 'LeoVen'
+        globalThis.game.personagemRemoto = 'BenVen'
+        this.scene.stop('selecaopersonagem')
+        this.scene.start('mapa')
+      })
+
+    this.Ben = this.add.image(650, 250, 'vazioparaselecao')
+      .setInteractive()
+      .on('pointerdown', () => {
+        globalThis.game.personagemLocal = 'BenVen'
+        globalThis.game.personagemRemoto = 'LeoVen'
+        this.scene.stop('selecaopersonagem')
+        this.scene.start('mapa')
       })
   }
 
-  update () { 
-
-  }
-
+  update () { }
 }

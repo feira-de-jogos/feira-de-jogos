@@ -215,8 +215,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto (LEO):
-      this.personagemLocal = this.physics.add.sprite(5441, 1060, 'LeoVen')
-      this.personagemRemoto = this.add.sprite(5480, 1060, 'BenVen')
+      this.personagemLocal = this.physics.add.sprite(5441, 1060, globalThis.game.personagemLocal)
+      this.personagemRemoto = this.add.sprite(5480, 1060, globalThis.game.personagemRemoto)
 
       // Detalhes
       this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
@@ -263,8 +263,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto (BEN):
-      this.personagemLocal = this.physics.add.sprite(5480, 1060, 'BenVen')
-      this.personagemRemoto = this.add.sprite(5441, 1060, 'LeoVen')
+      this.personagemLocal = this.physics.add.sprite(5480, 1060, globalThis.game.personagemLocal)
+      this.personagemRemoto = this.add.sprite(5441, 1060, globalThis.game.personagemRemoto)
 
       // Detalhes
       this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
@@ -491,7 +491,7 @@ export default class mapa extends Phaser.Scene {
         this.cima.setFrame(1)
         if (this.personagemLocal.body.blocked.down) {
           this.personagemLocal.setVelocityY(-600)
-          this.personagemLocal.anims.play('LeoVen_pulando_' + this.personagemLado)
+          this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_pulando_' + this.personagemLado)
         }
       })
       .on('pointerout', () => {
@@ -507,12 +507,12 @@ export default class mapa extends Phaser.Scene {
         this.direita.setFrame(1)
         this.personagemLocal.setVelocityX(200)
         this.personagemLado = 'direita'
-        this.personagemLocal.anims.play('LeoVen_andando_' + this.personagemLado)
+        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
+        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_parado_' + this.personagemLado)
       })
 
     // Movimentação esquerda
@@ -524,12 +524,12 @@ export default class mapa extends Phaser.Scene {
         this.esquerda.setFrame(1)
         this.personagemLocal.setVelocityX(-200)
         this.personagemLado = 'esquerda'
-        this.personagemLocal.anims.play('LeoVen_andando_' + this.personagemLado)
+        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.esquerda.setFrame(0)
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.anims.play('LeoVen_parado_' + this.personagemLado)
+        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_parado_' + this.personagemLado)
       })
 
     // Animação Ogrogelo:

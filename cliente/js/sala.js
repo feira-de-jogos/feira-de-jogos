@@ -61,7 +61,7 @@ export default class sala extends Phaser.Scene {
         })
     })
 
-    // Define o evento de recebimento da mansagem 'jogadores'
+    // Define o evento de recebimento da mensagem 'jogadores'
     globalThis.game.socket.on('jogadores', (jogadores) => {
       // Se o segundo jogador já estiver conectado, inicia o jogo
 
@@ -74,7 +74,7 @@ export default class sala extends Phaser.Scene {
 
         // Para a cena atual e inicia a cena do mapa
         globalThis.game.scene.stop('sala')
-        globalThis.game.scene.start('mapa')
+        globalThis.game.scene.start('selecaopersonagem')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
 
