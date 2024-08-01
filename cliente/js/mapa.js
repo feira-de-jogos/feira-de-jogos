@@ -25,6 +25,8 @@ export default class mapa extends Phaser.Scene {
 
     this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('corvo-idle', './assets/entities/raven_idle.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('corvo-fly', './assets/entities/raven_fly.png', { frameWidth: 48, frameHeight: 32 })
     this.load.spritesheet('particula_jump', './assets/particles/jump_particle.png', { frameWidth: 32, frameHeight: 32 })
 
     this.load.spritesheet('jump', '/assets/ui/jump.png', { frameWidth: 64, frameHeight: 64 })
@@ -76,7 +78,6 @@ export default class mapa extends Phaser.Scene {
     //código para adicionar e animar a fogueira
     this.fogueira = this.add.sprite(309, -144, 'fogueira')
     //this.torch = this.add.sprite(309, -144, 'torch')
-
 
 
     this.anims.create({
@@ -152,6 +153,20 @@ export default class mapa extends Phaser.Scene {
       this.personagem = this.physics.add.sprite(50, -60, 'cavaleiro-2')
       this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-1')
     }
+
+    this.anims.create({
+      key: 'corvo-idle',
+      frames: this.anims.generateFrameNumbers('corvo-idle', { start: 0, end: 3 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'corvo-fly',
+      frames: this.anims.generateFrameNumbers('corvo-fly', { start: 0, end: 2 }),
+      frameRate: 5,
+      repeat: -1
+    })
 
     this.anims.create({
       key: 'particula_jump',
@@ -234,6 +249,16 @@ export default class mapa extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers(this.personagem.texture.key, { start: 13, end: 13 }),
       frameRate: 1,
       repeat: -1
+    })
+
+    this.corvo = this.physics.add.sprite(120, -240, 'corvo-idle')
+    this.corvo.body.setAllowGravity(false)
+    this.corvo.anims.play('corvo-idle')
+    this.corvo.setFrame(0)
+    this.physics.add.overlap(this.personagem, this.corvo, () => {
+      this.corvo.anims.play('corvo-fly')
+      this.corvo.setVelocityX(150)
+      this.corvo.setVelocityY(-70)
     })
 
     this.coroa = this.physics.add.sprite(160, -2120, 'coroa')
@@ -359,7 +384,7 @@ export default class mapa extends Phaser.Scene {
   }
 
   update () {
-    console.log(this.personagem.body.y)
+    //console.log(this.personagem.body.y)
     try {
       // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
