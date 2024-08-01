@@ -5,7 +5,6 @@ export default class abertura extends Phaser.Scene {
 
   preload () {
     this.load.audio('iniciar', './assets/iniciar.mp3')
-    this.load.audio('mapa', './assets/mapa.mp3')
 
     this.load.image('espaço', './assets/espaço.png')
   }
@@ -13,7 +12,6 @@ export default class abertura extends Phaser.Scene {
   create () {
     // Define o objeto de som
     this.iniciar = this.sound.add('iniciar')
-    this.iniciar.play()
 
     // Adiciona a imagem de fundo
     this.add.image(400, 225, 'espaço')
@@ -53,6 +51,9 @@ export default class abertura extends Phaser.Scene {
             sala.texto.destroy()
           })
 
+          // Toca o som de início
+          this.iniciar.play()
+
           // Define a variável global da sala
           globalThis.game.sala = sala.numero
 
@@ -72,8 +73,8 @@ export default class abertura extends Phaser.Scene {
         globalThis.game.jogadores = jogadores
 
         // Para a cena atual e inicia a cena do mapa
-        globalThis.game.scene.stop('sala')
-        globalThis.game.scene.start('mapa')
+        this.scene.stop('sala')
+        this.scene.start('mapa')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
         this.mensagem.setText('Aguardando segundo jogador...')
