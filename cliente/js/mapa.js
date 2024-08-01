@@ -77,7 +77,6 @@ export default class mapa extends Phaser.Scene {
 
     //código para adicionar e animar a fogueira
     this.fogueira = this.add.sprite(309, -144, 'fogueira')
-    //this.torch = this.add.sprite(309, -144, 'torch')
 
 
     this.anims.create({
@@ -85,6 +84,47 @@ export default class mapa extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('fogueira', { start: 0, end: 2 }),
       frameRate: 12,
       repeat: -1
+    })
+
+    this.torch = [{
+      x: 290,
+      y: -144
+    },
+    {
+      x: 110,
+      y: -1470
+    },
+    {
+      x: 300,
+      y: -1560
+    },
+    {
+      x: 95,
+      y: -1600
+    },
+    {
+      x: -100,
+      y: -1470
+    },
+    {
+      x: -48,
+      y: -2070
+    },
+    {
+      x: 80,
+      y: 2000
+    }]
+
+    this.anims.create({
+      key: 'torch',
+      frames: this.anims.generateFrameNumbers('torch', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.torch.forEach((torch) => {
+      torch.objeto = this.add.sprite(torch.x, torch.y, 'torch')
+      torch.objeto.anims.play('torch')
     })
 
     this.fogueira.anims.play('fogueira')
@@ -154,6 +194,8 @@ export default class mapa extends Phaser.Scene {
       this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-1')
     }
 
+
+
     this.anims.create({
       key: 'corvo-idle',
       frames: this.anims.generateFrameNumbers('corvo-idle', { start: 0, end: 3 }),
@@ -165,14 +207,14 @@ export default class mapa extends Phaser.Scene {
       key: 'corvo-fly',
       frames: this.anims.generateFrameNumbers('corvo-fly', { start: 0, end: 2 }),
       frameRate: 5,
-      repeat: -1
+      repeat: 7
     })
 
     this.anims.create({
       key: 'particula_jump',
       frames: this.anims.generateFrameNumbers('particula_jump', { start: 0, end: 4 }),
-      frameRate: 30,
-      repeat: 1
+      frameRate: 20,
+      repeat: 0
     })
 
     this.anims.create({
@@ -251,17 +293,38 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    this.corvo = this.physics.add.sprite(120, -240, 'corvo-idle')
-    this.corvo.body.setAllowGravity(false)
-    this.corvo.anims.play('corvo-idle')
-    this.corvo.setFrame(0)
-    this.physics.add.overlap(this.personagem, this.corvo, () => {
-      this.corvo.anims.play('corvo-fly')
-      this.corvo.setVelocityX(150)
-      this.corvo.setVelocityY(-70)
+
+
+    this.corvo = [
+      {
+        x: 120,
+        y: -240
+      },
+      {
+        x: 16,
+        y: -944
+      },
+      {
+        x: 112,
+        y: -1680
+      }
+    ]
+
+    this.corvo.forEach((corvo) => {
+      corvo.objeto = this.physics.add.sprite(corvo.x, corvo.y, 'corvo-idle')
+      corvo.objeto.body.setAllowGravity(false)
+      corvo.objeto.anims.play('corvo-idle')
+      this.physics.add.overlap(this.personagem, corvo.objeto, () => {
+        corvo.objeto.anims.play('corvo-fly')
+        corvo.objeto.setVelocityX(150)
+        corvo.objeto.setVelocityY(-70)
+        corvo.objeto.once('animationcomplete', () => {
+          corvo.objeto.destroy()
+        })
+      })
     })
 
-    this.coroa = this.physics.add.sprite(160, -2120, 'coroa')
+    this.coroa = this.physics.add.sprite(272, -2255, 'coroa')
     this.coroa.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagem, this.coroa, () => {
       this.cameras.main.fadeOut(100)
