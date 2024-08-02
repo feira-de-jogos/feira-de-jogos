@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import asyncio
 import socketio
 import jwt
-from stepper import Stepper
+# from stepper import Stepper
 
 load_dotenv()
 url = getenv("URL", default="wss://feira-de-jogos.dev.br")
@@ -14,10 +14,10 @@ secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 
 
 motores = []
-motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
-motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
-motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
-sio = socketio.AsyncClient()
+# motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
+# motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
+# motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
+sio = socketio.AsyncClient(logger=True, engineio_logger=True)
 
 
 @sio.event(namespace=namespace)
@@ -26,8 +26,9 @@ async def connect():
     Conexão ao servidor estabelecida
     """
     print("Conexão estabelecida")
-    message = {"stateUpdate": {"state": "idle", "operation": 0}}
-    await sio.emit(message, namespace=namespace)
+    messageType = "stateUpdate"
+    messageContent = {"state": "idle", "operation": 0}
+    await sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
@@ -57,11 +58,13 @@ async def onStateReleasing(req):
     await sio.emit(message, namespace=namespace)
 
     try:
-        motores[product].girar_angulo(
-            360, sentido_horario=True, tempo=0.008, modo="passo_completo"
-        )
+        # motores[product].girar_angulo(
+        #     360, sentido_horario=True, tempo=0.008, modo="passo_completo"
+        # )
+        pass
     finally:
-        motores[product].desligar()
+        # motores[product].desligar()
+        pass
 
     message = {"stateUpdate": {"state": "idle", "operation": operation}}
     await sio.emit(message, namespace=namespace)
