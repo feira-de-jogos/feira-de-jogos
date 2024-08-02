@@ -408,9 +408,11 @@ export default class mapa extends Phaser.Scene {
 
           // Atualiza o placar de cartões coletados pelos dois jogadores
           const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
-          if (cartoesColetados === 1) {
+          if (cartoesColetados === 1 && !this.alien) {
             this.alien = this.physics.add.sprite(5224, 4000, 'alien')
-            this.physics.add.collider(this.personagemLocal, this.alien, () => {
+            this.physics.add.collider(this.alien, this.layerparedes)
+            this.physics.add.collider(this.alien, this.layerobjetos)
+            this.physics.add.collider(this.alien, this.personagemLocal, () => {
               globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
               this.scene.stop('mapa')
               this.scene.start('finalTriste')
@@ -476,9 +478,9 @@ export default class mapa extends Phaser.Scene {
       console.error(error)
     }
 
-    if (this.cartao > 0 && this.alien) {
+    if (this.alien) {
       // alien segue personagem mais próximo
-      const hipotenusaPersonagem = Phaser.Math.Distance.Between(
+      const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
         this.personagemLocal.x,
         this.alien.x,
         this.personagemLocal.y,
@@ -494,7 +496,7 @@ export default class mapa extends Phaser.Scene {
 
       // Por padrão, o primeiro jogador é o alvo
       let alvo = this.personagemLocal
-      if (hipotenusaPersonagem > hipotenusaPersonagemRemoto) {
+      if (hipotenusaPersonagemLocal > hipotenusaPersonagemRemoto) {
         // Jogador 2 é perseguido pelo alien
         alvo = this.personagemRemoto
       }
@@ -502,17 +504,17 @@ export default class mapa extends Phaser.Scene {
       // Sentido no eixo X
       const diffX = alvo.x - this.alien.x
       if (diffX >= 10) {
-        this.alien.setVelocityX(100)
+        this.alien.setVelocityX(50)
       } else if (diffX <= 10) {
-        this.alien.setVelocityX(-100)
+        this.alien.setVelocityX(-50)
       }
 
       // Sentido no eixo Y
       const diffY = alvo.y - this.alien.y
       if (diffY >= 10) {
-        this.alien.setVelocityY(100)
+        this.alien.setVelocityY(50)
       } else if (diffY <= 10) {
-        this.alien.setVelocityY(-100)
+        this.alien.setVelocityY(-50)
       }
 
       // Animação
@@ -531,6 +533,8 @@ export default class mapa extends Phaser.Scene {
       } catch (error) {
         console.error(error)
       }
+
+      console.log(alvo, diffX, diffY)
     }
   }
 }
