@@ -5,6 +5,8 @@ export default class mapa extends Phaser.Scene {
 
   preload () {
     // Carrega os sons
+    this.load.audio('comendo', './assets/comendo.mp3')
+    this.load.audio('correndo', './assets/correndo.mp3')
 
     // Carrega o mapa
     this.load.tilemapTiledJSON('mapa', './assets/mapa/mapa.json')
@@ -15,6 +17,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('arvore', './assets/mapa/arvore.png')
     this.load.image('casa', './assets/mapa/casa.png')
     this.load.image('arbusto', './assets/mapa/arbusto.png')
+    this.load.image('vazio', './assets/vazio.png')
 
     // Carrega o personagem
     this.load.spritesheet('Boo', './assets/personagens/Boo.png', { frameWidth: 32, frameHeight: 32 })
@@ -33,6 +36,10 @@ export default class mapa extends Phaser.Scene {
   create () {
     // Adiciona um ponteiro de toque (padrão: 2)
     this.input.addPointer(3)
+
+    // Adiciona o som
+    this.comendo = this.sound.add('comendo')
+    this.correndo = this.sound.add('correndo', { loop: true })
 
     // Cria o objeto do mapa
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -79,8 +86,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(200, 200, 'Missy')
-      this.personagemRemoto = this.add.sprite(200, 200, 'Boo')
+      this.personagemLocal = this.physics.add.sprite(368, 176, 'Missy')
+      this.personagemRemoto = this.add.sprite(368, 176, 'Boo')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -111,8 +118,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(200, 200, 'Boo')
-      this.personagemRemoto = this.add.sprite(200, 200, 'Missy')
+      this.personagemLocal = this.physics.add.sprite(368, 176, 'Boo')
+      this.personagemRemoto = this.add.sprite(368, 176, 'Missy')
     }
 
     // Define o atributo do tileset para gerar colisão
@@ -120,8 +127,14 @@ export default class mapa extends Phaser.Scene {
     this.layerArbusto.setCollisionByProperty({ collides: true })
 
     // Adiciona colisão entre o personagem e as paredes
-    this.physics.add.collider(this.personagemLocal, this.layerCerca, () => { this.personagemLocal.anims.play('personagem-parado-baixo') }, null, this)
-    this.physics.add.collider(this.personagemLocal, this.layerArbusto, () => { this.personagemLocal.anims.play('personagem-parado-baixo') }, null, this)
+    this.physics.add.collider(this.personagemLocal, this.layerCerca, () => {
+      this.correndo.stop()
+      this.personagemLocal.anims.play('personagem-parado-baixo')
+    }, null, this)
+    this.physics.add.collider(this.personagemLocal, this.layerArbusto, () => {
+      this.correndo.stop()
+      this.personagemLocal.anims.play('personagem-parado-baixo')
+    }, null, this)
 
     this.anims.create({
       key: 'personagem-parado-cima',
@@ -205,16 +218,10 @@ export default class mapa extends Phaser.Scene {
 
     this.cima = this.add.sprite(100, 250, 'cima', 0)
       .setScrollFactor(0) // não se move com a câmera
+      .setAlpha(0.4)
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        // Toca o som da coruja
-        // this.corujaPio.play()
-      })
-
-    this.cima = this.add.sprite(100, 250, 'cima', 0)
-      .setScrollFactor(0) // não se move com a câmera
-      .setInteractive() // permite interação com o sprite
-      .on('pointerdown', () => {
+        this.correndo.play()
         this.personagemLocal.setVelocityX(0)
         this.personagemLocal.setVelocityY(-150)
         this.personagemLocal.anims.play('personagem-caminhando-cima')
@@ -222,8 +229,10 @@ export default class mapa extends Phaser.Scene {
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // não se move com a câmera
+      .setAlpha(0.4)
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
+        this.correndo.play()
         this.personagemLocal.setVelocityX(0)
         this.personagemLocal.setVelocityY(150)
         this.personagemLocal.anims.play('personagem-caminhando-baixo')
@@ -231,11 +240,10 @@ export default class mapa extends Phaser.Scene {
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
       .setScrollFactor(0) // não se move com a câmera
+      .setAlpha(0.4)
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
-        // Muda a variável de controle do lado do personagem
-        this.personagemLocal.lado = 'esquerda'
-
+        this.correndo.play()
         this.personagemLocal.setVelocityY(0)
         this.personagemLocal.setVelocityX(-150)
         this.personagemLocal.anims.play('personagem-caminhando-esquerda')
@@ -243,15 +251,31 @@ export default class mapa extends Phaser.Scene {
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
       .setScrollFactor(0) // não se move com a câmera
+      .setAlpha(0.4)
       .setInteractive() // permite interação com o sprite
       .on('pointerdown', () => {
+        this.correndo.play()
         this.personagemLocal.setVelocityY(0)
         this.personagemLocal.setVelocityX(150)
         this.personagemLocal.anims.play('personagem-caminhando-direita')
       })
 
+    this.vazioEsquerda = this.physics.add.sprite(0, 224, 'vazio')
+    this.vazioEsquerda.body.setImmovable(true)
+    this.physics.add.collider(this.personagemLocal, this.vazioEsquerda, () => {
+      this.personagemLocal.x = 750
+      this.personagemLocal.setVelocityX(-150)
+    }, null, this)
+
+    this.vazioDireita = this.physics.add.sprite(800, 224, 'vazio')
+    this.vazioDireita.body.setImmovable(true)
+    this.physics.add.collider(this.personagemLocal, this.vazioDireita, () => {
+      this.personagemLocal.x = 50
+      this.personagemLocal.setVelocityX(150)
+    }, null, this)
+
     // Inicia a câmera seguindo o personagem
-    this.cameras.main.startFollow(this.personagemLocal)
+    // this.cameras.main.startFollow(this.personagemLocal)
 
     // Gera mensagem de log quando a conexão de dados é aberta
     globalThis.game.dadosJogo.onopen = () => {
@@ -312,52 +336,58 @@ export default class mapa extends Phaser.Scene {
       moedinha.objeto.anims.play('moedinha')
       moedinha.colisao = this.physics.add.overlap(this.personagemLocal, moedinha.objeto, () => {
         moedinha.objeto.disableBody(true, true)
-
-        const moedinhaColetados = this.moedinha.filter(moedinha => !moedinha.objeto.active).length
-        if (moedinhaColetados > 6) {
-          this.scene.stop('mapa')
-          this.scene.start('finalFeliz')
-        }
       }, null, this)
     })
 
     // posições dos cookies
     this.cookies = [
       {
+        x: 180,
+        y: 80
+      },
+      {
         x: 32,
         y: 80
       },
       {
-        x: 4998,
-        y: 7584
+        x: 720,
+        y: 80
       },
       {
-        x: 3474,
-        y: 8224
+        x: 304,
+        y: 336
       },
       {
-        x: 2660,
-        y: 7776
+        x: 48,
+        y: 336
       },
       {
-        x: 6624,
-        y: 6873
+        x: 234,
+        y: 240
       },
       {
-        x: 5830,
-        y: 5216
+        x: 240,
+        y: 400
       },
       {
-        x: 5830,
-        y: 5216
+        x: 240,
+        y: 48
       },
       {
-        x: 5830,
-        y: 5216
+        x: 560,
+        y: 48
       },
       {
-        x: 5830,
-        y: 5216
+        x: 585,
+        y: 240
+      },
+      {
+        x: 496,
+        y: 336
+      },
+      {
+        x: 656,
+        y: 400
       }
     ]
 
@@ -376,6 +406,7 @@ export default class mapa extends Phaser.Scene {
       cookie.objeto = this.physics.add.sprite(cookie.x, cookie.y, 'cookie')
       cookie.objeto.anims.play('cookie-girando')
       cookie.colisao = this.physics.add.overlap(this.personagemLocal, cookie.objeto, () => {
+        this.comendo.play()
         cookie.objeto.disableBody(true, true)
 
         const cookiesColetados = this.cookies.filter(cookie => !cookie.objeto.active).length
@@ -385,6 +416,8 @@ export default class mapa extends Phaser.Scene {
         }
       }, null, this)
     })
+
+    this.placar = this.add.text(50, 50, '0 / 0').setScrollFactor(0)
 
     // Processa as mensagens recebidas via DataChannel
     globalThis.game.dadosJogo.onmessage = (event) => {
@@ -397,13 +430,18 @@ export default class mapa extends Phaser.Scene {
         this.personagemRemoto.setFrame(dados.personagem.frame)
       }
 
-      // Verifica se os dados recebidos contêm informações sobre os cookies
       if (dados.cookies) {
-        // Atualiza a visibilidade dos cartões
         this.cookies.forEach((cookie, i) => {
-          // Atualiza a visibilidade do cartão
           if (!dados.cookies[i].visible) {
             cookie.objeto.disableBody(true, true)
+          }
+        })
+      }
+
+      if (dados.moedinha) {
+        this.moedinha.forEach((moedinha, i) => {
+          if (!dados.moedinha[i].visible) {
+            moedinha.objeto.disableBody(true, true)
           }
         })
       }
@@ -436,6 +474,24 @@ export default class mapa extends Phaser.Scene {
             }))(cookie))
           }))
         }
+
+        if (this.moedinha) {
+          // Envia os dados dos cartoes via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            moedinha: this.moedinha.map(moedinha => (moedinha => ({
+              visible: moedinha.objeto.visible
+            }))(moedinha))
+          }))
+        }
+      }
+
+      const cookiesColetados = this.cookies.filter(cookie => !cookie.objeto.active).length
+      const moedinhaColetada = this.moedinha.filter(moedinha => !moedinha.objeto.active).length
+      this.placar.setText(`${cookiesColetados} / ${moedinhaColetada}`)
+
+      if (moedinhaColetada > 6) {
+        this.scene.stop('mapa')
+        this.scene.start('finalFeliz')
       }
     } catch (error) {
       // Gera mensagem de erro na console
