@@ -44,6 +44,11 @@ io.on('connection', (socket) => {
     socket.to(sala).emit('answer', description)
   })
 
+  socket.on('escolher-personagem', (sala, escolha) => {
+    console.log(escolha)
+    io.to(sala).emit('personagem-escolhido', escolha)
+  })
+
   socket.on('disconnect', () => { })
 })
 

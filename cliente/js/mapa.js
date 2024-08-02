@@ -436,7 +436,7 @@ export default class mapa extends Phaser.Scene {
 
     // parado direita
     this.anims.create({
-      key: 'LeoVen_parado_direita',
+      key: 'parado_direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 5, end: 9 }),
       frameRate: 2,
       repeat: -1
@@ -444,7 +444,7 @@ export default class mapa extends Phaser.Scene {
 
     // parado esquerda
     this.anims.create({
-      key: 'LeoVen_parado_esquerda',
+      key: 'parado_esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 4 }),
       frameRate: 2,
       repeat: -1
@@ -452,7 +452,7 @@ export default class mapa extends Phaser.Scene {
 
     // andando para direita
     this.anims.create({
-      key: 'LeoVen_andando_direita',
+      key: 'andando_direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 20, end: 27 }),
       frameRate: 8,
       repeat: -1
@@ -460,7 +460,7 @@ export default class mapa extends Phaser.Scene {
 
     // andando para esquerda
     this.anims.create({
-      key: 'LeoVen_andando_esquerda',
+      key: 'andando_esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 11, end: 18 }),
       frameRate: 8,
       repeat: -1
@@ -468,14 +468,14 @@ export default class mapa extends Phaser.Scene {
 
     // Pulando para direita:
     this.anims.create({
-      key: 'LeoVen_pulando_direita',
+      key: 'pulando_direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 33, end: 37 }),
       frameRate: 8
     })
 
     // pulando para esquerda
     this.anims.create({
-      key: 'LeoVen_pulando_esquerda',
+      key: 'pulando_esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 28, end: 32 }),
       frameRate: 8
     })
@@ -491,7 +491,7 @@ export default class mapa extends Phaser.Scene {
         this.cima.setFrame(1)
         if (this.personagemLocal.body.blocked.down) {
           this.personagemLocal.setVelocityY(-600)
-          this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_pulando_' + this.personagemLado)
+          this.personagemLocal.anims.play('pulando_' + this.personagemLado)
         }
       })
       .on('pointerout', () => {
@@ -507,12 +507,12 @@ export default class mapa extends Phaser.Scene {
         this.direita.setFrame(1)
         this.personagemLocal.setVelocityX(200)
         this.personagemLado = 'direita'
-        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_andando_' + this.personagemLado)
+        this.personagemLocal.anims.play('andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_parado_' + this.personagemLado)
+        this.personagemLocal.anims.play('parado_' + this.personagemLado)
       })
 
     // Movimentação esquerda
@@ -524,12 +524,12 @@ export default class mapa extends Phaser.Scene {
         this.esquerda.setFrame(1)
         this.personagemLocal.setVelocityX(-200)
         this.personagemLado = 'esquerda'
-        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_andando_' + this.personagemLado)
+        this.personagemLocal.anims.play('andando_' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.esquerda.setFrame(0)
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.anims.play(this.personagemLocal.texture.key + '_parado_' + this.personagemLado)
+        this.personagemLocal.anims.play('parado_' + this.personagemLado)
       })
 
     // Animação Ogrogelo:
@@ -540,7 +540,7 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    this.ogrogelo.anims.play('andando_direita')
+    this.ogrogelo.anims.play('ogrogelo_andando_direita')
     this.ogrogelo.setVelocityX(70)
 
     this.anims.create({
@@ -571,7 +571,7 @@ export default class mapa extends Phaser.Scene {
         .setAllowGravity(false)
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoDireita, () => {
-        ogro.objeto.anims.play(ogros.sprite + '_andando_esquerda')
+        ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
         ogro.objeto.setVelocityX(-70)
       })
 
