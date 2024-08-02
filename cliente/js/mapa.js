@@ -244,12 +244,6 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    this.alien = this.physics.add.sprite(5224, 3972, 'alien')
-    // this.alien.disableBody(true, true)
-    this.physics.add.collider(this.personagemLocal, this.alien, this.alienMata, null, this)
-    this.alien.anims.play('alien-baixo')
-    this.alien.setVelocityY(5)
-
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // nao se move com a câmera
       .setInteractive() // permite interaçao com o sprite
@@ -324,45 +318,54 @@ export default class mapa extends Phaser.Scene {
     // posições dos cartões
     this.cartao = [
       {
-        x: 3267,
-        y: 5508
+        x: 5284,
+        y: 3940
       },
       {
-        x: 4756,
-        y: 5194
-      },
-      {
-        x: 4998,
-        y: 7584
-      },
-      {
-        x: 3474,
-        y: 8224
-      },
-      {
-        x: 2660,
-        y: 7776
-      },
-      {
-        x: 6624,
-        y: 6873
-      },
-      {
-        x: 5830,
-        y: 5216
-      },
-      {
-        x: 5830,
-        y: 5216
-      },
-      {
-        x: 5830,
-        y: 5216
-      },
-      {
-        x: 5830,
-        y: 5216
+        x: 5284,
+        y: 3980
       }
+
+      // {
+      //   x: 3267,
+      //   y: 5508
+      // },
+      // {
+      //   x: 4756,
+      //   y: 5194
+      // },
+      // {
+      //   x: 4998,
+      //   y: 7584
+      // },
+      // {
+      //   x: 3474,
+      //   y: 8224
+      // },
+      // {
+      //   x: 2660,
+      //   y: 7776
+      // },
+      // {
+      //   x: 6624,
+      //   y: 6873
+      // },
+      // {
+      //   x: 5830,
+      //   y: 5216
+      // },
+      // {
+      //   x: 5830,
+      //   y: 5216
+      // },
+      // {
+      //   x: 5830,
+      //   y: 5216
+      // },
+      // {
+      //   x: 5830,
+      //   y: 5216
+      // }
     ]
 
     // Animaçao cartao
@@ -381,22 +384,6 @@ export default class mapa extends Phaser.Scene {
       cartao.objeto.anims.play('cartao-girando')
       cartao.colisao = this.physics.add.overlap(this.personagemLocal, cartao.objeto, () => {
         cartao.objeto.setVisible(false)
-
-        // Adiciona placar de cartoes coletadas pelos dois jogadores
-        this.pontos = this.add.text(10, 10, `Cartões: ${this.game.CartoesColetados} /10`, {
-          fontFamily: 'Silkscreen',
-          fontSize: '25px',
-          stroke: '#000000',
-          strokeThickness: 4,
-          fill: '#ffffff'
-        }).setScrollFactor(0)
-
-        // Atualiza o placar de cartões coletados pelos dois jogadores
-        const cartoesColetados = this.cartao.filter(cartao => !cartao.active).length
-        if (cartoesColetados > 6) {
-          this.scene.stop('mapa')
-          this.scene.start('finalFeliz')
-        }
       }, null, this)
     })
 
@@ -418,7 +405,28 @@ export default class mapa extends Phaser.Scene {
           if (!dados.cartao[i].visible) {
             cartao.objeto.disableBody(true, true)
           }
+
+          // Atualiza o placar de cartões coletados pelos dois jogadores
+          const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
+          if (cartoesColetados === 1) {
+            this.alien = this.physics.add.sprite(5224, 4000, 'alien')
+            this.physics.add.collider(this.personagemLocal, this.alien, () => {
+              globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
+              this.scene.stop('mapa')
+              this.scene.start('finalTriste')
+            }, null, this)
+          }
+
+          if (cartoesColetados >= 5) {
+            this.scene.stop('mapa')
+            this.scene.start('finalFeliz')
+          }
         })
+      }
+
+      if (dados.gameover) {
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
       }
     }
 
@@ -447,8 +455,8 @@ export default class mapa extends Phaser.Scene {
           }))
         }
 
-        console.log('x: ', this.personagemLocal.x)
-        console.log('y: ', this.personagemLocal.y)
+        // console.log('x: ', this.personagemLocal.x)
+        // console.log('y: ', this.personagemLocal.y)
 
         // Verifica se o personagem local coletou o cartão
         if (this.cartao) {
@@ -461,21 +469,14 @@ export default class mapa extends Phaser.Scene {
         }
 
         // Atualiza o placar de cartoes coletadas pelos dois jogadores
-        this.pontos.setText('Cartões: ' + this.cartao.filter(cartao => !cartao.objeto.active).length)
+        // this.pontos.setText('Cartões: ' + this.cartao.filter(cartao => !cartao.objeto.active).length)
       }
     } catch (error) {
       // Gera mensagem de erro na console
       console.error(error)
     }
 
-    this.timerText.setText(this.game.data_formatada)
-    this.game.socket.emit('estado-publicar', this.game.sala, {
-      x: this.personagemLocal.x,
-      y: this.personagemLocal.y,
-      frame: this.personagemLocal.frame.name
-    })
-
-    if (this.cartao > 0 && this.alien.visible) {
+    if (this.cartao > 0 && this.alien) {
       // alien segue personagem mais próximo
       const hipotenusaPersonagem = Phaser.Math.Distance.Between(
         this.personagemLocal.x,
@@ -501,9 +502,9 @@ export default class mapa extends Phaser.Scene {
       // Sentido no eixo X
       const diffX = alvo.x - this.alien.x
       if (diffX >= 10) {
-        this.alien.setVelocityX(this.velocidade * 0.5)
+        this.alien.setVelocityX(100)
       } else if (diffX <= 10) {
-        this.alien.setVelocityX(-this.velocidade * 0.5)
+        this.alien.setVelocityX(-100)
       }
 
       // Sentido no eixo Y
@@ -525,7 +526,7 @@ export default class mapa extends Phaser.Scene {
         } else if (diffY < 0) {
           this.alien.anims.play('alien-cima', true)
         } else {
-          this.alien.anims.play('alien')
+          this.alien.anims.play('alien-parado')
         }
       } catch (error) {
         console.error(error)
