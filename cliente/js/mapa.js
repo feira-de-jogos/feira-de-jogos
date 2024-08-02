@@ -25,6 +25,8 @@ export default class mapa extends Phaser.Scene {
     this.load.image('floresta', '/assets/background/2.png')
     this.load.image('inicio', '/assets/background/1.png')
 
+    this.load.image('fg2', '/assets/decoracao/fg2.png')
+
     this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('corvo-idle', './assets/entities/raven_idle.png', { frameWidth: 32, frameHeight: 32 })
@@ -38,6 +40,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('torch', '/assets/decoracao/torch.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('coroa', '/assets/decoracao/coroa.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('skeleton', '/assets/decoracao/skeleton.png', { frameWidth: 24, frameHeight: 24 })
   }
 
   create () {
@@ -80,8 +83,8 @@ export default class mapa extends Phaser.Scene {
     this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
 
     //código para adicionar e animar a fogueira
-    this.fogueira = this.add.sprite(309, -144, 'fogueira')
-
+    this.fogueira = this.add.sprite(94, -13, 'fogueira')
+    this.skeleton = this.add.sprite(336, -1740, 'skeleton')
 
     this.anims.create({
       key: 'fogueira',
@@ -90,34 +93,38 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    this.torch = [{
-      x: 290,
-      y: -144
-    },
-    {
-      x: 110,
-      y: -1470
-    },
-    {
-      x: 300,
-      y: -1560
-    },
-    {
-      x: 95,
-      y: -1600
-    },
-    {
-      x: -100,
-      y: -1470
-    },
-    {
-      x: -48,
-      y: -2070
-    },
-    {
-      x: 80,
-      y: 2000
-    }]
+    this.torch = [
+      {
+        x: 110,
+        y: -1470
+      },
+      {
+        x: 300,
+        y: -1560
+      },
+      {
+        x: 95,
+        y: -1600
+      },
+      {
+        x: -100,
+        y: -1470
+      },
+      {
+        x: -48,
+        y: -2070
+      },
+      {
+        x: 80,
+        y: 2000
+      }]
+
+    this.anims.create({
+      key: 'skeleton',
+      frames: this.anims.generateFrameNumbers('skeleton', { start: 0, end: 1 }),
+      frameRate: 2,
+      repeat: -1
+    })
 
     this.anims.create({
       key: 'torch',
@@ -131,6 +138,7 @@ export default class mapa extends Phaser.Scene {
       torch.objeto.anims.play('torch')
     })
 
+    this.skeleton.anims.play('skeleton')
     this.fogueira.anims.play('fogueira')
 
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
@@ -197,8 +205,6 @@ export default class mapa extends Phaser.Scene {
       this.personagem = this.physics.add.sprite(50, -60, 'cavaleiro-2')
       this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-1')
     }
-
-
 
     this.anims.create({
       key: 'corvo-idle',

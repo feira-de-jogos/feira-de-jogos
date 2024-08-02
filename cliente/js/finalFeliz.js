@@ -26,6 +26,21 @@ export default class finalFeliz extends Phaser.Scene {
         } else {
           globalThis.game.jwt = jwtDecode(res.credential)
           this.mensagem.setText(`Parabéns, ${globalThis.game.jwt.given_name}!`)
+
+          axios.post('https://feira-de-jogos.dev.br/api/v2/credit', {
+            product: 8, // id do jogo cadastrado no banco de dados da Feira de Jogos
+            value: 100 // crédito em tijolinhos
+          }, {
+            headers: {
+              Authorization: `Bearer ${res.credential}`
+            }
+          })
+            .then(function (response) {
+              console.log(response)
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
         }
       }
     })
