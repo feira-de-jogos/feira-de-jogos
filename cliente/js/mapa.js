@@ -19,6 +19,7 @@ export default class tilemapMapa extends Phaser.Scene {
     // Carrega as spritesheets dos personagens e artefatos
     this.load.spritesheet('salsicha-caramelo', './assets/salsicha-caramelo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('salsicha-marrom', './assets/salsicha-marrom.png', { frameWidth: 64, frameHeight: 64 })
+    // this.load.spritesheet('salsicha', './assets/salsisha.png', { frameWidth: 64, frameHeight: 64 })
 
     // Carrega o plugin do joystick virtual
     this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true)
@@ -120,19 +121,28 @@ export default class tilemapMapa extends Phaser.Scene {
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
 
       // Encerra a cena atual e inicia a cena de sala
-      globalThis.game.scene.stop('mapa')
-      globalThis.game.scene.start('sala')
+      this.scene.stop('mapa')
+      this.scene.start('sala')
     }
 
     // Define o atributo do tileset para gerar colisão
     this.layerColisao.setCollisionByProperty({ collides: true })
+    this.layerChao.setCollisionByProperty({ collides: true })
 
     // Adiciona colisão entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerColisao)
+    this.physics.add.collider(this.personagemLocal, this.layerChao)
 
     this.anims.create({
-      key: 'salsicha-parado',
+      key: 'salsicha-parado-direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 1 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'salsicha-parado-esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 5, end: 6 }),
       frameRate: 2,
       repeat: -1
     })
@@ -233,7 +243,22 @@ export default class tilemapMapa extends Phaser.Scene {
     } else {
       // Se a força do joystick for baixa, o personagem para
       this.personagemLocal.setVelocity(0)
-      this.personagemLocal.anims.play('salsicha-parado', true)
+      if (this.personagemLocal.lado === 'esquerda') {
+        this.personagemLocal.anims.play('salsicha-parado-esquerda', true)
+      } else {
+        this.personagemLocal.anims.play('salsicha-parado-direita', true)
+      }
     }
   }
+  // finalTriste () {
+  // Encerra a cena atual e inicia a cena de final triste
+  // this.scene.stop('mapa')
+  // this.scene.start('finalTriste')
+  // }
+
+  // finalFeliz () {
+  // Encerra a cena atual e inicia a cena de final triste
+  // this.scene.stop('mapa')
+  // this.scene.start('finalFeliz')
+  // }
 }
