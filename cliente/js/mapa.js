@@ -5,8 +5,7 @@ export default class mapa extends Phaser.Scene {
 
   preload () {
     // Carrega os sons
-    this.load.audio('iniciar', './assets/iniciar.mp3')
-    // this.load.audio('coruja', './assets/coruja.mp3')
+    // this.load.audio('iniciar', './assets/iniciar.mp3')
 
     // Carregar o mapa
     this.load.tilemapTiledJSON('mapa', './assets/mapa/dugeonfinal.json')
@@ -432,13 +431,30 @@ export default class mapa extends Phaser.Scene {
       }
     }
 
-    this.timerText = this.add.text(20, -5, 'Hora', {
+    this.timeout = 300
+    this.timerText = this.add.text(20, -5, this.timeout, {
       fontFamily: 'Silkscreen',
       fontSize: '25px',
       stroke: '#000000',
       strokeThickness: 4,
       fill: '#ffffff'
     }).setScrollFactor(0)
+
+    this.timer = this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.timeout--
+        this.timerText.setText(this.timeout)
+
+        if (this.timeout <= 0) {
+          this.timer.destroy()
+          this.scene.stop('mapa')
+          this.scene.start('finalTriste')
+        }
+      },
+      callbackScope: this,
+      loop: true
+    })
   }
 
   update () {
@@ -504,17 +520,17 @@ export default class mapa extends Phaser.Scene {
       // Sentido no eixo X
       const diffX = alvo.x - this.alien.x
       if (diffX >= 10) {
-        this.alien.setVelocityX(50)
+        this.alien.setVelocityX(40)
       } else if (diffX <= 10) {
-        this.alien.setVelocityX(-50)
+        this.alien.setVelocityX(-40)
       }
 
       // Sentido no eixo Y
       const diffY = alvo.y - this.alien.y
       if (diffY >= 10) {
-        this.alien.setVelocityY(50)
+        this.alien.setVelocityY(40)
       } else if (diffY <= 10) {
-        this.alien.setVelocityY(-50)
+        this.alien.setVelocityY(-40)
       }
 
       // Animação
@@ -534,7 +550,9 @@ export default class mapa extends Phaser.Scene {
         console.error(error)
       }
 
-      console.log(alvo, diffX, diffY)
+      // console.log(alvo, diffX, diffY)
+
+      this.timerText.setText()
     }
   }
 }
