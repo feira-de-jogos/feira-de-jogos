@@ -37,6 +37,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('baixo', '/assets/ui/baixo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', '/assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('progress', '/assets/ui/progress.png', { frameWidth: 16, frameHeight: 32 })
     this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('torch', '/assets/decoracao/torch.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('coroa', '/assets/decoracao/coroa.png', { frameWidth: 32, frameHeight: 32 })
@@ -219,6 +220,15 @@ export default class mapa extends Phaser.Scene {
       frameRate: 5,
       repeat: 7
     })
+
+    this.anims.create({
+      key: 'progress',
+      frames: this.anims.generateFrameNumbers('progress', { start: 0, end: 32 }),
+      frameRate: 18,
+      repeat: 0
+    })
+
+
 
     this.anims.create({
       key: 'particula_jump',
