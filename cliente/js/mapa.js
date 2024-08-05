@@ -317,54 +317,45 @@ export default class mapa extends Phaser.Scene {
     // posições dos cartões
     this.cartao = [
       {
-        x: 5284,
-        y: 3940
+        x: 3267,
+        y: 5508
       },
       {
-        x: 5284,
-        y: 3980
+        x: 4756,
+        y: 5194
+      },
+      {
+        x: 4998,
+        y: 7584
+      },
+      {
+        x: 3474,
+        y: 8224
+      },
+      {
+        x: 2660,
+        y: 7776
+      },
+      {
+        x: 6624,
+        y: 6873
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
+      },
+      {
+        x: 5830,
+        y: 5216
       }
-
-      // {
-      //   x: 3267,
-      //   y: 5508
-      // },
-      // {
-      //   x: 4756,
-      //   y: 5194
-      // },
-      // {
-      //   x: 4998,
-      //   y: 7584
-      // },
-      // {
-      //   x: 3474,
-      //   y: 8224
-      // },
-      // {
-      //   x: 2660,
-      //   y: 7776
-      // },
-      // {
-      //   x: 6624,
-      //   y: 6873
-      // },
-      // {
-      //   x: 5830,
-      //   y: 5216
-      // },
-      // {
-      //   x: 5830,
-      //   y: 5216
-      // },
-      // {
-      //   x: 5830,
-      //   y: 5216
-      // },
-      // {
-      //   x: 5830,
-      //   y: 5216
-      // }
     ]
 
     // Animaçao cartao
@@ -408,19 +399,14 @@ export default class mapa extends Phaser.Scene {
           // Atualiza o placar de cartões coletados pelos dois jogadores
           const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
           if (cartoesColetados === 1 && !this.alien) {
-            this.alien = this.physics.add.sprite(5224, 4000, 'alien')
+            this.alien = this.physics.add.sprite(5284, 4000, 'alien')
             this.physics.add.collider(this.alien, this.layerparedes)
             this.physics.add.collider(this.alien, this.layerobjetos)
             this.physics.add.collider(this.alien, this.personagemLocal, () => {
-              globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
+              // globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
               this.scene.stop('mapa')
               this.scene.start('finalTriste')
             }, null, this)
-          }
-
-          if (cartoesColetados >= 5) {
-            this.scene.stop('mapa')
-            this.scene.start('finalFeliz')
           }
         })
       }
@@ -433,7 +419,7 @@ export default class mapa extends Phaser.Scene {
 
     this.timeout = 300
     this.timerText = this.add.text(20, -5, this.timeout, {
-      fontFamily: 'Silkscreen',
+      fontFamily: 'Roboto',
       fontSize: '25px',
       stroke: '#000000',
       strokeThickness: 4,
@@ -455,6 +441,14 @@ export default class mapa extends Phaser.Scene {
       callbackScope: this,
       loop: true
     })
+
+    this.pontos = this.add.text(20, 30, 0, {
+      fontFamily: 'Roboto',
+      fontSize: '25px',
+      stroke: '#000000',
+      strokeThickness: 4,
+      fill: '#ffffff'
+    }).setScrollFactor(0)
   }
 
   update () {
@@ -487,7 +481,7 @@ export default class mapa extends Phaser.Scene {
         }
 
         // Atualiza o placar de cartoes coletadas pelos dois jogadores
-        // this.pontos.setText('Cartões: ' + this.cartao.filter(cartao => !cartao.objeto.active).length)
+        this.pontos.setText('Cartões: ' + this.cartao.filter(cartao => !cartao.objeto.active).length)
       }
     } catch (error) {
       // Gera mensagem de erro na console
@@ -553,6 +547,12 @@ export default class mapa extends Phaser.Scene {
       // console.log(alvo, diffX, diffY)
 
       this.timerText.setText()
+
+      const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
+      if (cartoesColetados >= 10) {
+        this.scene.stop('mapa')
+        this.scene.start('finalFeliz')
+      }
     }
   }
 }
