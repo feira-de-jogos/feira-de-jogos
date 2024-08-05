@@ -224,11 +224,9 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'progress',
       frames: this.anims.generateFrameNumbers('progress', { start: 0, end: 32 }),
-      frameRate: 18,
+      frameRate: 23,
       repeat: 0
     })
-
-
 
     this.anims.create({
       key: 'particula_jump',
@@ -402,6 +400,8 @@ export default class mapa extends Phaser.Scene {
         if (this.personagem.body.blocked.down) {
           this.personagem.anims.play('cavaleiro-1-jump-start')
           this.jump.setFrame(0)
+          this.progress = this.add.sprite(this.personagem.body.x + 40, this.personagem.body.y + 15, 'progress')
+          this.progress.anims.play('progress')
           jumpTimer += 1
           this.while = true
           this.personagem.setVelocityX(0)
@@ -422,7 +422,7 @@ export default class mapa extends Phaser.Scene {
 
           if (jumping && jumpTimer <= maxJumpTime) {
             jumping = false
-
+            this.progress.destroy()
             if (this.particula_jump) {this.particula_jump.destroy()}
             this.particula_jump = this.add.sprite(this.personagem.body.x, this.personagem.body.y + 15, 'particula_jump')
             this.particula_jump.anims.play('particula_jump')
