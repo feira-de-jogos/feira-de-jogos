@@ -17,9 +17,9 @@ export default class tilemapMapa extends Phaser.Scene {
     this.load.image('water_animation_demo', './assets/mapa/water_animation_demo.png')
 
     // Carrega as spritesheets dos personagens e artefatos
-    this.load.spritesheet('salsicha-caramelo', './assets/salsicha-caramelo.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('salsicha-marrom', './assets/salsicha-marrom.png', { frameWidth: 64, frameHeight: 64 })
-    // this.load.spritesheet('salsicha', './assets/salsisha.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('salsicha-caramelo', './assets/salsicha-caramelo.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('salsicha-marrom', './assets/salsicha-marrom.png', { frameWidth: 48, frameHeight: 48 })
+    // this.load.spritesheet('agua', './assets/agua.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega o plugin do joystick virtual
     this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true)
@@ -128,21 +128,25 @@ export default class tilemapMapa extends Phaser.Scene {
     // Define o atributo do tileset para gerar colisão
     this.layerColisao.setCollisionByProperty({ collides: true })
     this.layerChao.setCollisionByProperty({ collides: true })
+    this.layerCaminhoMadeira.setCollisionByProperty({ collides: true })
+    this.layerCaminhoObjetoscenario2.setCollisionByProperty({ collides: true })
 
     // Adiciona colisão entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerColisao)
     this.physics.add.collider(this.personagemLocal, this.layerChao)
+    this.physics.add.collider(this.personagemLocal, this.layerCaminhoMadeira)
+    this.physics.add.collider(this.personagemLocal, this.layerCaminhoObjetoscenario2)
 
     this.anims.create({
       key: 'salsicha-parado-direita',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 1 }),
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 4, end: 4 }),
       frameRate: 2,
       repeat: -1
     })
 
     this.anims.create({
       key: 'salsicha-parado-esquerda',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 5, end: 6 }),
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 9, end: 9 }),
       frameRate: 2,
       repeat: -1
     })
@@ -221,8 +225,8 @@ export default class tilemapMapa extends Phaser.Scene {
 
       this.personagemLocal.setVelocity(velocityX, velocityY)
 
-      // console.log('x: ', this.personagemLocal.x)
-      // console.log('y: ', this.personagemLocal.y)
+      console.log('x: ', this.personagemLocal.x)
+      console.log('y: ', this.personagemLocal.y)
 
       // Animação do personagem conforme a direção do movimento
       if (Math.abs(velocityX) > Math.abs(velocityY)) {
