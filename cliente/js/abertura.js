@@ -8,7 +8,7 @@ export default class abertura extends Phaser.Scene {
     }
 
     create() {
-      this.add.image(400,255,'fundo')
+      this.add.image(400,375,'fundo')
         .setInteractive()
         .on('pointerdown', () => {
 

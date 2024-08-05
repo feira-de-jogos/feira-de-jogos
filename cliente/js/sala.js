@@ -10,25 +10,25 @@ export default class sala extends Phaser.Scene {
 
   create () {
     this.iniciar = this.sound.add('iniciar')
-    this.add.image(400, 255, 'fundo')
+    this.add.image(400, 375, 'fundo')
     this.salas = [
-      { x: 200, y: 200, numero: '1' },
-      { x: 300, y: 200, numero: '2' },
-      { x: 400, y: 200, numero: '3' },
-      { x: 500, y: 200, numero: '4' },
-      { x: 600, y: 200, numero: '5' },
-      { x: 200, y: 350, numero: '6' },
-      { x: 300, y: 350, numero: '7' },
-      { x: 400, y: 350, numero: '8' },
-      { x: 500, y: 350, numero: '9' },
-      { x: 600, y: 350, numero: '10' }
+      { x: 97, y: 158, numero: '1' },
+      { x: 238, y: 158, numero: '2' },
+      { x: 380, y: 158, numero: '3' },
+      { x: 522, y: 158, numero: '4' },
+      { x: 665, y: 158, numero: '5' },
+      { x: 97, y: 367, numero: '6' },
+      { x: 238, y: 367, numero: '7' },
+      { x: 380, y: 367, numero: '8' },
+      { x: 522, y: 367, numero: '9' },
+      { x: 654, y: 367, numero: '10' }
     ]
 
     // Para cada sala, adiciona o botão de seleção
     this.salas.forEach(sala => {
       sala.texto = this.add.text(sala.x, sala.y, sala.numero, {
         fontSize: '38px',
-        fill: '#00A0FF',
+        fill: '#FFFFFF',
         fontFamily: 'Courier New'
       })
         .setInteractive()
