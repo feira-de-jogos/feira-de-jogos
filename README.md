@@ -1,10 +1,14 @@
 ## Jogo Ideal:
 
-Em uma missão exploratória espacial, os astronautas Stella e Alex são surpreendidos por uma tempestade de meteoros que danifica severamente sua nave, forçando-os a uma aterrissagem de emergência. Encalhados e sem comunicação com a Terra, eles descobrem que várias partes importantes para o funcionamento da nave foram espalhadas pela aeronave.
-Determinados a retornar para casa, Stella e Alex se unem em uma missão desafiadora: recuperar as peças perdidas da nave. Com cada peça recuperada, eles enfrentam obstáculos naturais e criaturas que invadiram.
+O Comandante Alex e da Engenheira Stella, dois astronautas da NASA em uma missão para explorar os confins do universo. Sua jornada começa cheia de esperança, mas logo uma colisão inesperada com um meteoro danifica gravemente sua nave. Com os motores falhando e sistemas em alerta, você é forçado a realizar um pouso de emergência em um planeta desconhecido.
+
+A aterrissagem é turbulenta, e a nave está seriamente comprometida. Sem as peças de reposição necessárias a bordo, Alex e Stella devem explorar o planeta em busca de materiais para os reparos. Durante a exploração, eles encontram uma imensa construção aparentemente humana. Ao adentrarem, descobrem que se trata de uma base alienígena habitada por criaturas verdes e hostis.
+
+Eles precisam encontrar as peças para consertar a nave, enquanto fogem desses perigosos alienígenas em busca de uma rota de fuga para retornar à nave ANTES QUE SEJA TARDE DEMAIS.
+
 
 Ambiente:
-A nave.
+Base alienigena.
 
 Jogabilidade:
 Labirinto, coleta de colecionáveis e fugir de uma criatura perseguidora. 
