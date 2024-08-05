@@ -38,8 +38,8 @@ export default class mapa extends Phaser.Scene {
     // Sprites Personagens e Monstros:
     this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
-    this.load.spritesheet('BenAtirando', './assets/personagens/BenAtirando.png', { frameWidth: 48, frameHeight: 48 })
-    this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('BenAtirando', './assets/personagens/BenAtirando.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('boss', './assets/personagens/boss.png', { frameWidth: 86, frameHeight: 86 })
@@ -221,19 +221,6 @@ export default class mapa extends Phaser.Scene {
 
       // Detalhes
       this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
-
-      // Ataques LEO:
-      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => { })
-        .on('pointerout', () => { })
-
-      this.AtqMac = this.add.sprite(800, 240, 'AtqMac', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => { })
-        .on('pointerout', () => { })
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -269,27 +256,87 @@ export default class mapa extends Phaser.Scene {
 
       // Detalhes
       this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+    }
 
+    if (this.personagemLocal.texture.key === 'LeoVen') {
+      // Ataques LEO:
+
+      this.anims.create({
+        key: 'atacando_esquerda',
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 1, end: 5 }),
+        frameRate: 8,
+      })
+
+      this.anims.create({
+        key: 'atacando_direita',
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 7, end: 11 }),
+        frameRate: 8,
+      })
+
+      this.anims.create({
+        key: 'defendendo_esquerda',
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 12, end: 19 }),
+        frameRate: 8,
+      })
+
+      this.anims.create({
+        key: 'defendendo_direita',
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 20, end: 27 }),
+        frameRate: 8,
+      })
+
+      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { 
+          this.HabDef.setFrame(1)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('defendendo' + this.personagemLado)
+        })
+        .on('pointerout', () => { 
+          this.HabDef.setFrame(0)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('parado_' + this.personagemLado)
+        })
+
+      this.AtqMac = this.add.sprite(800, 240, 'AtqMac', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.AtqMac.setFrame(1)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('atacando_' + this.personagemLado)
+        })
+        .on('pointerout', () => {
+          this.AtqMac.setFrame(0)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('parado_' + this.personagemLado)
+        })
+    } else if (this.personagemLocal.texture.key === 'BenVen') {
       // Ataques BEN:
 
       this.anims.create({
         key: 'atirando_esquerda',
         frames: this.anims.generateFrameNumbers('BenAtirando', { start: 0, end: 7 }),
-        frameRate: 8,
-        repeat: -1
+        frameRate: 8
+      })
+
+      this.anims.create({
+        key: 'atirando_direita',
+        frames: this.anims.generateFrameNumbers('BenAtirando', { start: 8, end: 15 }),
+        frameRate: 8
       })
 
       this.HabFlecha = this.add.sprite(670, 320, 'HabFlecha', 0)
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', () => {
-          this.esquerda.setFrame(1)
-          this.personagemLocal.setVelocityX(80)
-          this.personagemLado = 'esquerda'
+          this.HabFlecha.setFrame(1)
+          this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('atirando_' + this.personagemLado)
         })
         .on('pointerout', () => {
-          this.esquerda.setFrame(0)
+          this.HabFlecha.setFrame(0)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('parado_' + this.personagemLado)
         })
