@@ -396,13 +396,23 @@ export default class mapa extends Phaser.Scene {
             cartao.objeto.disableBody(true, true)
           }
 
-          // Atualiza o placar de cartões coletados pelos dois jogadores
+          // adiciona alien
           const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
           if (cartoesColetados === 1 && !this.alien) {
-            this.alien = this.physics.add.sprite(5284, 4000, 'alien')
+            // Identificando qual personagem coletou o cartão
+            const personagemQueColetou = this.cartao.find(cartao => !cartao.objeto.active).personagem
+
+            // Posição do personagem que coletou o cartão
+            const personagemX = personagemQueColetou.x;
+            const personagemY = personagemQueColetou.y;
+
+            // Crie o alien perto do personagem que coletou o cartão
+            this.alien = this.physics.add.sprite(personagemX, personagemY + 70, 'alien')
             this.physics.add.collider(this.alien, this.layerparedes)
             this.physics.add.collider(this.alien, this.layerobjetos)
-            this.physics.add.collider(this.alien, this.personagemLocal, () => {
+            // Seguir o personagem
+            this.physics.moveToObject(this.alien, personagemQueColetou, 100)
+            this.physics.add.collider(this.alien, personagemQueColetou, () => {
               // globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
               this.scene.stop('mapa')
               this.scene.start('finalTriste')
