@@ -38,6 +38,7 @@ export default class mapa extends Phaser.Scene {
     // Sprites Personagens e Monstros:
     this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('BenAtirando', './assets/personagens/BenAtirando.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('LeoVenAtk', './assets/personagens/LeoVenAtk.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
@@ -270,11 +271,28 @@ export default class mapa extends Phaser.Scene {
       this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
 
       // Ataques BEN:
+
+      this.anims.create({
+        key: 'atirando_esquerda',
+        frames: this.anims.generateFrameNumbers('BenAtirando', { start: 0, end: 7 }),
+        frameRate: 8,
+        repeat: -1
+      })
+
       this.HabFlecha = this.add.sprite(670, 320, 'HabFlecha', 0)
         .setScrollFactor(0)
         .setInteractive()
-        .on('pointerover', () => { })
-        .on('pointerout', () => { })
+        .on('pointerover', () => {
+          this.esquerda.setFrame(1)
+          this.personagemLocal.setVelocityX(80)
+          this.personagemLado = 'esquerda'
+          this.personagemLocal.anims.play('atirando_' + this.personagemLado)
+        })
+        .on('pointerout', () => {
+          this.esquerda.setFrame(0)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('parado_' + this.personagemLado)
+        })
 
       this.AtqEsp = this.add.sprite(800, 240, 'AtqEsp', 0)
         .setScrollFactor(0)
