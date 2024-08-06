@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import asyncio
 import socketio
 import jwt
+
 # from stepper import Stepper
 
 load_dotenv()
@@ -17,7 +18,7 @@ motores = []
 # motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
 # motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
 # motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
-sio = socketio.AsyncClient(logger=True, engineio_logger=True)
+sio = socketio.AsyncClient(logger=False, engineio_logger=True)
 
 
 @sio.event(namespace=namespace)
@@ -25,37 +26,43 @@ async def connect():
     """
     Conexão ao servidor estabelecida
     """
-    print("Conexão estabelecida")
     messageType = "stateUpdate"
     messageContent = {"state": "idle", "operation": 0}
     await sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
-async def onStateMFA(req):
+async def stateMFA(data):
     """
     Recebe a solicitação para autenticação em duas etapas
     """
-    username = req["username"]
-    code = req["code"]
-    operation = req["operation"]
+    try:
+        username, code, operation = data.values()
+    except Exception as e:
+        print(f"Erro: {e}")
+        return
 
     print("Olá, %s! Seu código de autenticação é %s." % (username, code))
 
-    message = {"stateUpdate": {"state": "mfa", "operation": operation}}
-    await sio.emit(message, namespace=namespace)
+    messageType = "stateUpdate"
+    messageContent = {"state": "mfa", "operation": operation}
+    await sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
-async def onStateReleasing(req):
+async def stateReleasing(data):
     """
     Recebe a solicitação para liberar o produto
     """
-    product = req["product"]
-    operation = req["operation"]
+    try:
+        product, operation = data.values()
+    except Exception as e:
+        print(f"Erro: {e}")
+        return
 
-    message = {"stateUpdate": {"state": "releasing", "operation": operation}}
-    await sio.emit(message, namespace=namespace)
+    messageType = "stateUpdate"
+    messageContent = {"state": "releasing", "operation": operation}
+    await sio.emit(messageType, messageContent, namespace=namespace)
 
     try:
         # motores[product].girar_angulo(
@@ -66,8 +73,9 @@ async def onStateReleasing(req):
         # motores[product].desligar()
         pass
 
-    message = {"stateUpdate": {"state": "idle", "operation": operation}}
-    await sio.emit(message, namespace=namespace)
+    messageType = "stateUpdate"
+    messageContent = {"state": "idle", "operation": operation}
+    await sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
@@ -75,7 +83,7 @@ async def disconnect():
     """
     Conexão ao servidor encerrada
     """
-    print("Conexão encerrada")
+    pass
 
 
 async def main():
