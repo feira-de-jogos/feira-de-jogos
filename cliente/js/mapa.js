@@ -311,8 +311,6 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-
-
     this.corvo = [
       {
         x: 120,
@@ -342,7 +340,7 @@ export default class mapa extends Phaser.Scene {
       })
     })
 
-    this.coroa = this.physics.add.sprite(272, -2255, 'coroa')
+    this.coroa = this.physics.add.sprite(272, -2270, 'coroa')
     this.coroa.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagem, this.coroa, () => {
       this.cameras.main.fadeOut(100)

@@ -12,16 +12,16 @@ export default class sala extends Phaser.Scene {
     this.iniciar = this.sound.add('iniciar')
     this.add.image(400, 375, 'fundo')
     this.salas = [
-      { x: 104, y: 252, numero: '1' },
-      { x: 246, y: 252, numero: '2' },
-      { x: 388, y: 252, numero: '3' },
-      { x: 530, y: 252, numero: '4' },
-      { x: 672, y: 252, numero: '5' },
-      { x: 104, y: 458, numero: '6' },
-      { x: 246, y: 458, numero: '7' },
-      { x: 388, y: 458, numero: '8' },
-      { x: 530, y: 458, numero: '9' },
-      { x: 662, y: 458, numero: '10' }
+      { x: 104, y: 256, numero: '1' },
+      { x: 246, y: 256, numero: '2' },
+      { x: 388, y: 256, numero: '3' },
+      { x: 530, y: 256, numero: '4' },
+      { x: 672, y: 256, numero: '5' },
+      { x: 104, y: 462, numero: '6' },
+      { x: 246, y: 462, numero: '7' },
+      { x: 388, y: 462, numero: '8' },
+      { x: 530, y: 462, numero: '9' },
+      { x: 662, y: 462, numero: '10' }
     ]
 
     // Para cada sala, adiciona o botão de seleção
