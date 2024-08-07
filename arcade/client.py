@@ -32,16 +32,18 @@ def coinInsert(data):
     """
     Recebe a solicitação para inserção de moeda
     """
+    coins: int
     try:
         arcade, coins, operation = data.values()
     except:
         return
 
-    ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
-    ui.syn() # Envia o comando
-    sleep(0.250)
-    ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
-    ui.syn() # Envia o comando
+    for _ in range(coins):
+        ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
+        ui.syn() # Envia o comando
+        sleep(0.250)
+        ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
+        ui.syn() # Envia o comando
 
     messageType = "coinInserted"
     messageContent = {"arcade": arcade, "operation": operation}
