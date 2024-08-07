@@ -1,2 +1,5 @@
-evdev
+python-dotenv
+asyncio
 python-socketio[asyncio_client]
+pyjwt
+evdev

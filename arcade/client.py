@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import asyncio
 import socketio
 import jwt
+from evdev import UInput, ecodes as e
+from time import sleep
 
 
 load_dotenv()
@@ -15,6 +17,7 @@ secret_key = getenv("TOKEN_SECRET_KEY_ARCADE", default="")
 
 
 sio = socketio.AsyncClient(logger=False, engineio_logger=True)
+ui = UInput(name="Banco Central")
 
 
 @sio.event(namespace="/arcade")
@@ -36,7 +39,11 @@ async def coinInsert(data):
         print(f"Erro: {e}")
         return
 
-    # Inserir moedas na máquina via teclado virtual (tecla 'J')
+    ui.write(e.EV_KEY, e.KEY_J, 1)
+    ui.syn()
+    sleep(0.250)
+    ui.write(e.EV_KEY, e.KEY_J, 0)
+    ui.syn()
 
     messageType = "coinInserted"
     messageContent = {"arcade": arcade, "operation": operation}
