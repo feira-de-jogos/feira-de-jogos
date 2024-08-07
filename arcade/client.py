@@ -38,7 +38,7 @@ def coinInsert(data):
     except:
         return
 
-    for _ in range(1, coins):
+    for _ in range(coins):
         ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
         ui.syn() # Envia o comando
         sleep(0.250)
