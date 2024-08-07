@@ -13,6 +13,7 @@ socketio_path = getenv("SOCKETIO_PATH", default="/api/v2/machine")
 namespace = getenv("NAMESPACE", default="/arcade")
 jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
 secret_key = getenv("TOKEN_SECRET_KEY_ARCADE", default="")
+id = getenv("ARCADE_ID", default="0")
 
 
 sio = socketio.Client(logger=False, engineio_logger=True)
@@ -62,7 +63,7 @@ def main():
     """
     Função principal
     """
-    message = {"machine": "arcade", "id": 0}
+    message = {"machine": "arcade", "id": id}
     token = jwt.encode(message, secret_key, algorithm=jwt_algorithm)
     sio.connect(
         url,
