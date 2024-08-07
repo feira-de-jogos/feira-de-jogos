@@ -18,7 +18,7 @@ motores = []
 motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
 motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
 motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
-sio = socketio.AsyncClient(logger=False, engineio_logger=True)
+sio = socketio.Client(logger=False, engineio_logger=True)
 
 
 @sio.event(namespace=namespace)
@@ -56,6 +56,7 @@ def stateReleasing(data):
     """
     try:
         product, operation = data.values()
+        product = int(product)
     except Exception as e:
         print(f"Erro: {e}")
         return
