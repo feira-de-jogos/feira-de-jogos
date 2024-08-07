@@ -69,7 +69,6 @@ def stateReleasing(data):
         motores[product].girar_angulo(
             360, sentido_horario=True, tempo=0.008, modo="passo_completo"
         )
-        pass
     finally:
         motores[product].desligar()
         pass
