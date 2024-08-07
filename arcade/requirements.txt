@@ -1,5 +1,5 @@
 python-dotenv
 asyncio
-python-socketio[asyncio_client]
+python-socketio[client]
 pyjwt
 evdev

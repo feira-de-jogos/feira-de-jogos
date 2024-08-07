@@ -1,7 +1,6 @@
 from json import load
 from os import getenv
 from dotenv import load_dotenv
-import asyncio
 import socketio
 import jwt
 from evdev import UInput, ecodes as e
@@ -16,12 +15,12 @@ jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
 secret_key = getenv("TOKEN_SECRET_KEY_ARCADE", default="")
 
 
-sio = socketio.AsyncClient(logger=False, engineio_logger=True)
+sio = socketio.Client(logger=False, engineio_logger=True)
 ui = UInput(name="Banco Central")
 
 
 @sio.event(namespace="/arcade")
-async def connect():
+def connect():
     """
     Conexão ao servidor estabelecida
     """
@@ -29,49 +28,48 @@ async def connect():
 
 
 @sio.event(namespace="/arcade")
-async def coinInsert(data):
+def coinInsert(data):
     """
     Recebe a solicitação para inserção de moeda
     """
     try:
         arcade, coins, operation = data.values()
-    except Exception as e:
-        print(f"Erro: {e}")
+    except:
         return
 
-    ui.write(e.EV_KEY, e.KEY_J, 1)
-    ui.syn()
+    ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
+    ui.syn() # Envia o comando
     sleep(0.250)
-    ui.write(e.EV_KEY, e.KEY_J, 0)
-    ui.syn()
+    ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
+    ui.syn() # Envia o comando
 
     messageType = "coinInserted"
     messageContent = {"arcade": arcade, "operation": operation}
-    await sio.emit(messageType, messageContent, namespace=namespace)
+    sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event
-async def disconnect():
+def disconnect():
     """
     Conexão ao servidor encerrada
     """
     pass
 
 
-async def main():
+def main():
     """
     Função principal
     """
     message = {"machine": "arcade", "id": 0}
     token = jwt.encode(message, secret_key, algorithm=jwt_algorithm)
-    await sio.connect(
+    sio.connect(
         url,
         socketio_path=socketio_path,
         namespaces=namespace,
         auth={"token": token},
     )
-    await sio.wait()
+    sio.wait()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
