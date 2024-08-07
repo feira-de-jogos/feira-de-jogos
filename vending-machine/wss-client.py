@@ -4,7 +4,7 @@ import asyncio
 import socketio
 import jwt
 
-# from stepper import Stepper
+from stepper import Stepper
 
 load_dotenv()
 url = getenv("URL", default="wss://feira-de-jogos.dev.br")
@@ -15,24 +15,24 @@ secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 
 
 motores = []
-# motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
-# motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
-# motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
+motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
+motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
+motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
 sio = socketio.AsyncClient(logger=False, engineio_logger=True)
 
 
 @sio.event(namespace=namespace)
-async def connect():
+def connect():
     """
     Conexão ao servidor estabelecida
     """
     messageType = "stateUpdate"
     messageContent = {"state": "idle", "operation": 0}
-    await sio.emit(messageType, messageContent, namespace=namespace)
+    sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
-async def stateMFA(data):
+def stateMFA(data):
     """
     Recebe a solicitação para autenticação em duas etapas
     """
@@ -46,11 +46,11 @@ async def stateMFA(data):
 
     messageType = "stateUpdate"
     messageContent = {"state": "mfa", "operation": operation}
-    await sio.emit(messageType, messageContent, namespace=namespace)
+    sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
-async def stateReleasing(data):
+def stateReleasing(data):
     """
     Recebe a solicitação para liberar o produto
     """
@@ -62,44 +62,44 @@ async def stateReleasing(data):
 
     messageType = "stateUpdate"
     messageContent = {"state": "releasing", "operation": operation}
-    await sio.emit(messageType, messageContent, namespace=namespace)
+    sio.emit(messageType, messageContent, namespace=namespace)
 
     try:
-        # motores[product].girar_angulo(
-        #     360, sentido_horario=True, tempo=0.008, modo="passo_completo"
-        # )
+        motores[product].girar_angulo(
+            360, sentido_horario=True, tempo=0.008, modo="passo_completo"
+        )
         pass
     finally:
-        # motores[product].desligar()
+        motores[product].desligar()
         pass
 
     messageType = "stateUpdate"
     messageContent = {"state": "idle", "operation": operation}
-    await sio.emit(messageType, messageContent, namespace=namespace)
+    sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
-async def disconnect():
+def disconnect():
     """
     Conexão ao servidor encerrada
     """
     pass
 
 
-async def main():
+def main():
     """
     Função principal
     """
     message = {"machine": "vending-machine", "id": 0}
     token = jwt.encode(message, secret_key, algorithm=jwt_algorithm)
-    await sio.connect(
+    sio.connect(
         url,
         socketio_path=socketio_path,
         namespaces=namespace,
         auth={"token": token},
     )
-    await sio.wait()
+    sio.wait()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

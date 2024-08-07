@@ -1,5 +1,5 @@
-evdev==1.1.2
 python-dotenv
+requests
 python-socketio[client]
 pyjwt
-requests
+evdev==1.1.2

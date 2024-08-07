@@ -1,5 +1,5 @@
 python-dotenv
-asyncio
-python-socketio[asyncio_client]
+requests
+python-socketio[client]
 pyjwt
 RPi.GPIO
