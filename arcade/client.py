@@ -39,16 +39,17 @@ def coinInsert(data):
     except:
         return
 
-    for _ in range(coins):
-        ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
-        ui.syn() # Envia o comando
-        sleep(0.250)
-        ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
-        ui.syn() # Envia o comando
+    if(arcade == id):
+        for _ in range(coins):
+            ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
+            ui.syn() # Envia o comando
+            sleep(0.250)
+            ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
+            ui.syn() # Envia o comando
 
-    messageType = "coinInserted"
-    messageContent = {"arcade": arcade, "operation": operation}
-    sio.emit(messageType, messageContent, namespace=namespace)
+        messageType = "coinInserted"
+        messageContent = {"arcade": arcade, "operation": operation}
+        sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event
