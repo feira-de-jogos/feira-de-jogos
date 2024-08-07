@@ -3,6 +3,7 @@ from os import getenv
 from dotenv import load_dotenv
 import socketio
 import jwt
+
 from evdev import UInput, ecodes as e
 from time import sleep
 
@@ -33,13 +34,13 @@ def coinInsert(data):
     """
     Recebe a solicitação para inserção de moeda
     """
-    coins: int
     try:
         arcade, coins, operation = data.values()
+        arcade = str(arcade)
     except:
         return
 
-    if(arcade == id):
+    if arcade == id:
         for _ in range(coins):
             ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
             ui.syn() # Envia o comando
