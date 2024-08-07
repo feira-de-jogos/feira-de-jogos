@@ -767,9 +767,6 @@ export default class mapa extends Phaser.Scene {
         x: 0,
         y: 0
       },
-
-
-  
     ]
     // Animaçao da moedinha
     this.anims.create({
