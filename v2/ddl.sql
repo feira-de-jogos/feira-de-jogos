@@ -18,6 +18,7 @@ CREATE TABLE "machines"(
     "busy" BOOLEAN NOT NULL DEFAULT '0'
 );
 ALTER TABLE "machines" ADD PRIMARY KEY("id");
+ALTER TABLE "machines" ADD CONSTRAINT "machines_name_unique" UNIQUE("name");
 
 CREATE TABLE "types"(
     "id" SERIAL NOT NULL,
