@@ -104,7 +104,7 @@ export default class mapa extends Phaser.Scene {
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
     // Porta do Boss:
-    this.PortaBoss = this.physics.add.sprite(3606, 2600, 'PortaBoss')
+    this.PortaBoss = this.physics.add.sprite(3606, 2595, 'PortaBoss')
     this.PortaBoss.body.setAllowGravity(false)
     this.PortaBoss.setScale(2)
     this.anims.create({
@@ -264,34 +264,34 @@ export default class mapa extends Phaser.Scene {
       this.anims.create({
         key: 'atacando_esquerda',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 1, end: 5 }),
-        frameRate: 8,
+        frameRate: 8
       })
 
       this.anims.create({
         key: 'atacando_direita',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 7, end: 11 }),
-        frameRate: 8,
+        frameRate: 8
       })
 
       this.anims.create({
         key: 'defendendo_esquerda',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 12, end: 19 }),
-        frameRate: 8,
+        frameRate: 8
       })
 
       this.anims.create({
         key: 'defendendo_direita',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 20, end: 27 }),
-        frameRate: 8,
+        frameRate: 8
       })
 
-      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
+      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0) 
         .setScrollFactor(0)
         .setInteractive()
         .on('pointerover', () => { 
           this.HabDef.setFrame(1)
           this.personagemLocal.setVelocityX(0)
-          this.personagemLocal.anims.play('defendendo' + this.personagemLado)
+          this.personagemLocal.anims.play('defendendo_' + this.personagemLado)
         })
         .on('pointerout', () => { 
           this.HabDef.setFrame(0)
@@ -306,11 +306,15 @@ export default class mapa extends Phaser.Scene {
           this.AtqMac.setFrame(1)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('atacando_' + this.personagemLado)
+          this.tilemapMapahis.personagemLocal.body.setOffset(0, 8)
+          this.personagemLocal.body.setBodySize(64, 64, true)
         })
         .on('pointerout', () => {
           this.AtqMac.setFrame(0)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('parado_' + this.personagemLado)
+          this.tilemapMapahis.personagemLocal.body.setOffset(0, 0)
+          this.personagemLocal.body.setBodySize(48, 48, true)
         })
     } else if (this.personagemLocal.texture.key === 'BenVen') {
       // Ataques BEN:
@@ -475,7 +479,7 @@ export default class mapa extends Phaser.Scene {
       })
     })
 
-    // Portal verde para boss:
+    /* Portal verde para boss:
     this.portal8 = this.physics.add.sprite(3606, 2664, 'Vazio')
     this.portal8.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
@@ -486,9 +490,15 @@ export default class mapa extends Phaser.Scene {
         camera.fadeIn(100)
       })
     })
+  */
 
     // Morte do Personagem:
     this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
+      this.barradevida.setFrame(this.barradevida.frame.name + 1)
+      if (this.barradevida.frame.name === 5) {
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
+      }
       this.cameras.main.fadeOut(100)
       this.personagemLocal.x = 2640
       this.personagemLocal.y = 2660
@@ -614,7 +624,7 @@ export default class mapa extends Phaser.Scene {
       frameRate: 8,
       repeat: -1
     })
-    this.ogrogelo.anims.play('andando_esquerda')
+    this.ogrogelo.anims.play('ogrogelo_andando_esquerda')
     this.ogrogelo.setVelocityX(-70)
 
     this.ogros = [
