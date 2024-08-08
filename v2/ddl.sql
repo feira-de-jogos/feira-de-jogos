@@ -46,6 +46,7 @@ CREATE TABLE "stock"(
     "id" SERIAL NOT NULL,
     "machine" INTEGER NOT NULL,
     "product" INTEGER NOT NULL,
+    "slot" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL DEFAULT '0'
 );
 ALTER TABLE "stock" ADD PRIMARY KEY("id");
