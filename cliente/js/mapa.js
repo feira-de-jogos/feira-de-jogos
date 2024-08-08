@@ -420,7 +420,6 @@ export default class mapa extends Phaser.Scene {
 
           if (jumping && jumpTimer <= maxJumpTime) {
             jumping = false
-            this.progress.destroy()
             if (this.particula_jump) {this.particula_jump.destroy()}
             this.particula_jump = this.add.sprite(this.personagem.body.x, this.personagem.body.y + 15, 'particula_jump')
             this.particula_jump.anims.play('particula_jump')
@@ -428,6 +427,7 @@ export default class mapa extends Phaser.Scene {
             var currentJumpForceX = ((jumpForce - (jumpForce * jumpFactor)) * dir_lados)
             var currentJumpForceY = -305 * this.contador
             this.personagem.setVelocity(currentJumpForceX, currentJumpForceY)
+            this.progress.destroy()
             jumpTimer = 0
             if (this.dir_direita) {
               this.personagem.anims.play('cavaleiro-2-jump-right')
@@ -437,6 +437,7 @@ export default class mapa extends Phaser.Scene {
               this.jump.setFrame(0)
             }
             this.contador = 0
+            this.progress.destroy()
             this.blocked = true
           } else {
             jumping = false
