@@ -1,7 +1,9 @@
 from json import load
+from math import exp
 from os import getenv
 from dotenv import load_dotenv
 import socketio
+from datetime import datetime, timezone, timedelta
 import jwt
 
 from evdev import UInput, ecodes as e
@@ -12,7 +14,6 @@ load_dotenv()
 url = getenv("URL", default="wss://feira-de-jogos.dev.br")
 socketio_path = getenv("SOCKETIO_PATH", default="/api/v2/machine")
 namespace = getenv("NAMESPACE", default="/arcade")
-jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
 secret_key = getenv("TOKEN_SECRET_KEY_ARCADE", default="")
 id = getenv("ARCADE_ID", default="0")
 
@@ -42,11 +43,11 @@ def coinInsert(data):
 
     if arcade == id:
         for _ in range(coins):
-            ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
-            ui.syn() # Envia o comando
+            ui.write(e.EV_KEY, e.KEY_J, 1)
+            ui.syn()
             sleep(0.250)
-            ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
-            ui.syn() # Envia o comando
+            ui.write(e.EV_KEY, e.KEY_J, 0)
+            ui.syn()
 
         messageType = "coinInserted"
         messageContent = {"arcade": arcade, "operation": operation}
@@ -66,7 +67,8 @@ def main():
     Função principal
     """
     message = {"machine": "arcade", "id": id}
-    token = jwt.encode(message, secret_key, algorithm=jwt_algorithm)
+    exp = datetime.now(timezone.utc) + timedelta(days=365)
+    token = jwt.encode(message, secret_key, headers={"exp": exp.timestamp()})
     sio.connect(
         url,
         socketio_path=socketio_path,

@@ -2,6 +2,7 @@ from os import getenv
 from dotenv import load_dotenv
 import asyncio
 import socketio
+from datetime import datetime, timezone, timedelta
 import jwt
 
 from stepper import Stepper
@@ -91,7 +92,8 @@ def main():
     Função principal
     """
     message = {"machine": "vending-machine", "id": 0}
-    token = jwt.encode(message, secret_key, algorithm=jwt_algorithm)
+    exp = datetime.now(timezone.utc) + timedelta(days=365)
+    token = jwt.encode(message, secret_key, headers={"exp": exp.timestamp()})
     sio.connect(
         url,
         socketio_path=socketio_path,
