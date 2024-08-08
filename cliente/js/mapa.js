@@ -403,11 +403,11 @@ export default class mapa extends Phaser.Scene {
             const personagemQueColetou = this.cartao.find(cartao => !cartao.objeto.active).personagem
 
             // Posição do personagem que coletou o cartão
-            const personagemX = personagemQueColetou.x;
-            const personagemY = personagemQueColetou.y;
+            const personagemX = personagemQueColetou.x
+            const personagemY = personagemQueColetou.y
 
             // Crie o alien perto do personagem que coletou o cartão
-            this.alien = this.physics.add.sprite(personagemX, personagemY + 70, 'alien')
+            this.alien = this.physics.add.sprite(personagemX + 70, personagemY, 'alien')
             this.physics.add.collider(this.alien, this.layerparedes)
             this.physics.add.collider(this.alien, this.layerobjetos)
             // Seguir o personagem
