@@ -8,6 +8,7 @@ export default class mapa extends Phaser.Scene {
     this.load.audio('trilha', './assets/trilha.mp3')
     this.load.audio('comendo', './assets/comendo.mp3')
     this.load.audio('correndo', './assets/correndo.mp3')
+    this.load.audio('moeda', './assets/moeda.mp3')
 
     // Carrega o mapa
     this.load.tilemapTiledJSON('mapa', './assets/mapa/mapa.json')
@@ -41,6 +42,7 @@ export default class mapa extends Phaser.Scene {
     this.trilha = this.sound.add('trilha', { loop: true }).play()
     this.comendo = this.sound.add('comendo')
     this.correndo = this.sound.add('correndo', { loop: true })
+    this.moeda = this.sound.add('moeda')
 
     // Cria o objeto do mapa
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -724,49 +726,193 @@ export default class mapa extends Phaser.Scene {
         y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 496,
+        y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 464,
+        y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 528,
+        y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 560,
+        y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 560,
+        y: 368
       },
       {
-        x: 0,
-        y: 0
+        x: 688,
+        y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 720,
+        y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 752,
+        y: 400
       },
       {
-        x: 0,
-        y: 0
+        x: 752,
+        y: 368
       },
       {
-        x: 0,
-        y: 0
+        x: 752,
+        y: 336
       },
       {
-        x: 0,
-        y: 0
+        x: 720,
+        y: 336
       },
+      {
+        x: 688,
+        y: 336
+      },
+      {
+        x: 656,
+        y: 336
+      },
+      {
+        x: 624,
+        y: 336
+      },
+      {
+        x: 560,
+        y: 336
+      },
+      {
+        x: 528,
+        y: 336
+      },
+      {
+        x: 528,
+        y: 304
+      },
+      {
+        x: 560,
+        y: 304
+      },
+      {
+        x: 592,
+        y: 304
+      },
+      {
+        x: 624,
+        y: 304
+      },
+      {
+        x: 656,
+        y: 304
+      },
+      {
+        x: 656,
+        y: 272
+      },
+      {
+        x: 656,
+        y: 240
+      },
+      {
+        x: 624,
+        y: 240
+      },
+      {
+        x: 688,
+        y: 240
+      },
+      {
+        x: 720,
+        y: 240
+      },
+      {
+        x: 752,
+        y: 240
+      },
+      {
+        x: 752,
+        y: 208
+      },
+      {
+        x: 720,
+        y: 208
+      },
+      {
+        x: 688,
+        y: 208
+      },
+      {
+        x: 624,
+        y: 208
+      },
+      {
+        x: 656,
+        y: 208
+      },
+      {
+        x: 624,
+        y: 176
+      },
+      {
+        x: 624,
+        y: 144
+      },
+      {
+        x: 592,
+        y: 144
+      },
+      {
+        x: 624,
+        y: 112
+      },
+      {
+        x: 592,
+        y: 112
+      },
+      {
+        x: 656,
+        y: 112
+      },
+      {
+        x: 688,
+        y: 112
+      },
+      {
+        x: 624,
+        y: 80
+      },
+      {
+        x: 624,
+        y: 48
+      },
+      {
+        x: 720,
+        y: 112
+      },
+      {
+        x: 752,
+        y: 112
+      },
+      {
+        x: 752,
+        y: 80
+      },
+      {
+        x: 720,
+        y: 48
+      },
+      {
+        x: 688,
+        y: 48
+      },
+      {
+        x: 656,
+        y: 48
+      }
     ]
     // Animaçao da moedinha
     this.anims.create({
@@ -783,6 +929,7 @@ export default class mapa extends Phaser.Scene {
       moedinha.objeto = this.physics.add.sprite(moedinha.x, moedinha.y, 'moedinha')
       moedinha.objeto.anims.play('moedinha')
       moedinha.colisao = this.physics.add.overlap(this.personagemLocal, moedinha.objeto, () => {
+        this.moeda.play()
         moedinha.objeto.disableBody(true, true)
       }, null, this)
     })
@@ -800,22 +947,6 @@ export default class mapa extends Phaser.Scene {
       {
         x: 720,
         y: 80
-      },
-      {
-        x: 304,
-        y: 336
-      },
-      {
-        x: 48,
-        y: 336
-      },
-      {
-        x: 240,
-        y: 240
-      },
-      {
-        x: 240,
-        y: 400
       },
       {
         x: 240,
@@ -926,30 +1057,23 @@ export default class mapa extends Phaser.Scene {
           }))
         }
       }
-
-      const cookiesColetados = this.cookies.filter(cookie => !cookie.objeto.active).length
-      const moedinhaColetada = this.moedinha.filter(moedinha => !moedinha.objeto.active).length
-      this.placar.setText(`${cookiesColetados} / ${moedinhaColetada}`)
-
-      if (moedinhaColetada > 26) {
-        this.scene.stop('mapa')
-        this.scene.start('finalFeliz')
-      }
     } catch (error) {
       // Gera mensagem de erro na console
       console.error(error)
     }
 
-    const cookiesColetados = this.cookies.filter(cookie => !cookie.objeto.active).length
-    if (cookiesColetados > 12) {
+    const moedinhaColetada = this.moedinha.filter(moedinha => !moedinha.objeto.active).length
+    if (moedinhaColetada >= this.moedinha.length) {
       this.scene.stop('mapa')
       this.scene.start('finalFeliz')
     }
 
-    const moedinhasColetados = this.moedinha.filter(moedinha => !moedinha.objeto.active).length
-    if (moedinhasColetados > 1) {
+    const cookiesColetados = this.cookies.filter(cookie => !cookie.objeto.active).length
+    if (cookiesColetados >= this.cookies.length) {
       this.scene.stop('mapa')
       this.scene.start('finalFeliz')
     }
+
+    this.placar.setText(`${cookiesColetados} / ${moedinhaColetada}`)
   }
 }
