@@ -1,5 +1,6 @@
 from os import getenv
 from dotenv import load_dotenv
+import asyncio
 import socketio
 from datetime import datetime, timezone, timedelta
 import jwt
@@ -14,10 +15,10 @@ jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
 secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 
 
-pinagem = dict()
-pinagem[1] = [26, 6, 13, 5]
-pinagem[2] = [21, 20, 16, 12]
-pinagem[3] = [1, 8, 7, 25]
+motores = []
+motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
+motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
+motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
 sio = socketio.Client(logger=False, engineio_logger=True)
 
 
@@ -66,16 +67,16 @@ def stateReleasing(data):
     sio.emit(messageType, messageContent, namespace=namespace)
 
     try:
-        motor = Stepper(pinos=pinagem[product])
-        motor.girar_angulo(
+        motores[product].girar_angulo(
             360, sentido_horario=True, tempo=0.008, modo="passo_completo"
         )
-        motor.desligar()
-        del motor
     finally:
-        messageType = "stateUpdate"
-        messageContent = {"state": "idle", "operation": operation}
-        sio.emit(messageType, messageContent, namespace=namespace)
+        motores[product].desligar()
+        pass
+
+    messageType = "stateUpdate"
+    messageContent = {"state": "idle", "operation": operation}
+    sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
