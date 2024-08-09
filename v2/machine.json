@@ -247,7 +247,8 @@
               "type": "integer",
               "format": "int32",
               "description": "MFA code",
-              "minimum": 10
+              "minimum": 10,
+              "maximum": 99
             },
             "operation": {
               "type": "integer",
