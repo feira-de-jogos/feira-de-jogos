@@ -373,7 +373,8 @@ export default class mapa extends Phaser.Scene {
       cartao.objeto = this.physics.add.sprite(cartao.x, cartao.y, 'cartao')
       cartao.objeto.anims.play('cartao-girando')
       cartao.colisao = this.physics.add.overlap(this.personagemLocal, cartao.objeto, () => {
-        cartao.objeto.setVisible(false)
+        cartao.objeto.disableBody(true, true)
+        cartao.coletor = true
       }, null, this)
     })
 
@@ -394,29 +395,6 @@ export default class mapa extends Phaser.Scene {
           // Atualiza a visibilidade do cartão
           if (!dados.cartao[i].visible) {
             cartao.objeto.disableBody(true, true)
-          }
-
-          // adiciona alien
-          const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
-          if (cartoesColetados === 1 && !this.alien) {
-            // Identificando qual personagem coletou o cartão
-            const personagemQueColetou = this.cartao.find(cartao => !cartao.objeto.active).personagem
-
-            // Posição do personagem que coletou o cartão
-            const personagemX = personagemQueColetou.x
-            const personagemY = personagemQueColetou.y
-
-            // Crie o alien perto do personagem que coletou o cartão
-            this.alien = this.physics.add.sprite(personagemX + 70, personagemY, 'alien')
-            this.physics.add.collider(this.alien, this.layerparedes)
-            this.physics.add.collider(this.alien, this.layerobjetos)
-            // Seguir o personagem
-            this.physics.moveToObject(this.alien, personagemQueColetou, 100)
-            this.physics.add.collider(this.alien, personagemQueColetou, () => {
-              // globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
-              this.scene.stop('mapa')
-              this.scene.start('finalTriste')
-            }, null, this)
           }
         })
       }
@@ -553,16 +531,35 @@ export default class mapa extends Phaser.Scene {
       } catch (error) {
         console.error(error)
       }
+    }
 
-      // console.log(alvo, diffX, diffY)
-
-      this.timerText.setText()
-
-      const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
-      if (cartoesColetados >= 10) {
-        this.scene.stop('mapa')
-        this.scene.start('finalFeliz')
+    // adiciona alien
+    const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
+    if (cartoesColetados === 1 && !this.alien) {
+      // Identificando qual personagem coletou o cartão
+      let x, y
+      if (this.cartao.find(cartao => !cartao.objeto.active).coletor) {
+        x = this.personagemLocal.x
+        y = this.personagemLocal.y
+      } else {
+        x = this.personagemRemoto.x
+        y = this.personagemRemoto.y
       }
+
+      // Crie o alien perto do personagem que coletou o cartão
+      this.alien = this.physics.add.sprite(x + 70, y, 'alien')
+      this.physics.add.collider(this.alien, this.layerparedes)
+      this.physics.add.collider(this.alien, this.layerobjetos)
+      // Seguir o personagem
+      this.physics.moveToObject(this.alien, this.personagemLocal, 100)
+      this.physics.add.collider(this.alien, this.personagemLocal, () => {
+        // globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
+      }, null, this)
+    } else if (cartoesColetados >= 10) {
+      this.scene.stop('mapa')
+      this.scene.start('finalFeliz')
     }
   }
 }
