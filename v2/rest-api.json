@@ -121,7 +121,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -182,7 +182,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -240,7 +240,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -464,12 +464,14 @@
             "description": "operation id",
             "example": 1000,
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           },
           "code": {
             "description": "two-factor authentication code",
-            "example": 123456,
-            "type": "string"
+            "example": 42,
+            "type": "string",
+            "pattern": "^[1-9][0-9]$"
           }
         }
       },
@@ -489,13 +491,15 @@
             "description": "product id",
             "example": 1,
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           },
           "value": {
             "description": "product value",
             "example": 100,
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 1
           }
         }
       },
@@ -515,13 +519,15 @@
             "description": "machine id",
             "example": 1,
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           },
           "product": {
             "description": "product id",
             "example": 1,
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           }
         }
       },
@@ -541,13 +547,15 @@
             "description": "user id",
             "example": 1,
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           },
           "value": {
             "description": "value to be transferred",
             "example": 100,
             "format": "int32",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 1
           }
         }
       },
