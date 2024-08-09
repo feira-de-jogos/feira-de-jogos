@@ -1,10 +1,10 @@
 from os import getenv
 from dotenv import load_dotenv
-import asyncio
 import socketio
 from datetime import datetime, timezone, timedelta
 import jwt
 
+import RPi.GPIO as GPIO
 from stepper import Stepper
 
 load_dotenv()
@@ -15,10 +15,14 @@ jwt_algorithm = getenv("JWT_ALGORITHM", default="HS256")
 secret_key = getenv("TOKEN_SECRET_KEY_VENDING_MACHINE", default="")
 
 
-motores = []
-motores.append(Stepper(pinos=[26, 6, 13, 5]))  # motor 1
-motores.append(Stepper(pinos=[21, 20, 16, 12]))  # motor 2
-motores.append(Stepper(pinos=[1, 8, 7, 25]))  # motor 3
+pinos = dict()
+pinos[1] = [26, 6, 13, 5]
+pinos[2] = [21, 20, 16, 12]
+pinos[3] = [1, 8, 7, 25]
+motores = dict()
+motores[1] = Stepper(pinos=pinos[1])
+motores[2] = Stepper(pinos=pinos[2])
+motores[3] = Stepper(pinos=pinos[3])
 sio = socketio.Client(logger=False, engineio_logger=True)
 
 
@@ -67,9 +71,12 @@ def stateReleasing(data):
     sio.emit(messageType, messageContent, namespace=namespace)
 
     try:
+        GPIO.setup(pinos[product], GPIO.OUT)
         motores[product].girar_angulo(
             360, sentido_horario=True, tempo=0.008, modo="passo_completo"
         )
+        for pino in pinos[product]:
+            GPIO.output(pino, 0)
     except Exception as e:
         print(f"Erro: {e}")
     finally:

@@ -10,10 +10,6 @@ class Stepper:
         self.pinos = pinos
         self.passos_por_volta = passos_por_volta
 
-        # Configuração dos pinos GPIO
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.pinos, GPIO.OUT)
-
     def girar_passos(
         self, num_passos, sentido_horario=True, tempo=0.008, modo="passo_completo"
     ):
