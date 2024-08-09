@@ -70,13 +70,12 @@ def stateReleasing(data):
         motores[product].girar_angulo(
             360, sentido_horario=True, tempo=0.008, modo="passo_completo"
         )
+    except Exception as e:
+        print(f"Erro: {e}")
     finally:
-        motores[product].desligar()
-        pass
-
-    messageType = "stateUpdate"
-    messageContent = {"state": "idle", "operation": operation}
-    sio.emit(messageType, messageContent, namespace=namespace)
+        messageType = "stateUpdate"
+        messageContent = {"state": "idle", "operation": operation}
+        sio.emit(messageType, messageContent, namespace=namespace)
 
 
 @sio.event(namespace=namespace)
