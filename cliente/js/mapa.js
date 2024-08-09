@@ -480,15 +480,15 @@ export default class mapa extends Phaser.Scene {
       // alien segue personagem mais próximo
       const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
         this.personagemLocal.x,
-        this.alien.x,
         this.personagemLocal.y,
+        this.alien.x,
         this.alien.y
       )
 
       const hipotenusaPersonagemRemoto = Phaser.Math.Distance.Between(
         this.personagemRemoto.x,
-        this.alien.x,
         this.personagemRemoto.y,
+        this.alien.x,
         this.alien.y
       )
 
