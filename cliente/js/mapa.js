@@ -214,7 +214,7 @@ export default class mapa extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     })
-    
+
     this.anims.create({
       key: 'corvo-idle',
       frames: this.anims.generateFrameNumbers('corvo-idle', { start: 0, end: 3 }),
@@ -336,75 +336,91 @@ export default class mapa extends Phaser.Scene {
 
     this.rainall = [
       {
-        x: 415,
+        x: 418,
         y: -190
       },
       {
-        x: 415,
+        x: 418,
         y: -310
       },
       {
-        x: 415,
+        x: 418,
         y: -430
       },
       {
-        x: 415,
+        x: 418,
         y: -550
       },
       {
-        x: 415,
+        x: 418,
         y: -670
       },
       {
-        x: 415,
+        x: 418,
         y: -790
       }, {
-        x: 415,
+        x: 418,
         y: -910
       },
       {
-        x: 415,
+        x: 418,
         y: -1030
       },
       {
-        x: 415,
+        x: 418,
         y: -1150
       },
       {
-        x: 415,
+        x: 418,
         y: -1270
       },
       {
-        x: 415,
+        x: 418,
         y: -1390
       },
       {
-        x: 415,
+        x: 418,
         y: -1510
       },
       {
-        x: 415,
+        x: 418,
         y: -1630
       },
       {
-        x: 415,
+        x: 418,
         y: -1750
       },
       {
-        x: 415,
+        x: 418,
         y: -1870
       },
       {
-        x: 415,
+        x: 418,
         y: -1990
       },
       {
-        x: 415,
+        x: 418,
         y: -2110
       },
       {
-        x: 415,
+        x: 418,
         y: -2230
+      },
+      {
+        x: 418,
+        y: -2350
+      },
+      {
+        x: 418,
+        y: -2470
+      },
+      {
+        x: 418,
+        y: -2590
+      },
+      {
+        x: 418,
+        y: -2710
       }
     ]
 
