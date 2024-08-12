@@ -172,11 +172,7 @@ export default class mapa extends Phaser.Scene {
 
       // Cria os sprites dos personagens local e remoto
       this.personagem = this.physics.add.sprite(50, -60, 'cavaleiro-1')
-      this.personagem.body.maxVelocity = 200
-      this.personagem.body.maxSpeed = 200
       this.personagemRemoto = this.add.sprite(50, -60, 'cavaleiro-2')
-      this.personagemRemoto.body.maxVelocity = 200
-      this.personagemRemoto.body.maxSpeed = 200
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -535,7 +531,7 @@ export default class mapa extends Phaser.Scene {
       this.contador += 0.03
     }
 
-    if (this.personagem.velocityY >= 950) {
+    if (this.personagem.body.velocity.y >= 950) {
       this.personagem.setVelocityY(950)
     }
   }
