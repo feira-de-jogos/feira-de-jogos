@@ -24,12 +24,16 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('Boo', './assets/personagens/Boo.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('Missy', './assets/personagens/Missy.png', { frameWidth: 32, frameHeight: 32 })
 
+    // Carrega o Vilão SUPREMO
+    this.load.spritesheet('')
+    
     // Carrega as imagens dos botões
     this.load.image('cima', './assets/botoes/cima.png')
     this.load.image('baixo', './assets/botoes/baixo.png')
     this.load.image('esquerda', './assets/botoes/esquerda.png')
     this.load.image('direita', './assets/botoes/direita.png')
 
+    // Carrega os objetos.sprites
     this.load.spritesheet('cookie', './assets/cookies.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('moedinha', './assets/moedinha.png', { frameWidth: 32, frameHeight: 32 })
   }
@@ -912,6 +916,14 @@ export default class mapa extends Phaser.Scene {
       {
         x: 656,
         y: 48
+      },
+      {
+        x: 80,
+        y: 336
+      },
+      {
+        x: 112,
+        y: 336
       }
     ]
     // Animaçao da moedinha
@@ -967,9 +979,24 @@ export default class mapa extends Phaser.Scene {
       {
         x: 656,
         y: 400
+      },
+      {
+        x: 240,
+        y: 240
+      },
+      {
+        x: 304,
+        y: 336
+      },
+      {
+        x: 240,
+        y: 400
+      },
+      {
+        x: 48,
+        y: 336
       }
     ]
-
     // Animaçao do cookie
     this.anims.create({
       key: 'cookie-girando',
