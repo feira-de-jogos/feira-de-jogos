@@ -260,30 +260,48 @@ export default class mapa extends Phaser.Scene {
 
     if (this.personagemLocal.texture.key === 'LeoVen') {
       // Ataques LEO:
+      this.personagemLocal.isDefending = false
 
       this.anims.create({
         key: 'atacando_esquerda',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 1, end: 5 }),
-        frameRate: 8
+        frameRate: 8,
+        repeat: -1
+
       })
 
       this.anims.create({
         key: 'atacando_direita',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 7, end: 11 }),
-        frameRate: 8
+        frameRate: 8,
+        repeat: -1
+
       })
 
       this.anims.create({
         key: 'defendendo_esquerda',
-        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 12, end: 19 }),
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 12, end: 16 }),
         frameRate: 8
       })
 
       this.anims.create({
         key: 'defendendo_direita',
-        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 20, end: 27 }),
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 20, end: 24 }),
         frameRate: 8
       })
+
+      this.anims.create({
+        key: 'tirandoesc_esquerda',
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 17, end: 19 }),
+        frameRate: 7
+      })
+
+      this.anims.create({
+        key: 'tirandoesc_direita',
+        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 25, end: 27 }),
+        frameRate: 7
+      })
+
 
       this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
         .setScrollFactor(0)
@@ -292,11 +310,15 @@ export default class mapa extends Phaser.Scene {
           this.HabDef.setFrame(1)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('defendendo_' + this.personagemLado)
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 15)
         })
         .on('pointerout', () => {
           this.HabDef.setFrame(0)
           this.personagemLocal.setVelocityX(0)
-          this.personagemLocal.anims.play('parado_' + this.personagemLado)
+          this.personagemLocal.anims.play('tirandoesc_' + this.personagemLado)
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 15)
         })
 
       this.AtqMac = this.add.sprite(800, 240, 'AtqMac', 0)
@@ -306,9 +328,8 @@ export default class mapa extends Phaser.Scene {
           this.AtqMac.setFrame(1)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('atacando_' + this.personagemLado)
-          // this.personagemLocal.y -= 16
           this.personagemLocal.setBodySize(64, 48, true)
-          this.personagemLocal.setOffset(0, 16)
+          this.personagemLocal.setOffset(0, 15)
         })
         .on('pointerout', () => {
           this.AtqMac.setFrame(0)
@@ -339,11 +360,15 @@ export default class mapa extends Phaser.Scene {
           this.HabFlecha.setFrame(1)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('atirando_' + this.personagemLado)
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 15)
         })
         .on('pointerout', () => {
           this.HabFlecha.setFrame(0)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('parado_' + this.personagemLado)
+          this.personagemLocal.setBodySize(48, 48, true)
+          this.personagemLocal.setOffset(0, 0)
         })
 
       this.AtqEsp = this.add.sprite(800, 240, 'AtqEsp', 0)
@@ -568,6 +593,8 @@ export default class mapa extends Phaser.Scene {
         if (this.personagemLocal.body.blocked.down) {
           this.personagemLocal.setVelocityY(-600)
           this.personagemLocal.anims.play('pulando_' + this.personagemLado)
+          this.personagemLocal.setBodySize(48, 48, true)
+          this.personagemLocal.setOffset(0, 0)
         }
       })
       .on('pointerout', () => {
@@ -584,6 +611,8 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.setVelocityX(200)
         this.personagemLado = 'direita'
         this.personagemLocal.anims.play('andando_' + this.personagemLado)
+        this.personagemLocal.setBodySize(48, 48, true)
+        this.personagemLocal.setOffset(0, 0)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
@@ -601,6 +630,8 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.setVelocityX(-200)
         this.personagemLado = 'esquerda'
         this.personagemLocal.anims.play('andando_' + this.personagemLado)
+        this.personagemLocal.setBodySize(48, 48, true)
+        this.personagemLocal.setOffset(0, 0)
       })
       .on('pointerout', () => {
         this.esquerda.setFrame(0)
@@ -623,6 +654,20 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
+    /*this.anims.create({
+      key: 'ogrogelo_atacando_direita'
+      frames: this.anims.generateFrameNumbers('ogrogelo' , { start: 5, end: 7 }),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key:'ogrogelo_atacando_esquerda'
+      frames: this.anims.generateFrameNumbers('ogrogelo' , { start: 14, end: 16})
+      frameRate: 8,
+      repeat: -1
+    })*/
+
     this.ogros = [
       {
         x: 3600,
@@ -637,7 +682,7 @@ export default class mapa extends Phaser.Scene {
         },
         sprite: 'ogrogelo'
       }]
-      
+
     this.ogros.forEach((ogro) => {
       ogro.objeto = this.physics.add.sprite(ogro.x, ogro.y, ogro.sprite)
 
@@ -663,13 +708,22 @@ export default class mapa extends Phaser.Scene {
       this.physics.add.collider(ogro.objeto, this.layerParedes)
 
       this.physics.add.collider(ogro.objeto, this.personagemLocal, () => {
-        this.barradevida.setFrame(this.barradevida.frame.name + 1)
-        if (this.barradevida.frame.name === 5) {
-          this.scene.stop('mapa')
-          this.scene.start('finalTriste')
+        this.personagemLocal.x += 50 
+        this.personagemLocal.setVelocity(200 , -100)
+        try {
+          if (this.HabDef.frame.name === 1) {
+            // bloqueia
+          } else throw err
         }
+        catch (err) {
+          this.barradevida.setFrame(this.barradevida.frame.name + 1)
+          if (this.barradevida.frame.name === 5) {
+            this.scene.stop('mapa')
+            this.scene.start('finalTriste')
+          }
+       }
       }, null, this)
-  
+      
       ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
       ogro.objeto.setVelocityX(-70)
     })
@@ -678,11 +732,9 @@ export default class mapa extends Phaser.Scene {
 
     this.layerChao.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerChao)
-    
 
     this.layerParedes.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerParedes)
-    
 
     this.layerObstaculos.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
