@@ -166,9 +166,9 @@ export default class mapa extends Phaser.Scene {
     })
 
     // ogrogelo:
-    this.ogrogelo = this.physics.add.sprite(3316, 150, 'ogrogelo')
-    this.ogrogelo.body.setAllowGravity(true)
-    this.ogrogelo.setScale(0.9)
+    // this.ogrogelo = this.physics.add.sprite(3316, 150, 'ogrogelo')
+    // this.ogrogelo.body.setAllowGravity(true)
+    // this.ogrogelo.setScale(0.9)
     this.anims.create({
       key: 'ogrogelo',
       frames: this.anims.generateFrameNumbers('ogrogelo', { start: 0, end: 0 }),
@@ -285,15 +285,15 @@ export default class mapa extends Phaser.Scene {
         frameRate: 8
       })
 
-      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0) 
+      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
         .setScrollFactor(0)
         .setInteractive()
-        .on('pointerover', () => { 
+        .on('pointerover', () => {
           this.HabDef.setFrame(1)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('defendendo_' + this.personagemLado)
         })
-        .on('pointerout', () => { 
+        .on('pointerout', () => {
           this.HabDef.setFrame(0)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('parado_' + this.personagemLado)
@@ -306,15 +306,16 @@ export default class mapa extends Phaser.Scene {
           this.AtqMac.setFrame(1)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('atacando_' + this.personagemLado)
-          this.tilemapMapahis.personagemLocal.body.setOffset(0, 8)
-          this.personagemLocal.body.setBodySize(64, 64, true)
+          // this.personagemLocal.y -= 16
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 16)
         })
         .on('pointerout', () => {
           this.AtqMac.setFrame(0)
           this.personagemLocal.setVelocityX(0)
           this.personagemLocal.anims.play('parado_' + this.personagemLado)
-          this.tilemapMapahis.personagemLocal.body.setOffset(0, 0)
-          this.personagemLocal.body.setBodySize(48, 48, true)
+          this.personagemLocal.setBodySize(48, 48, true)
+          this.personagemLocal.setOffset(0, 0)
         })
     } else if (this.personagemLocal.texture.key === 'BenVen') {
       // Ataques BEN:
@@ -615,68 +616,73 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    this.ogrogelo.anims.play('ogrogelo_andando_direita')
-    this.ogrogelo.setVelocityX(70)
-
     this.anims.create({
       key: 'ogrogelo_andando_esquerda',
       frames: this.anims.generateFrameNumbers('ogrogelo', { start: 10, end: 13 }),
       frameRate: 8,
       repeat: -1
     })
-    this.ogrogelo.anims.play('ogrogelo_andando_esquerda')
-    this.ogrogelo.setVelocityX(-70)
 
     this.ogros = [
       {
-        x: 3316,
-        y: 150,
+        x: 3600,
+        y: 200,
+        direita: {
+          x: 3636,
+          y: 230
+        },
+        esquerda: {
+          x: 3130,
+          y: 230
+        },
         sprite: 'ogrogelo'
-      },
-      {
-        x: 3636,
-        y: 230
-      }
-    ]
+      }]
+      
     this.ogros.forEach((ogro) => {
       ogro.objeto = this.physics.add.sprite(ogro.x, ogro.y, ogro.sprite)
 
-      ogro.blocoDireita = this.physics.add.sprite(3636, 230, 'Vazio')
+      ogro.blocoDireita = this.physics.add.sprite(ogro.direita.x, ogro.direita.y, 'Vazio')
       ogro.blocoDireita.body
         .setAllowGravity(false)
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoDireita, () => {
         ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
         ogro.objeto.setVelocityX(-70)
-      })
+      }, null, this)
 
-      ogro.blocoEsquerda = this.physics.add.sprite(3130, 230, 'Vazio')
+      ogro.blocoEsquerda = this.physics.add.sprite(ogro.esquerda.x, ogro.esquerda.y, 'Vazio')
       ogro.blocoEsquerda.body
         .setAllowGravity(false)
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoEsquerda, () => {
         ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
         ogro.objeto.setVelocityX(70)
-      })
+      }, null, this)
+
+      this.physics.add.collider(ogro.objeto, this.layerChao)
+      this.physics.add.collider(ogro.objeto, this.layerParedes)
+
+      this.physics.add.collider(ogro.objeto, this.personagemLocal, () => {
+        this.barradevida.setFrame(this.barradevida.frame.name + 1)
+        if (this.barradevida.frame.name === 5) {
+          this.scene.stop('mapa')
+          this.scene.start('finalTriste')
+        }
+      }, null, this)
+  
+      ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
+      ogro.objeto.setVelocityX(-70)
     })
 
     // colisão de personagens:
 
     this.layerChao.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerChao)
-    this.physics.add.collider(this.ogrogelo, this.layerChao)
+    
 
     this.layerParedes.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerParedes)
-    this.physics.add.collider(this.ogrogelo, this.layerParedes)
-
-    this.physics.add.collider(this.ogrogelo, this.personagemLocal, () => {
-      this.barradevida.setFrame(this.barradevida.frame.name + 1)
-      if (this.barradevida.frame.name === 5) {
-        this.scene.stop('mapa')
-        this.scene.start('finalTriste')
-      }
-    }, null, this)
+    
 
     this.layerObstaculos.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
@@ -689,7 +695,6 @@ export default class mapa extends Phaser.Scene {
 
     // colisão do ogrogelo:
     this.layerChao.setCollisionByProperty({ collides: true })
-    this.physics.add.collider(this.ogrogelo, this.layerChao)
 
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagemLocal)
