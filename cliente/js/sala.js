@@ -65,7 +65,7 @@ export default class sala extends Phaser.Scene {
         this.scene.start('mapa')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
-        this.mensagem.setText('Aguardando segundo jogador...')
+        //this.mensagem.setText('Aguardando segundo jogador...')
       }
     })
   }

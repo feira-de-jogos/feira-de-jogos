@@ -8,6 +8,7 @@ export default {
     arcade: {
       gravity: { y: 900 },
       debug: false // colocar em true para enxergar hitbox.
+      
     }
   },
   scale: {

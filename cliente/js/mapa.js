@@ -466,7 +466,6 @@ export default class mapa extends Phaser.Scene {
   }
 
   update () {
-    console.log(this.personagem.body.velocity)
     try {
       // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
