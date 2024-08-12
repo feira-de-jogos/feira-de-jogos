@@ -52,8 +52,8 @@ Ao se tornarem homens crescidos, ambos os irmãos decidiram honrar os ensinament
 
 Os 2 personagens principais são irmãos, sendo eles:
 
-- Benjamin Venator: É uma pessoa divertida, engraçada e sarcástica. Sua diversão favorita é caçar bestas. Ele é o irmão mais velho, porém está longe de ser o mais responsável, no entanto possui um grande conhecimento sobre as bestas. Ele possui um físico atlético, sendo ágil e rápido, possuindo uma ótima habilidade com espadas e armas leves, além de ser ótimo em usar facas de arremesso.
-- Leonardo Venator: É uma pessoa séria, focada e leal. ele gosta de fortalecer seu corpo com exercícios constantes. Ele é o irmão mais novo, poém devido ao jeito de seu irmão mais velho, ele sempre se mostrou muito responsável. Ele possui um físico bruto, sendo muito forte, porém mais lento que Benjamin. Possui uma ótima afinidade com armas pessadas e escudos.
+- Benjamin Venator: É uma pessoa divertida, engraçada e sarcástica. Sua diversão favorita é caçar bestas. Ele é o irmão mais velho, porém está longe de ser o mais responsável, no entanto possui um grande conhecimento sobre as bestas. Ele possui um físico atlético, sendo ágil e rápido, possuindo uma ótima habilidade com espadas, além de ser ótimo com o uso de sua besta.
+- Leonardo Venator: É uma pessoa séria, focada e leal. ele gosta de fortalecer seu corpo com exercícios constantes. Ele é o irmão mais novo, poém devido ao jeito de seu irmão mais velho, ele sempre se mostrou muito responsável. Ele possui um físico bruto, sendo muito forte. Possui uma ótima afinidade com armas pesadas e escudos.
 
 ## Regras
 
@@ -69,15 +69,11 @@ Os 2 personagens principais são irmãos, sendo eles:
 
 ## Objetivo
 
-Leo e Ben tem como objetivo do jogo derrotar a Besta antiga que se encontra em uma masmorra cheia de criaturas. Para enfrentar a besta, eles precisam encontrar 4 cristais escondidos entre as salas. Com os 4 obtidos, eles devem levá-los a porta do boss para abri-la e enfrentar o desafio final.
+Leo e Ben tem como objetivo do jogo derrotar a Besta antiga que se encontra em uma masmorra cheia de criaturas. Para enfrentar a besta, eles precisam encontrar 4 cristais escondidos entre as salas. Com os 4 obtidos, eles devem levá-los a porta do boss para abri-la e chegar ao final do jogo.
 
 ## Receitas
 
-Algumas salas do jogo possuem 1 cristal, e este cristal irá servir para adentrar na sala do chefe final.
+Algumas salas do jogo possuem 1 cristal, e este cristal irá servir para adentrar na sala final.
 
 Cada um dos cristais irá gerar uma renda de 10 tijolinhos, no total coletando os 4 cristais receberá 40 tijolinho. 
-Ao enfrentar o chefe final e eliminá-lo cada um dos jogadores ganhará 60 tijolinhos.
-
-O jogo possui 3 dificuldades, sendo elas, normal, difícil e extremo. Elas são liberadas ao matar o chefe final na dificuldade anterior.
-
-As recompensas da dificuldade normal, seriam as descritas acima. Quanto à dificuldade difícil, os valores dos tijolinhos irão ser duplicados e na extrema será quadruplicado. 
+Ao chegar no chefe final e aparecer a tela de vitóra cada um dos jogadores ganhará 60 tijolinhos.
