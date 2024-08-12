@@ -24,6 +24,6 @@ Esses gatinhos personagens não apenas adicionam profundidade à história de Me
 Meowze é um jogo de labirinto que não é apenas uma homenagem divertida ao clássico Pac-Man, mas também uma experiência única que cativa os jogadores com seu charme felino e desafios estratégicos. Prepare-se para uma aventura cheia de cookies, gatinhos fofos e perseguições emocionantes com os caninos adversários!
 
 ## Referências
-Meowze é um jogo encantador que homenageia o clássico Pac-Man de maneira única e divertida. Inspirado no icônico jogo dos anos 80, Pac-Man é um labirinto onde o jogador controla um personagem redondo e amarelo que deve comer todos os pontos espalhados pelo cenário enquanto evita ser capturado pelos fantasmas. Em Meowze, essa mecânica é reinventada com gatinhos adoráveis em busca de cookies deliciosas, enquanto cachorros substituem os fantasmas como os inimigos a serem evitados.
+Meowze é um jogo encantador que homenageia o clássico Pac-Man de maneira única e divertida. Inspirado no icônico jogo dos anos 80, Pac-Man é um labirinto onde o jogador controla um personagem redondo e amarelo que deve comer todos os pontos espalhados pelo cenário enquanto evita ser capturado pelos fantasmas. Em Meowze, essa mecânica é reinventada com gatinhos adoráveis em busca de cookies deliciosos, enquanto cachorros substituem os fantasmas como os inimigos a serem evitados.
 
 (https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/394160/ss_ab90c3f65d81d8287d115ec0d5b5d43930f5bebf.1920x1080.jpg?t=1654679168)

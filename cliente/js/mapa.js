@@ -25,8 +25,8 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('Missy', './assets/personagens/Missy.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega o Vilão SUPREMO
-    this.load.spritesheet('')
-    
+    this.load.spritesheet('Cachorro', './assets/personagens/Boo.png', { frameWidth: 32, frameHeight: 32 })
+
     // Carrega as imagens dos botões
     this.load.image('cima', './assets/botoes/cima.png')
     this.load.image('baixo', './assets/botoes/baixo.png')
