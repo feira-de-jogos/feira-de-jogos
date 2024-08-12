@@ -31,6 +31,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('corvo-idle', './assets/entities/raven_idle.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('corvo-fly', './assets/entities/raven_fly.png', { frameWidth: 48, frameHeight: 32 })
+    this.load.spritesheet('rainall', './assets/particles/rainall.png', { frameWidth: 120, frameHeight: 120 })
     this.load.spritesheet('particula_jump', './assets/particles/jump_particle.png', { frameWidth: 32, frameHeight: 32 })
 
     this.load.spritesheet('jump', '/assets/ui/jump.png', { frameWidth: 64, frameHeight: 64 })
@@ -208,6 +209,13 @@ export default class mapa extends Phaser.Scene {
     }
 
     this.anims.create({
+      key: 'rainall',
+      frames: this.anims.generateFrameNumbers('rainall', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    })
+    
+    this.anims.create({
       key: 'corvo-idle',
       frames: this.anims.generateFrameNumbers('corvo-idle', { start: 0, end: 3 }),
       frameRate: 2,
@@ -325,6 +333,85 @@ export default class mapa extends Phaser.Scene {
         y: -1680
       }
     ]
+
+    this.rainall = [
+      {
+        x: 415,
+        y: -190
+      },
+      {
+        x: 415,
+        y: -310
+      },
+      {
+        x: 415,
+        y: -430
+      },
+      {
+        x: 415,
+        y: -550
+      },
+      {
+        x: 415,
+        y: -670
+      },
+      {
+        x: 415,
+        y: -790
+      }, {
+        x: 415,
+        y: -910
+      },
+      {
+        x: 415,
+        y: -1030
+      },
+      {
+        x: 415,
+        y: -1150
+      },
+      {
+        x: 415,
+        y: -1270
+      },
+      {
+        x: 415,
+        y: -1390
+      },
+      {
+        x: 415,
+        y: -1510
+      },
+      {
+        x: 415,
+        y: -1630
+      },
+      {
+        x: 415,
+        y: -1750
+      },
+      {
+        x: 415,
+        y: -1870
+      },
+      {
+        x: 415,
+        y: -1990
+      },
+      {
+        x: 415,
+        y: -2110
+      },
+      {
+        x: 415,
+        y: -2230
+      }
+    ]
+
+    this.rainall.forEach((rainall) => {
+      rainall.objeto = this.add.sprite(rainall.x, rainall.y, 'rainall')
+      rainall.objeto.anims.play('rainall')
+    })
 
     this.corvo.forEach((corvo) => {
       corvo.objeto = this.physics.add.sprite(corvo.x, corvo.y, 'corvo-idle')
