@@ -380,13 +380,13 @@ export default class mapa extends Phaser.Scene {
           dir_lados = -1
           this.dir_direita = true
           this.dir_esquerda = false
-          this.direita.setFrame(0)
+          this.direita.setFrame(1)
           this.personagem.setVelocityX(70)
         }
       }).on('pointerout', () => {
         if (this.personagem.body.blocked.down && this.blocked === true) {
           this.personagem.anims.play('cavaleiro-1-idle-direita')
-          this.direita.setFrame(1)
+          this.direita.setFrame(0)
           this.personagem.setVelocityX(0)
         }
       })
