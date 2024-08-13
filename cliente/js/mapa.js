@@ -557,7 +557,7 @@ export default class mapa extends Phaser.Scene {
         this.scene.stop('mapa')
         this.scene.start('finalTriste')
       }, null, this)
-    } else if (cartoesColetados >= 1) {
+    } else if (cartoesColetados >= 10) {
       this.scene.stop('mapa')
       this.scene.start('finalFeliz')
     }
@@ -588,17 +588,17 @@ export default class mapa extends Phaser.Scene {
       // Sentido no eixo X
       const diffX = alvo.x - this.alien.x
       if (diffX >= 10) {
-        this.alien.setVelocityX(40)
+        this.alien.setVelocityX(50)
       } else if (diffX <= 10) {
-        this.alien.setVelocityX(-40)
+        this.alien.setVelocityX(-50)
       }
 
       // Sentido no eixo Y
       const diffY = alvo.y - this.alien.y
       if (diffY >= 10) {
-        this.alien.setVelocityY(40)
+        this.alien.setVelocityY(50)
       } else if (diffY <= 10) {
-        this.alien.setVelocityY(-40)
+        this.alien.setVelocityY(-50)
       }
 
       // Animação
@@ -620,7 +620,7 @@ export default class mapa extends Phaser.Scene {
     }
 
     // adiciona alien 2
-    if (cartoesColetados === 7 && !this.alien2) {
+    if (cartoesColetados === 8 && !this.alien2) {
       // Identificando qual personagem coletou o cartão
       let x, y
       if (this.cartao.find(cartao => !cartao.objeto.active).coletor) {
@@ -642,7 +642,7 @@ export default class mapa extends Phaser.Scene {
         this.scene.stop('mapa')
         this.scene.start('finalTriste')
       }, null, this)
-    } else if (cartoesColetados >= 1) {
+    } else if (cartoesColetados >= 10) {
       this.scene.stop('mapa')
       this.scene.start('finalFeliz')
     }
@@ -673,17 +673,17 @@ export default class mapa extends Phaser.Scene {
       // Sentido no eixo X
       const diffX = alvo.x - this.alien.x
       if (diffX >= 10) {
-        this.alien.setVelocityX(40)
+        this.alien.setVelocityX(50)
       } else if (diffX <= 10) {
-        this.alien.setVelocityX(-40)
+        this.alien.setVelocityX(-50)
       }
 
       // Sentido no eixo Y
       const diffY = alvo.y - this.alien.y
       if (diffY >= 10) {
-        this.alien.setVelocityY(40)
+        this.alien.setVelocityY(50)
       } else if (diffY <= 10) {
-        this.alien.setVelocityY(-40)
+        this.alien.setVelocityY(-50)
       }
 
       // Animação
@@ -705,7 +705,7 @@ export default class mapa extends Phaser.Scene {
     }
 
     // adiciona alien 3
-    if (cartoesColetados === 7 && !this.alien3) {
+    if (cartoesColetados === 9 && !this.alien3) {
       // Identificando qual personagem coletou o cartão
       let x, y
       if (this.cartao.find(cartao => !cartao.objeto.active).coletor) {
@@ -727,7 +727,7 @@ export default class mapa extends Phaser.Scene {
         this.scene.stop('mapa')
         this.scene.start('finalTriste')
       }, null, this)
-    } else if (cartoesColetados >= 1) {
+    } else if (cartoesColetados >= 10) {
       this.scene.stop('mapa')
       this.scene.start('finalFeliz')
     }
@@ -758,17 +758,17 @@ export default class mapa extends Phaser.Scene {
       // Sentido no eixo X
       const diffX = alvo.x - this.alien.x
       if (diffX >= 10) {
-        this.alien.setVelocityX(40)
+        this.alien.setVelocityX(50)
       } else if (diffX <= 10) {
-        this.alien.setVelocityX(-40)
+        this.alien.setVelocityX(-50)
       }
 
       // Sentido no eixo Y
       const diffY = alvo.y - this.alien.y
       if (diffY >= 10) {
-        this.alien.setVelocityY(40)
+        this.alien.setVelocityY(50)
       } else if (diffY <= 10) {
-        this.alien.setVelocityY(-40)
+        this.alien.setVelocityY(-50)
       }
 
       // Animação
