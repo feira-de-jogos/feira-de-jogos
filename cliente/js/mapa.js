@@ -265,7 +265,7 @@ export default class mapa extends Phaser.Scene {
       this.anims.create({
         key: 'atacando_esquerda',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 1, end: 5 }),
-        frameRate: 8,
+        frameRate: 7,
         repeat: -1
 
       })
@@ -273,7 +273,7 @@ export default class mapa extends Phaser.Scene {
       this.anims.create({
         key: 'atacando_direita',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 7, end: 11 }),
-        frameRate: 8,
+        frameRate: 7,
         repeat: -1
 
       })
@@ -281,13 +281,13 @@ export default class mapa extends Phaser.Scene {
       this.anims.create({
         key: 'defendendo_esquerda',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 12, end: 16 }),
-        frameRate: 8
+        frameRate: 7
       })
 
       this.anims.create({
         key: 'defendendo_direita',
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 20, end: 24 }),
-        frameRate: 8
+        frameRate: 7
       })
 
       this.anims.create({
@@ -301,7 +301,6 @@ export default class mapa extends Phaser.Scene {
         frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 25, end: 27 }),
         frameRate: 7
       })
-
 
       this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
         .setScrollFactor(0)
@@ -654,7 +653,7 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    /*this.anims.create({
+    /* this.anims.create({
       key: 'ogrogelo_atacando_direita'
       frames: this.anims.generateFrameNumbers('ogrogelo' , { start: 5, end: 7 }),
       frameRate: 8,
@@ -666,7 +665,7 @@ export default class mapa extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('ogrogelo' , { start: 14, end: 16})
       frameRate: 8,
       repeat: -1
-    })*/
+    }) */
 
     this.ogros = [
       {
@@ -708,22 +707,27 @@ export default class mapa extends Phaser.Scene {
       this.physics.add.collider(ogro.objeto, this.layerParedes)
 
       this.physics.add.collider(ogro.objeto, this.personagemLocal, () => {
-        this.personagemLocal.x += 50 
-        this.personagemLocal.setVelocity(200 , -100)
+        this.personagemLocal.x += 30
+        if (ogro.objeto.texture.key.match(/esquerda/)) {
+          this.personagemLocal.x -= 50
+        } else if (ogro.objeto.texture.key.match(/direita/)) {
+          this.personagemLocal.x += 50
+        }
+
+        this.personagemLocal.setVelocity(100, -100)
         try {
           if (this.HabDef.frame.name === 1) {
             // bloqueia
           } else throw err
-        }
-        catch (err) {
+        } catch (err) {
           this.barradevida.setFrame(this.barradevida.frame.name + 1)
           if (this.barradevida.frame.name === 5) {
             this.scene.stop('mapa')
             this.scene.start('finalTriste')
           }
-       }
+        }
       }, null, this)
-      
+
       ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
       ogro.objeto.setVelocityX(-70)
     })
@@ -759,6 +763,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemRemoto.x = dados.personagem.x
         this.personagemRemoto.y = dados.personagem.y
         this.personagemRemoto.setFrame(dados.personagem.frame)
+        this.personagemRemoto.play(dados.personagem.animacao)
       }
     }
   }
@@ -776,7 +781,8 @@ export default class mapa extends Phaser.Scene {
             personagem: {
               x: this.personagemLocal.x,
               y: this.personagemLocal.y,
-              frame: this.personagemLocal.frame.name
+              frame: this.personagemLocal.frame.name,
+              animacao: this.personagemLocal.texture.key // Adiciona o estado da animação
             }
           }))
         }
