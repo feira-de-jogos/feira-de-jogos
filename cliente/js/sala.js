@@ -20,21 +20,21 @@ export default class abertura extends Phaser.Scene {
 
     // Adiciona as salas
     this.salas = [
-      { x: 210, y: 270, numero: '1' },
-      { x: 300, y: 270, numero: '2' },
-      { x: 390, y: 270, numero: '3' },
-      { x: 470, y: 270, numero: '4' },
-      { x: 550, y: 270, numero: '5' },
-      { x: 209, y: 345, numero: '6' },
-      { x: 290, y: 345, numero: '7' },
-      { x: 380, y: 345, numero: '8' },
-      { x: 475, y: 345, numero: '9' },
-      { x: 565, y: 345, numero: '10' }
+      { x: 225, y: 225, numero: '1' },
+      { x: 305, y: 225, numero: '2' },
+      { x: 390, y: 225, numero: '3' },
+      { x: 470, y: 225, numero: '4' },
+      { x: 555, y: 225, numero: '5' },
+      { x: 227, y: 288, numero: '6' },
+      { x: 305, y: 288, numero: '7' },
+      { x: 383, y: 288, numero: '8' },
+      { x: 463, y: 288, numero: '9' },
+      { x: 535, y: 288, numero: '10' }
     ]
 
     // Para cada sala, adiciona o botão de seleção
     this.salas.forEach(sala => {
-      sala.botao = this.physics.add.sprite(sala.x, sala.y, 'nada')
+      sala.botao = this.add.sprite(sala.x, sala.y, 'nada')
         .setInteractive()
         .on('pointerdown', () => {
           // Remove os textos das salas
