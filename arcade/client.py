@@ -43,10 +43,18 @@ def coinInsert(data):
 
     if arcade == id:
         for _ in range(coins):
+            # Inserir moeda
             ui.write(e.EV_KEY, e.KEY_J, 1)
             ui.syn()
             sleep(0.250)
             ui.write(e.EV_KEY, e.KEY_J, 0)
+            ui.syn()
+
+            # Apertar Start
+            ui.write(e.EV_KEY, e.KEY_K, 1)
+            ui.syn()
+            sleep(0.250)
+            ui.write(e.EV_KEY, e.KEY_K, 0)
             ui.syn()
 
         messageType = "coinInserted"
