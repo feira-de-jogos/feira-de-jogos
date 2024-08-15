@@ -6,34 +6,10 @@ As teclas `J` e `K` serão usadas para adicionar moedas (`HOTKEY`/`COIN`) e fech
 
 ## Joystick
 
-1. Deixar os botãos `SELECT` e `HOTKEY` sem função na autoconfiguração. Deve ficar o arquivo `/opt/retropie/configs/all/retroarch/autoconfig/usb\ gamepad.cfg` (ou equivalente) assim:
+1. Deixar os botãos `SELECT` e `HOTKEY` sem função na autoconfiguração. Deve ficar o arquivo `/opt/retropie/configs/all/retroarch/autoconfig/usb\ gamepad.cfg`:
 
-```ini
-input_device = "usb gamepad"
-input_driver = "udev"
-input_l_btn = "4"
-input_l_btn_label = "L"
-input_up_axis = "-1"
-input_up_axis_label = "D-Pad Up"
-input_left_axis = "-0"
-input_left_axis_label = "D-Pad Left"
-input_right_axis = "+0"
-input_right_axis_label = "D-Pad Right"
-input_r_btn = "6"
-input_r_btn_label = "R"
-input_y_btn = "3"
-input_y_btn_label = "Y"
-input_x_btn = "0"
-input_x_btn_label = "X"
-input_down_axis = "+1"
-input_down_axis_label = "D-Pad Down"
-input_start_btn = "9"
-input_start_btn_label = "Start"
-input_b_btn = "2"
-input_b_btn_label = "B"
-input_a_btn = "1"
-input_a_btn_label = "A"
-```
+  - Sem qualquer menção ao botão físico `8` (`SELECT`);
+  - O botão `9` deve ser mencionado apenas para iniciar o jogo: `input_start_btn`.
 
 2. Configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para desativar o botão `SELECT` via *joystick*:
 
