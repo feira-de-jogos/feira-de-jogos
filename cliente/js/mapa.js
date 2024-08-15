@@ -19,6 +19,10 @@ export default class tilemapMapa extends Phaser.Scene {
     // Carrega as spritesheets dos personagens e artefatos
     this.load.spritesheet('salsicha-caramelo', './assets/salsicha-caramelo.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('salsicha-marrom', './assets/salsicha-marrom.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('cachorroquentinho', './assets/cachorroquentinho.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('ketchup', './assets/ketchup.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('mostarda', './assets/mostarda.png', { frameWidth: 48, frameHeight: 48 })
+    this.load.spritesheet('tomate', './assets/tomate.png', { frameWidth: 48, frameHeight: 48 })
     // this.load.spritesheet('agua', './assets/agua.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega o plugin do joystick virtual
@@ -165,10 +169,65 @@ export default class tilemapMapa extends Phaser.Scene {
       repeat: -1
     })
 
+    this.anims.create({
+      key: 'cachorro-pulando',
+      frames: this.anims.generateFrameNumbers('cachorroquentinho', { start: 0, end: 4 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'tomate-pulando',
+      frames: this.anims.generateFrameNumbers('tomate', { start: 0, end: 4 }),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'ketchup-pulando',
+      frames: this.anims.generateFrameNumbers('ketchup', { start: 0, end: 4 }),
+      frameRate: 10,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'mostarda-pulando',
+      frames: this.anims.generateFrameNumbers('mostarda', { start: 0, end: 4 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'cachorro-coletado',
+      frames: this.anims.generateFrameNumbers('cachorroquentinho', { start: 0, end: 4 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'tomate-coletado',
+      frames: this.anims.generateFrameNumbers('tomate', { start: 5, end: 9 }),
+      frameRate: 8
+    })
+
+    this.anims.create({
+      key: 'ketchup-coletado',
+      frames: this.anims.generateFrameNumbers('ketchup', { start: 0, end: 4 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'mostarda-coletado',
+      frames: this.anims.generateFrameNumbers('mostarda', { start: 0, end: 4 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
     // Configuração do plugin do joystick virtual
     this.joystick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-      x: 120,
-      y: 360,
+      x: 200,
+      y: 310,
       radius: 50, // Raio do joystick
       base: this.add.circle(120, 360, 50, 0x888888),
       thumb: this.add.circle(120, 360, 25, 0xcccccc)
@@ -188,6 +247,70 @@ export default class tilemapMapa extends Phaser.Scene {
         this.personagemRemoto.setFrame(dados.personagem.frame)
       }
     }
+
+    this.tomates = [
+      {
+        indice: 1,
+        x: -927,
+        y: -386
+      },
+      {
+        indice: 2,
+        x: -772,
+        y: -454
+      },
+      {
+        indice: 3,
+        x: -190,
+        y: -455
+      },
+      {
+        indice: 4,
+        x: -984,
+        y: 14
+      }
+    ]
+    this.tomates.forEach((tomate) => {
+      tomate.objeto = this.physics.add.sprite(tomate.x, tomate.y, 'tomate')
+      tomate.objeto.anims.play('tomate-pulando')
+      tomate.overlap = this.physics.add.overlap(this.personagemLocal, tomate.objeto, () => {
+        // Desativa o overlap entre personagem e nuvem
+        tomate.overlap.destroy()
+
+        // Anima a nuvem
+        tomate.objeto.anims.play('tomate-coletado')
+
+        // Assim que a animação terminar...
+        tomate.objeto.once('animationcomplete', () => {
+          // Desativa a nuvem (imagem e colisão)
+          tomate.objeto.disableBody(true, true)
+        })
+      }, null, this)
+    })
+    this.timeout = 10
+    this.timerText = this.add.text(20, -5, this.timeout, {
+      fontFamily: 'Silkscreen',
+      fontSize: '25px',
+      stroke: '#000000',
+      strokeThickness: 4,
+      fill: '#ffffff'
+    }).setScrollFactor(0)
+
+    this.timer = this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.timeout--
+        this.timerText.setText(this.timeout)
+
+        if (this.timeout <= 0) {
+          this.timer.destroy()
+          this.scene.stop('mapa')
+          this.scene.start('finalTriste')
+        }
+      },
+      callbackScope: this,
+      loop: true
+    })
   }
 
   update () {

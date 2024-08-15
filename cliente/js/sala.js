@@ -9,7 +9,7 @@ export default class sala extends Phaser.Scene {
     this.load.audio('mapa', './assets/mapa.mp3')
 
     // Carrega a imagem de fundo
-    this.load.image('fundo', './assets/fundo.png')
+    this.load.image('Fundo sala', './assets/Fundo sala.png')
   }
 
   create () {
@@ -19,46 +19,29 @@ export default class sala extends Phaser.Scene {
     this.musicaMapa.play()
 
     // Adiciona a imagem de fundo
-    this.add.image(400, 225, 'fundo')
+    this.add.image(400, 225, 'Fundo sala')
 
     // Adiciona o texto da sala
-    this.mensagem = this.add.text(100, 50, 'Escolha a sala:', {
+    this.mensagem = this.add.text(200, 160, 'Escolha a sala:', {
       fontSize: '32px',
       fill: '#ffffff', // Cor chamativa
-      fontFamily: 'Impact',
-      stroke: '#000000', // Cor da borda
-      strokeThickness: 6, // Espessura da borda
-      shadow: {
-        offsetX: 2,
-        offsetY: 2,
-        color: '#000000',
-        blur: 2,
-        stroke: true,
-        fill: true
-      }
-    })
-
-    // Função para fazer o texto piscar
-    this.tweens.add({
-      targets: this.mensagem,
-      alpha: { from: 1, to: 0 },
-      duration: 500,
-      yoyo: true,
-      repeat: -1
+      fontFamily: 'Comic Sans MS',
+      stroke: '#1C1C1C', // Cor da borda
+      strokeThickness: 4 // Espessura da borda
     })
 
     // Adiciona as salas
     this.salas = [
-      { x: 200, y: 200, numero: '1' },
-      { x: 300, y: 200, numero: '2' },
-      { x: 400, y: 200, numero: '3' },
-      { x: 500, y: 200, numero: '4' },
-      { x: 600, y: 200, numero: '5' },
-      { x: 200, y: 350, numero: '6' },
-      { x: 300, y: 350, numero: '7' },
-      { x: 400, y: 350, numero: '8' },
-      { x: 500, y: 350, numero: '9' },
-      { x: 600, y: 350, numero: '10' }
+      { x: 220, y: 220, numero: '1' },
+      { x: 300, y: 220, numero: '2' },
+      { x: 380, y: 220, numero: '3' },
+      { x: 460, y: 220, numero: '4' },
+      { x: 540, y: 220, numero: '5' },
+      { x: 220, y: 330, numero: '6' },
+      { x: 300, y: 330, numero: '7' },
+      { x: 380, y: 330, numero: '8' },
+      { x: 460, y: 330, numero: '9' },
+      { x: 540, y: 330, numero: '10' }
     ]
 
     // Para cada sala, adiciona o botão de seleção
@@ -67,7 +50,7 @@ export default class sala extends Phaser.Scene {
         fontSize: '32px',
         fill: '#ffffff', // Cor chamativa
         fontFamily: 'Comic Sans MS',
-        stroke: '#000000', // Cor da borda
+        stroke: '#ffffff', // Cor da borda
         strokeThickness: 4, // Espessura da borda
         shadow: {
           offsetX: 2,
@@ -94,15 +77,6 @@ export default class sala extends Phaser.Scene {
           // Emite o evento 'entrar-na-sala' para o servidor
           globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
         })
-
-      // Função para fazer os textos das salas piscarem
-      this.tweens.add({
-        targets: sala.texto,
-        alpha: { from: 1, to: 0 },
-        duration: 500,
-        yoyo: true,
-        repeat: -0.3
-      })
     })
 
     // Define o evento de recebimento da mansagem 'jogadores'
