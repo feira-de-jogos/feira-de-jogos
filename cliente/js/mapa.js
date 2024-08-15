@@ -24,6 +24,7 @@ export default class tilemapMapa extends Phaser.Scene {
     this.load.spritesheet('mostarda', './assets/mostarda.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('tomate', './assets/tomate.png', { frameWidth: 48, frameHeight: 48 })
     // this.load.spritesheet('agua', './assets/agua.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('meia', './assets/meia.png', { frameWidth: 48, frameHeight: 48 })
 
     // Carrega o plugin do joystick virtual
     this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true)
@@ -172,7 +173,7 @@ export default class tilemapMapa extends Phaser.Scene {
     this.anims.create({
       key: 'cachorro-pulando',
       frames: this.anims.generateFrameNumbers('cachorroquentinho', { start: 0, end: 4 }),
-      frameRate: 2,
+      frameRate: 8,
       repeat: -1
     })
 
@@ -186,42 +187,52 @@ export default class tilemapMapa extends Phaser.Scene {
     this.anims.create({
       key: 'ketchup-pulando',
       frames: this.anims.generateFrameNumbers('ketchup', { start: 0, end: 4 }),
-      frameRate: 10,
+      frameRate: 8,
       repeat: -1
     })
 
     this.anims.create({
       key: 'mostarda-pulando',
       frames: this.anims.generateFrameNumbers('mostarda', { start: 0, end: 4 }),
-      frameRate: 2,
+      frameRate: 8,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'meia-pulando',
+      frames: this.anims.generateFrameNumbers('meia', { start: 0, end: 3 }),
+      frameRate: 8,
       repeat: -1
     })
 
     this.anims.create({
       key: 'cachorro-coletado',
-      frames: this.anims.generateFrameNumbers('cachorroquentinho', { start: 0, end: 4 }),
-      frameRate: 2,
-      repeat: -1
+      frames: this.anims.generateFrameNumbers('cachorroquentinho', { start: 5, end: 9 }),
+      frameRate: 12
     })
 
     this.anims.create({
       key: 'tomate-coletado',
       frames: this.anims.generateFrameNumbers('tomate', { start: 5, end: 9 }),
-      frameRate: 8
+      frameRate: 12
     })
 
     this.anims.create({
       key: 'ketchup-coletado',
-      frames: this.anims.generateFrameNumbers('ketchup', { start: 0, end: 4 }),
-      frameRate: 2,
-      repeat: -1
+      frames: this.anims.generateFrameNumbers('ketchup', { start: 5, end: 9 }),
+      frameRate: 12
     })
 
     this.anims.create({
       key: 'mostarda-coletado',
-      frames: this.anims.generateFrameNumbers('mostarda', { start: 0, end: 4 }),
-      frameRate: 2,
-      repeat: -1
+      frames: this.anims.generateFrameNumbers('mostarda', { start: 5, end: 9 }),
+      frameRate: 12
+    })
+
+    this.anims.create({
+      key: 'meia-coletado',
+      frames: this.anims.generateFrameNumbers('meia', { start: 4, end: 8 }),
+      frameRate: 12
     })
 
     // Configuração do plugin do joystick virtual
@@ -235,6 +246,7 @@ export default class tilemapMapa extends Phaser.Scene {
 
     // Início do follow da câmera
     this.cameras.main.startFollow(this.personagemLocal)
+    this.cameras.main.setZoom(1.2)
     this.personagemLocal.lado = 'direita'
 
     globalThis.game.dadosJogo.onmessage = (event) => {
@@ -287,8 +299,122 @@ export default class tilemapMapa extends Phaser.Scene {
         })
       }, null, this)
     })
-    this.timeout = 10
-    this.timerText = this.add.text(20, -5, this.timeout, {
+    this.mostardas = [
+      {
+        indice: 1,
+        x: -322,
+        y: -447
+      },
+      {
+        indice: 2,
+        x: -438,
+        y: -111
+      },
+      {
+        indice: 3,
+        x: -76,
+        y: -3
+      }
+    ]
+    this.mostardas.forEach((mostarda) => {
+      mostarda.objeto = this.physics.add.sprite(mostarda.x, mostarda.y, 'mostarda')
+      mostarda.objeto.anims.play('mostarda-pulando')
+      mostarda.overlap = this.physics.add.overlap(this.personagemLocal, mostarda.objeto, () => {
+        // Desativa o overlap entre personagem e nuvem
+        mostarda.overlap.destroy()
+
+        // Anima a nuvem
+        mostarda.objeto.anims.play('mostarda-coletado')
+
+        // Assim que a animação terminar...
+        mostarda.objeto.once('animationcomplete', () => {
+          // Desativa a nuvem (imagem e colisão)
+          mostarda.objeto.disableBody(true, true)
+        })
+      }, null, this)
+    })
+    this.meias = [
+      {
+        indice: 1,
+        x: -424,
+        y: 124
+      },
+      {
+        indice: 2,
+        x: -72,
+        y: 760
+      },
+      {
+        indice: 3,
+        x: -450,
+        y: 892
+      }
+    ]
+    this.meias.forEach((meia) => {
+      meia.objeto = this.physics.add.sprite(meia.x, meia.y, 'meia')
+      meia.objeto.anims.play('meia-pulando')
+      meia.overlap = this.physics.add.overlap(this.personagemLocal, meia.objeto, () => {
+        // Desativa o overlap entre personagem e nuvem
+        meia.overlap.destroy()
+
+        // Anima a nuvem
+        meia.objeto.anims.play('meia-coletado')
+
+        // Assim que a animação terminar...
+        meia.objeto.once('animationcomplete', () => {
+          // Desativa a nuvem (imagem e colisão)
+          meia.objeto.disableBody(true, true)
+        })
+      }, null, this)
+    })
+    this.cachorros = [
+      {
+        indice: 1,
+        x: -518,
+        y: 727
+      }
+    ]
+    this.cachorros.forEach((cachorro) => {
+      cachorro.objeto = this.physics.add.sprite(cachorro.x, cachorro.y, 'cachorroquentinho')
+      cachorro.objeto.anims.play('cachorro-pulando')
+      cachorro.overlap = this.physics.add.overlap(this.personagemLocal, cachorro.objeto, () => {
+        // Desativa o overlap entre personagem e nuvem
+        cachorro.overlap.destroy()
+
+        // Anima a nuvem
+        cachorro.objeto.anims.play('cachorro-coletado')
+        // Assim que a animação terminar...
+        cachorro.objeto.once('animationcomplete', () => {
+          // Desativa a nuvem (imagem e colisão)
+          cachorro.objeto.disableBody(true, true)
+        })
+      }, null, this)
+    })
+    this.ketchups = [
+      {
+        indice: 1,
+        x: -540,
+        y: 727
+      }
+    ]
+    this.ketchups.forEach((ketchup) => {
+      ketchup.objeto = this.physics.add.sprite(ketchup.x, ketchup.y, 'ketchup')
+      ketchup.objeto.anims.play('ketchup-pulando')
+      ketchup.overlap = this.physics.add.overlap(this.personagemLocal, ketchup.objeto, () => {
+        // Desativa o overlap entre personagem e nuvem
+        ketchup.overlap.destroy()
+
+        // Anima a nuvem
+        ketchup.objeto.anims.play('ketchup-coletado')
+        ketchup.objeto.once('animationcomplete', () => {
+          // Desativa a nuvem (imagem e colisão)
+          ketchup.objeto.disableBody(true, true)
+        })
+      }, null, this)
+    })
+
+    this.timeout = 1000
+    this.timerText = this.add.text(70, 45, this.timeout, {
       fontFamily: 'Silkscreen',
       fontSize: '25px',
       stroke: '#000000',
@@ -335,7 +461,7 @@ export default class tilemapMapa extends Phaser.Scene {
   }
 
   handleJoystickMove () {
-    const speed = 100 // Velocidade constante do personagem
+    const speed = 300 // Velocidade constante do personagem
     const threshold = 0.1 // Limite mínimo de força para considerar o movimento
 
     // Movimenta o personagem com base na direção do joystick
