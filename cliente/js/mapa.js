@@ -143,6 +143,7 @@ export default class mapa extends Phaser.Scene {
       this.personagemLocal.anims.play('personagem-parado-baixo')
     }, null, this)
 
+    // Animação gatos
     this.anims.create({
       key: 'personagem-parado-cima',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
@@ -194,7 +195,7 @@ export default class mapa extends Phaser.Scene {
     })
 
     this.anims.create({
-      key: 'personagem-caminhando-esquerda',
+      key: 'personagem-caminhando36-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
         start: 3,
         end: 5
@@ -223,6 +224,7 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
+    // botões
     this.cima = this.add.sprite(100, 250, 'cima', 0)
       .setScrollFactor(0) // não se move com a câmera
       .setAlpha(0.4)
@@ -281,8 +283,54 @@ export default class mapa extends Phaser.Scene {
       this.personagemLocal.setVelocityX(150)
     }, null, this)
 
-    // Inicia a câmera seguindo o personagem
-    // this.cameras.main.startFollow(this.personagemLocal)
+    // Animação Cachorro
+
+    this.anims.create({
+      key: 'cachorro-parado',
+      frames: this.anims.generateFrameNumbers('Cachorro', {
+        start: 7,
+        end: 7
+      }),
+      frameRate: 1
+    })
+
+    this.anims.create({
+      key: 'personagem-caminhando-esquerda',
+      frames: this.anims.generateFrameNumbers('Cachorro', {
+        start: 3,
+        end: 5
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'personagem-caminhando-direita',
+      frames: this.anims.generateFrameNumbers('Cachorro', {
+        start: 9,
+        end: 11
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-caminhando-cima',
+      frames: this.anims.generateFrameNumbers('Cachorro', {
+        start: 0,
+        end: 0
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-caminhando-baixo',
+      frames: this.anims.generateFrameNumbers('Cachorro', {
+        start: 0,
+        end: 0
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
 
     // Gera mensagem de log quando a conexão de dados é aberta
     globalThis.game.dadosJogo.onopen = () => {
@@ -1046,6 +1094,9 @@ export default class mapa extends Phaser.Scene {
         })
       }
     }
+
+    // Carregar o Cachorro
+    this.Cachorro = this.physics.add.sprite(432, 176, 'Cachorro')
   }
 
   update () {
