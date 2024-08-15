@@ -445,6 +445,18 @@ export default class mapa extends Phaser.Scene {
 
     this.coroa = this.physics.add.sprite(272, -2270, 'coroa')
     this.coroa.body.setAllowGravity(false)
+    this.coroa.body.setImmovable(true)
+    this.physics.add.collider(this.coroa, this.personagem, () => {
+      try {
+        console.log(globalThis.game.dadosJogo.readyState)
+        if (globalThis.game.dadosJogo.readyState === 'open') {
+          globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }, null, this)
+
     this.physics.add.overlap(this.personagem, this.coroa, () => {
       this.cameras.main.fadeOut(100)
       this.scene.stop('mapa')
@@ -523,7 +535,7 @@ export default class mapa extends Phaser.Scene {
 
           if (jumping && jumpTimer <= maxJumpTime) {
             jumping = false
-            if (this.particula_jump) {this.particula_jump.destroy()}
+            if (this.particula_jump) { this.particula_jump.destroy() }
             this.particula_jump = this.add.sprite(this.personagem.body.x, this.personagem.body.y + 15, 'particula_jump')
             this.particula_jump.anims.play('particula_jump')
             var jumpFactor = jumpTimer / maxJumpTime
@@ -635,6 +647,11 @@ export default class mapa extends Phaser.Scene {
 
     if (this.personagem.body.velocity.y >= 950) {
       this.personagem.setVelocityY(950)
+    }
+
+    if (this.gameover) {
+      this.scene.stop('mapa')
+      this.scene.start('finalTriste')
     }
   }
 
