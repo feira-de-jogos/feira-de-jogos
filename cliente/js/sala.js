@@ -5,9 +5,8 @@ export default class abertura extends Phaser.Scene {
 
   preload () {
     this.load.audio('iniciar', './assets/iniciar.mp3')
-
     this.load.image('espaço', './assets/espaço.png')
-
+    this.load.image('aguardando', './assets/aguardando.png')
     this.load.image('nada', './assets/nada.png')
   }
 
@@ -16,7 +15,9 @@ export default class abertura extends Phaser.Scene {
     this.iniciar = this.sound.add('iniciar')
 
     // Adiciona a imagem de fundo
-    this.add.image(400, 225, 'espaço')
+    this.aguardando = this.add.image(400, 225, 'aguardando')
+    this.espaco = this.add.image(400, 225, 'espaço')
+
 
     // Adiciona as salas
     this.salas = [
@@ -29,7 +30,7 @@ export default class abertura extends Phaser.Scene {
       { x: 305, y: 288, numero: '7' },
       { x: 383, y: 288, numero: '8' },
       { x: 463, y: 288, numero: '9' },
-      { x: 535, y: 288, numero: '10' }
+      { x: 555, y: 288, numero: '10' }
     ]
 
     // Para cada sala, adiciona o botão de seleção
@@ -68,7 +69,7 @@ export default class abertura extends Phaser.Scene {
         this.scene.start('mapa')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
-        //        this.mensagem.setText('Aguardando segundo jogador...')
+        this.espaco.setVisible(false)
       }
     })
   }
