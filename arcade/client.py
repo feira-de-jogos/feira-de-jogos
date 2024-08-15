@@ -1,5 +1,3 @@
-from json import load
-from math import exp
 from os import getenv
 from dotenv import load_dotenv
 import socketio

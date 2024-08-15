@@ -58,6 +58,28 @@ evdev
 KERNEL=="uinput", MODE="0660", GROUP="games"
 ```
 
+## Teclado físico
+
+O teclado físico não é obrigatório. Seu uso é apenas emergencial para adicionar manualmente moedas e fechar o jogo.
+
+1. Configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `SELECT` na tecla `j` e `START` na tecla `k`:
+
+```ini
+input_player1_select = "j"
+input_player1_start = "k"
+```
+
+2. As teclas podem ser usadas também para sair do jogo, ao configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `HOTKEY` na tecla `j` e função de sair do jogo na tecla `k`:
+
+```ini
+input_enable_hotkey = "j"
+input_exit_emulator = "k"
+```
+
+Dessa forma, será possível controlar o *arcade* remotamente, bem como permitir a manutenção local do equipamento em caso de necessidade.
+
+## Código de exemplo
+
 O arquivo a seguir é um exemplo de como criar um teclado virtual, adicionar algumas moedas e depois fechar o próprio jogo:
 
 ```python
@@ -81,23 +103,3 @@ ui.write(e.EV_KEY, e.KEY_K, 1)  # Pressiona a tecla K
 ui.syn() # Envia o comando com as duas teclas combinadas
 ui.close()
 ```
-
-## Teclado físico
-
-O teclado físico não é obrigatório. Seu uso é apenas emergencial para adicionar manualmente moedas e fechar o jogo.
-
-1. Configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `SELECT` na tecla `j` e `START` na tecla `k`:
-
-```ini
-input_player1_select = "j"
-input_player1_start = "k"
-```
-
-2. As teclas podem ser usadas também para sair do jogo, ao configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `HOTKEY` na tecla `j` e função de sair do jogo na tecla `k`:
-
-```ini
-input_enable_hotkey = "j"
-input_exit_emulator = "k"
-```
-
-Dessa forma, será possível controlar o *arcade* remotamente, bem como permitir a manutenção local do equipamento em caso de necessidade.
