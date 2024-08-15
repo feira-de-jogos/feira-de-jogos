@@ -25,7 +25,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('Missy', './assets/personagens/Missy.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega o Vilão SUPREMO
-    this.load.spritesheet('Cachorro', './assets/personagens/Boo.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('cachorro', './assets/personagens/Boo.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega as imagens dos botões
     this.load.image('cima', './assets/botoes/cima.png')
@@ -283,31 +283,48 @@ export default class mapa extends Phaser.Scene {
       this.personagemLocal.setVelocityX(150)
     }, null, this)
 
-    // Animação Cachorro
+    // Animação cachorro
 
     this.anims.create({
-      key: 'cachorro-parado',
-      frames: this.anims.generateFrameNumbers('Cachorro', {
-        start: 7,
-        end: 7
+      key: 'cachorro-parado-esquerda',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 6,
+        end: 6
       }),
       frameRate: 1
     })
 
     this.anims.create({
       key: 'personagem-caminhando-esquerda',
-      frames: this.anims.generateFrameNumbers('Cachorro', {
-        start: 3,
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 4,
         end: 5
       }),
       frameRate: 5,
       repeat: -1
     })
-
+    this.anims.create({
+      key: 'personagem-parado-direita',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 9,
+        end: 9
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
     this.anims.create({
       key: 'personagem-caminhando-direita',
-      frames: this.anims.generateFrameNumbers('Cachorro', {
-        start: 9,
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 7,
+        end: 8
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-parado-cima',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 10,
         end: 11
       }),
       frameRate: 5,
@@ -315,18 +332,27 @@ export default class mapa extends Phaser.Scene {
     })
     this.anims.create({
       key: 'personagem-caminhando-cima',
-      frames: this.anims.generateFrameNumbers('Cachorro', {
-        start: 0,
-        end: 0
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 12,
+        end: 13
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-parado-baixo',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 3,
+        end: 3
       }),
       frameRate: 5,
       repeat: -1
     })
     this.anims.create({
       key: 'personagem-caminhando-baixo',
-      frames: this.anims.generateFrameNumbers('Cachorro', {
-        start: 0,
-        end: 0
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 1,
+        end: 2
       }),
       frameRate: 5,
       repeat: -1
@@ -1095,14 +1121,66 @@ export default class mapa extends Phaser.Scene {
       }
     }
 
-    // Carregar o Cachorro
-    this.Cachorro = this.physics.add.sprite(432, 176, 'Cachorro')
+    // Carregar o cachorro
+    this.cachorro = this.physics.add.sprite(432, 176, 'cachorro')
   }
 
   update () {
-    // Alguns frames podem estar (ainda) sem personagem ou nuvem,
-    // por isso é necessário verificar se existem antes de enviar
+    // cachorro segue personagem mais próximo
+    const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
+      this.personagemLocal.x,
+      this.personagemLocal.y,
+      this.cachorro.x,
+      this.cachorro.y
+    )
+
+    const hipotenusaPersonagemRemoto = Phaser.Math.Distance.Between(
+      this.personagemRemoto.x,
+      this.personagemRemoto.y,
+      this.cachorro.x,
+      this.cachorro.y
+    )
+
+    // Por padrão, o primeiro jogador é o alvo
+    let alvo = this.personagemLocal
+    if (hipotenusaPersonagemLocal > hipotenusaPersonagemRemoto) {
+      // Jogador 2 é perseguido pelo cachorro
+      alvo = this.personagemRemoto
+    }
+
+    // Sentido no eixo X
+    const diffX = alvo.x - this.cachorro.x
+    if (diffX >= 10) {
+      this.cachorro.setVelocityX(100)
+    } else if (diffX <= 10) {
+      this.cachorro.setVelocityX(-100)
+    }
+
+    // Sentido no eixo Y
+    const diffY = alvo.y - this.cachorro.y
+    if (diffY >= 10) {
+      this.cachorro.setVelocityY(100)
+    } else if (diffY <= 10) {
+      this.cachorro.setVelocityY(-100)
+    }
+
+    // Animação
     try {
+      if (diffX > 0) {
+        this.cachorro.anims.play('cachorro-caminhando-direita', true)
+      } else if (diffX < 0) {
+        this.cachorro.anims.play('cachorro-caminhando-esquerda', true)
+      } else if (diffY > 0) {
+        this.cachorro.anims.play('cachorro-caminhando-baixo', true)
+      } else if (diffY < 0) {
+        this.cachorro.anims.play('cachorro-caminhando-cima', true)
+      } else {
+        this.cachorro.anims.play('cachorro-parado-esquerda')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
       // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
         // Verifica que o personagem local existe
