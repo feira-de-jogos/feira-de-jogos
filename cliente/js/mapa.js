@@ -105,14 +105,6 @@ export default class mapa extends Phaser.Scene {
     this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto, this.tilesetpedra])
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
-    // Cria os sprites dos personagens local e remoto (LEO):
-    this.personagemLocal = this.physics.add.sprite(5441, 1060, globalThis.game.personagemLocal)
-    this.personagemRemoto = this.add.sprite(5480, 1060, globalThis.game.personagemRemoto)
-
-    // Cria os sprites dos personagens local e remoto (Ben):
-    this.personagemRemoto = this.add.sprite(5480, 1060, globalThis.game.personagemLocal)
-    this.personagemLocal = this.physics.add.sprite(5441, 1060, globalThis.game.personagemRemoto)
-
     // Players:
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -141,8 +133,6 @@ export default class mapa extends Phaser.Scene {
       globalThis.game.socket.on('candidate', (candidate) => {
         globalThis.game.remoteConnection.addIceCandidate(candidate)
       })
-      // Detalhes personagem
-      this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -171,317 +161,319 @@ export default class mapa extends Phaser.Scene {
       globalThis.game.socket.on('candidate', (candidate) => {
         globalThis.game.localConnection.addIceCandidate(candidate)
       })
-
-      // Animações gerais:
-
-      // Animações dos personagens:
-      // parado direita
-      this.anims.create({
-        key: 'parado_direita',
-        frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 5, end: 9 }),
-        frameRate: 2,
-        repeat: -1
-      })
-
-      // parado esquerda
-      this.anims.create({
-        key: 'parado_esquerda',
-        frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 4 }),
-        frameRate: 2,
-        repeat: -1
-      })
-
-      // andando para direita
-      this.anims.create({
-        key: 'andando_direita',
-        frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 20, end: 27 }),
-        frameRate: 8,
-        repeat: -1
-      })
-
-      // andando para esquerda
-      this.anims.create({
-        key: 'andando_esquerda',
-        frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 11, end: 18 }),
-        frameRate: 8,
-        repeat: -1
-      })
-
-      // Pulando para direita:
-      this.anims.create({
-        key: 'pulando_direita',
-        frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 33, end: 37 }),
-        frameRate: 8
-      })
-
-      // pulando para esquerda
-      this.anims.create({
-        key: 'pulando_esquerda',
-        frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 28, end: 32 }),
-        frameRate: 8
-      })
-
-      // Ataques LEO:
-      // atacando para esquerda
-      this.anims.create({
-        key: 'atacando_esquerda',
-        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 1, end: 5 }),
-        frameRate: 7,
-        repeat: -1
-
-      })
-      // atacando para a direita
-      this.anims.create({
-        key: 'atacando_direita',
-        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 7, end: 11 }),
-        frameRate: 7,
-        repeat: -1
-
-      })
-      // tirando escudo direita
-      this.anims.create({
-        key: 'tirandoesc_direita',
-        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 25, end: 27 }),
-        frameRate: 7
-      })
-      // tirando escudo esquerda
-      this.anims.create({
-        key: 'tirandoesc_esquerda',
-        frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 25, end: 27 }),
-        frameRate: 7
-      })
-
-      // ataques BEN:
-      // atirando para a esquerda
-      this.anims.create({
-        key: 'atirando_esquerda',
-        frames: this.anims.generateFrameNumbers('BenAtirando', { start: 0, end: 7 }),
-        frameRate: 8
-      })
-      // atirando para a direita
-      this.anims.create({
-        key: 'atirando_direita',
-        frames: this.anims.generateFrameNumbers('BenAtirando', { start: 8, end: 15 }),
-        frameRate: 8
-      })
-
-      // estruturas animações
-      // porta do boss
-      this.anims.create({
-        key: 'PortaBoss',
-        frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-      // altar cristal amarelo
-      this.anims.create({
-        key: 'altarcristalamarelo',
-        frames: this.anims.generateFrameNumbers('altarcristalamarelo', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-      // altar cristal fogo
-      this.anims.create({
-        key: 'altarcristalfogo',
-        frames: this.anims.generateFrameNumbers('altarcristalfogo', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-      // altar cristal gelo
-      this.anims.create({
-        key: 'altarcristalgelo',
-        frames: this.anims.generateFrameNumbers('altarcristalgelo', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-      // altar cristal roxo
-      this.anims.create({
-        key: 'altarcristalroxo',
-        frames: this.anims.generateFrameNumbers('altarcristalroxo', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-
-      // Animações Inimigos
-      this.anims.create({
-        key: 'boss',
-        frames: this.anims.generateFrameNumbers('boss', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-      this.anims.create({
-        key: 'dragaozinho',
-        frames: this.anims.generateFrameNumbers('dragaozinho', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-      this.anims.create({
-        key: 'boss',
-        frames: this.anims.generateFrameNumbers('boss', { start: 0, end: 0 }),
-        frameRate: 0,
-        repeat: -1
-      })
-
-      // Controles:
-      // Pulo
-
-      this.cima = this.add.sprite(800, 375, 'cima', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => {
-          this.cima.setFrame(1)
-          if (this.personagemLocal.body.blocked.down) {
-            this.personagemLocal.setVelocityY(-600)
-            this.personagemLocal.anims.play('pulando_' + this.personagemLado)
-            this.personagemLocal.setBodySize(48, 48, true)
-            this.personagemLocal.setOffset(0, 0)
-          }
-        })
-        .on('pointerout', () => {
-          this.cima.setFrame(0)
-        })
-
-      // movimentação direita
-
-      this.direita = this.add.sprite(200, 375, 'direita', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => {
-          this.direita.setFrame(1)
-          this.personagemLocal.setVelocityX(200)
-          this.personagemLado = 'direita'
-          this.personagemLocal.anims.play('andando_' + this.personagemLado)
-          this.personagemLocal.setBodySize(48, 48, true)
-          this.personagemLocal.setOffset(0, 0)
-        })
-        .on('pointerout', () => {
-          this.direita.setFrame(0)
-          this.personagemLocal.setVelocityX(0)
-          this.personagemLocal.anims.play('parado_' + this.personagemLado)
-        })
-
-      // Movimentação esquerda
-
-      this.esquerda = this.add.sprite(64, 375, 'esquerda', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => {
-          this.esquerda.setFrame(1)
-          this.personagemLocal.setVelocityX(-200)
-          this.personagemLado = 'esquerda'
-          this.personagemLocal.anims.play('andando_' + this.personagemLado)
-          this.personagemLocal.setBodySize(48, 48, true)
-          this.personagemLocal.setOffset(0, 0)
-        })
-        .on('pointerout', () => {
-          this.esquerda.setFrame(0)
-          this.personagemLocal.setVelocityX(0)
-          this.personagemLocal.anims.play('parado_' + this.personagemLado)
-        })
-
-      // Botoes LEO:
-      if (globalThis.game.personagemLocal === 'LeoVen') {
-        this.personagemLocal.isDefending = false
-
-        this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerover', () => {
-            this.HabDef.setFrame(1)
-            this.personagemLocal.setVelocityX(0)
-            this.personagemLocal.anims.play('defendendo_' + this.personagemLado)
-            this.personagemLocal.setBodySize(64, 48, true)
-            this.personagemLocal.setOffset(0, 15)
-          })
-          .on('pointerout', () => {
-            this.HabDef.setFrame(0)
-            this.personagemLocal.setVelocityX(0)
-            this.personagemLocal.anims.play('tirandoesc_' + this.personagemLado)
-            this.personagemLocal.setBodySize(64, 48, true)
-            this.personagemLocal.setOffset(0, 15)
-          })
-
-        this.AtqMac = this.add.sprite(800, 240, 'AtqMac', 0)
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerover', () => {
-            this.AtqMac.setFrame(1)
-            this.personagemLocal.setVelocityX(0)
-            this.personagemLocal.ataque = true
-            this.personagemLocal.anims.play('atacando_' + this.personagemLado)
-            this.personagemLocal.on('animationcomplete', () => {
-              this.personagemLocal.ataque = false
-            })
-            this.personagemLocal.setBodySize(64, 48, true)
-            this.personagemLocal.setOffset(0, 15)
-          })
-          .on('pointerout', () => {
-            this.AtqMac.setFrame(0)
-            this.personagemLocal.setVelocityX(0)
-            this.personagemLocal.anims.play('parado_' + this.personagemLado)
-            this.personagemLocal.setBodySize(48, 48, true)
-            this.personagemLocal.setOffset(0, 0)
-          })
-      }
-
-      // Botoes BEN:
-      if (globalThis.game.personagemLocal === 'BenVen') {
-        this.HabFlecha = this.add.sprite(670, 320, 'HabFlecha', 0)
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerover', () => {
-            this.HabFlecha.setFrame(1)
-            this.personagemLocal.setVelocityX(0)
-            this.personagemLocal.anims.play('atirando_' + this.personagemLado)
-            this.personagemLocal.setBodySize(64, 48, true)
-            this.personagemLocal.setOffset(0, 15)
-          })
-          .on('pointerout', () => {
-            this.HabFlecha.setFrame(0)
-            this.personagemLocal.setVelocityX(0)
-            this.personagemLocal.anims.play('parado_' + this.personagemLado)
-            this.personagemLocal.setBodySize(48, 48, true)
-            this.personagemLocal.setOffset(0, 0)
-          })
-
-        this.AtqEsp = this.add.sprite(800, 240, 'AtqEsp', 0)
-          .setScrollFactor(0)
-          .setInteractive()
-          .on('pointerover', () => { })
-          .on('pointerout', () => { })
-      }
-      this.barradevida = this.add.sprite(80, 30, 'barradevida', 0)
-        .setScrollFactor(0)
-
-      // Lado do personagem:
-      this.personagemLocalLado = 'direita'
-
-      // Morte do Personagem:
-      this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
-        this.barradevida.setFrame(this.barradevida.frame.name + 1)
-        if (this.barradevida.frame.name === 5) {
-          this.scene.stop('mapa')
-          this.scene.start('finalTriste')
-        }
-        this.cameras.main.fadeOut(100)
-        this.personagemLocal.x = 2640
-        this.personagemLocal.y = 2660
-        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-          camera.fadeIn(100)
-        })
-      }, null, this)
-
-      // INIMIGOS:
-
-      // dragaozinho:
-      this.dragaozinho = this.physics.add.sprite(6918, 1950, 'dragaozinho')
-      this.dragaozinho.body.setAllowGravity(false)
-
-      // Boss:
-      this.boss = this.physics.add.sprite(1308, 3691, 'boss')
-      this.boss.body.setAllowGravity(false)
-      this.boss.setScale(2)
     }
+
+    this.personagemLocal = this.physics.add.sprite(5441, 1060, globalThis.game.personagemLocal)
+    this.personagemRemoto = this.add.sprite(5480, 1060, globalThis.game.personagemRemoto)
+
+    this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+
+    // Animações dos personagens:
+    // parado direita
+    this.anims.create({
+      key: 'parado_direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 5, end: 9 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    // parado esquerda
+    this.anims.create({
+      key: 'parado_esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 4 }),
+      frameRate: 2,
+      repeat: -1
+    })
+
+    // andando para direita
+    this.anims.create({
+      key: 'andando_direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 20, end: 27 }),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    // andando para esquerda
+    this.anims.create({
+      key: 'andando_esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 11, end: 18 }),
+      frameRate: 8,
+      repeat: -1
+    })
+
+    // Pulando para direita:
+    this.anims.create({
+      key: 'pulando_direita',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 33, end: 37 }),
+      frameRate: 8
+    })
+
+    // pulando para esquerda
+    this.anims.create({
+      key: 'pulando_esquerda',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 28, end: 32 }),
+      frameRate: 8
+    })
+
+    // Ataques LEO:
+    // atacando para esquerda
+    this.anims.create({
+      key: 'atacando_esquerda',
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 1, end: 5 }),
+      frameRate: 7,
+      repeat: -1
+
+    })
+    // atacando para a direita
+    this.anims.create({
+      key: 'atacando_direita',
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 7, end: 11 }),
+      frameRate: 7,
+      repeat: -1
+
+    })
+    // tirando escudo direita
+    this.anims.create({
+      key: 'tirandoesc_direita',
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 25, end: 27 }),
+      frameRate: 7
+    })
+    // tirando escudo esquerda
+    this.anims.create({
+      key: 'tirandoesc_esquerda',
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 25, end: 27 }),
+      frameRate: 7
+    })
+
+    // ataques BEN:
+    // atirando para a esquerda
+    this.anims.create({
+      key: 'atirando_esquerda',
+      frames: this.anims.generateFrameNumbers('BenAtirando', { start: 0, end: 7 }),
+      frameRate: 8
+    })
+    // atirando para a direita
+    this.anims.create({
+      key: 'atirando_direita',
+      frames: this.anims.generateFrameNumbers('BenAtirando', { start: 8, end: 15 }),
+      frameRate: 8
+    })
+
+    // estruturas animações
+    // porta do boss
+    this.anims.create({
+      key: 'PortaBoss',
+      frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // altar cristal amarelo
+    this.anims.create({
+      key: 'altarcristalamarelo',
+      frames: this.anims.generateFrameNumbers('altarcristalamarelo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // altar cristal fogo
+    this.anims.create({
+      key: 'altarcristalfogo',
+      frames: this.anims.generateFrameNumbers('altarcristalfogo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // altar cristal gelo
+    this.anims.create({
+      key: 'altarcristalgelo',
+      frames: this.anims.generateFrameNumbers('altarcristalgelo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // altar cristal roxo
+    this.anims.create({
+      key: 'altarcristalroxo',
+      frames: this.anims.generateFrameNumbers('altarcristalroxo', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // Animações Inimigos
+    this.anims.create({
+      key: 'boss',
+      frames: this.anims.generateFrameNumbers('boss', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'dragaozinho',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    // Controles:
+    // Pulo
+
+    this.cima = this.add.sprite(800, 375, 'cima', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.cima.setFrame(1)
+        if (this.personagemLocal.body.blocked.down) {
+          this.personagemLocal.setVelocityY(-600)
+          this.personagemLocal.anims.play('pulando_' + this.personagemLado)
+          this.personagemLocal.setBodySize(48, 48, true)
+          this.personagemLocal.setOffset(0, 0)
+        }
+      })
+      .on('pointerout', () => {
+        this.cima.setFrame(0)
+      })
+
+    // movimentação direita
+
+    this.direita = this.add.sprite(200, 375, 'direita', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.direita.setFrame(1)
+        this.personagemLocal.setVelocityX(200)
+        this.personagemLado = 'direita'
+        this.personagemLocal.anims.play('andando_' + this.personagemLado)
+        this.personagemLocal.setBodySize(48, 48, true)
+        this.personagemLocal.setOffset(0, 0)
+      })
+      .on('pointerout', () => {
+        this.direita.setFrame(0)
+        this.personagemLocal.setVelocityX(0)
+        this.personagemLocal.anims.play('parado_' + this.personagemLado)
+      })
+
+    // Movimentação esquerda
+
+    this.esquerda = this.add.sprite(64, 375, 'esquerda', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.esquerda.setFrame(1)
+        this.personagemLocal.setVelocityX(-200)
+        this.personagemLado = 'esquerda'
+        this.personagemLocal.anims.play('andando_' + this.personagemLado)
+        this.personagemLocal.setBodySize(48, 48, true)
+        this.personagemLocal.setOffset(0, 0)
+      })
+      .on('pointerout', () => {
+        this.esquerda.setFrame(0)
+        this.personagemLocal.setVelocityX(0)
+        this.personagemLocal.anims.play('parado_' + this.personagemLado)
+      })
+
+    // Botoes LEO:
+    if (globalThis.game.personagemLocal === 'LeoVen') {
+      this.personagemLocal.isDefending = false
+
+      this.HabDef = this.add.sprite(670, 320, 'HabDef', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.HabDef.setFrame(1)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('defendendo_' + this.personagemLado)
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 15)
+        })
+        .on('pointerout', () => {
+          this.HabDef.setFrame(0)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('tirandoesc_' + this.personagemLado)
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 15)
+        })
+
+      this.AtqMac = this.add.sprite(800, 240, 'AtqMac', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.AtqMac.setFrame(1)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.ataque = true
+          this.personagemLocal.anims.play('atacando_' + this.personagemLado)
+          this.personagemLocal.on('animationcomplete', () => {
+            this.personagemLocal.ataque = false
+          })
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 15)
+        })
+        .on('pointerout', () => {
+          this.AtqMac.setFrame(0)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('parado_' + this.personagemLado)
+          this.personagemLocal.setBodySize(48, 48, true)
+          this.personagemLocal.setOffset(0, 0)
+        })
+    } else if (globalThis.game.personagemLocal === 'BenVen') {
+      this.HabFlecha = this.add.sprite(670, 320, 'HabFlecha', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.HabFlecha.setFrame(1)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('atirando_' + this.personagemLado)
+          this.personagemLocal.setBodySize(64, 48, true)
+          this.personagemLocal.setOffset(0, 15)
+        })
+        .on('pointerout', () => {
+          this.HabFlecha.setFrame(0)
+          this.personagemLocal.setVelocityX(0)
+          this.personagemLocal.anims.play('parado_' + this.personagemLado)
+          this.personagemLocal.setBodySize(48, 48, true)
+          this.personagemLocal.setOffset(0, 0)
+        })
+
+      this.AtqEsp = this.add.sprite(800, 240, 'AtqEsp', 0)
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => { })
+        .on('pointerout', () => { })
+    }
+
+    this.barradevida = this.add.sprite(80, 30, 'barradevida', 0)
+      .setScrollFactor(0)
+
+    // Lado do personagem:
+    this.personagemLocalLado = 'direita'
+
+    // Morte do Personagem:
+    this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
+      this.barradevida.setFrame(this.barradevida.frame.name + 1)
+
+      if (this.barradevida.frame.name === 5) {
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
+      }
+
+      this.cameras.main.fadeOut(100)
+      this.personagemLocal.x = 2640
+      this.personagemLocal.y = 2660
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(100)
+      })
+    }, null, this)
+
+    // INIMIGOS:
+
+    // dragaozinho:
+    this.dragaozinho = this.physics.add.sprite(6918, 1950, 'dragaozinho')
+    this.dragaozinho.body.setAllowGravity(false)
+
+    // Boss:
+    this.boss = this.physics.add.sprite(1308, 3691, 'boss')
+    this.boss.body.setAllowGravity(false)
+    this.boss.setScale(2)
 
     // Lista dos Ogros:
     this.ogros = [
@@ -507,7 +499,7 @@ export default class mapa extends Phaser.Scene {
         .setAllowGravity(false)
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoDireita, () => {
-        ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
+        // ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
         ogro.objeto.setVelocityX(-70)
       }, null, this)
 
@@ -516,7 +508,7 @@ export default class mapa extends Phaser.Scene {
         .setAllowGravity(false)
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoEsquerda, () => {
-        ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
+        // ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
         ogro.objeto.setVelocityX(70)
       }, null, this)
 
@@ -529,22 +521,21 @@ export default class mapa extends Phaser.Scene {
         } else if (ogro.objeto.texture.key.match(/esquerda/)) {
           this.personagemLocal.x += 50
         }
+      })
 
-        this.personagemLocal.setVelocity(100, -100)
-        try {
-          if (this.HabDef.frame.name === 1) {
-            // bloqueia
-          } else throw err
-        } catch (err) {
-          this.barradevida.setFrame(this.barradevida.frame.name + 1)
-          if (this.barradevida.frame.name === 5) {
-            this.scene.stop('mapa')
-            this.scene.start('finalTriste')
-          }
+      try {
+        if (this.HabDef.frame.name === 1) {
+          // bloqueia
+        } else throw err
+      } catch (err) {
+        this.barradevida.setFrame(this.barradevida.frame.name + 1)
+        if (this.barradevida.frame.name === 5) {
+          this.scene.stop('mapa')
+          this.scene.start('finalTriste')
         }
-      }, null, this)
+      }
 
-      ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
+      // ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
       ogro.objeto.setVelocityX(-70)
     })
 
@@ -707,6 +698,9 @@ export default class mapa extends Phaser.Scene {
     // Detalhes do mapa
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
     // colisão de personagens:
+    // Detalhes do mapa
+    this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela, this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+    // colisão de personagens:
 
     this.layerChao.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.personagemLocal, this.layerChao)
@@ -736,13 +730,8 @@ export default class mapa extends Phaser.Scene {
       if (dados.personagem) {
         this.personagemRemoto.x = dados.personagem.x
         this.personagemRemoto.y = dados.personagem.y
+        this.personagemRemoto.setTexture(dados.personagem.animacao)
         this.personagemRemoto.setFrame(dados.personagem.frame)
-        this.personagemRemoto.play(dados.personagem.animacao)
-        console.log(dados.personagem.animacao)
-
-        if (dados.personagem.ataque && dados.personagem.lado) {
-          this.personagemRemoto.play('atacando_' + dados.personagem.lado)
-        }
       }
     }
   }
@@ -751,15 +740,12 @@ export default class mapa extends Phaser.Scene {
     try {
       if (globalThis.game.dadosJogo.readyState === 'open') {
         if (this.personagemLocal) {
-          // console.log(this.personagemLocal.texture.key)
           globalThis.game.dadosJogo.send(JSON.stringify({
             personagem: {
               x: this.personagemLocal.x,
               y: this.personagemLocal.y,
-              frame: this.personagemLocal.frame.name,
               animacao: this.personagemLocal.texture.key,
-              ataque: this.personagemLocal.ataque, // Adiciona o estado de ataque
-              lado: this.personagemLado
+              frame: this.personagemLocal.frame.name
             }
           }))
         }
