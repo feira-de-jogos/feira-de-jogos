@@ -113,6 +113,23 @@ export default class mapa extends Phaser.Scene {
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
     // Criação de estruturas
+    // poções de vida:
+    //poção mapa amarelo
+    this.pocaodevida = this.physics.add.sprite(7155, 1775, 'pocaodevida')
+    this.pocaodevida.body.setAllowGravity(false)
+    //poção mapa azul
+    this.pocaodevida = this.physics.add.sprite(2858, 175, 'pocaodevida')
+    this.pocaodevida.body.setAllowGravity(false)
+    //poção mapa verde
+    this.pocaodevida = this.physics.add.sprite(2960, 2354, 'pocaodevida')
+    this.pocaodevida.body.setAllowGravity(false)
+    //poção mapa roxo
+    this.pocaodevida = this.physics.add.sprite(692, 1586, 'pocaodevida')
+    this.pocaodevida.body.setAllowGravity(false)
+    //poção mapa vermelho
+    this.pocaodevida = this.physics.add.sprite(4143, 4146, 'pocaodevida')
+    this.pocaodevida.body.setAllowGravity(false)
+
     // Porta do Boss:
     this.PortaBoss = this.physics.add.sprite(3606, 2595, 'PortaBoss')
     this.PortaBoss.body.setAllowGravity(false)
@@ -380,43 +397,41 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
+    this.anims.create({
+      key: 'dragaozinho_tomando_dano_esquerda',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 16, end: 16 }),
+      repeat: -1
+    })
+
+
+    this.anims.create({
+      key: 'dragaozinho_tomando_dano_direita',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 8, end: 8 }),
+      repeat: -1
+    })
+
+    //ATAQUES DRAGAOZINHO:
+
+    this.anims.create({
+      key: 'dragaozinho_atacando_direita',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 5, end: 6 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'dragaozinho_atacando_esquerda',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 13, end: 14 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
     // ESTRUTURA ANIMAÇÕES:
 
     // porta do boss
     this.anims.create({
       key: 'PortaBoss',
       frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 0 }),
-      frameRate: 0,
-      repeat: -1
-    })
-
-    // altar cristal amarelo
-    this.anims.create({
-      key: 'altarcristalamarelo',
-      frames: this.anims.generateFrameNumbers('altarcristalamarelo', { start: 0, end: 0 }),
-      frameRate: 0,
-      repeat: -1
-    })
-
-    // altar cristal fogo
-    this.anims.create({
-      key: 'altarcristalfogo',
-      frames: this.anims.generateFrameNumbers('altarcristalfogo', { start: 0, end: 0 }),
-      frameRate: 0,
-      repeat: -1
-    })
-
-    // altar cristal gelo
-    this.anims.create({
-      key: 'altarcristalgelo',
-      frames: this.anims.generateFrameNumbers('altarcristalgelo', { start: 0, end: 1 }),
-      frameRate: 0,
-    })
-
-    // altar cristal roxo
-    this.anims.create({
-      key: 'altarcristalroxo',
-      frames: this.anims.generateFrameNumbers('altarcristalroxo', { start: 0, end: 0 }),
       frameRate: 0,
       repeat: -1
     })
@@ -480,17 +495,42 @@ export default class mapa extends Phaser.Scene {
     
     // botão cristal
 
-    this.botaocristal = this.add.sprite(64, 240, 'botaocristal', 0)
+    this.botaocristal = this.add.sprite(450, 375, 'botaocristal', 0)
+      .setVisible(false)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        this.personagemLocal.anims.play('parado_' + this.personagemLado)
-        this.anims.play('altarcristalgelo')
+        this.botaocristal.setFrame(1)
       })
       .on('pointerout', () => {
-        
+        this.botaocristal.setFrame(0)
       })
-
+    
+    // Cristais em tela
+    // cristal amarelo
+    this.cristalamarelo = this.add.sprite(820, 30, 'cristalamarelo', 0)
+      .setVisible(false)
+      .setScrollFactor(0)
+      .setInteractive()
+      .setScale(3)
+    // cristal vermelho
+    this.cristalvermelho = this.add.sprite(780, 30, 'cristalvermelho', 0)
+      .setVisible(false)
+      .setScrollFactor(0)
+      .setInteractive()
+      .setScale(3)
+    // cristal azul
+    this.cristalazul = this.add.sprite(740, 30, 'cristalazul', 0)
+      .setVisible(false)
+      .setScrollFactor(0)
+      .setInteractive()
+      .setScale(3)
+    // cristal roxo
+    this.cristalroxo = this.add.sprite(700, 30, 'cristalroxo', 0)
+      .setVisible(false)
+      .setScrollFactor(0)
+      .setInteractive()
+      .setScale(3)
 
     // Botoes LEO:
     if (globalThis.game.personagemLocal === 'LeoVen') {
@@ -586,9 +626,69 @@ export default class mapa extends Phaser.Scene {
 
     // INIMIGOS NO MAPA:
 
-    // dragaozinho:
-    this.dragaozinho = this.physics.add.sprite(6918, 1950, 'dragaozinho')
-    this.dragaozinho.body.setAllowGravity(false)
+     // Lista dos dragaozinho:
+     this.dragaozinho = [
+      {
+        x: 6919,
+        y: 1960,
+        direita: {
+          x: 7034,
+          y: 1960
+        },
+        esquerda: {
+          x: 6698,
+          y: 1960
+        },
+        sprite: 'dragaozinho'
+      }]
+
+    this.dragaozinho.forEach((dragaozinho) => {
+      dragaozinho.objeto = this.physics.add.sprite(dragaozinho.x, dragaozinho.y, dragaozinho.sprite)
+      //dragaozinho.body.setAllowGravity(false) (NÃO FUNCIONA)
+
+      dragaozinho.blocoDireita = this.physics.add.sprite(dragaozinho.direita.x, dragaozinho.direita.y, 'Vazio')
+      dragaozinho.blocoDireita.body
+        .setAllowGravity(false)
+        .setImmovable(true)
+      this.physics.add.collider(dragaozinho.objeto, dragaozinho.blocoDireita, () => {
+        dragaozinho.objeto.anims.play(dragaozinho.sprite + '_voando_esquerda')
+        dragaozinho.objeto.setVelocityX(-70)
+      }, null, this)
+
+      dragaozinho.blocoEsquerda = this.physics.add.sprite(dragaozinho.esquerda.x, dragaozinho.esquerda.y, 'Vazio')
+      dragaozinho.blocoEsquerda.body
+        .setAllowGravity(false)
+        .setImmovable(true)
+      this.physics.add.collider(dragaozinho.objeto, dragaozinho.blocoEsquerda, () => {
+       dragaozinho.objeto.anims.play(dragaozinho.sprite + '_voando_direita')
+        dragaozinho.objeto.setVelocityX(70)
+      }, null, this)
+
+      this.physics.add.collider(dragaozinho.objeto, this.layerParedes)
+      this.physics.add.collider(dragaozinho.objeto, this.layerChao)
+
+      this.physics.add.collider(dragaozinho.objeto, this.personagemLocal, () => {
+        if (dragaozinho.objeto.texture.key.match(/direita/)) {
+          this.personagemLocal.x += 50
+        } else if (dragaozinho.objeto.texture.key.match(/esquerda/)) {
+          this.personagemLocal.x += 50
+        }
+      })
+
+      try {
+        if (this.HabDef.frame.name === 1) {
+          // bloqueia
+        } else throw err
+      } catch (err) {
+        this.barradevida.setFrame(this.barradevida.frame.name + 1)
+        if (this.barradevida.frame.name === 5) {
+          this.scene.stop('mapa')
+          this.scene.start('finalTriste')
+        }
+      }
+      dragaozinho.objeto.setVelocityX(-70)
+    })
+
 
     // Boss:
     this.boss = this.physics.add.sprite(1308, 3691, 'boss')
@@ -654,8 +754,6 @@ export default class mapa extends Phaser.Scene {
           this.scene.start('finalTriste')
         }
       }
-
-      // ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
       ogro.objeto.setVelocityX(-70)
     })
 
@@ -761,11 +859,11 @@ export default class mapa extends Phaser.Scene {
     this.portal8 = this.physics.add.sprite(6577, 1030, 'Vazio')
     this.portal8.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(80)
       this.personagemLocal.x = 2640
       this.personagemLocal.y = 2660
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(80)
       })
     })
 
