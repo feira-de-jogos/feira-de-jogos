@@ -446,25 +446,21 @@ export default class mapa extends Phaser.Scene {
     this.coroa = this.physics.add.sprite(272, -2270, 'coroa')
     this.coroa.body.setAllowGravity(false)
     this.coroa.body.setImmovable(true)
-    this.physics.add.collider(this.coroa, this.personagem, () => {
+    this.physics.add.overlap(this.coroa, this.personagem, () => {
       try {
-        console.log(globalThis.game.dadosJogo.readyState)
         if (globalThis.game.dadosJogo.readyState === 'open') {
           globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
         }
       } catch (err) {
         console.error(err)
       }
-    }, null, this)
-
-    this.physics.add.overlap(this.personagem, this.coroa, () => {
-      this.cameras.main.fadeOut(100)
+      // this.cameras.main.fadeOut(100)
+      // this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+      // camera.fadeIn(100)
       this.scene.stop('mapa')
       this.scene.start('finalFeliz')
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
+      // })
+    }, null, this)
 
     this.esquerda = this.add.sprite(220, 550, 'esquerda', 0)
       .setScrollFactor(0)
@@ -577,6 +573,11 @@ export default class mapa extends Phaser.Scene {
         this.personagemRemoto.y = dados.personagem.y
         this.personagemRemoto.setFrame(dados.personagem.frame)
       }
+
+      if (dados.gameover) {
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
+      }
     }
   }
 
@@ -647,11 +648,6 @@ export default class mapa extends Phaser.Scene {
 
     if (this.personagem.body.velocity.y >= 950) {
       this.personagem.setVelocityY(950)
-    }
-
-    if (this.gameover) {
-      this.scene.stop('mapa')
-      this.scene.start('finalTriste')
     }
   }
 

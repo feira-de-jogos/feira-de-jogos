@@ -3,11 +3,14 @@ export default class finalTriste extends Phaser.Scene {
     super('finalTriste')
   }
 
-  preload () { }
+  preload () {
+    this.load.image('finalTriste', './assets/finalTriste.png')
+  }
 
   create () {
     // Adiciona o texto de fim sem crédito e a possibilidade de reiniciar o jogo
-    this.add.text(100, 50, 'Você não conseguiu!', {
+    this.add.image(400, 375, 'finalTriste')
+    this.add.text(120, 50, 'Jogue Novamente Clicando Aqui', {
       fontSize: '32px',
       fill: '#fff',
       fontFamily: 'Courier New'
