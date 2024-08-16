@@ -314,6 +314,6 @@ sequenceDiagram
   Servidor Web ->>- Arcade: 200 OK
 ```
 
-## Preparação do ambiente de serviços em nuvem
+## Serviços.
 
-Os [serviços em nuvem](serviços.md) são preparados com Docker e Docker Compose.
+Os [serviços](serviços.md) são preparados com systemd e Docker.
