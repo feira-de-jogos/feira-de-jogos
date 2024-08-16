@@ -11,13 +11,13 @@ export default class abertura extends Phaser.Scene {
   }
 
   create () {
-    // Define o objeto de som
+    // Define o objeto de som e toca
     this.iniciar = this.sound.add('iniciar')
+    this.iniciar.play()
 
     // Adiciona a imagem de fundo
     this.aguardando = this.add.image(400, 225, 'aguardando')
     this.espaco = this.add.image(400, 225, 'espaço')
-
 
     // Adiciona as salas
     this.salas = [
@@ -42,9 +42,6 @@ export default class abertura extends Phaser.Scene {
           this.salas.forEach(sala => {
             sala.botao.destroy()
           })
-
-          // Toca o som de início
-          this.iniciar.play()
 
           // Define a variável global da sala
           globalThis.game.sala = sala.numero
@@ -72,6 +69,7 @@ export default class abertura extends Phaser.Scene {
         this.espaco.setVisible(false)
       }
     })
+    //this.iniciar.stop()
   }
 
   update () {

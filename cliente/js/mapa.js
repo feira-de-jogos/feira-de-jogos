@@ -18,7 +18,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('alex', './assets/personagens/alex.png', { frameWidth: 36, frameHeight: 64 })
     this.load.spritesheet('stella', './assets/personagens/stella.png', { frameWidth: 36, frameHeight: 64 })
     this.load.spritesheet('alien', './assets/personagens/alien.png', { frameWidth: 37, frameHeight: 48 })
-    this.load.spritesheet('cartao', './assets/animacoes/cartao.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('cartao', './assets/animacoes/cartao.png', { frameWidth: 36, frameHeight: 36 })
 
     // Carrega as imagens dos botões
     this.load.spritesheet('cima', './assets/botoes/cima.png', { frameWidth: 64, frameHeight: 64 })
@@ -314,7 +314,7 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.anims.play('personagem-parado')
       })
 
-    // posições dos cartões
+    // posições das engrenagens
     this.cartao = [
       {
         x: 5229,
@@ -363,9 +363,9 @@ export default class mapa extends Phaser.Scene {
       key: 'cartao-girando',
       frames: this.anims.generateFrameNumbers('cartao', {
         start: 0,
-        end: 7
+        end: 17
       }),
-      frameRate: 5,
+      frameRate: 8,
       repeat: -1
     })
 
@@ -469,7 +469,7 @@ export default class mapa extends Phaser.Scene {
         }
 
         // Atualiza o placar de cartoes coletadas pelos dois jogadores
-        this.pontos.setText('Cartões: ' + this.cartao.filter(cartao => !cartao.objeto.active).length)
+        this.pontos.setText('Engrenagens: ' + this.cartao.filter(cartao => !cartao.objeto.active).length + '/10')
       }
     } catch (error) {
       // Gera mensagem de erro na console
