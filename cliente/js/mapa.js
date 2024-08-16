@@ -46,6 +46,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('boss', './assets/personagens/boss.png', { frameWidth: 86, frameHeight: 86 })
     this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('explosaomorte32', './assets/personagens/explosaomorte32.png', { frameWidth: 32, frameHeight: 32 })
 
     // Sprites Altares e objetos:
     this.load.spritesheet('altarcristalamarelo', './assets/spritesmapa/altarcristalamarelo.png', { frameWidth: 64, frameHeight: 64 })
@@ -53,6 +54,11 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('altarcristalgelo', './assets/spritesmapa/altarcristalgelo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('altarcristalroxo', './assets/spritesmapa/altarcristalroxo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('PortaBoss', './assets/spritesmapa/PortaBoss.png', { frameWidth: 96, frameHeight: 96 })
+    this.load.spritesheet('pocaodevida', './assets/spritesmapa/pocaodevida.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('cristalamarelo', './assets/spritesmapa/cristalamarelo.png', { frameWidth: 16, frameHeight: 16 })
+    this.load.spritesheet('cristalvermelho', './assets/spritesmapa/cristalvermelho.png', { frameWidth: 16, frameHeight: 16 })
+    this.load.spritesheet('cristalazul', './assets/spritesmapa/cristalazul.png', { frameWidth: 16, frameHeight: 16 })
+    this.load.spritesheet('cristalroxo', './assets/spritesmapa/cristalroxo.png', { frameWidth: 16, frameHeight: 16 })
 
     // Sprites Botoes
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
@@ -63,6 +69,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('HabFlecha', './assets/Controles/HabFlecha.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('HabDef', './assets/Controles/HabDef.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('AtqMac', './assets/Controles/AtqMac.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('botaocristal', './assets/Controles/botaocristal.png', { frameWidth: 64, frameHeight: 64 })
   }
 
   create () {
@@ -104,6 +111,29 @@ export default class mapa extends Phaser.Scene {
     this.layerChao = this.tilemapMapa.createLayer('Chao', [this.tilesetBlocosCenarioVerde, this.tilesetBlocosCenarioAmarelo, this.tilesetBlocosCenarioVermelho, this.tilesetBlocosCenarioAzul, this.tilesetBlocosCenarioRoxo, this.tilesetpedra, this.tilesetBlocosTeto])
     this.layerParedes = this.tilemapMapa.createLayer('Paredes', [this.tilesetBlocosTeto, this.tilesetpedra])
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
+
+    // Criação de estruturas
+    // Porta do Boss:
+    this.PortaBoss = this.physics.add.sprite(3606, 2595, 'PortaBoss')
+    this.PortaBoss.body.setAllowGravity(false)
+    this.PortaBoss.setScale(2)
+
+    // Altar Cristal Amarelo:
+    this.altarcristalamarelo = this.physics.add.sprite(7113, 2600, 'altarcristalamarelo')
+    this.altarcristalamarelo.body.setAllowGravity(false)
+
+    // Altar Cristal Fogo:
+    this.altarcristalfogo = this.physics.add.sprite(3030, 4200, 'altarcristalfogo')
+    this.altarcristalfogo.body.setAllowGravity(false)
+
+    // Altar Cristal Gelo:
+    this.altarcristalgelo = this.physics.add.sprite(3798, 613, 'altarcristalgelo')
+    this.altarcristalgelo.body.setAllowGravity(false)
+
+    // Altar Cristal Roxo:
+    this.altarcristalroxo = this.physics.add.sprite(1623, 1570, 'altarcristalroxo')
+    this.altarcristalroxo.body.setAllowGravity(false)
+
 
     // Players:
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
@@ -215,6 +245,12 @@ export default class mapa extends Phaser.Scene {
       frameRate: 8
     })
 
+    // botao cristal
+    this.anims.create({
+      key: 'altarcristalgelo',
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 1 })
+    })
+
     // Ataques LEO:
     // atacando para esquerda
     this.anims.create({
@@ -236,14 +272,14 @@ export default class mapa extends Phaser.Scene {
     // defendendo direita
     this.anims.create({
       key: 'defendendo_direita',
-      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 19, end: 24 }),
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 20, end: 24 }),
       frameRate: 7
     })
 
     // defendendo esquerda
     this.anims.create({
       key: 'defendendo_esquerda',
-      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 11, end: 17 }),
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 12, end: 17 }),
       frameRate: 7
     })
 
@@ -256,7 +292,7 @@ export default class mapa extends Phaser.Scene {
     // tirando escudo esquerda
     this.anims.create({
       key: 'tirandoesc_esquerda',
-      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 25, end: 27 }),
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 18, end: 19 }),
       frameRate: 7
     })
 
@@ -278,14 +314,68 @@ export default class mapa extends Phaser.Scene {
     // ogrogelo:
     this.anims.create({
       key: 'ogrogelo_andando_direita',
-      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 3, end: 4 }),
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 1, end: 4 }),
       frameRate: 5,
       repeat: -1
     })
 
     this.anims.create({
       key: 'ogrogelo_andando_esquerda',
-      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 12, end: 13 }),
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 10, end: 13 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+
+    this.anims.create({
+      key: 'ogrogelo_tomando_dano_esquerda',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 8, end: 8 }),
+      repeat: -1
+    })
+
+
+    this.anims.create({
+      key: 'ogrogelo_tomando_dano_direita',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 17, end: 17 }),
+      repeat: -1
+    })
+
+    //ATAQUES OGROGELO:
+
+    this.anims.create({
+      key: 'ogrogelo_atacando_direita',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 5, end: 7 }),
+      frameRate: 6,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'ogrogelo_atacando_esquerda',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 14, end: 16 }),
+      frameRate: 6,
+      repeat: -1
+    })
+
+
+    //Boss:
+    this.anims.create({
+      key: 'boss',
+      frames: this.anims.generateFrameNumbers('boss', { start: 0, end: 0 }),
+      frameRate: 0,
+      repeat: -1
+    })
+
+    //dragaozinho:
+    this.anims.create({
+      key: 'dragaozinho_voando_direita',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 1, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'dragaozinho_voando_esquerda',
+      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 8, end: 12 }),
       frameRate: 5,
       repeat: -1
     })
@@ -319,30 +409,14 @@ export default class mapa extends Phaser.Scene {
     // altar cristal gelo
     this.anims.create({
       key: 'altarcristalgelo',
-      frames: this.anims.generateFrameNumbers('altarcristalgelo', { start: 0, end: 0 }),
+      frames: this.anims.generateFrameNumbers('altarcristalgelo', { start: 0, end: 1 }),
       frameRate: 0,
-      repeat: -1
     })
 
     // altar cristal roxo
     this.anims.create({
       key: 'altarcristalroxo',
       frames: this.anims.generateFrameNumbers('altarcristalroxo', { start: 0, end: 0 }),
-      frameRate: 0,
-      repeat: -1
-    })
-
-    // Animações Inimigos
-    this.anims.create({
-      key: 'boss',
-      frames: this.anims.generateFrameNumbers('boss', { start: 0, end: 0 }),
-      frameRate: 0,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key: 'dragaozinho',
-      frames: this.anims.generateFrameNumbers('dragaozinho', { start: 0, end: 0 }),
       frameRate: 0,
       repeat: -1
     })
@@ -403,6 +477,20 @@ export default class mapa extends Phaser.Scene {
         this.personagemLocal.setVelocityX(0)
         this.personagemLocal.anims.play('parado_' + this.personagemLado)
       })
+    
+    // botão cristal
+
+    this.botaocristal = this.add.sprite(64, 240, 'botaocristal', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.personagemLocal.anims.play('parado_' + this.personagemLado)
+        this.anims.play('altarcristalgelo')
+      })
+      .on('pointerout', () => {
+        
+      })
+
 
     // Botoes LEO:
     if (globalThis.game.personagemLocal === 'LeoVen') {
@@ -496,7 +584,7 @@ export default class mapa extends Phaser.Scene {
       })
     }, null, this)
 
-    // INIMIGOS:
+    // INIMIGOS NO MAPA:
 
     // dragaozinho:
     this.dragaozinho = this.physics.add.sprite(6918, 1950, 'dragaozinho')
@@ -531,7 +619,7 @@ export default class mapa extends Phaser.Scene {
         .setAllowGravity(false)
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoDireita, () => {
-        // ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
+        ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
         ogro.objeto.setVelocityX(-70)
       }, null, this)
 
@@ -540,7 +628,7 @@ export default class mapa extends Phaser.Scene {
         .setAllowGravity(false)
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoEsquerda, () => {
-        // ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
+       ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
         ogro.objeto.setVelocityX(70)
       }, null, this)
 
@@ -570,28 +658,6 @@ export default class mapa extends Phaser.Scene {
       // ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
       ogro.objeto.setVelocityX(-70)
     })
-
-    // Criação de estruturas
-    // Porta do Boss:
-    this.PortaBoss = this.physics.add.sprite(3606, 2595, 'PortaBoss')
-    this.PortaBoss.body.setAllowGravity(false)
-    this.PortaBoss.setScale(2)
-
-    // Altar Cristal Amarelo:
-    this.altarcristalamarelo = this.physics.add.sprite(7113, 2600, 'altarcristalamarelo')
-    this.altarcristalamarelo.body.setAllowGravity(false)
-
-    // Altar Cristal Fogo:
-    this.altarcristalfogo = this.physics.add.sprite(3030, 4200, 'altarcristalfogo')
-    this.altarcristalfogo.body.setAllowGravity(false)
-
-    // Altar Cristal Gelo:
-    this.altarcristalgelo = this.physics.add.sprite(3798, 613, 'altarcristalgelo')
-    this.altarcristalgelo.body.setAllowGravity(false)
-
-    // Altar Cristal Roxo:
-    this.altarcristalroxo = this.physics.add.sprite(1623, 1570, 'altarcristalroxo')
-    this.altarcristalroxo.body.setAllowGravity(false)
 
     // PORTAIS:
 
@@ -755,6 +821,12 @@ export default class mapa extends Phaser.Scene {
     // após, segue o código para a criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagemLocal)
 
+    // Bounce
+    this.ogros.forEach((ogro) => {
+      this.physics.add.collider(this.personagemLocal, ogro.objeto, this.bounce, null, this)
+    })
+
+    // Conexão com o servidor
     globalThis.game.dadosJogo.onmessage = (event) => {
       const dados = JSON.parse(event.data)
 
@@ -784,6 +856,24 @@ export default class mapa extends Phaser.Scene {
       }
     } catch (error) {
       console.log('Erro ao enviar dados do jogo: ', error)
+    }
+  }
+  
+  bounce (personagem, ogro) {
+    if (personagem.body.blocked.right) {
+      if (personagem.body.blocked.down) {
+        personagem.body.velocity.x = -this.velocidadeX + 70
+      } else if (!personagem.body.blocked.down) {
+        personagem.body.velocity.x = -this.velocidadeX + 30
+        this.direita.setFrame(0)
+      }
+    } else if (personagem.body.blocked.left) {
+      if (personagem.body.blocked.down) {
+        personagem.body.velocity.x = -this.velocidadeX - 70
+      } else if (!personagem.body.blocked.down) {
+        personagem.body.velocity.x = -this.velocidadeX - 30
+        this.esquerda.setFrame(0)
+      }
     }
   }
 }
