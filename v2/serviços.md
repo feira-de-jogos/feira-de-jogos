@@ -33,6 +33,11 @@ Em todos os casos, o usuário padrão do sistema é `pi` e adotou-se o diretóri
 O primeiro passo, comum a todas as máquinas, é criar um ambiente virtual e instalar as dependências. No diretório raiz do código:
 
 ```sh
+sudo mkdir -p /opt/github/feira-de-jogos
+sudo chown pi /opt/github/feira-de-jogos
+cd /opt/github/feira-de-jogos
+git clone https://github.com/feira-de-jogos/equipamentos
+cd equipamentos
 sudo apt install python3-venv
 python3 -m venv venv
 source venv/bin/activate
