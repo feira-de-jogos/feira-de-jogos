@@ -3,7 +3,7 @@ export default class finalTriste extends Phaser.Scene {
     super('finalTriste')
   }
 
-  preload () { 
+  preload () {
     this.load.image('CenaMorte', './assets/Cenas/CenaMorte.png')
   }
 
