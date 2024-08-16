@@ -232,6 +232,21 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
 
     })
+
+    // defendendo direita
+    this.anims.create({
+      key: 'defendendo_direita',
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 19, end: 24 }),
+      frameRate: 7
+    })
+
+    // defendendo esquerda
+    this.anims.create({
+      key: 'defendendo_esquerda',
+      frames: this.anims.generateFrameNumbers('LeoVenAtk', { start: 11, end: 17 }),
+      frameRate: 7
+    })
+
     // tirando escudo direita
     this.anims.create({
       key: 'tirandoesc_direita',
@@ -259,7 +274,24 @@ export default class mapa extends Phaser.Scene {
       frameRate: 8
     })
 
-    // estruturas animações
+    //ANIMAÇÃO INIMIGOS:  
+    // ogrogelo:
+    this.anims.create({
+      key: 'ogrogelo_andando_direita',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 3, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'ogrogelo_andando_esquerda',
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 12, end: 13 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    // ESTRUTURA ANIMAÇÕES:
+
     // porta do boss
     this.anims.create({
       key: 'PortaBoss',
