@@ -10,6 +10,8 @@ export default class selacaopersonagem extends Phaser.Scene {
   }
 
   create () {
+    this.input.addPointer(3)
+    
     this.add.image(427, 240, 'teladeselecao')
 
     this.Leo = this.add.image(220, 250, 'vazioparaselecao')
