@@ -41,7 +41,6 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('LeoVen', './assets/personagens/LeoVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('boss', './assets/personagens/boss.png', { frameWidth: 86, frameHeight: 86 })
     this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('explosaomorte32', './assets/personagens/explosaomorte32.png', { frameWidth: 32, frameHeight: 32 })
@@ -245,26 +244,26 @@ export default class mapa extends Phaser.Scene {
 
     // ANIMAÇÃO INIMIGOS:
 
+    // Monstro:
+    this.anims.create({
+      key: 'monstro_andando_direita',
+      frames: this.anims.generateFrameNumbers('monstro', { start: 1, end: 3 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'monstro_andando_esquerda',
+      frames: this.anims.generateFrameNumbers('monstro', { start: 9, end: 11 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
     // Boss:
     this.anims.create({
       key: 'boss',
       frames: this.anims.generateFrameNumbers('boss', { start: 0, end: 0 }),
       frameRate: 0,
-      repeat: -1
-    })
-
-    // ogrogelo:
-    this.anims.create({
-      key: 'ogrogelo_andando_direita',
-      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 1, end: 4 }),
-      frameRate: 5,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key: 'ogrogelo_andando_esquerda',
-      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 10, end: 13 }),
-      frameRate: 5,
       repeat: -1
     })
 
@@ -653,7 +652,7 @@ export default class mapa extends Phaser.Scene {
           y: 2152
         },
         esquerda: {
-          x:106,
+          x: 106,
           y: 2152
         },
         sprite: 'dragaozinho'
@@ -670,7 +669,7 @@ export default class mapa extends Phaser.Scene {
           y: 1832
         },
         sprite: 'dragaozinho'
-      },
+      }
     ]
 
     this.dragaozinho.forEach((dragaozinho) => {
@@ -712,8 +711,8 @@ export default class mapa extends Phaser.Scene {
     this.boss.body.setAllowGravity(false)
     this.boss.setScale(2)
 
-    // Lista dos Ogros:
-    this.ogros = [
+    // Lista dos monstros:
+    this.monstros = [
       {
         x: 3600,
         y: 200,
@@ -725,7 +724,7 @@ export default class mapa extends Phaser.Scene {
           x: 3130,
           y: 230
         },
-        sprite: 'ogrogelo'
+        sprite: 'monstro'
       },
       // INIMIGO NO ROXO:
       {
@@ -739,42 +738,34 @@ export default class mapa extends Phaser.Scene {
           x: 700,
           y: 1576
         },
-        sprite: 'ogrogelo'
+        sprite: 'monstro'
       }
     ]
 
-    this.ogros.forEach((ogro) => {
-      ogro.objeto = this.physics.add.sprite(ogro.x, ogro.y, ogro.sprite)
+    this.monstros.forEach((monstro) => {
+      monstro.objeto = this.physics.add.sprite(monstro.x, monstro.y, monstro.sprite)
 
-      ogro.blocoDireita = this.physics.add.sprite(ogro.direita.x, ogro.direita.y, 'Vazio')
-      ogro.blocoDireita.body
+      monstro.blocoDireita = this.physics.add.sprite(monstro.direita.x, monstro.direita.y, 'Vazio')
+      monstro.blocoDireita.body
         .setAllowGravity(false)
         .setImmovable(true)
-      this.physics.add.collider(ogro.objeto, ogro.blocoDireita, () => {
-        ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
-        ogro.objeto.setVelocityX(-80)
+      this.physics.add.collider(monstro.objeto, monstro.blocoDireita, () => {
+        monstro.objeto.anims.play(monstro.sprite + '_andando_esquerda')
+        monstro.objeto.setVelocityX(-80)
       }, null, this)
 
-      ogro.blocoEsquerda = this.physics.add.sprite(ogro.esquerda.x, ogro.esquerda.y, 'Vazio')
-      ogro.blocoEsquerda.body
+      monstro.blocoEsquerda = this.physics.add.sprite(monstro.esquerda.x, monstro.esquerda.y, 'Vazio')
+      monstro.blocoEsquerda.body
         .setAllowGravity(false)
         .setImmovable(true)
-      this.physics.add.collider(ogro.objeto, ogro.blocoEsquerda, () => {
-        ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
-        ogro.objeto.setVelocityX(80)
+      this.physics.add.collider(monstro.objeto, monstro.blocoEsquerda, () => {
+        monstro.objeto.anims.play(monstro.sprite + '_andando_direita')
+        monstro.objeto.setVelocityX(80)
       }, null, this)
 
-      this.physics.add.collider(ogro.objeto, this.layerChao)
-      this.physics.add.collider(ogro.objeto, this.layerParedes)
-
-      this.physics.add.collider(ogro.objeto, this.personagemLocal, () => {
-        if (ogro.objeto.texture.key.match(/direita/)) {
-          this.personagemLocal.x += 50
-        } else if (ogro.objeto.texture.key.match(/esquerda/)) {
-          this.personagemLocal.x += 50
-        }
-      })
-      ogro.objeto.setVelocityX(-70)
+      this.physics.add.collider(monstro.objeto, this.layerChao)
+      this.physics.add.collider(monstro.objeto, this.layerParedes)
+      monstro.objeto.setVelocityX(-70)
     })
 
     // PORTAIS:
@@ -901,7 +892,7 @@ export default class mapa extends Phaser.Scene {
 
     // Detalhes do mapa
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela,
-    this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+      this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
     // colisão de personagens:
 
     this.layerChao.setCollisionByProperty({ collides: true })
@@ -974,7 +965,7 @@ export default class mapa extends Phaser.Scene {
       this.altarcristalroxo.setFrame(1)
     }, null, this)
 
-    // colisão do ogrogelo:
+    // colisão do monstrogelo:
     this.layerChao.setCollisionByProperty({ collides: true })
 
     // após, segue o código para a criação da camera que irá serguir o personagem
