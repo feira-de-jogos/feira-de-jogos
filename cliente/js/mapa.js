@@ -61,7 +61,6 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('cima', './assets/Controles/SetaCima.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('esquerda', './assets/Controles/SetaEsq.png', { frameWidth: 128, frameHeight: 128 })
     this.load.spritesheet('direita', './assets/Controles/SetaDir.png', { frameWidth: 128, frameHeight: 128 })
-    this.load.spritesheet('botaocristal', './assets/Controles/botaocristal.png', { frameWidth: 64, frameHeight: 64 })
   }
 
   create () {
@@ -244,12 +243,6 @@ export default class mapa extends Phaser.Scene {
       frameRate: 8
     })
 
-    // botao cristal
-    this.anims.create({
-      key: 'altarcristalgelo',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 0, end: 1 })
-    })
-
     // ANIMAÇÃO INIMIGOS:
 
     // Boss:
@@ -275,8 +268,6 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-
-
     // dragaozinho:
     this.anims.create({
       key: 'dragaozinho_voando_direita',
@@ -297,9 +288,8 @@ export default class mapa extends Phaser.Scene {
     // porta do boss
     this.anims.create({
       key: 'PortaBoss',
-      frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 0 }),
-      frameRate: 0,
-      repeat: -1
+      frames: this.anims.generateFrameNumbers('PortaBoss', { start: 0, end: 8 }),
+      frameRate: 3
     })
 
     // Controles:
@@ -391,11 +381,11 @@ export default class mapa extends Phaser.Scene {
 
     // Morte do Personagem:
     this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 2640
       this.personagemLocal.y = 2660
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     }, null, this)
 
@@ -447,11 +437,11 @@ export default class mapa extends Phaser.Scene {
         x: 3041,
         y: 4200,
         direita: {
-          x: 2850,
+          x: 3250,
           y: 4200
         },
         esquerda: {
-          x: 3150,
+          x: 2800,
           y: 4200
         },
         sprite: 'dragaozinho'
@@ -464,7 +454,7 @@ export default class mapa extends Phaser.Scene {
           y: 3432
         },
         esquerda: {
-          x: 3180,
+          x: 3100,
           y: 3432
         },
         sprite: 'dragaozinho'
@@ -641,20 +631,51 @@ export default class mapa extends Phaser.Scene {
           y: 1576
         },
         sprite: 'dragaozinho'
-      }
+      },
+      {
+        x: 539,
+        y: 1192,
+        direita: {
+          x: 810,
+          y: 1192
+        },
+        esquerda: {
+          x: 55,
+          y: 1192
+        },
+        sprite: 'dragaozinho'
+      },
+      {
+        x: 261,
+        y: 2152,
+        direita: {
+          x: 392,
+          y: 2152
+        },
+        esquerda: {
+          x:106,
+          y: 2152
+        },
+        sprite: 'dragaozinho'
+      },
+      {
+        x: 1420,
+        y: 1832,
+        direita: {
+          x: 1555,
+          y: 1832
+        },
+        esquerda: {
+          x: 1230,
+          y: 1832
+        },
+        sprite: 'dragaozinho'
+      },
     ]
 
     this.dragaozinho.forEach((dragaozinho) => {
       dragaozinho.objeto = this.physics.add.sprite(dragaozinho.x, dragaozinho.y, dragaozinho.sprite)
-      this.physics.add.overlap(this.personagemLocal, dragaozinho, () => {
-        this.cameras.main.fadeOut(100)
-        this.personagemLocal.x = 2650
-        this.personagemLocal.y = 2150
-        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-          camera.fadeIn(100)
-        })
-      })
-
+      dragaozinho.objeto.body.setAllowGravity(false) // Disable gravity for dragaozinho
       dragaozinho.blocoDireita = this.physics.add.sprite(dragaozinho.direita.x, dragaozinho.direita.y, 'Vazio')
       dragaozinho.blocoDireita.body
         .setAllowGravity(false)
@@ -673,18 +694,17 @@ export default class mapa extends Phaser.Scene {
         dragaozinho.objeto.setVelocityX(70)
       }, null, this)
 
-      this.physics.add.collider(dragaozinho.objeto, this.layerParedes)
-      this.physics.add.collider(dragaozinho.objeto, this.layerChao)
-
-      this.physics.add.collider(dragaozinho.objeto, this.personagemLocal, () => {
-        if (dragaozinho.objeto.texture.key.match(/direita/)) {
-          this.personagemLocal.x += 50
-        } else if (dragaozinho.objeto.texture.key.match(/esquerda/)) {
-          this.personagemLocal.x += 50
-        }
-      })
       this.physics.world.removeCollider(dragaozinho)
       dragaozinho.objeto.setVelocityX(-70)
+
+      this.physics.add.overlap(this.personagemLocal, dragaozinho.objeto, () => {
+        this.cameras.main.fadeOut(200)
+        this.personagemLocal.x = 2640
+        this.personagemLocal.y = 2640
+        this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+          camera.fadeIn(200)
+        })
+      })
     })
 
     // Boss:
@@ -707,17 +727,17 @@ export default class mapa extends Phaser.Scene {
         },
         sprite: 'ogrogelo'
       },
+      // INIMIGO NO ROXO:
       {
-        // INIMIGO NO AMARELO:
-        x: 6976,
-        y: 2600,
+        x: 863,
+        y: 1500,
         direita: {
-          x: 7170,
-          y: 2600
+          x: 1430,
+          y: 1576
         },
         esquerda: {
-          x: 6650,
-          y: 2600
+          x: 700,
+          y: 1576
         },
         sprite: 'ogrogelo'
       }
@@ -732,7 +752,7 @@ export default class mapa extends Phaser.Scene {
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoDireita, () => {
         ogro.objeto.anims.play(ogro.sprite + '_andando_esquerda')
-        ogro.objeto.setVelocityX(-70)
+        ogro.objeto.setVelocityX(-80)
       }, null, this)
 
       ogro.blocoEsquerda = this.physics.add.sprite(ogro.esquerda.x, ogro.esquerda.y, 'Vazio')
@@ -741,7 +761,7 @@ export default class mapa extends Phaser.Scene {
         .setImmovable(true)
       this.physics.add.collider(ogro.objeto, ogro.blocoEsquerda, () => {
         ogro.objeto.anims.play(ogro.sprite + '_andando_direita')
-        ogro.objeto.setVelocityX(70)
+        ogro.objeto.setVelocityX(80)
       }, null, this)
 
       this.physics.add.collider(ogro.objeto, this.layerChao)
@@ -763,11 +783,11 @@ export default class mapa extends Phaser.Scene {
     this.portal1 = this.physics.add.sprite(2500, 2130, 'Vazio')
     this.portal1.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal1, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 1981
       this.personagemLocal.y = 2152
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
@@ -775,11 +795,11 @@ export default class mapa extends Phaser.Scene {
     this.portal2 = this.physics.add.sprite(2048, 2152, 'Vazio')
     this.portal2.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal2, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 2650
       this.personagemLocal.y = 2150
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
@@ -787,11 +807,11 @@ export default class mapa extends Phaser.Scene {
     this.portal3 = this.physics.add.sprite(4800, 2152, 'Vazio')
     this.portal3.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal3, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 5291
       this.personagemLocal.y = 2132
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
@@ -799,11 +819,11 @@ export default class mapa extends Phaser.Scene {
     this.portal4 = this.physics.add.sprite(5180, 2152, 'Vazio')
     this.portal4.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal4, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 4720
       this.personagemLocal.y = 2132
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
@@ -811,11 +831,11 @@ export default class mapa extends Phaser.Scene {
     this.portal5 = this.physics.add.sprite(3794, 1530, 'Vazio')
     this.portal5.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal5, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 3840
       this.personagemLocal.y = 1000
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
@@ -823,11 +843,11 @@ export default class mapa extends Phaser.Scene {
     this.portal6 = this.physics.add.sprite(3780, 1200, 'Vazio')
     this.portal6.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal6, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 3786
       this.personagemLocal.y = 1680
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
@@ -835,11 +855,11 @@ export default class mapa extends Phaser.Scene {
     this.portal7 = this.physics.add.sprite(3980, 2800, 'Vazio')
     this.portal7.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal7, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 3984
       this.personagemLocal.y = 3284
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
@@ -847,50 +867,37 @@ export default class mapa extends Phaser.Scene {
     this.portal8 = this.physics.add.sprite(3984, 3129, 'Vazio')
     this.portal8.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
-      this.cameras.main.fadeOut(100)
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 4000
       this.personagemLocal.y = 2630
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
 
     // Portal inicio para Verde:
-    this.portal8 = this.physics.add.sprite(6577, 1030, 'Vazio')
-    this.portal8.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
-      this.cameras.main.fadeOut(80)
+    this.portal9 = this.physics.add.sprite(6577, 1030, 'Vazio')
+    this.portal9.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagemLocal, this.portal9, () => {
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 2640
       this.personagemLocal.y = 2660
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(80)
+        camera.fadeIn(200)
       })
     })
 
     // Portal verde para inicio:
-    this.portal8 = this.physics.add.sprite(2543, 2660, 'Vazio')
-    this.portal8.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
-      this.cameras.main.fadeOut(100)
+    this.portal10 = this.physics.add.sprite(2543, 2660, 'Vazio')
+    this.portal10.body.setAllowGravity(false)
+    this.physics.add.overlap(this.personagemLocal, this.portal10, () => {
+      this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 6500
       this.personagemLocal.y = 1060
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
+        camera.fadeIn(200)
       })
     })
-
-    /* Portal verde para boss:
-    this.portal8 = this.physics.add.sprite(3606, 2664, 'Vazio')
-    this.portal8.body.setAllowGravity(false)
-    this.physics.add.overlap(this.personagemLocal, this.portal8, () => {
-      this.cameras.main.fadeOut(100)
-      this.personagemLocal.x = 682
-      this.personagemLocal.y = 3580
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(100)
-      })
-    })
-  */
 
     // Detalhes do mapa
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela,
@@ -915,61 +922,57 @@ export default class mapa extends Phaser.Scene {
     // colisão dos altares e porta:
 
     // porta do boss
-    this.physics.add.overlap(this.personagemLocal, this.portaboss, () => {
-      // Quando sobrepor, torna o botaocristal visível
-      this.botaocristal.setVisible(true)
-    }, this)
-    // Adiciona uma verificação contínua para detectar quando a sobreposição termina
-    this.physics.add.overlap(this.personagemLocal, this.portaboss, null, (personagemLocal, portaboss) => {
-      if (!this.physics.world.overlap(personagemLocal, portaboss)) {
-        // Quando não estiver sobrepondo, torna o botaocristal invisível
-        this.botaocristal.setVisible(false)
-      }
-    }, this)
+    if (this.personagemLocal) {
+      this.physics.add.overlap(this.personagemLocal, this.PortaBoss, () => {
+        if (this.cristalamarelo.visible && this.cristalazul.visible && this.cristalvermelho.visible && this.cristalroxo.visible) {
+          this.PortaBoss.anims.play('PortaBoss')
+          this.cristalamarelo.setVisible(false)
+          this.cristalvermelho.setVisible(false)
+          this.cristalazul.setVisible(false)
+          this.cristalroxo.setVisible(false)
+        } else if (this.PortaBoss.anims.currentFrame && this.PortaBoss.anims.currentFrame.index === 8) {
+          // Portal verde para boss:
+          this.portalboss = this.physics.add.sprite(3606, 2664, 'Vazio')
+          this.portalboss.body.setAllowGravity(false)
+          this.physics.add.overlap(this.personagemLocal, this.portalboss, () => {
+            this.cameras.main.fadeOut(200)
+            this.personagemLocal.x = 682
+            this.personagemLocal.y = 3580
+            this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+              camera.fadeIn(200)
+            })
+          })
+        }
+      })
+    }
 
     // altar de gelo
     this.altarcristalgelo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalgelo, () => {
-      this.botaocristal.setVisible(true)
+      this.cristalazul.setVisible(true)
+      this.altarcristalgelo.setFrame(1)
     }, null, this)
-    this.physics.add.overlap(this.personagemLocal, this.altarcristalgelo, null, (personagemLocal, altarcristalgelo) => {
-      if (!this.physics.world.overlap(personagemLocal, altarcristalgelo)) {
-        this.botaocristal.setVisible(false)
-      }
-    }, this)
 
     // altar de fogo
     this.altarcristalfogo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalfogo, () => {
-      this.botaocristal.setVisible(true)
+      this.cristalvermelho.setVisible(true)
+      this.altarcristalfogo.setFrame(1)
     }, null, this)
-    this.physics.add.overlap(this.personagemLocal, this.altarcristalfogo, null, (personagemLocal, altarcristalfogo) => {
-      if (!this.physics.world.overlap(personagemLocal, altarcristalfogo)) {
-        this.botaocristal.setVisible(false)
-      }
-    }, this)
 
     // altar amarelo
     this.altarcristalamarelo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalamarelo, () => {
-      this.botaocristal.setVisible(true)
+      this.cristalamarelo.setVisible(true)
+      this.altarcristalamarelo.setFrame(1)
     }, null, this)
-    this.physics.add.overlap(this.personagemLocal, this.altarcristalamarelo, null, (personagemLocal, altarcristalamarelo) => {
-      if (!this.physics.world.overlap(personagemLocal, altarcristalamarelo)) {
-        this.botaocristal.setVisible(false)
-      }
-    }, this)
 
     // altar roxo
     this.altarcristalroxo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalroxo, () => {
-      this.botaocristal.setVisible(true)
+      this.cristalroxo.setVisible(true)
+      this.altarcristalroxo.setFrame(1)
     }, null, this)
-    this.physics.add.overlap(this.personagemLocal, this.altarcristalroxo, null, (personagemLocal, altarcristalroxo) => {
-      if (!this.physics.world.overlap(personagemLocal, altarcristalroxo)) {
-        this.botaocristal.setVisible(false)
-      }
-    }, this)
 
     // colisão do ogrogelo:
     this.layerChao.setCollisionByProperty({ collides: true })
