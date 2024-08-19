@@ -1177,10 +1177,7 @@ export default class mapa extends Phaser.Scene {
       } else {
         this.cachorro.anims.play('cachorro-parado-esquerda')
       }
-    } catch (error) {
-      console.error(error)
-    }
-  }
+
       // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
         // Verifica que o personagem local existe
