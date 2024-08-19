@@ -273,14 +273,14 @@ export default class mapa extends Phaser.Scene {
     this.vazioEsquerda.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.vazioEsquerda, () => {
       this.personagemLocal.x = 750
-      this.personagemLocal.setVelocityX(-150)
+      this.personagemLocal.setVelocityX(-120)
     }, null, this)
 
     this.vazioDireita = this.physics.add.sprite(800, 224, 'vazio')
     this.vazioDireita.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.vazioDireita, () => {
       this.personagemLocal.x = 50
-      this.personagemLocal.setVelocityX(150)
+      this.personagemLocal.setVelocityX(120)
     }, null, this)
 
     // Animação cachorro
@@ -1139,6 +1139,9 @@ export default class mapa extends Phaser.Scene {
         camera.fadeIn(200)
       })
     }, null, this)
+
+    this.physics.add.collider(this.cachorro, this.layerCerca)
+    this.physics.add.collider(this.cachorro, this.layerArbusto)
   }
 
   update () {
@@ -1167,17 +1170,17 @@ export default class mapa extends Phaser.Scene {
     // Sentido no eixo X
     const diffX = alvo.x - this.cachorro.x
     if (diffX >= 10) {
-      this.cachorro.setVelocityX(60)
+      this.cachorro.setVelocityX(80)
     } else if (diffX <= 10) {
-      this.cachorro.setVelocityX(-60)
+      this.cachorro.setVelocityX(-80)
     }
 
     // Sentido no eixo Y
     const diffY = alvo.y - this.cachorro.y
     if (diffY >= 10) {
-      this.cachorro.setVelocityY(60)
+      this.cachorro.setVelocityY(80)
     } else if (diffY <= 10) {
-      this.cachorro.setVelocityY(-60)
+      this.cachorro.setVelocityY(-80)
     }
 
     // Animação
