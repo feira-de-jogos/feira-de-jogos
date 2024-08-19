@@ -433,33 +433,20 @@ export default class mapa extends Phaser.Scene {
         },
         sprite: 'ogrogelo'
       },
-      // INIMIGO NO VERDE:
       {
-        x: 3375,
-        y: 2664,
+        // INIMIGO NO AMARELO:
+        x: 7023,
+        y: 2610,
         direita: {
-          x: 3461,
-          y: 2664
+          x: 7170,
+          y: 2610
         },
         esquerda: {
-          x: 3000,
-          y: 2664
+          x: 6634,
+          y: 2610
         },
         sprite: 'ogrogelo'
       },
-      { // INIMIGOS NO VERDE:
-        x: 3870,
-        y: 2280,
-        direita: {
-          x: 4015,
-          y: 2280
-        },
-        esquerda: {
-          x: 3639,
-          y: 2280
-        },
-        sprite: 'ogrogelo'
-      }
     ]
 
     this.ogros.forEach((ogro) => {
@@ -559,7 +546,33 @@ export default class mapa extends Phaser.Scene {
           y: 3432
         },
         esquerda: {
-          x: 3100,
+          x: 3115,
+          y: 3432
+        },
+        sprite: 'dragaozinho'
+      },
+      {
+        x: 2932,
+        y: 3688,
+        direita: {
+          x: 3030,
+          y: 3688
+        },
+        esquerda: {
+          x: 2750,
+          y: 3688 
+        },
+        sprite: 'dragaozinho'
+      },
+      {
+        x: 2915,
+        y: 3432,
+        direita: {
+          x: 3115,
+          y: 3432
+        },
+        esquerda: {
+          x: 2750,
           y: 3432
         },
         sprite: 'dragaozinho'
@@ -569,7 +582,7 @@ export default class mapa extends Phaser.Scene {
         x: 4112,
         y: 232,
         direita: {
-          x: 4605,
+          x: 4610,
           y: 232
         },
         esquerda: {
@@ -633,14 +646,14 @@ export default class mapa extends Phaser.Scene {
       },
       {
         // INIMIGO NO AMARELO:
-        x: 5817,
+        x: 5834,
         y: 1832,
         direita: {
-          x: 5610,
+          x: 6075,
           y: 1832
         },
         esquerda: {
-          x: 6050,
+          x: 5550,
           y: 1832
         },
         sprite: 'dragaozinho'
@@ -649,11 +662,11 @@ export default class mapa extends Phaser.Scene {
         x: 5945,
         y: 2152,
         direita: {
-          x: 6207,
+          x: 6260,
           y: 2152
         },
         esquerda: {
-          x: 5860,
+          x: 5800,
           y: 2152
         },
         sprite: 'dragaozinho'
@@ -662,11 +675,11 @@ export default class mapa extends Phaser.Scene {
         x: 6553,
         y: 1768,
         direita: {
-          x: 6660,
+          x: 6715,
           y: 1768
         },
         esquerda: {
-          x: 6310,
+          x: 6260,
           y: 1768
         },
         sprite: 'dragaozinho'
@@ -679,7 +692,7 @@ export default class mapa extends Phaser.Scene {
           y: 2600
         },
         esquerda: {
-          x: 5860,
+          x: 5810,
           y: 2600
         },
         sprite: 'dragaozinho'
@@ -688,30 +701,16 @@ export default class mapa extends Phaser.Scene {
         x: 5550,
         y: 2600,
         direita: {
-          x: 5750,
+          x: 5805,
           y: 2600
         },
         esquerda: {
-          x: 5280,
+          x: 5220,
           y: 2600
         },
         sprite: 'dragaozinho'
       },
-      {
-        // INIMIGO NO ROXO:
-        x: 1730,
-        y: 1256,
-        direita: {
-          x: 1917,
-          y: 1256
-        },
-        esquerda: {
-          x: 1466,
-          y: 1256
-        },
-        sprite: 'dragaozinho'
-      },
-      {
+      { // INIMIGOS NO ROXO:
         x: 863,
         y: 1576,
         direita: {
@@ -728,7 +727,7 @@ export default class mapa extends Phaser.Scene {
         x: 539,
         y: 1192,
         direita: {
-          x: 825,
+          x: 1010,
           y: 1192
         },
         esquerda: {
@@ -751,15 +750,15 @@ export default class mapa extends Phaser.Scene {
         sprite: 'dragaozinho'
       },
       {
-        x: 1420,
-        y: 1832,
+        x: 315,
+        y: 1576,
         direita: {
-          x: 1600,
-          y: 1832
+          x: 600,
+          y: 1576
         },
         esquerda: {
-          x: 1200,
-          y: 1832
+          x: 60,
+          y: 1576
         },
         sprite: 'dragaozinho'
       }
@@ -833,6 +832,32 @@ export default class mapa extends Phaser.Scene {
         },
         sprite: 'monstro'
       },
+      {
+        x: 1730,
+        y: 1256,
+        direita: {
+          x: 1917,
+          y: 1256
+        },
+        esquerda: {
+          x: 1466,
+          y: 1256
+        },
+        sprite: 'monstro'
+      },
+      {
+        x: 1420,
+        y: 1832,
+        direita: {
+          x: 1600,
+          y: 1832
+        },
+        esquerda: {
+          x: 1200,
+          y: 1832
+        },
+        sprite: 'monstro'
+      },
       // INIMIGO NO VERDE:
       {
         x: 3375,
@@ -847,7 +872,7 @@ export default class mapa extends Phaser.Scene {
         },
         sprite: 'monstro'
       },
-      { // INIMIGOS NO VERDE:
+      { 
         x: 3870,
         y: 2280,
         direita: {
@@ -964,7 +989,8 @@ export default class mapa extends Phaser.Scene {
     this.portal6.body.setAllowGravity(false)
     this.physics.add.overlap(this.personagemLocal, this.portal6, () => {
       this.cameras.main.fadeOut(200)
-      this.personagemLocal.x = 3786
+      this.personagemLocal.x =
+786
       this.personagemLocal.y = 1680
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
         camera.fadeIn(200)
@@ -1038,6 +1064,7 @@ export default class mapa extends Phaser.Scene {
         this.scene.start('finalTriste')
       }
     }, null, this)
+
 
     // colisão dos altares e porta:
 
