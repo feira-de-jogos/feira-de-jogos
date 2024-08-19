@@ -23,7 +23,6 @@ export default class tilemapMapa extends Phaser.Scene {
     this.load.spritesheet('ketchup', './assets/ketchup.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('mostarda', './assets/mostarda.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('tomate', './assets/tomate.png', { frameWidth: 48, frameHeight: 48 })
-    // this.load.spritesheet('agua', './assets/agua.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('meia', './assets/meia.png', { frameWidth: 48, frameHeight: 48 })
 
     // Carrega o plugin do joystick virtual
@@ -267,19 +266,14 @@ export default class tilemapMapa extends Phaser.Scene {
         y: -386
       },
       {
-        indice: 2,
-        x: -772,
-        y: -454
-      },
-      {
         indice: 3,
-        x: -190,
-        y: -455
+        x: -477,
+        y: 1091
       },
       {
         indice: 4,
         x: -984,
-        y: 14
+        y: 21
       }
     ]
     this.tomates.forEach((tomate) => {
@@ -301,19 +295,19 @@ export default class tilemapMapa extends Phaser.Scene {
     })
     this.mostardas = [
       {
-        indice: 1,
-        x: -322,
-        y: -447
-      },
-      {
         indice: 2,
-        x: -438,
-        y: -111
+        x: -772,
+        y: -454
       },
       {
         indice: 3,
-        x: -76,
-        y: -3
+        x: -77,
+        y: 906
+      },
+      {
+        indice: 4,
+        x: -1040,
+        y: 18
       }
     ]
     this.mostardas.forEach((mostarda) => {
@@ -346,8 +340,8 @@ export default class tilemapMapa extends Phaser.Scene {
       },
       {
         indice: 3,
-        x: -450,
-        y: 892
+        x: -1121,
+        y: 1424
       }
     ]
     this.meias.forEach((meia) => {
@@ -358,13 +352,8 @@ export default class tilemapMapa extends Phaser.Scene {
         meia.overlap.destroy()
 
         // Anima a nuvem
-        meia.objeto.anims.play('meia-coletado')
-
-        // Assim que a animação terminar...
-        meia.objeto.once('animationcomplete', () => {
-          // Desativa a nuvem (imagem e colisão)
-          meia.objeto.disableBody(true, true)
-        })
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
       }, null, this)
     })
     this.cachorros = [
@@ -372,6 +361,16 @@ export default class tilemapMapa extends Phaser.Scene {
         indice: 1,
         x: -518,
         y: 727
+      },
+      {
+        indice: 2,
+        x: -1122,
+        y: 1169
+      },
+      {
+        indice: 3,
+        x: -83,
+        y: -254
       }
     ]
     this.cachorros.forEach((cachorro) => {
@@ -393,8 +392,18 @@ export default class tilemapMapa extends Phaser.Scene {
     this.ketchups = [
       {
         indice: 1,
-        x: -540,
-        y: 727
+        x: -712,
+        y: 1062
+      },
+      {
+        indice: 2,
+        x: -1109,
+        y: 21
+      },
+      {
+        indice: 3,
+        x: -194,
+        y: -437
       }
     ]
     this.ketchups.forEach((ketchup) => {
@@ -461,7 +470,7 @@ export default class tilemapMapa extends Phaser.Scene {
   }
 
   handleJoystickMove () {
-    const speed = 300 // Velocidade constante do personagem
+    const speed = 100 // Velocidade constante do personagem
     const threshold = 0.1 // Limite mínimo de força para considerar o movimento
 
     // Movimenta o personagem com base na direção do joystick
