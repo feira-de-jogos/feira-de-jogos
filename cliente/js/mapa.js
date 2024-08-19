@@ -232,7 +232,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.setVelocityY(-120)
+        this.personagemLocal.setVelocityY(-140)
         this.personagemLocal.anims.play('personagem-caminhando-cima')
       })
 
@@ -243,7 +243,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.setVelocityY(120)
+        this.personagemLocal.setVelocityY(140)
         this.personagemLocal.anims.play('personagem-caminhando-baixo')
       })
 
@@ -254,7 +254,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityY(0)
-        this.personagemLocal.setVelocityX(-120)
+        this.personagemLocal.setVelocityX(-140)
         this.personagemLocal.anims.play('personagem-caminhando-esquerda')
       })
 
@@ -265,7 +265,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityY(0)
-        this.personagemLocal.setVelocityX(120)
+        this.personagemLocal.setVelocityX(140)
         this.personagemLocal.anims.play('personagem-caminhando-direita')
       })
 
@@ -273,14 +273,14 @@ export default class mapa extends Phaser.Scene {
     this.vazioEsquerda.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.vazioEsquerda, () => {
       this.personagemLocal.x = 750
-      this.personagemLocal.setVelocityX(-120)
+      this.personagemLocal.setVelocityX(-140)
     }, null, this)
 
     this.vazioDireita = this.physics.add.sprite(800, 224, 'vazio')
     this.vazioDireita.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.vazioDireita, () => {
       this.personagemLocal.x = 50
-      this.personagemLocal.setVelocityX(120)
+      this.personagemLocal.setVelocityX(140)
     }, null, this)
 
     // Gera mensagem de log quando a conexão de dados é aberta
@@ -1169,17 +1169,17 @@ export default class mapa extends Phaser.Scene {
     // Sentido no eixo X
     const diffX = alvo.x - this.cachorro.x
     if (diffX >= 10) {
-      this.cachorro.setVelocityX(80)
+      this.cachorro.setVelocityX(70)
     } else if (diffX <= 10) {
-      this.cachorro.setVelocityX(-80)
+      this.cachorro.setVelocityX(-70)
     }
 
     // Sentido no eixo Y
     const diffY = alvo.y - this.cachorro.y
     if (diffY >= 10) {
-      this.cachorro.setVelocityY(80)
+      this.cachorro.setVelocityY(70)
     } else if (diffY <= 10) {
-      this.cachorro.setVelocityY(-80)
+      this.cachorro.setVelocityY(-70)
     }
 
     // Animação
