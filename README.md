@@ -1,5 +1,5 @@
 # Jogo
-A ideia do jogo consiste em um sistema competitivo 1x1 ou co-op onde o objetivo é chegar no ponto mais alto da torre, enquanto enfrenta diversos obstáculos, e pula de plataforma em plataforma, e quando chega no ponto mais alto da fase atual, o personagem descansa para partir para a próxima fase.
+Uma corrida frenética até o topo!  Uma torre misteriosa desafia personagens ágeis em uma competição eletrizante.  Saltos precisos e reflexos rápidos são essenciais para superar as plataformas.  Quem será o primeiro a alcançar o topo e ser coroado campeão?  Prepare-se para uma aventura inesquecível!
 
 ## Referências
 
