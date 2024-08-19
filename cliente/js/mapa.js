@@ -25,7 +25,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('Missy', './assets/personagens/Missy.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega o Vilão SUPREMO
-    this.load.spritesheet('cachorro', './assets/personagens/Boo.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('cachorro', './assets/personagens/cachorro.png', { frameWidth: 32, frameHeight: 32 })
 
     // Carrega as imagens dos botões
     this.load.image('cima', './assets/botoes/cima.png')
@@ -93,8 +93,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(368, 176, 'Missy')
-      this.personagemRemoto = this.add.sprite(368, 176, 'Boo')
+      this.personagemLocal = this.physics.add.sprite(400, 400, 'Missy')
+      this.personagemRemoto = this.add.sprite(400, 432, 'Boo')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
       globalThis.game.localConnection = new RTCPeerConnection(globalThis.game.iceServers)
       globalThis.game.dadosJogo = globalThis.game.localConnection.createDataChannel('dadosJogo', { negotiated: true, id: 0 })
@@ -125,8 +125,8 @@ export default class mapa extends Phaser.Scene {
       })
 
       // Cria os sprites dos personagens local e remoto
-      this.personagemLocal = this.physics.add.sprite(368, 176, 'Boo')
-      this.personagemRemoto = this.add.sprite(368, 176, 'Missy')
+      this.personagemLocal = this.physics.add.sprite(432, 400, 'Boo')
+      this.personagemRemoto = this.add.sprite(400, 400, 'Missy')
     }
 
     // Define o atributo do tileset para gerar colisão
@@ -187,18 +187,18 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-parado-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 4,
-        end: 4
+        start: 6,
+        end: 6
       }),
       frameRate: 1,
       repeat: -1
     })
 
     this.anims.create({
-      key: 'personagem-caminhando36-esquerda',
+      key: 'personagem-caminhando-esquerda',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 3,
-        end: 5
+        start: 5,
+        end: 4
       }),
       frameRate: 10,
       repeat: -1
@@ -217,7 +217,7 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-caminhando-direita',
       frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, {
-        start: 6,
+        start: 8,
         end: 9
       }),
       frameRate: 10,
@@ -1120,9 +1120,25 @@ export default class mapa extends Phaser.Scene {
         })
       }
     }
-
     // Carregar o cachorro
     this.cachorro = this.physics.add.sprite(432, 176, 'cachorro')
+
+    this.physics.add.overlap(this.cachorro, this.personagemRemoto, () => {
+      this.cameras.main.fadeOut(200)
+      this.personagemLocal.x = 368
+      this.personagemLocal.y = 176
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(200)
+      })
+    }, null, this)
+    this.physics.add.overlap(this.cachorro, this.personagemLocal, () => {
+      this.cameras.main.fadeOut(200)
+      this.personagemLocal.x = 368
+      this.personagemLocal.y = 176
+      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+        camera.fadeIn(200)
+      })
+    }, null, this)
   }
 
   update () {
@@ -1151,17 +1167,17 @@ export default class mapa extends Phaser.Scene {
     // Sentido no eixo X
     const diffX = alvo.x - this.cachorro.x
     if (diffX >= 10) {
-      this.cachorro.setVelocityX(100)
+      this.cachorro.setVelocityX(60)
     } else if (diffX <= 10) {
-      this.cachorro.setVelocityX(-100)
+      this.cachorro.setVelocityX(-60)
     }
 
     // Sentido no eixo Y
     const diffY = alvo.y - this.cachorro.y
     if (diffY >= 10) {
-      this.cachorro.setVelocityY(100)
+      this.cachorro.setVelocityY(60)
     } else if (diffY <= 10) {
-      this.cachorro.setVelocityY(-100)
+      this.cachorro.setVelocityY(-60)
     }
 
     // Animação
