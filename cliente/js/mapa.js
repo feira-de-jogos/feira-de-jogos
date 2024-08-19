@@ -1065,7 +1065,6 @@ export default class mapa extends Phaser.Scene {
       })
     }, null, this)
 
-    this.physics.add.collider(this.cachorro, this.layerCerca)
     this.physics.add.collider(this.cachorro, this.layerArbusto)
     // Animação cachorro
 
