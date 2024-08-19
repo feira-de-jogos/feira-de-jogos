@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default class mapa extends Phaser.Scene {
   constructor () {
     super('mapa')
@@ -64,7 +66,6 @@ export default class mapa extends Phaser.Scene {
     var deltaTime = Phaser.Time.Clock
     var dir_lados = -1
 
-
     var ponteiro = false
     var ponteiroup = false
 
@@ -84,7 +85,6 @@ export default class mapa extends Phaser.Scene {
     this.layerDecoration = this.tilemapMapa.createLayer('decoracao-1', [this.tilesetBlocos])
     this.layerDecoration2 = this.tilemapMapa.createLayer('decoracao-2', [this.tilesetBlocos])
 
-    //código para adicionar e animar a fogueira
     this.fogueira = this.add.sprite(94, -13, 'fogueira')
     this.skeleton = this.add.sprite(336, -1740, 'skeleton')
 

@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default class finalTriste extends Phaser.Scene {
   constructor () {
     super('finalTriste')
@@ -17,9 +19,9 @@ export default class finalTriste extends Phaser.Scene {
     })
       .setInteractive()
       .on('pointerdown', () => {
-        location.reload()
+        window.location.reload()
       })
   }
 
-  update () { }
+  update () {}
 }

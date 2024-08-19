@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default {
   type: Phaser.AUTO,
   width: 800,
@@ -8,7 +10,6 @@ export default {
     arcade: {
       gravity: { y: 900 },
       debug: false // colocar em true para enxergar hitbox.
-      
     }
   },
   scale: {

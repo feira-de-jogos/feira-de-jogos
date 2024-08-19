@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default class sala extends Phaser.Scene {
   constructor () {
     super('sala')
@@ -49,14 +51,10 @@ export default class sala extends Phaser.Scene {
         })
     })
 
-
     // Define o evento de recebimento da mansagem 'jogadores'
     globalThis.game.socket.on('jogadores', (jogadores) => {
       // Se o segundo jogador já estiver conectado, inicia o jogo
       if (jogadores.segundo) {
-        // Apresenta texto na tela
-        //this.mensagem.setText('Conectando...')
-
         // Define a variável global dos jogadores
         globalThis.game.jogadores = jogadores
 
@@ -65,7 +63,6 @@ export default class sala extends Phaser.Scene {
         this.scene.start('mapa')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
-        //this.mensagem.setText('Aguardando segundo jogador...')
       }
     })
   }
