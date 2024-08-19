@@ -232,7 +232,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.setVelocityY(-150)
+        this.personagemLocal.setVelocityY(-120)
         this.personagemLocal.anims.play('personagem-caminhando-cima')
       })
 
@@ -243,7 +243,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityX(0)
-        this.personagemLocal.setVelocityY(150)
+        this.personagemLocal.setVelocityY(120)
         this.personagemLocal.anims.play('personagem-caminhando-baixo')
       })
 
@@ -254,7 +254,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityY(0)
-        this.personagemLocal.setVelocityX(-150)
+        this.personagemLocal.setVelocityX(-120)
         this.personagemLocal.anims.play('personagem-caminhando-esquerda')
       })
 
@@ -265,7 +265,7 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         this.correndo.play()
         this.personagemLocal.setVelocityY(0)
-        this.personagemLocal.setVelocityX(150)
+        this.personagemLocal.setVelocityX(120)
         this.personagemLocal.anims.play('personagem-caminhando-direita')
       })
 
@@ -282,81 +282,6 @@ export default class mapa extends Phaser.Scene {
       this.personagemLocal.x = 50
       this.personagemLocal.setVelocityX(120)
     }, null, this)
-
-    // Animação cachorro
-
-    this.anims.create({
-      key: 'cachorro-parado-esquerda',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 6,
-        end: 6
-      }),
-      frameRate: 1
-    })
-
-    this.anims.create({
-      key: 'personagem-caminhando-esquerda',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 4,
-        end: 5
-      }),
-      frameRate: 5,
-      repeat: -1
-    })
-    this.anims.create({
-      key: 'personagem-parado-direita',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 9,
-        end: 9
-      }),
-      frameRate: 5,
-      repeat: -1
-    })
-    this.anims.create({
-      key: 'personagem-caminhando-direita',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 7,
-        end: 8
-      }),
-      frameRate: 5,
-      repeat: -1
-    })
-    this.anims.create({
-      key: 'personagem-parado-cima',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 10,
-        end: 11
-      }),
-      frameRate: 5,
-      repeat: -1
-    })
-    this.anims.create({
-      key: 'personagem-caminhando-cima',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 12,
-        end: 13
-      }),
-      frameRate: 5,
-      repeat: -1
-    })
-    this.anims.create({
-      key: 'personagem-parado-baixo',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 3,
-        end: 3
-      }),
-      frameRate: 5,
-      repeat: -1
-    })
-    this.anims.create({
-      key: 'personagem-caminhando-baixo',
-      frames: this.anims.generateFrameNumbers('cachorro', {
-        start: 1,
-        end: 2
-      }),
-      frameRate: 5,
-      repeat: -1
-    })
 
     // Gera mensagem de log quando a conexão de dados é aberta
     globalThis.game.dadosJogo.onopen = () => {
@@ -1142,6 +1067,80 @@ export default class mapa extends Phaser.Scene {
 
     this.physics.add.collider(this.cachorro, this.layerCerca)
     this.physics.add.collider(this.cachorro, this.layerArbusto)
+    // Animação cachorro
+
+    this.anims.create({
+      key: 'cachorro-parado-esquerda',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 6,
+        end: 6
+      }),
+      frameRate: 1
+    })
+
+    this.anims.create({
+      key: 'personagem-caminhando-esquerda',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 4,
+        end: 5
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-parado-direita',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 9,
+        end: 9
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-caminhando-direita',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 7,
+        end: 8
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-parado-cima',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 10,
+        end: 11
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-caminhando-cima',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 12,
+        end: 13
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-parado-baixo',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 3,
+        end: 3
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'personagem-caminhando-baixo',
+      frames: this.anims.generateFrameNumbers('cachorro', {
+        start: 1,
+        end: 2
+      }),
+      frameRate: 5,
+      repeat: -1
+    })
   }
 
   update () {
