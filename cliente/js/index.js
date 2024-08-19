@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+import io from 'socket.io-client'
 import config from './config.js'
 import abertura from './abertura.js'
 import sala from './sala.js'
@@ -12,11 +14,13 @@ class Game extends Phaser.Game {
     this.audio = document.querySelector('audio')
 
     let iceServers
-    if (window.location.host === 'meowze.feira-de-jogos.dev.br') {
-      this.socket = io()
+    if (window.location.host === 'feira-de-jogos.dev.br') {
+      this.socket = io({ path: '/adcieqipt20241/socket.io/' })
       iceServers = [
         {
-          urls: 'stun:feira-de-jogos.dev.br'
+          urls: 'turn:feira-de-jogos.dev.br',
+          username: 'adcieqipt20241',
+          credential: 'adcieqipt20241'
         }
       ]
     } else {

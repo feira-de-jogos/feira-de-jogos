@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default {
   type: Phaser.AUTO,
   width: 800,
@@ -7,7 +9,7 @@ export default {
     default: 'arcade',
     arcade: {
       gravity: { y: 0 },
-      debug: true
+      debug: false
     }
   },
   pixelArt: true,
