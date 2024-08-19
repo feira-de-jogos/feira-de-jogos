@@ -1,3 +1,4 @@
+import Phaser from 'phaser'
 export default class mapa extends Phaser.Scene {
   constructor () {
     super('mapa')
@@ -44,7 +45,10 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('boss', './assets/personagens/boss.png', { frameWidth: 86, frameHeight: 86 })
     this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 75, frameHeight: 105 })
-
+    this.load.spritesheet('ogroamarelo', './assets/personagens/ogroamarelo.png', { frameWidth: 75, frameHeight: 105 })
+    this.load.spritesheet('ogrofogo', './assets/personagens/ogrofogo.png', { frameWidth: 75, frameHeight: 105 })
+    this.load.spritesheet('ogroroxo', './assets/personagens/ogroroxo.png', { frameWidth: 75, frameHeight: 105 })
+  
     // Sprites Altares e objetos:
     this.load.spritesheet('altarcristalamarelo', './assets/spritesmapa/altarcristalamarelo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('altarcristalfogo', './assets/spritesmapa/altarcristalfogo.png', { frameWidth: 64, frameHeight: 64 })
@@ -282,10 +286,11 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
+    // OGROS:
     // ogrogelo:
     this.anims.create({
       key: 'ogrogelo_andando_direita',
-      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 0, end: 3 }),
+      frames: this.anims.generateFrameNumbers('ogrogelo', { start: 1, end: 3 }),
       frameRate: 5,
       repeat: -1
     })
@@ -293,6 +298,50 @@ export default class mapa extends Phaser.Scene {
     this.anims.create({
       key: 'ogrogelo_andando_esquerda',
       frames: this.anims.generateFrameNumbers('ogrogelo', { start: 4, end: 7 }),
+      frameRate: 5,
+      repeat: -1
+    })
+    //ogroamarelo:
+    this.anims.create({
+      key: 'ogroamarelo_andando_direita',
+      frames: this.anims.generateFrameNumbers('ogroamarelo', { start: 1, end: 3 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'ogrogelo_andando_esquerda',
+      frames: this.anims.generateFrameNumbers('ogroamarelo', { start: 4, end: 7 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+     //ogrofogo:
+     this.anims.create({
+      key: 'ogrofogo_andando_direita',
+      frames: this.anims.generateFrameNumbers('ogrofogo', { start: 1, end: 3 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'ogrofogo_andando_esquerda',
+      frames: this.anims.generateFrameNumbers('ogrofogo', { start: 4, end: 7 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+     //ogroroxo:
+     this.anims.create({
+      key: 'ogroroxo_andando_direita',
+      frames: this.anims.generateFrameNumbers('ogroroxo', { start: 1, end: 3 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'ogroroxo_andando_esquerda',
+      frames: this.anims.generateFrameNumbers('ogroroxo', { start: 4, end: 7 }),
       frameRate: 5,
       repeat: -1
     })
@@ -431,21 +480,21 @@ export default class mapa extends Phaser.Scene {
           x: 630,
           y: 1576
         },
-        sprite: 'ogrogelo'
+        sprite: 'ogroroxo'
       },
       {
         // INIMIGO NO AMARELO:
-        x: 7023,
-        y: 2610,
+        x: 6980,
+        y: 2570,
         direita: {
-          x: 7170,
-          y: 2610
+          x: 7200,
+          y: 2570
         },
         esquerda: {
-          x: 6634,
-          y: 2610
+          x: 6644,
+          y: 2570
         },
-        sprite: 'ogrogelo'
+        sprite: 'ogroamarelo'
       },
     ]
 

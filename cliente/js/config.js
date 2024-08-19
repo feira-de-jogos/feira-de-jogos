@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default {
   type: Phaser.AUTO,
   width: 900,
@@ -7,7 +9,7 @@ export default {
     default: 'arcade',
     arcade: {
       gravity: { y: 1000 },
-      debug: true
+      debug: true // hitbox e vetores de força (COLOCAR FALSE QUANDO O JOGO ESTIVER PRONTO)
     }
   },
   scale: {

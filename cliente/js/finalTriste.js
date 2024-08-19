@@ -1,3 +1,4 @@
+import Phaser from 'phaser'
 export default class finalTriste extends Phaser.Scene {
   constructor () {
     super('finalTriste')
@@ -12,11 +13,7 @@ export default class finalTriste extends Phaser.Scene {
     this.add.image(427, 240, 'CenaMorte')
       .setInteractive()
       .on('pointerdown', () => {
-        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-          .then((stream) => {
-            globalThis.game.midias = stream
-          })
-          .catch((error) => console.error(error))
+        window.location.reload()
       })
   }
 

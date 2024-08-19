@@ -1,3 +1,6 @@
+import Phaser from 'phaser'
+import axios from 'axios'
+
 export default class finalFeliz extends Phaser.Scene {
   constructor () {
     super('finalFeliz')
@@ -13,30 +16,38 @@ export default class finalFeliz extends Phaser.Scene {
     this.add.image(427, 240, 'CenaVitoria')
       .setInteractive()
       .on('pointerdown', () => {
-        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-          .then((stream) => {
-            globalThis.game.midias = stream
-          })
-          .catch((error) => console.error(error))
+        window.location.reload()
       })
 
     // Inicializa o Google Sign-In
-    google.accounts.id.initialize({
+    globalThis.google.accounts.id.initialize({
       client_id: '540311140019-tg7huvct6tsv483cgrjfuul3fhtib574.apps.googleusercontent.com',
       callback: (res) => {
         if (res.error) {
           console.error(res.error)
         } else {
-          globalThis.game.jwt = jwtDecode(res.credential)
-          this.mensagem.setText(`Parabéns, ${globalThis.game.jwt.given_name}!`)
+          axios.post('https://feira-de-jogos.dev.br/api/v2/credit', {
+            product: 8, // id do jogo cadastrado no banco de dados da Feira de Jogos
+            value: 300 // crédito em tijolinhos
+          }, {
+            headers: {
+              Authorization: `Bearer ${res.credential}`
+            }
+          })
+            .then(function (response) {
+              console.log(response)
+            })
+            .catch(function (error) {
+              console.error(error)
+            })
         }
       }
     })
 
     // Exibe o prompt de login
-    google.accounts.id.prompt((notification) => {
+    globalThis.google.accounts.id.prompt((notification) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-        google.accounts.id.prompt()
+        globalThis.google.accounts.id.prompt()
       }
     })
   }
