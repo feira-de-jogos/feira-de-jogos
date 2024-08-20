@@ -42,10 +42,17 @@
 </head>
 
 <body>
+    <!--<audio id="audio" autoplay></audio>
+    <div class="center" id="game-container"></div>
+    <script src="https://accounts.google.com/gsi/client" async></script>-->
+    <script type="text/javascript" src="./js/phaser.min.js"></script>
+    <script type="text/javascript" src="./socket.io/socket.io.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
     <audio id="audio" autoplay></audio>
     <div class="center" id="game-container"></div>
-    <script src="https://accounts.google.com/gsi/client" async></script>
-    <script src="./index.js"></script>
+    <script type="module" src="./js/index.js"></script>
+    <!-- <script src="./index.js"></script> -->
 </body>
 
 </html>
