@@ -5,15 +5,23 @@ export default class finalTriste extends Phaser.Scene {
     super('finalTriste')
   }
 
-  preload () { }
+  preload () {
+    this.load.spritesheet('FinalTriste', './assets/FinalTriste.png', { frameWidth: 800, frameHeight: 450 })
+  }
 
   create () {
-    // Adiciona o texto de fim sem crédito e a possibilidade de reiniciar o jogo
-    this.add.text(100, 50, 'Você não conseguiu!', {
-      fontSize: '32px',
-      fill: '#fff',
-      fontFamily: 'Courier New'
+    this.anims.create({
+      key: 'cenafinaltriste',
+      frames: this.anims.generateFrameNumbers('FinalTriste', {
+        start: 0,
+        end: 6
+      }),
+      frameRate: 10,
+      repeat: -1
     })
+
+    this.add.sprite(400, 225, 'FinalTriste').anims.play('cenafinaltriste')
+    // Adiciona o texto de fim sem crédito e a possibilidade de reiniciar o jogo
       .setInteractive()
       .on('pointerdown', () => {
         window.location.reload()

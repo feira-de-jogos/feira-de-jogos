@@ -6,18 +6,26 @@ export default class finalFeliz extends Phaser.Scene {
     super('finalFeliz')
   }
 
-  preload () { }
+  preload () {
+    this.load.spritesheet('FinalFeliz', './assets/FinalFeliz.png', { frameWidth: 800, frameHeight: 450 })
+  }
 
   create () {
-    // Adiciona o texto de parabéns e a possibilidade de reiniciar o jogo
-    this.mensagem = this.add.text(100, 50, 'Parabéns! Você conseguiu!', {
-      fontSize: '32px',
-      fill: '#fff',
-      fontFamily: 'Courier New'
+    this.anims.create({
+      key: 'cenafinalfeliz',
+      frames: this.anims.generateFrameNumbers('FinalFeliz', {
+        start: 0,
+        end: 6
+      }),
+      frameRate: 10,
+      repeat: -1
     })
+
+    this.add.sprite(400, 225, 'FinalFeliz').anims.play('cenafinalfeliz')
+    // Adiciona o texto de parabéns e a possibilidade de reiniciar o jogo
       .setInteractive()
       .on('pointerdown', () => {
-        location.reload()
+        window.location.reload()
       })
 
     // Inicializa o Google Sign-In

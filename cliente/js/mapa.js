@@ -1059,12 +1059,8 @@ export default class mapa extends Phaser.Scene {
       })
     }, null, this)
     this.physics.add.overlap(this.cachorro, this.personagemLocal, () => {
-      this.cameras.main.fadeOut(200)
-      this.personagemLocal.x = 368
-      this.personagemLocal.y = 176
-      this.cameras.main.once('camerafadeoutcomplete', (camera) => {
-        camera.fadeIn(200)
-      })
+      this.scene.stop('mapa')
+      this.scene.start('finalTriste')
     }, null, this)
 
     this.physics.add.collider(this.cachorro, this.layerArbusto)
