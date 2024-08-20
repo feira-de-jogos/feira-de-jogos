@@ -447,7 +447,15 @@ export default class tilemapMapa extends Phaser.Scene {
       loop: true
     })
   }
-
+  if (dados.tomate) {
+    // Atualiza a visibilidade dos cartões
+    this.tomate.forEach((tomate, i) => {
+      // Atualiza a visibilidade do cartão
+      if (!dados.cartao[i].visible) {
+        tomate.objeto.disableBody(true, true)
+      }
+    })
+  }
   update () {
     try {
       // Envia os dados do jogo somente se houver conexão aberta
@@ -463,6 +471,17 @@ export default class tilemapMapa extends Phaser.Scene {
             }
           }))
         }
+        if (this.cartao) {
+          // Envia os dados dos cartoes via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            cartao: this.cartao.map(cartao => (cartao => ({
+              visible: cartao.objeto.visible
+            }))(cartao))
+          }))
+        }
+
+        // Atualiza o placar de cartoes coletadas pelos dois jogadores
+        this.pontos.setText('tomates: ' + this.tomate.filter(tomate => !tomate.objeto.active).length)
       }
     } catch (error) {
       console.error('Erro ao enviar os dados do jogo: ', error)
@@ -470,7 +489,7 @@ export default class tilemapMapa extends Phaser.Scene {
   }
 
   handleJoystickMove () {
-    const speed = 100 // Velocidade constante do personagem
+    const speed = 120 // Velocidade constante do personagem
     const threshold = 0.1 // Limite mínimo de força para considerar o movimento
 
     // Movimenta o personagem com base na direção do joystick
