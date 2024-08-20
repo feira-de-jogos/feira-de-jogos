@@ -4,7 +4,7 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload () {
-    this.load.audio('iniciar', './assets/iniciar.mp3')
+    this.load.audio('iniciar', './assets/sons/iniciar.mp3')
     this.load.image('espaço', './assets/espaço.png')
     this.load.image('aguardando', './assets/aguardando.png')
     this.load.image('nada', './assets/nada.png')
@@ -61,15 +61,16 @@ export default class abertura extends Phaser.Scene {
         // Define a variável global dos jogadores
         globalThis.game.jogadores = jogadores
 
-        // Para a cena atual e inicia a cena do mapa
+        // Para a cena atual e inicia a cena do cutscene
         this.scene.stop('sala')
-        this.scene.start('mapa')
+        this.iniciar.stop()
+        this.scene.start('cutscene')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
         this.espaco.setVisible(false)
       }
     })
-    //this.iniciar.stop()
+
   }
 
   update () {
