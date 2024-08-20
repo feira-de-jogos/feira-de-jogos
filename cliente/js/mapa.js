@@ -43,12 +43,16 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('BenVen', './assets/personagens/BenVen.png', { frameWidth: 48, frameHeight: 48 })
     this.load.spritesheet('monstro', './assets/personagens/monstro.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('boss', './assets/personagens/boss.png', { frameWidth: 86, frameHeight: 86 })
-    this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('ogrogelo', './assets/personagens/ogrogelo.png', { frameWidth: 75, frameHeight: 105 })
     this.load.spritesheet('ogroamarelo', './assets/personagens/ogroamarelo.png', { frameWidth: 75, frameHeight: 105 })
     this.load.spritesheet('ogrofogo', './assets/personagens/ogrofogo.png', { frameWidth: 75, frameHeight: 105 })
     this.load.spritesheet('ogroroxo', './assets/personagens/ogroroxo.png', { frameWidth: 75, frameHeight: 105 })
-  
+    this.load.spritesheet('dragaozinhofogo', './assets/personagens/dragaozinhofogo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('dragaozinhogelo', './assets/personagens/dragaozinhogelo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('dragaozinhoroxo', './assets/personagens/dragaozinhoroxo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('dragaozinhoamarelo', './assets/personagens/dragaozinhoamarelo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
+
     // Sprites Altares e objetos:
     this.load.spritesheet('altarcristalamarelo', './assets/spritesmapa/altarcristalamarelo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('altarcristalfogo', './assets/spritesmapa/altarcristalfogo.png', { frameWidth: 64, frameHeight: 64 })
@@ -270,7 +274,7 @@ export default class mapa extends Phaser.Scene {
       frameRate: 0,
       repeat: -1
     })
-
+    // DRAGOES:
     // dragaozinho:
     this.anims.create({
       key: 'dragaozinho_voando_direita',
@@ -286,6 +290,65 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
+    // dragaozinhofogo:
+    this.anims.create({
+      key: 'dragaozinhofogo_voando_direita',
+      frames: this.anims.generateFrameNumbers('dragaozinhofogo', { start: 1, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'dragaozinhofogo_voando_esquerda',
+      frames: this.anims.generateFrameNumbers('dragaozinhofogo', { start: 8, end: 12 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    // dragaozinhogelo:
+    this.anims.create({
+      key: 'dragaozinhogelo_voando_direita',
+      frames: this.anims.generateFrameNumbers('dragaozinhogelo', { start: 1, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'dragaozinhogelo_voando_esquerda',
+      frames: this.anims.generateFrameNumbers('dragaozinhogelo', { start: 8, end: 12 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    // dragaozinhoroxo:
+    this.anims.create({
+      key: 'dragaozinhoroxo_voando_direita',
+      frames: this.anims.generateFrameNumbers('dragaozinhoroxo', { start: 1, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'dragaozinhoroxo_voando_esquerda',
+      frames: this.anims.generateFrameNumbers('dragaozinhoroxo', { start: 8, end: 12 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    // dragaozinho:
+    this.anims.create({
+      key: 'dragaozinhoverde_voando_direita',
+      frames: this.anims.generateFrameNumbers('dragaozinhoverde', { start: 1, end: 4 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.anims.create({
+      key: 'dragaozinhoverde_voando_esquerda',
+      frames: this.anims.generateFrameNumbers('dragaozinhoverde', { start: 8, end: 12 }),
+      frameRate: 5,
+      repeat: -1
+    })
     // OGROS:
     // ogrogelo:
     this.anims.create({
@@ -301,7 +364,7 @@ export default class mapa extends Phaser.Scene {
       frameRate: 5,
       repeat: -1
     })
-    //ogroamarelo:
+    // ogroamarelo:
     this.anims.create({
       key: 'ogroamarelo_andando_direita',
       frames: this.anims.generateFrameNumbers('ogroamarelo', { start: 1, end: 3 }),
@@ -316,8 +379,8 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-     //ogrofogo:
-     this.anims.create({
+    // ogrofogo:
+    this.anims.create({
       key: 'ogrofogo_andando_direita',
       frames: this.anims.generateFrameNumbers('ogrofogo', { start: 1, end: 3 }),
       frameRate: 5,
@@ -331,8 +394,8 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-     //ogroroxo:
-     this.anims.create({
+    // ogroroxo:
+    this.anims.create({
       key: 'ogroroxo_andando_direita',
       frames: this.anims.generateFrameNumbers('ogroroxo', { start: 1, end: 3 }),
       frameRate: 5,
@@ -480,7 +543,7 @@ export default class mapa extends Phaser.Scene {
           x: 630,
           y: 1576
         },
-        sprite: 'ogroroxo'
+        sprite: 'ogrogelo'
       },
       {
         // INIMIGO NO AMARELO:
@@ -494,8 +557,8 @@ export default class mapa extends Phaser.Scene {
           x: 6644,
           y: 2570
         },
-        sprite: 'ogroamarelo'
-      },
+        sprite: 'ogrogelo'
+      }
     ]
 
     this.ogros.forEach((ogro) => {
@@ -609,7 +672,7 @@ export default class mapa extends Phaser.Scene {
         },
         esquerda: {
           x: 2750,
-          y: 3688 
+          y: 3688
         },
         sprite: 'dragaozinho'
       },
@@ -921,7 +984,7 @@ export default class mapa extends Phaser.Scene {
         },
         sprite: 'monstro'
       },
-      { 
+      {
         x: 3870,
         y: 2280,
         direita: {
@@ -1113,7 +1176,6 @@ export default class mapa extends Phaser.Scene {
         this.scene.start('finalTriste')
       }
     }, null, this)
-
 
     // colisão dos altares e porta:
 
