@@ -52,6 +52,8 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('dragaozinhoroxo', './assets/personagens/dragaozinhoroxo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('dragaozinhoamarelo', './assets/personagens/dragaozinhoamarelo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('tutorial', './assets/tutorial.png')
+    this.load.spritesheet('bau', './assets/spritesmapa/bau.png', { frameWidth: 128, frameHeight: 128 })
 
     // Sprites Altares e objetos:
     this.load.spritesheet('altarcristalamarelo', './assets/spritesmapa/altarcristalamarelo.png', { frameWidth: 64, frameHeight: 64 })
@@ -112,11 +114,21 @@ export default class mapa extends Phaser.Scene {
 
     // Criação de estruturas
 
+    // tutorial
+    this.tutorial = this.add.sprite(5730,1100, 'tutorial')
+    this.tutorial.body.setAllowGravity(false)
+    this.tutorial.setImmovable(true)
+    this.tutorial.setScale(0.5)
+
     // Porta do Boss:
     this.PortaBoss = this.physics.add.sprite(3606, 2595, 'PortaBoss')
     this.PortaBoss.body.setAllowGravity(false)
     this.PortaBoss.setScale(2)
 
+    //BAÚ:
+    this.bau = this.physics.add.sprite(1067, 3760, 'bau')
+    this.bau.body.setAllowGravity(false)
+    
     // ALTARES:
 
     // Altar Cristal Amarelo:
@@ -335,7 +347,7 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
-    // dragaozinho:
+    // dragaozinhoverde:
     this.anims.create({
       key: 'dragaozinhoverde_voando_direita',
       frames: this.anims.generateFrameNumbers('dragaozinhoverde', { start: 1, end: 4 }),
@@ -373,7 +385,7 @@ export default class mapa extends Phaser.Scene {
     })
 
     this.anims.create({
-      key: 'ogrogelo_andando_esquerda',
+      key: 'ogroamarelo_andando_esquerda',
       frames: this.anims.generateFrameNumbers('ogroamarelo', { start: 4, end: 7 }),
       frameRate: 5,
       repeat: -1
@@ -543,7 +555,7 @@ export default class mapa extends Phaser.Scene {
           x: 630,
           y: 1576
         },
-        sprite: 'ogrogelo'
+        sprite: 'ogroroxo'
       },
       {
         // INIMIGO NO AMARELO:
@@ -557,7 +569,7 @@ export default class mapa extends Phaser.Scene {
           x: 6644,
           y: 2570
         },
-        sprite: 'ogrogelo'
+        sprite: 'ogroamarelo'
       }
     ]
 
@@ -622,7 +634,7 @@ export default class mapa extends Phaser.Scene {
           x: 4085,
           y: 3816
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhofogo'
       },
       {
         x: 4122,
@@ -635,7 +647,7 @@ export default class mapa extends Phaser.Scene {
           x: 3972,
           y: 4136
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhofogo'
       },
       {
         x: 3041,
@@ -648,7 +660,7 @@ export default class mapa extends Phaser.Scene {
           x: 2800,
           y: 4200
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhofogo'
       },
       {
         x: 3284,
@@ -661,7 +673,7 @@ export default class mapa extends Phaser.Scene {
           x: 3115,
           y: 3432
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhofogo'
       },
       {
         x: 2932,
@@ -674,7 +686,7 @@ export default class mapa extends Phaser.Scene {
           x: 2750,
           y: 3688
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhofogo'
       },
       {
         x: 2915,
@@ -687,7 +699,7 @@ export default class mapa extends Phaser.Scene {
           x: 2750,
           y: 3432
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhofogo'
       },
       {
         // INIMIGOS NO GELO:
@@ -701,7 +713,7 @@ export default class mapa extends Phaser.Scene {
           x: 3962,
           y: 232
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhogelo'
       },
       {
         x: 4482,
@@ -714,7 +726,7 @@ export default class mapa extends Phaser.Scene {
           x: 4030,
           y: 680
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhogelo'
       },
       {
         x: 3026,
@@ -727,7 +739,7 @@ export default class mapa extends Phaser.Scene {
           x: 2850,
           y: 680
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhogelo'
       },
       {
         x: 4512,
@@ -740,7 +752,7 @@ export default class mapa extends Phaser.Scene {
           x: 4150,
           y: 1000
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhogelo'
       },
       // INIMIGO NO VERDE:
       {
@@ -754,7 +766,7 @@ export default class mapa extends Phaser.Scene {
           x: 2557,
           y: 1702
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoverde'
       },
       {
         // INIMIGO NO AMARELO:
@@ -768,7 +780,7 @@ export default class mapa extends Phaser.Scene {
           x: 5550,
           y: 1832
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoamarelo'
       },
       {
         x: 5945,
@@ -781,7 +793,7 @@ export default class mapa extends Phaser.Scene {
           x: 5800,
           y: 2152
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoamarelo'
       },
       {
         x: 6553,
@@ -794,7 +806,7 @@ export default class mapa extends Phaser.Scene {
           x: 6260,
           y: 1768
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoamarelo'
       },
       {
         x: 6194,
@@ -807,7 +819,7 @@ export default class mapa extends Phaser.Scene {
           x: 5810,
           y: 2600
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoamarelo'
       },
       {
         x: 5550,
@@ -820,7 +832,7 @@ export default class mapa extends Phaser.Scene {
           x: 5220,
           y: 2600
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoamarelo'
       },
       { // INIMIGOS NO ROXO:
         x: 863,
@@ -833,7 +845,7 @@ export default class mapa extends Phaser.Scene {
           x: 615,
           y: 1576
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoroxo'
       },
       {
         x: 539,
@@ -846,7 +858,7 @@ export default class mapa extends Phaser.Scene {
           x: 55,
           y: 1192
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoroxo'
       },
       {
         x: 261,
@@ -859,7 +871,7 @@ export default class mapa extends Phaser.Scene {
           x: 60,
           y: 2152
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoroxo'
       },
       {
         x: 315,
@@ -872,7 +884,7 @@ export default class mapa extends Phaser.Scene {
           x: 60,
           y: 1576
         },
-        sprite: 'dragaozinho'
+        sprite: 'dragaozinhoroxo'
       }
     ]
 
