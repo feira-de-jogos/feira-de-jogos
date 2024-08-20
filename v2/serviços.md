@@ -69,7 +69,7 @@ After=network.service
 
 [Service]
 WorkingDirectory=/opt/github/feira-de-jogos/equipamentos
-ExecStart=venv/bin/python vending-machine/wss-client.py
+ExecStart=/opt/github/feira-de-jogos/equipamentos/venv/bin/python vending-machine/wss-client.py
 User=pi
 Restart=always
 
@@ -109,7 +109,7 @@ After=network.service
 
 [Service]
 WorkingDirectory=/opt/github/feira-de-jogos/equipamentos
-ExecStart=venv/bin/python arcade/client.py
+ExecStart=/opt/github/feira-de-jogos/equipamentos/venv/bin/python arcade/client.py
 User=pi
 Restart=always
 
@@ -123,26 +123,4 @@ e ativar o novo serviço com os comandos:
 sudo systemctl daemon-reload
 sudo systemctl enable arcade.service
 sudo systemctl start arcade.service
-```
-
-
-
-
-
-
-portanto, fica assim:
-
-```ini
-[Unit]
-Description=Arcade
-After=network.service
-
-[Service]
-WorkingDirectory=/home/pi/equipamentos
-ExecStart=venv/bin/python vending-machine/wss-client.py
-User=pi
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
 ```
