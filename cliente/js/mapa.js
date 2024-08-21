@@ -7,6 +7,8 @@ export default class mapa extends Phaser.Scene {
 
   preload () {
     // Carrega os sons
+    this.load.audio('feliz', './assets/feliz.mp3')
+    this.load.audio('triste', './assets/triste.mp3')
     this.load.audio('trilha', './assets/trilha.mp3')
     this.load.audio('comendo', './assets/comendo.mp3')
     this.load.audio('correndo', './assets/correndo.mp3')
@@ -45,6 +47,8 @@ export default class mapa extends Phaser.Scene {
     this.input.addPointer(3)
 
     // Adiciona o som
+    this.feliz = this.sound.add('feliz').play()
+    this.trsite = this.sound.add('triste').play()
     this.trilha = this.sound.add('trilha', { loop: true }).play()
     this.comendo = this.sound.add('comendo')
     this.correndo = this.sound.add('correndo', { loop: true })
@@ -1059,8 +1063,10 @@ export default class mapa extends Phaser.Scene {
       })
     }, null, this)
     this.physics.add.overlap(this.cachorro, this.personagemLocal, () => {
+      this.trilha.stop()
       this.scene.stop('mapa')
       this.scene.start('finalTriste')
+      this.triste.play()
     }, null, this)
 
     this.physics.add.collider(this.cachorro, this.layerArbusto)
@@ -1238,8 +1244,10 @@ export default class mapa extends Phaser.Scene {
 
     const cookiesColetados = this.cookies.filter(cookie => !cookie.objeto.active).length
     if (cookiesColetados >= this.cookies.length) {
+      this.trilha.stop()
       this.scene.stop('mapa')
       this.scene.start('finalFeliz')
+      this.feliz.play()
     }
 
     this.placar.setText(`${cookiesColetados} / ${moedinhaColetada}`)
