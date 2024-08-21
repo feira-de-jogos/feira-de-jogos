@@ -7,10 +7,17 @@ export default class finalFeliz extends Phaser.Scene {
   }
 
   preload () {
+    // carrega a cena de fenal feliz
     this.load.spritesheet('FinalFeliz', './assets/FinalFeliz.png', { frameWidth: 800, frameHeight: 450 })
+
+    // Carrega o som de final feliz
+    this.load.audio('feliz', './assets/feliz.mp3')
   }
 
   create () {
+    // Adiciona o som
+    this.feliz = this.sound.add('feliz').play()
+
     this.anims.create({
       key: 'cenafinalfeliz',
       frames: this.anims.generateFrameNumbers('FinalFeliz', {

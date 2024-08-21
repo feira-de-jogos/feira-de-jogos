@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "standard": "*"
+    "standard": "*",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "express": "^4.19.2",
