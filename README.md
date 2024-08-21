@@ -69,11 +69,10 @@ Os 2 personagens principais são irmãos, sendo eles:
 
 ## Objetivo
 
-Leo e Ben tem como objetivo do jogo derrotar a Besta antiga que se encontra em uma masmorra cheia de criaturas. Para enfrentar a besta, eles precisam encontrar 4 cristais escondidos entre as salas. Com os 4 obtidos, eles devem levá-los a porta do boss para abri-la e chegar ao final do jogo.
+Leo e Ben tem como objetivo do jogo coletar o tesouro no final da masmora antiga. Para isso, eles precisam encontrar 4 cristais escondidos entre as salas. Com os 4 obtidos, eles devem levá-los a porta do boss para abri-la e chegar ao final do jogo, porém somento 1 dos irmão poderá ficar com o tesouro final. Que o melhor irmão vença!!
 
 ## Receitas
 
 Algumas salas do jogo possuem 1 cristal, e este cristal irá servir para adentrar na sala final.
 
-Cada um dos cristais irá gerar uma renda de 10 tijolinhos, no total coletando os 4 cristais receberá 40 tijolinho. 
-Ao chegar no chefe final e aparecer a tela de vitóra cada um dos jogadores ganhará 60 tijolinhos.
+No final do jogo o irmão que coletar o tesouro primeiro receberá 300 tijolinhos.
