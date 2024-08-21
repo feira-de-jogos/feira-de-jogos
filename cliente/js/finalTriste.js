@@ -15,7 +15,7 @@ export default class finalTriste extends Phaser.Scene {
 
   create () {
     // Adiciona o som
-    this.triste = this.sound.add('triste', { loop: true }).play()
+    this.triste = this.sound.add('triste').play()
 
     this.anims.create({
       key: 'cenafinaltriste',
