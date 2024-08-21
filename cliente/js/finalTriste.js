@@ -33,6 +33,8 @@ export default class finalTriste extends Phaser.Scene {
       .on('pointerdown', () => {
         window.location.reload()
       })
+    // Adiciona o som
+    this.triste = this.sound.add('triste', { loop: true }).play()
   }
 
   update () { }

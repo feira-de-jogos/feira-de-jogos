@@ -15,9 +15,6 @@ export default class finalFeliz extends Phaser.Scene {
   }
 
   create () {
-    // Adiciona o som
-    this.feliz = this.sound.add('feliz').play()
-
     this.anims.create({
       key: 'cenafinalfeliz',
       frames: this.anims.generateFrameNumbers('FinalFeliz', {
@@ -56,6 +53,8 @@ export default class finalFeliz extends Phaser.Scene {
             .catch(function (error) {
               console.error(error)
             })
+          // Adiciona o som
+          this.feliz = this.sound.add('feliz').play()
         }
       }
     })
