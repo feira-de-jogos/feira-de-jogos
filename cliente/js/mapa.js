@@ -122,15 +122,21 @@ export default class mapa extends Phaser.Scene {
     this.PortaBoss.body.setAllowGravity(false)
     this.PortaBoss.setScale(2)
 
-    // BAÚ:
+    // BAÚ + finalfeliz:
     this.bau = this.physics.add.sprite(1208, 3730, 'bau')
     this.bau.body.setAllowGravity(false)
-    /* this.physics.add.overlap(this.personagemLocal, this.bau, () => {
-       this.scene.start('finalFeliz')
-       if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
-         globalThis.game.socket.emit('finalTriste', globalThis.game.sala)
-       }
-     })*/
+    this.bau.body.setImmovable(true)
+    this.physics.add.overlap(this.bau, this.personagemLocal, () => {
+      try {
+        if (globalThis.game.dadosJogo.readyState === 'open') {
+          globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
+        }
+      } catch (err) {
+        console.error(err)
+      }
+      this.scene.stop('mapa')
+      this.scene.start('finalFeliz')
+    }, null, this)
 
     // ALTARES:
 
@@ -491,19 +497,19 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .setScale(3)
-    // cristal vermelho
+      // cristal vermelho
     this.cristalvermelho = this.add.sprite(780, 30, 'cristalvermelho', 0)
       .setVisible(false)
       .setScrollFactor(0)
       .setInteractive()
       .setScale(3)
-    // cristal azul
+      // cristal azul
     this.cristalazul = this.add.sprite(740, 30, 'cristalazul', 0)
       .setVisible(false)
       .setScrollFactor(0)
       .setInteractive()
       .setScale(3)
-    // cristal roxo
+      // cristal roxo
     this.cristalroxo = this.add.sprite(700, 30, 'cristalroxo', 0)
       .setVisible(false)
       .setScrollFactor(0)
@@ -1202,7 +1208,7 @@ export default class mapa extends Phaser.Scene {
 
     // Detalhes do mapa
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela,
-    this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+      this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
     // colisão de personagens:
 
     this.layerChao.setCollisionByProperty({ collides: true })
@@ -1286,11 +1292,27 @@ export default class mapa extends Phaser.Scene {
       const dados = JSON.parse(event.data)
 
       // Verifica se os dados recebidos contêm informações sobre o personagem
-      if (dados.personagem) {
-        this.personagemRemoto.x = dados.personagem.x
-        this.personagemRemoto.y = dados.personagem.y
-        this.personagemRemoto.setTexture(dados.personagem.animacao)
-        this.personagemRemoto.setFrame(dados.personagem.frame)
+      if (dados.personagemLocal) {
+        this.personagemRemoto.x = dados.personagemLocal.x
+        this.personagemRemoto.y = dados.personagemLocal.y
+        this.personagemRemoto.setTexture(dados.personagemLocal.animacao)
+        this.personagemRemoto.setFrame(dados.personagemLocal.frame)
+      }
+      // final triste para o outro jogador
+      globalThis.game.dadosJogo.onmessage = (event) => {
+        const dados = JSON.parse(event.data)
+
+        // Verifica se os dados recebidos contêm informações sobre o personagem
+        if (dados.personagemLocal) {
+          this.personagemRemoto.x = dados.personagemLocal.x
+          this.personagemRemoto.y = dados.personagemLocal.y
+          this.personagemRemoto.setFrame(dados.personagemLocal.frame)
+        }
+
+        if (dados.gameover) {
+          this.scene.stop('mapa')
+          this.scene.start('finalTriste')
+        }
       }
     }
   }
