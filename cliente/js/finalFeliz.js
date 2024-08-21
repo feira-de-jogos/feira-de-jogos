@@ -7,13 +7,13 @@ export default class finalFeliz extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('CenaVitoria', './assets/Cenas/CenaVitoria.png')
+    this.load.image('CenaFeliz', './assets/Cenas/CenaFeliz.png')
   }
 
   // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
 
   create () {
-    this.add.image(900, 494, 'CenaVitoria')
+    this.add.image(900, 494, 'CenaFeliz')
       .setInteractive()
       .on('pointerdown', () => {
         window.location.reload()
