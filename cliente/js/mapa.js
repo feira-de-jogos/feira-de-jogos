@@ -52,7 +52,7 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('dragaozinhoverde', './assets/personagens/dragaozinhoverde.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('dragaozinho', './assets/personagens/dragaozinho.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('tutorial', './assets/tutorial.png', { frameWidth: 588, frameHeight: 195 })
-    this.load.spritesheet('bau', './assets/spritesmapa/bau.png', { frameWidth: 128, frameHeight: 128 })
+    this.load.spritesheet('bau', './assets/spritesmapa/bau.png', { frameWidth: 110, frameHeight: 100 })
 
     // Sprites Altares e objetos:
     this.load.spritesheet('altarcristalamarelo', './assets/spritesmapa/altarcristalamarelo.png', { frameWidth: 64, frameHeight: 64 })
@@ -123,9 +123,14 @@ export default class mapa extends Phaser.Scene {
     this.PortaBoss.setScale(2)
 
     // BAÚ:
-    this.bau = this.physics.add.sprite(1208, 3735, 'bau')
+    this.bau = this.physics.add.sprite(1208, 3730, 'bau')
     this.bau.body.setAllowGravity(false)
-    this.bau.setTint(0x808080)
+    /* this.physics.add.overlap(this.personagemLocal, this.bau, () => {
+       this.scene.start('finalFeliz')
+       if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
+         globalThis.game.socket.emit('finalTriste', globalThis.game.sala)
+       }
+     })*/
 
     // ALTARES:
 
@@ -520,6 +525,7 @@ export default class mapa extends Phaser.Scene {
 
     // INIMIGOS NO MAPA:
     // Lista dos ogros:
+    // INIMIGOS NO GELO:
     this.ogros = [
       {
         x: 3600,
@@ -561,6 +567,20 @@ export default class mapa extends Phaser.Scene {
           y: 2570
         },
         sprite: 'ogroamarelo'
+      },
+      // INIMIGO NO FOGO:
+      {
+        x: 4122,
+        y: 4120,
+        direita: {
+          x: 4322,
+          y: 4126
+        },
+        esquerda: {
+          x: 3972,
+          y: 4136
+        },
+        sprite: 'ogrofogo'
       }
     ]
 
@@ -611,19 +631,6 @@ export default class mapa extends Phaser.Scene {
         esquerda: {
           x: 4085,
           y: 3816
-        },
-        sprite: 'dragaozinhofogo'
-      },
-      {
-        x: 4122,
-        y: 4136,
-        direita: {
-          x: 4322,
-          y: 4126
-        },
-        esquerda: {
-          x: 3972,
-          y: 4136
         },
         sprite: 'dragaozinhofogo'
       },
@@ -747,7 +754,33 @@ export default class mapa extends Phaser.Scene {
         sprite: 'dragaozinhoverde'
       },
       {
-        // INIMIGO NO AMARELO:
+        x: 2670,
+        y: 2024,
+        direita: {
+          x: 2985,
+          y: 2024
+        },
+        esquerda: {
+          x: 2557,
+          y: 2024
+        },
+        sprite: 'dragaozinhoverde'
+      },
+      {
+        x: 3560,
+        y: 1960,
+        direita: {
+          x: 4080,
+          y: 1960
+        },
+        esquerda: {
+          x: 3265,
+          y: 1960
+        },
+        sprite: 'dragaozinhoverde'
+      },
+      // INIMIGO NO AMARELO:
+      {
         x: 5834,
         y: 1832,
         direita: {
@@ -825,7 +858,8 @@ export default class mapa extends Phaser.Scene {
         },
         sprite: 'dragaozinho'
       },
-      { // INIMIGOS NO ROXO:
+      // INIMIGOS NO ROXO:
+      {
         x: 863,
         y: 1576,
         direita: {
@@ -874,6 +908,19 @@ export default class mapa extends Phaser.Scene {
         esquerda: {
           x: 60,
           y: 1576
+        },
+        sprite: 'dragaozinhoroxo'
+      },
+      {
+        x: 843,
+        y: 1896,
+        direita: {
+          x: 1241,
+          y: 1896
+        },
+        esquerda: {
+          x: 636,
+          y: 1896
         },
         sprite: 'dragaozinhoroxo'
       }
@@ -1111,7 +1158,7 @@ export default class mapa extends Phaser.Scene {
     this.physics.add.overlap(this.personagemLocal, this.portal7, () => {
       this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 3984
-      this.personagemLocal.y = 3284
+      this.personagemLocal.y = 3250
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
         camera.fadeIn(200)
       })
@@ -1155,7 +1202,7 @@ export default class mapa extends Phaser.Scene {
 
     // Detalhes do mapa
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela,
-      this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+    this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
     // colisão de personagens:
 
     this.layerChao.setCollisionByProperty({ collides: true })
@@ -1186,7 +1233,7 @@ export default class mapa extends Phaser.Scene {
           this.cristalroxo.setVisible(false)
         } else if (this.PortaBoss.anims.currentFrame && this.PortaBoss.anims.currentFrame.index === 8) {
           // Portal verde para boss:
-          this.portalboss = this.physics.add.sprite(3606, 2664, 'Vazio')
+          this.portalboss = this.physics.add.sprite(3615, 2650, 'Vazio')
           this.portalboss.body.setAllowGravity(false)
           this.physics.add.overlap(this.personagemLocal, this.portalboss, () => {
             this.cameras.main.fadeOut(200)
@@ -1233,7 +1280,6 @@ export default class mapa extends Phaser.Scene {
 
     // criação da camera que irá serguir o personagem
     this.cameras.main.startFollow(this.personagemLocal)
-    this.cameras.main.setZoom(0.2)
 
     // Conexão com o servidor
     globalThis.game.dadosJogo.onmessage = (event) => {
