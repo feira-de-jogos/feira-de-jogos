@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+//import Phaser from 'phaser'
 export default class finalTriste extends Phaser.Scene {
   constructor () {
     super('finalTriste')
