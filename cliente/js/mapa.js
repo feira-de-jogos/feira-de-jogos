@@ -234,6 +234,8 @@ export default class tilemapMapa extends Phaser.Scene {
       frameRate: 12
     })
 
+    this.pontos = 0
+
     // Configuração do plugin do joystick virtual
     this.joystick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
       x: 200,
@@ -256,6 +258,15 @@ export default class tilemapMapa extends Phaser.Scene {
         this.personagemRemoto.x = dados.personagem.x
         this.personagemRemoto.y = dados.personagem.y
         this.personagemRemoto.setFrame(dados.personagem.frame)
+        if (dados.tomate) {
+          // Atualiza a visibilidade dos cartões
+          this.tomate.forEach((tomate, i) => {
+            // Atualiza a visibilidade do cartão
+            if (!dados.tomate[i].visible) {
+              tomate.objeto.disableBody(true, true)
+            }
+          })
+        }
       }
     }
 
@@ -422,13 +433,21 @@ export default class tilemapMapa extends Phaser.Scene {
       }, null, this)
     })
 
-    this.timeout = 1000
+    this.timeout = 300
     this.timerText = this.add.text(70, 45, this.timeout, {
-      fontFamily: 'Silkscreen',
-      fontSize: '25px',
-      stroke: '#000000',
-      strokeThickness: 4,
-      fill: '#ffffff'
+      fontSize: '28px',
+      fill: '#ffffff', // Cor chamativa
+      fontFamily: 'Comic Sans MS',
+      stroke: '#ffffff', // Cor da borda
+      strokeThickness: 2, // Espessura da borda
+      shadow: {
+        offsetX: 1,
+        offsetY: 1,
+        color: '#000000',
+        blur: 1,
+        stroke: true,
+        fill: true
+      }
     }).setScrollFactor(0)
 
     this.timer = this.time.addEvent({
@@ -446,16 +465,23 @@ export default class tilemapMapa extends Phaser.Scene {
       callbackScope: this,
       loop: true
     })
-  }
-  if (dados.tomate) {
-    // Atualiza a visibilidade dos cartões
-    this.tomate.forEach((tomate, i) => {
-      // Atualiza a visibilidade do cartão
-      if (!dados.cartao[i].visible) {
-        tomate.objeto.disableBody(true, true)
+    this.pontosTexto = this.add.text(350, 45, `Comidas: ${this.pontos}`, {
+      fontSize: '28px',
+      fill: '#ffffff', // Cor chamativa
+      fontFamily: 'Comic Sans MS',
+      stroke: '#ffffff', // Cor da borda
+      strokeThickness: 2, // Espessura da borda
+      shadow: {
+        offsetX: 1,
+        offsetY: 1,
+        color: '#000000',
+        blur: 1,
+        stroke: true,
+        fill: true
       }
-    })
+    }).setScrollFactor(0)
   }
+
   update () {
     try {
       // Envia os dados do jogo somente se houver conexão aberta
@@ -471,17 +497,19 @@ export default class tilemapMapa extends Phaser.Scene {
             }
           }))
         }
-        if (this.cartao) {
+        if (this.tomates) {
           // Envia os dados dos cartoes via DataChannel
           globalThis.game.dadosJogo.send(JSON.stringify({
-            cartao: this.cartao.map(cartao => (cartao => ({
-              visible: cartao.objeto.visible
-            }))(cartao))
+            tomate: this.tomates.map(tomate => (tomate => ({
+              visible: tomate.objeto.visible
+            }))(tomate))
           }))
         }
-
+        if (this.tomates) {
+        const tomatesColetados = this.tomates.filter(tomate => !tomate.objeto.active).length
+        this.pontosTexto.setText(`Comidas: ${tomatesColetados}`)
         // Atualiza o placar de cartoes coletadas pelos dois jogadores
-        this.pontos.setText('tomates: ' + this.tomate.filter(tomate => !tomate.objeto.active).length)
+        this.pontosTexto.setText('tomates: ' + this.tomate.filter(tomate => !tomate.objeto.active).length)
       }
     } catch (error) {
       console.error('Erro ao enviar os dados do jogo: ', error)
