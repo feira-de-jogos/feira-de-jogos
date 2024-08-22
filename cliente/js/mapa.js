@@ -268,6 +268,47 @@ export default class tilemapMapa extends Phaser.Scene {
           })
         }
       }
+      if (dados.tomates) {
+        // Atualiza a visibilidade dos cartões
+        this.tomates.forEach((tomate, i) => {
+          // Atualiza a visibilidade do cartão
+          if (!dados.tomate[i].visible) {
+            tomate.objeto.disableBody(true, true)
+          }
+        })
+      }
+      if (dados.mostardas) {
+        // Atualiza a visibilidade dos cartões
+        this.mostardas.forEach((mostarda, i) => {
+          // Atualiza a visibilidade do cartão
+          if (!dados.mostarda[i].visible) {
+            mostarda.objeto.disableBody(true, true)
+          }
+        })
+      }
+      if (dados.cachorros) {
+        // Atualiza a visibilidade dos cartões
+        this.cachorros.forEach((cachorro, i) => {
+          // Atualiza a visibilidade do cartão
+          if (!dados.cachorro[i].visible) {
+            cachorro.objeto.disableBody(true, true)
+          }
+        })
+      }
+      if (dados.ketchups) {
+        // Atualiza a visibilidade dos cartões
+        this.ketchups.forEach((ketchup, i) => {
+          // Atualiza a visibilidade do cartão
+          if (!dados.ketchup[i].visible) {
+            ketchup.objeto.disableBody(true, true)
+          }
+        })
+      }
+
+      if (dados.gameover) {
+        this.scene.stop('mapa')
+        this.scene.start('finalTriste')
+      }
     }
 
     this.tomates = [
@@ -465,21 +506,6 @@ export default class tilemapMapa extends Phaser.Scene {
       callbackScope: this,
       loop: true
     })
-    this.pontosTexto = this.add.text(350, 45, `Comidas: ${this.pontos}`, {
-      fontSize: '28px',
-      fill: '#ffffff', // Cor chamativa
-      fontFamily: 'Comic Sans MS',
-      stroke: '#ffffff', // Cor da borda
-      strokeThickness: 2, // Espessura da borda
-      shadow: {
-        offsetX: 1,
-        offsetY: 1,
-        color: '#000000',
-        blur: 1,
-        stroke: true,
-        fill: true
-      }
-    }).setScrollFactor(0)
   }
 
   update () {
@@ -511,6 +537,39 @@ export default class tilemapMapa extends Phaser.Scene {
           const tomatesColetados = this.tomates.filter(tomate => !tomate.objeto.active).length;
           this.pontosTexto.setText(`Comidas: ${tomatesColetados}`);
         }
+        if (this.tomates) {
+          // Envia os dados dos cartoes via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            tomate: this.tomates.map(tomate => (tomate => ({
+              visible: tomate.objeto.visible
+            }))(tomate))
+          }))
+        }
+        if (this.mostardas) {
+          // Envia os dados dos cartoes via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            mostarda: this.mostardas.map(mostarda => (mostarda => ({
+              visible: mostarda.objeto.visible
+            }))(mostarda))
+          }))
+        }
+        if (this.cachorros) {
+          // Envia os dados dos cartoes via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            cachorro: this.cachorros.map(cachorro => (cachorro => ({
+              visible: cachorro.objeto.visible
+            }))(cachorro))
+          }))
+        }
+        if (this.ketchups) {
+          // Envia os dados dos cartoes via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            ketchup: this.ketchups.map(ketchup => (ketchup => ({
+              visible: ketchup.objeto.visible
+            }))(ketchup))
+          }))
+        }
+        this.pontos.setText('Ingredientes: ' + [this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length)
       }
     } catch (error) {
       console.error('Erro ao enviar os dados do jogo: ', error);
