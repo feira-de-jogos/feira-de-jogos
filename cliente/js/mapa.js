@@ -577,7 +577,7 @@ export default class mapa extends Phaser.Scene {
     this.addAlien(this.personagemLocal.x, this.personagemLocal.y)
   }
 
-  if (cartoesColetados >= 10) {
+  if (cartoesColetados >= 1) {
     this.scene.stop('mapa')
     this.scene.start('finalFeliz')
   }
