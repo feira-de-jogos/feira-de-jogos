@@ -13,7 +13,6 @@ export default class finalFeliz extends Phaser.Scene {
   // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
 
   create () {
-    this.sound.add('somvitoria', { loop: false }).play()
     this.add.image(450, 220, 'finalFeliz')
       .setInteractive()
       .on('pointerdown', () => {

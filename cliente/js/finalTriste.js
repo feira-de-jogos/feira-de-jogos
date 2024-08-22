@@ -9,7 +9,6 @@ export default class finalTriste extends Phaser.Scene {
   }
 
   create () {
-    this.sound.add('somderrota', { loop: false }).play()
     // Adiciona o texto de fim sem crédito e a possibilidade de reiniciar o jogo
     this.add.image(450, 220, 'finalTriste')
       .setInteractive()

@@ -4,15 +4,7 @@ const cacheName = 'cache-v1'
 // List the files to precache
 const precacheResources = [
   './',
-  './assets/sons/somarenaboss.mp3',
-  './assets/sons/somcristal.mp3',
-  './assets/sons/somderrota.mp3',
   './assets/sons/somfundo.mp3',
-  './assets/sons/somgrama.mp3',
-  './assets/sons/somhitben.mp3',
-  './assets/sons/somhitleo.mp3',
-  './assets/sons/somtesouro.mp3',
-  './assets/sons/somvitoria.mp3',
   './assets/Cenas/finalTriste.png',
   './assets/Cenas/finalFeliz.png',
   './assets/Cenas/CenadeJogos.png',

@@ -6,16 +6,6 @@ export default class mapa extends Phaser.Scene {
 
   preload () {
     // lembrando que temos que carregar o som como primeiro de tudo, até acima do mapa, apartir do mesmo comando:
-
-    this.load.audio('somarenaboss', './assets/sons/somarenaboss.mp3')
-    this.load.audio('somcristal', './assets/sons/somcristal.mp3')
-    this.load.audio('somderrota', './assets/sons/somderrota.mp3')
-    this.load.audio('somgrama', './assets/sons/somgrama.mp3')
-    this.load.audio('somhitben', './assets/sons/somhitben.mp3')
-    this.load.audio('somhitleo', './assets/sons/somhitleo.mp3')
-    this.load.audio('somtesouro', './assets/sons/somtesouro.mp3')
-    this.load.audio('somvitoria', './assets/sons/somvitoria.mp3')
-    this.load.audio('somporta', './assets/sons/somhitben.mp3')
     this.load.audio('somfundo', './assets/sons/somfundo.mp3')
 
     // Sprites load
@@ -86,14 +76,7 @@ export default class mapa extends Phaser.Scene {
     this.input.addPointer(3)
 
     // Som do mapa
-    this.sound.add('somfundo', { loop: true }).play()
-    this.somhitben = this.sound.add('somhitben')
-    this.hitleo = this.sound.add('somhitleo')
-    this.somtesouro = this.sound.add('somtesouro')
-    this.somarenaboss = this.sound.add('somarenaboss')
-    this.somcristal = this.sound.add('somcristal')
-    this.somgrama = this.sound.add('somgrama')
-    this.somporta = this.sound.add('somporta')
+    this.sound.play('somfundo', { loop: true })
 
     // cria o objeto tilemap (mapa)
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -467,7 +450,6 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.direita.setFrame(1)
-        this.somgrama.play()
         this.personagemLocal.setVelocityX(300)
         this.personagemLado = 'direita'
         this.personagemLocal.anims.play('andando_' + this.personagemLado)
@@ -487,7 +469,6 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.esquerda.setFrame(1)
-        this.somgrama.play()
         this.personagemLocal.setVelocityX(-300)
         this.personagemLado = 'esquerda'
         this.personagemLocal.anims.play('andando_' + this.personagemLado)
@@ -535,7 +516,6 @@ export default class mapa extends Phaser.Scene {
       this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 2640
       this.personagemLocal.y = 2660
-      this.somarenaboss.play()
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
         camera.fadeIn(200)
       })
@@ -1241,7 +1221,6 @@ export default class mapa extends Phaser.Scene {
       this.physics.add.overlap(this.personagemLocal, this.PortaBoss, () => {
         if (this.cristalamarelo.visible && this.cristalazul.visible && this.cristalvermelho.visible && this.cristalroxo.visible) {
           this.PortaBoss.anims.play('PortaBoss')
-          this.somporta.play()
           this.cristalamarelo.setVisible(false)
           this.cristalvermelho.setVisible(false)
           this.cristalazul.setVisible(false)
@@ -1252,7 +1231,6 @@ export default class mapa extends Phaser.Scene {
           // Portal verde para boss:
           this.portalboss = this.physics.add.sprite(3615, 2650, 'Vazio')
           this.portalboss.body.setAllowGravity(false)
-          this.somarenaboss.play()
           this.direita.setVisible(true)
           this.esquerda.setVisible(true)
           this.physics.add.overlap(this.personagemLocal, this.portalboss, () => {
@@ -1270,7 +1248,6 @@ export default class mapa extends Phaser.Scene {
     // altar de gelo
     this.altarcristalgelo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalgelo, () => {
-      this.somcristal.play()
       this.cristalazul.setVisible(true)
       this.altarcristalgelo.setFrame(1)
     }, null, this)
@@ -1278,7 +1255,6 @@ export default class mapa extends Phaser.Scene {
     // altar de fogo
     this.altarcristalfogo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalfogo, () => {
-      this.somcristal.play()
       this.cristalvermelho.setVisible(true)
       this.altarcristalfogo.setFrame(1)
     }, null, this)
@@ -1286,7 +1262,6 @@ export default class mapa extends Phaser.Scene {
     // altar amarelo
     this.altarcristalamarelo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalamarelo, () => {
-      this.somcristal.play()
       this.cristalamarelo.setVisible(true)
       this.altarcristalamarelo.setFrame(1)
     }, null, this)
@@ -1294,7 +1269,6 @@ export default class mapa extends Phaser.Scene {
     // altar roxo
     this.altarcristalroxo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalroxo, () => {
-      this.somcristal.play()
       this.cristalroxo.setVisible(true)
       this.altarcristalroxo.setFrame(1)
     }, null, this)
