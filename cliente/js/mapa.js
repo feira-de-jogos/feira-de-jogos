@@ -470,7 +470,7 @@ export default class tilemapMapa extends Phaser.Scene {
       }, null, this)
     })
 
-    this.timeout = 100
+    this.timeout = 150
     this.timerText = this.add.text(70, 45, this.timeout, {
       fontSize: '28px',
       fill: '#ffffff', // Cor chamativa
