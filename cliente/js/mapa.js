@@ -243,6 +243,17 @@ export default class mapa extends Phaser.Scene {
       repeat: -1
     })
 
+    this.telacheia = this.add.sprite(700, 50, 'tela-cheia', 0)
+      .setInteractive()
+      .setScrollFactor(0)
+      .on('pointerdown', () => {
+        if (this.scale.isFullscreen) {
+          this.scale.stopFullscreen()
+        } else {
+          this.scale.startFullscreen()
+        }
+      })
+
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // nao se move com a câmera
       .setInteractive() // permite interaçao com o sprite
@@ -437,7 +448,33 @@ export default class mapa extends Phaser.Scene {
       strokeThickness: 4,
       fill: '#ffffff'
     }).setScrollFactor(0)
+
+    // Armazena os aliens criados
+    this.aliens = []
+
+    // Função para adicionar um alien
+    this.addAlien = (x, y) => {
+      const alien = this.physics.add.sprite(x, y + 150, 'alien')
+      this.physics.add.collider(alien, this.layerparedes)
+      this.physics.add.collider(alien, this.layerobjetos)
+      this.physics.add.overlap(this.personagemLocal, this.aliens, (personagem, alien) => {
+        // Verifica a distância entre o personagem e o alien
+        const distancia = Phaser.Math.Distance.Between(personagem.x, personagem.y, alien.x, alien.y);
+
+        // Define uma distância mínima para considerar a colisão
+        const distanciaMinima = 15; // Ajuste conforme necessário
+
+        if (distancia < distanciaMinima) {
+          globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }));
+          this.scene.stop('mapa');
+          this.scene.start('finalTriste');
+        }
+      }, null, this);
+
+      this.aliens.push(alien)
+    }
   }
+
 
   update () {
     try {
@@ -476,317 +513,73 @@ export default class mapa extends Phaser.Scene {
       console.error(error)
     }
 
-    if (this.alien) {
-      // alien segue personagem mais próximo
-      const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
-        this.personagemLocal.x,
-        this.personagemLocal.y,
-        this.alien.x,
-        this.alien.y
-      )
+  // Atualiza a lógica de movimento para todos os aliens
+  this.aliens.forEach(alien => {
+    const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
+      this.personagemLocal.x,
+      this.personagemLocal.y,
+      alien.x,
+      alien.y
+    )
 
-      const hipotenusaPersonagemRemoto = Phaser.Math.Distance.Between(
-        this.personagemRemoto.x,
-        this.personagemRemoto.y,
-        this.alien.x,
-        this.alien.y
-      )
+    const hipotenusaPersonagemRemoto = Phaser.Math.Distance.Between(
+      this.personagemRemoto.x,
+      this.personagemRemoto.y,
+      alien.x,
+      alien.y
+    )
 
-      // Por padrão, o primeiro jogador é o alvo
-      let alvo = this.personagemLocal
-      if (hipotenusaPersonagemLocal > hipotenusaPersonagemRemoto) {
-        // Jogador 2 é perseguido pelo alien
-        alvo = this.personagemRemoto
-      }
-
-      // Sentido no eixo X
-      const diffX = alvo.x - this.alien.x
-      if (diffX >= 10) {
-        this.alien.setVelocityX(40)
-      } else if (diffX <= 10) {
-        this.alien.setVelocityX(-40)
-      }
-
-      // Sentido no eixo Y
-      const diffY = alvo.y - this.alien.y
-      if (diffY >= 10) {
-        this.alien.setVelocityY(40)
-      } else if (diffY <= 10) {
-        this.alien.setVelocityY(-40)
-      }
-
-      // Animação
-      try {
-        if (diffX > 0) {
-          this.alien.anims.play('alien-direita', true)
-        } else if (diffX < 0) {
-          this.alien.anims.play('alien-esquerda', true)
-        } else if (diffY > 0) {
-          this.alien.anims.play('alien-baixo', true)
-        } else if (diffY < 0) {
-          this.alien.anims.play('alien-cima', true)
-        } else {
-          this.alien.anims.play('alien-parado')
-        }
-      } catch (error) {
-        console.error(error)
-      }
+    let alvo = this.personagemLocal
+    if (hipotenusaPersonagemLocal > hipotenusaPersonagemRemoto) {
+      alvo = this.personagemRemoto
     }
 
-    // adiciona alien 1
-    const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
-    if (cartoesColetados === 7 && !this.alien) {
-      // Identificando qual personagem coletou o cartão
-      let x, y
-      if (this.cartao.find(cartao => !cartao.objeto.active).coletor) {
-        x = this.personagemLocal.x
-        y = this.personagemLocal.y
+    const diffX = alvo.x - alien.x
+    if (diffX >= 10) {
+      alien.setVelocityX(100)
+    } else if (diffX <= 10) {
+      alien.setVelocityX(-100)
+    }
+
+    const diffY = alvo.y - alien.y
+    if (diffY >= 10) {
+      alien.setVelocityY(100)
+    } else if (diffY <= 10) {
+      alien.setVelocityY(-100)
+    }
+
+    try {
+      if (diffX > 0) {
+        alien.anims.play('alien-direita', true)
+      } else if (diffX < 0) {
+        alien.anims.play('alien-esquerda', true)
+      } else if (diffY > 0) {
+        alien.anims.play('alien-baixo', true)
+      } else if (diffY < 0) {
+        alien.anims.play('alien-cima', true)
       } else {
-        x = this.personagemRemoto.x
-        y = this.personagemRemoto.y
+        alien.anims.play('alien-parado')
       }
-
-      // Crie o alien perto do personagem que coletou o cartão
-      this.alien = this.physics.add.sprite(x, y + 50, 'alien')
-      this.physics.add.collider(this.alien, this.layerparedes)
-      this.physics.add.collider(this.alien, this.layerobjetos)
-      // Seguir o personagem
-      this.physics.moveToObject(this.alien, this.personagemLocal, 100)
-      this.physics.add.collider(this.alien, this.personagemLocal, () => {
-        globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
-        this.scene.stop('mapa')
-        this.scene.start('finalTriste')
-      }, null, this)
-    } else if (cartoesColetados >= 10) {
-      this.scene.stop('mapa')
-      this.scene.start('finalFeliz')
+    } catch (error) {
+      console.error(error)
     }
+  })
 
-    if (this.alien) {
-      // alien segue personagem mais próximo
-      const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
-        this.personagemLocal.x,
-        this.personagemLocal.y,
-        this.alien.x,
-        this.alien.y
-      )
-
-      const hipotenusaPersonagemRemoto = Phaser.Math.Distance.Between(
-        this.personagemRemoto.x,
-        this.personagemRemoto.y,
-        this.alien.x,
-        this.alien.y
-      )
-
-      // Por padrão, o primeiro jogador é o alvo
-      let alvo = this.personagemLocal
-      if (hipotenusaPersonagemLocal > hipotenusaPersonagemRemoto) {
-        // Jogador 2 é perseguido pelo alien
-        alvo = this.personagemRemoto
-      }
-
-      // Sentido no eixo X
-      const diffX = alvo.x - this.alien.x
-      if (diffX >= 10) {
-        this.alien.setVelocityX(50)
-      } else if (diffX <= 10) {
-        this.alien.setVelocityX(-50)
-      }
-
-      // Sentido no eixo Y
-      const diffY = alvo.y - this.alien.y
-      if (diffY >= 10) {
-        this.alien.setVelocityY(50)
-      } else if (diffY <= 10) {
-        this.alien.setVelocityY(-50)
-      }
-
-      // Animação
-      try {
-        if (diffX > 0) {
-          this.alien.anims.play('alien-direita', true)
-        } else if (diffX < 0) {
-          this.alien.anims.play('alien-esquerda', true)
-        } else if (diffY > 0) {
-          this.alien.anims.play('alien-baixo', true)
-        } else if (diffY < 0) {
-          this.alien.anims.play('alien-cima', true)
-        } else {
-          this.alien.anims.play('alien-parado')
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    // adiciona alien 2
-    if (cartoesColetados === 8 && !this.alien2) {
-      // Identificando qual personagem coletou o cartão
-      let x, y
-      if (this.cartao.find(cartao => !cartao.objeto.active).coletor) {
-        x = this.personagemLocal.x
-        y = this.personagemLocal.y
-      } else {
-        x = this.personagemRemoto.x
-        y = this.personagemRemoto.y
-      }
-
-      // Crie o alien perto do personagem que coletou o cartão
-      this.alien2 = this.physics.add.sprite(x, y + 50, 'alien')
-      this.physics.add.collider(this.alien, this.layerparedes)
-      this.physics.add.collider(this.alien, this.layerobjetos)
-      // Seguir o personagem
-      this.physics.moveToObject(this.alien, this.personagemLocal, 100)
-      this.physics.add.collider(this.alien, this.personagemLocal, () => {
-        globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
-        this.scene.stop('mapa')
-        this.scene.start('finalTriste')
-      }, null, this)
-    } else if (cartoesColetados >= 10) {
-      this.scene.stop('mapa')
-      this.scene.start('finalFeliz')
-    }
-
-    if (this.alien2) {
-      // alien segue personagem mais próximo
-      const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
-        this.personagemLocal.x,
-        this.personagemLocal.y,
-        this.alien.x,
-        this.alien.y
-      )
-
-      const hipotenusaPersonagemRemoto = Phaser.Math.Distance.Between(
-        this.personagemRemoto.x,
-        this.personagemRemoto.y,
-        this.alien.x,
-        this.alien.y
-      )
-
-      // Por padrão, o primeiro jogador é o alvo
-      let alvo = this.personagemLocal
-      if (hipotenusaPersonagemLocal > hipotenusaPersonagemRemoto) {
-        // Jogador 2 é perseguido pelo alien
-        alvo = this.personagemRemoto
-      }
-
-      // Sentido no eixo X
-      const diffX = alvo.x - this.alien.x
-      if (diffX >= 10) {
-        this.alien.setVelocityX(50)
-      } else if (diffX <= 10) {
-        this.alien.setVelocityX(-50)
-      }
-
-      // Sentido no eixo Y
-      const diffY = alvo.y - this.alien.y
-      if (diffY >= 10) {
-        this.alien.setVelocityY(50)
-      } else if (diffY <= 10) {
-        this.alien.setVelocityY(-50)
-      }
-
-      // Animação
-      try {
-        if (diffX > 0) {
-          this.alien.anims.play('alien-direita', true)
-        } else if (diffX < 0) {
-          this.alien.anims.play('alien-esquerda', true)
-        } else if (diffY > 0) {
-          this.alien.anims.play('alien-baixo', true)
-        } else if (diffY < 0) {
-          this.alien.anims.play('alien-cima', true)
-        } else {
-          this.alien.anims.play('alien-parado')
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    // adiciona alien 3
-    if (cartoesColetados === 9 && !this.alien3) {
-      // Identificando qual personagem coletou o cartão
-      let x, y
-      if (this.cartao.find(cartao => !cartao.objeto.active).coletor) {
-        x = this.personagemLocal.x
-        y = this.personagemLocal.y
-      } else {
-        x = this.personagemRemoto.x
-        y = this.personagemRemoto.y
-      }
-
-      // Crie o alien perto do personagem que coletou o cartão
-      this.alien3 = this.physics.add.sprite(x, y + 50, 'alien')
-      this.physics.add.collider(this.alien, this.layerparedes)
-      this.physics.add.collider(this.alien, this.layerobjetos)
-      // Seguir o personagem
-      this.physics.moveToObject(this.alien, this.personagemLocal, 100)
-      this.physics.add.collider(this.alien, this.personagemLocal, () => {
-        globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
-        this.scene.stop('mapa')
-        this.scene.start('finalTriste')
-      }, null, this)
-    } else if (cartoesColetados >= 10) {
-      this.scene.stop('mapa')
-      this.scene.start('finalFeliz')
-    }
-
-    if (this.alien3) {
-      // alien segue personagem mais próximo
-      const hipotenusaPersonagemLocal = Phaser.Math.Distance.Between(
-        this.personagemLocal.x,
-        this.personagemLocal.y,
-        this.alien.x,
-        this.alien.y
-      )
-
-      const hipotenusaPersonagemRemoto = Phaser.Math.Distance.Between(
-        this.personagemRemoto.x,
-        this.personagemRemoto.y,
-        this.alien.x,
-        this.alien.y
-      )
-
-      // Por padrão, o primeiro jogador é o alvo
-      let alvo = this.personagemLocal
-      if (hipotenusaPersonagemLocal > hipotenusaPersonagemRemoto) {
-        // Jogador 2 é perseguido pelo alien
-        alvo = this.personagemRemoto
-      }
-
-      // Sentido no eixo X
-      const diffX = alvo.x - this.alien.x
-      if (diffX >= 10) {
-        this.alien.setVelocityX(50)
-      } else if (diffX <= 10) {
-        this.alien.setVelocityX(-50)
-      }
-
-      // Sentido no eixo Y
-      const diffY = alvo.y - this.alien.y
-      if (diffY >= 10) {
-        this.alien.setVelocityY(50)
-      } else if (diffY <= 10) {
-        this.alien.setVelocityY(-50)
-      }
-
-      // Animação
-      try {
-        if (diffX > 0) {
-          this.alien.anims.play('alien-direita', true)
-        } else if (diffX < 0) {
-          this.alien.anims.play('alien-esquerda', true)
-        } else if (diffY > 0) {
-          this.alien.anims.play('alien-baixo', true)
-        } else if (diffY < 0) {
-          this.alien.anims.play('alien-cima', true)
-        } else {
-          this.alien.anims.play('alien-parado')
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
+  // Controla o aparecimento dos aliens baseado nos cartões coletados
+  const cartoesColetados = this.cartao.filter(cartao => !cartao.objeto.active).length
+  if (cartoesColetados === 5 && this.aliens.length === 0) {
+    this.addAlien(this.personagemLocal.x, this.personagemLocal.y)
   }
+  if (cartoesColetados === 7 && this.aliens.length === 1) {
+    this.addAlien(this.personagemLocal.x, this.personagemLocal.y)
+  }
+  if (cartoesColetados === 9 && this.aliens.length === 2) {
+    this.addAlien(this.personagemLocal.x, this.personagemLocal.y)
+  }
+
+  if (cartoesColetados >= 10) {
+    this.scene.stop('mapa')
+    this.scene.start('finalFeliz')
+  }
+}
 }
