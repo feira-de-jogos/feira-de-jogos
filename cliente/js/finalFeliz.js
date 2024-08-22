@@ -32,7 +32,7 @@ export default class finalFeliz extends Phaser.Scene {
         } else {
           axios.post('https://feira-de-jogos.dev.br/api/v2/credit', {
             product: 10, // id do jogo cadastrado no banco de dados da Feira de Jogos
-            value: 500 // crédito em tijolinhos (coloquei 500, confirmar com professor depois)
+            value: 300 // crédito em tijolinhos (coloquei 500, confirmar com professor depois)
           }, {
             headers: {
               Authorization: `Bearer ${res.credential}`
