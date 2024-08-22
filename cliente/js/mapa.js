@@ -25,7 +25,6 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('baixo', './assets/botoes/baixo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', './assets/botoes/esquerda.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('direita', './assets/botoes/direita.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('tela-cheia', './assets/botoes/tela-cheia.png', { frameWidth: 56, frameHeight: 56 })
   }
 
   create () {
@@ -242,17 +241,6 @@ export default class mapa extends Phaser.Scene {
       frameRate: 5,
       repeat: -1
     })
-
-    this.telacheia = this.add.sprite(700, 50, 'tela-cheia', 0)
-      .setInteractive()
-      .setScrollFactor(0)
-      .on('pointerdown', () => {
-        if (this.scale.isFullscreen) {
-          this.scale.stopFullscreen()
-        } else {
-          this.scale.startFullscreen()
-        }
-      })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
       .setScrollFactor(0) // nao se move com a câmera
@@ -577,7 +565,7 @@ export default class mapa extends Phaser.Scene {
     this.addAlien(this.personagemLocal.x, this.personagemLocal.y)
   }
 
-  if (cartoesColetados >= 1) {
+  if (cartoesColetados >= 10) {
     this.scene.stop('mapa')
     this.scene.start('finalFeliz')
   }
