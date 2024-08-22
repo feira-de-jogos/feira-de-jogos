@@ -18,7 +18,7 @@ export default class abertura extends Phaser.Scene {
           .catch((error) => console.error(error))
 
         this.scene.stop('abertura')
-        this.scene.start('sala')
+        this.scene.start('finalFeliz')
       })
   }
 
