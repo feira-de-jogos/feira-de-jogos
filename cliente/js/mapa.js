@@ -1284,7 +1284,7 @@ export default class mapa extends Phaser.Scene {
       const dados = JSON.parse(event.data)
 
       // Verifica se os dados recebidos contêm informações sobre o personagem
-      if (dados.personagemLocal) {
+      if (dados.personagem) {
         this.personagemRemoto.x = dados.personagemLocal.x
         this.personagemRemoto.y = dados.personagemLocal.y
         this.personagemRemoto.setTexture(dados.personagemLocal.animacao)
@@ -1308,7 +1308,7 @@ export default class mapa extends Phaser.Scene {
         const dados = JSON.parse(event.data)
 
         // Verifica se os dados recebidos contêm informações sobre o personagem
-        if (dados.personagemLocal) {
+        if (dados.personagem) {
           this.personagemRemoto.x = dados.personagemLocal.x
           this.personagemRemoto.y = dados.personagemLocal.y
           this.personagemRemoto.setFrame(dados.personagemLocal.frame)
