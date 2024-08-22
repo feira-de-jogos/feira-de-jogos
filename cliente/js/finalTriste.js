@@ -1,4 +1,4 @@
-//import Phaser from 'phaser'
+import Phaser from 'phaser'
 export default class finalTriste extends Phaser.Scene {
   constructor () {
     super('finalTriste')
@@ -9,7 +9,7 @@ export default class finalTriste extends Phaser.Scene {
   }
 
   create () {
-    this.somderrota.play()
+    this.sound.add('somderrota', { loop: false }).play()
     // Adiciona o texto de fim sem crédito e a possibilidade de reiniciar o jogo
     this.add.image(450, 220, 'finalTriste')
       .setInteractive()

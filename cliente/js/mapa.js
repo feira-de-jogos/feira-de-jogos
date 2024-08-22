@@ -1,4 +1,4 @@
-// import Phaser from 'phaser'
+import Phaser from 'phaser'
 export default class mapa extends Phaser.Scene {
   constructor () {
     super('mapa')
@@ -15,8 +15,8 @@ export default class mapa extends Phaser.Scene {
     this.load.audio('somhitleo', './assets/sons/somhitleo.mp3')
     this.load.audio('somtesouro', './assets/sons/somtesouro.mp3')
     this.load.audio('somvitoria', './assets/sons/somvitoria.mp3')
-    this.load.audio('somfundo', './assets/sons/somfundo.mp3')
     this.load.audio('somporta', './assets/sons/somhitben.mp3')
+    this.load.audio('somfundo', './assets/sons/somfundo.mp3')
 
     // Sprites load
 
@@ -535,7 +535,7 @@ export default class mapa extends Phaser.Scene {
       this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 2640
       this.personagemLocal.y = 2660
-      this.somarenaboss.pla
+      this.somarenaboss.play()
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
         camera.fadeIn(200)
       })
