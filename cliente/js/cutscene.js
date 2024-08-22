@@ -89,7 +89,7 @@ export default class Cutscene extends Phaser.Scene {
     let i = 0;
     this.textAnimationActive = true; // Marca que a animação de texto está ativa
     this.time.addEvent({
-      delay: 75,
+      delay: 35,
       callback: () => {
         if (i < text.length) {
           this.textObject.text += text[i];
