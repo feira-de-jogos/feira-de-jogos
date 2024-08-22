@@ -1285,10 +1285,10 @@ export default class mapa extends Phaser.Scene {
 
       // Verifica se os dados recebidos contêm informações sobre o personagem
       if (dados.personagem) {
-        this.personagemRemoto.x = dados.personagemLocal.x
-        this.personagemRemoto.y = dados.personagemLocal.y
-        this.personagemRemoto.setTexture(dados.personagemLocal.animacao)
-        this.personagemRemoto.setFrame(dados.personagemLocal.frame)
+        this.personagemRemoto.x = dados.personagem.x
+        this.personagemRemoto.y = dados.personagem.y
+        this.personagemRemoto.setTexture(dados.personagem.animacao)
+        this.personagemRemoto.setFrame(dados.personagem.frame)
       }
       // BAÚ + finalfeliz:
       this.physics.add.overlap(this.personagemLocal, this.bau, () => {
@@ -1309,9 +1309,9 @@ export default class mapa extends Phaser.Scene {
 
         // Verifica se os dados recebidos contêm informações sobre o personagem
         if (dados.personagem) {
-          this.personagemRemoto.x = dados.personagemLocal.x
-          this.personagemRemoto.y = dados.personagemLocal.y
-          this.personagemRemoto.setFrame(dados.personagemLocal.frame)
+          this.personagemRemoto.x = dados.personagem.x
+          this.personagemRemoto.y = dados.personagem.y
+          this.personagemRemoto.setFrame(dados.personagem.frame)
         }
 
         if (dados.gameover) {
