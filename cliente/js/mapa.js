@@ -299,6 +299,11 @@ export default class tilemapMapa extends Phaser.Scene {
         this.scene.stop('mapa')
         this.scene.start('finalTriste')
       }
+
+      if (dados.gamewin) {
+        this.scene.stop('mapa')
+        this.scene.start('finalFeliz')
+      }
     }
 
     this.tomates = [
@@ -464,7 +469,7 @@ export default class tilemapMapa extends Phaser.Scene {
       }, null, this)
     })
 
-    this.timeout = 180
+    this.timeout = 150
     this.timerText = this.add.text(70, 45, this.timeout, {
       fontSize: '28px',
       fill: '#ffffff', // Cor chamativa
@@ -489,6 +494,7 @@ export default class tilemapMapa extends Phaser.Scene {
 
         if (this.timeout <= 0) {
           this.timer.destroy()
+          globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
           this.scene.stop('mapa')
           this.scene.start('finalTriste')
         }
@@ -520,7 +526,7 @@ export default class tilemapMapa extends Phaser.Scene {
     this.pontos.setText('Ingredientes: ' + ingredientesColetados)
 
     // Verifica se todos os ingredientes foram coletados e inicia a cena de final feliz
-    if (ingredientesColetados === 3) {
+    if (ingredientesColetados === 12) {
       this.scene.start('finalFeliz')
       this.scene.stop('mapa')
     }
@@ -573,7 +579,8 @@ export default class tilemapMapa extends Phaser.Scene {
         this.pontos.setText('Ingredientes: ' + [this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length)
 
         // Verifica se todos os ingredientes foram coletados
-        if ([this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length === 3) {
+        if ([this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length === 12) {
+          globalThis.game.dadosJogo.send(JSON.stringify({ gamewin: true }))
           this.scene.stop('mapa')
           this.scene.start('finalFeliz')
         }
@@ -584,7 +591,7 @@ export default class tilemapMapa extends Phaser.Scene {
   }
 
   handleJoystickMove () {
-    const speed = 100 // Velocidade constante do personagem
+    const speed = 120 // Velocidade constante do personagem
     const threshold = 0.1 // Limite mínimo de força para considerar o movimento
 
     // Movimenta o personagem com base na direção do joystick
