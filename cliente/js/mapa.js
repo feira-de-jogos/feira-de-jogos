@@ -6,7 +6,17 @@ export default class mapa extends Phaser.Scene {
 
   preload () {
     // lembrando que temos que carregar o som como primeiro de tudo, até acima do mapa, apartir do mesmo comando:
-    // this.load.audio()
+
+    this.load.audio('somarenaboss', './assets/sons/somarenaboss.mp3')
+    this.load.audio('somcristal', './assets/sons/somcristal.mp3')
+    this.load.audio('somderrota', './assets/sons/somderrota.mp3')
+    this.load.audio('somgrama', './assets/sons/somgrama.mp3')
+    this.load.audio('somhitben', './assets/sons/somhitben.mp3')
+    this.load.audio('somhitleo', './assets/sons/somhitleo.mp3')
+    this.load.audio('somtesouro', './assets/sons/somtesouro.mp3')
+    this.load.audio('somvitoria', './assets/sons/somvitoria.mp3')
+    this.load.audio('somfundo', './assets/sons/somfundo.mp3')
+    this.load.audio('somporta', './assets/sons/somhitben.mp3')
 
     // Sprites load
 
@@ -75,8 +85,15 @@ export default class mapa extends Phaser.Scene {
     // adiciona o ponteiro de toque:
     this.input.addPointer(3)
 
-    // som de fundo:
-    // this.sound.add('musica mapa', {loop:true}).play()
+    // Som do mapa
+    this.sound.add('somfundo', { loop: true }).play()
+    this.somhitben = this.sound.add('somhitben')
+    this.hitleo = this.sound.add('somhitleo')
+    this.somtesouro = this.sound.add('somtesouro')
+    this.somarenaboss = this.sound.add('somarenaboss')
+    this.somcristal = this.sound.add('somcristal')
+    this.somgrama = this.sound.add('somgrama')
+    this.somporta = this.sound.add('somporta')
 
     // cria o objeto tilemap (mapa)
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -112,6 +129,10 @@ export default class mapa extends Phaser.Scene {
     this.layerObstaculos = this.tilemapMapa.createLayer('Obstaculos', [this.tilesetBlocosMorte])
 
     // Criação de estruturas
+    // bau:
+    this.bau = this.physics.add.sprite(1208, 3730, 'bau')
+    this.bau.body.setAllowGravity(false)
+    this.bau.body.setImmovable(true)
 
     // tutorial
     this.tutorial = this.add.sprite(6010, 1200, 'tutorial')
@@ -121,22 +142,6 @@ export default class mapa extends Phaser.Scene {
     this.PortaBoss = this.physics.add.sprite(3606, 2595, 'PortaBoss')
     this.PortaBoss.body.setAllowGravity(false)
     this.PortaBoss.setScale(2)
-
-    // BAÚ + finalfeliz:
-    this.bau = this.physics.add.sprite(1208, 3730, 'bau')
-    this.bau.body.setAllowGravity(false)
-    this.bau.body.setImmovable(true)
-    this.physics.add.overlap(this.bau, this.personagemLocal, () => {
-      try {
-        if (globalThis.game.dadosJogo.readyState === 'open') {
-          globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
-        }
-      } catch (err) {
-        console.error(err)
-      }
-      this.scene.stop('mapa')
-      this.scene.start('finalFeliz')
-    }, null, this)
 
     // ALTARES:
 
@@ -260,8 +265,8 @@ export default class mapa extends Phaser.Scene {
     // Pulando para direita:
     this.anims.create({
       key: 'pulando_direita',
-      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 33, end: 37 }),
-      frameRate: 8
+      frames: this.anims.generateFrameNumbers(this.personagemLocal.texture.key, { start: 34, end: 37 }),
+      frameRate: 4
     })
 
     // pulando para esquerda
@@ -443,6 +448,9 @@ export default class mapa extends Phaser.Scene {
         if (this.personagemLocal.body.blocked.down) {
           this.personagemLocal.setVelocityY(-600)
           this.personagemLocal.anims.play('pulando_' + this.personagemLado)
+            .once('animationcomplete', () => {
+              this.personagemLocal.anims.play('parado_' + this.personagemLado)
+            })
           this.personagemLocal.setBodySize(48, 48, true)
           this.personagemLocal.setOffset(0, 0)
         }
@@ -454,10 +462,12 @@ export default class mapa extends Phaser.Scene {
     // movimentação direita
 
     this.direita = this.add.sprite(200, 375, 'direita', 0)
+      .setVisible(true)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
         this.direita.setFrame(1)
+        this.somgrama.play()
         this.personagemLocal.setVelocityX(300)
         this.personagemLado = 'direita'
         this.personagemLocal.anims.play('andando_' + this.personagemLado)
@@ -477,6 +487,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.esquerda.setFrame(1)
+        this.somgrama.play()
         this.personagemLocal.setVelocityX(-300)
         this.personagemLado = 'esquerda'
         this.personagemLocal.anims.play('andando_' + this.personagemLado)
@@ -497,19 +508,19 @@ export default class mapa extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .setScale(3)
-      // cristal vermelho
+    // cristal vermelho
     this.cristalvermelho = this.add.sprite(780, 30, 'cristalvermelho', 0)
       .setVisible(false)
       .setScrollFactor(0)
       .setInteractive()
       .setScale(3)
-      // cristal azul
+    // cristal azul
     this.cristalazul = this.add.sprite(740, 30, 'cristalazul', 0)
       .setVisible(false)
       .setScrollFactor(0)
       .setInteractive()
       .setScale(3)
-      // cristal roxo
+    // cristal roxo
     this.cristalroxo = this.add.sprite(700, 30, 'cristalroxo', 0)
       .setVisible(false)
       .setScrollFactor(0)
@@ -524,12 +535,14 @@ export default class mapa extends Phaser.Scene {
       this.cameras.main.fadeOut(200)
       this.personagemLocal.x = 2640
       this.personagemLocal.y = 2660
+      this.somarenaboss.pla
       this.cameras.main.once('camerafadeoutcomplete', (camera) => {
         camera.fadeIn(200)
       })
     }, null, this)
 
     // INIMIGOS NO MAPA:
+
     // Lista dos ogros:
     // INIMIGOS NO GELO:
     this.ogros = [
@@ -1209,6 +1222,7 @@ export default class mapa extends Phaser.Scene {
     // Detalhes do mapa
     this.layerDetalhes = this.tilemapMapa.createLayer('Detalhes', [this.tilesetPedrinhas, this.tilesetGramas, this.tilesetGramasAmarela,
       this.tilesetGramasAzul, this.tilesetGramasVermelho, this.tilesetGramasRoxo])
+
     // colisão de personagens:
 
     this.layerChao.setCollisionByProperty({ collides: true })
@@ -1218,13 +1232,7 @@ export default class mapa extends Phaser.Scene {
     this.physics.add.collider(this.personagemLocal, this.layerParedes)
 
     this.layerObstaculos.setCollisionByProperty({ collides: true })
-    this.physics.add.collider(this.personagemLocal, this.layerObstaculos, () => {
-      this.barradevida.setFrame(this.barradevida.frame.name + 1)
-      if (this.barradevida.frame.name === 5) {
-        this.scene.stop('mapa')
-        this.scene.start('finalTriste')
-      }
-    }, null, this)
+    this.physics.add.collider(this.personagemLocal, this.layerObstaculos)
 
     // colisão dos altares e porta:
 
@@ -1233,14 +1241,20 @@ export default class mapa extends Phaser.Scene {
       this.physics.add.overlap(this.personagemLocal, this.PortaBoss, () => {
         if (this.cristalamarelo.visible && this.cristalazul.visible && this.cristalvermelho.visible && this.cristalroxo.visible) {
           this.PortaBoss.anims.play('PortaBoss')
+          this.somporta.play()
           this.cristalamarelo.setVisible(false)
           this.cristalvermelho.setVisible(false)
           this.cristalazul.setVisible(false)
           this.cristalroxo.setVisible(false)
+          this.direita.setVisible(false)
+          this.esquerda.setVisible(false)
         } else if (this.PortaBoss.anims.currentFrame && this.PortaBoss.anims.currentFrame.index === 8) {
           // Portal verde para boss:
           this.portalboss = this.physics.add.sprite(3615, 2650, 'Vazio')
           this.portalboss.body.setAllowGravity(false)
+          this.somarenaboss.play()
+          this.direita.setVisible(true)
+          this.esquerda.setVisible(true)
           this.physics.add.overlap(this.personagemLocal, this.portalboss, () => {
             this.cameras.main.fadeOut(200)
             this.personagemLocal.x = 682
@@ -1256,6 +1270,7 @@ export default class mapa extends Phaser.Scene {
     // altar de gelo
     this.altarcristalgelo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalgelo, () => {
+      this.somcristal.play()
       this.cristalazul.setVisible(true)
       this.altarcristalgelo.setFrame(1)
     }, null, this)
@@ -1263,6 +1278,7 @@ export default class mapa extends Phaser.Scene {
     // altar de fogo
     this.altarcristalfogo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalfogo, () => {
+      this.somcristal.play()
       this.cristalvermelho.setVisible(true)
       this.altarcristalfogo.setFrame(1)
     }, null, this)
@@ -1270,6 +1286,7 @@ export default class mapa extends Phaser.Scene {
     // altar amarelo
     this.altarcristalamarelo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalamarelo, () => {
+      this.somcristal.play()
       this.cristalamarelo.setVisible(true)
       this.altarcristalamarelo.setFrame(1)
     }, null, this)
@@ -1277,6 +1294,7 @@ export default class mapa extends Phaser.Scene {
     // altar roxo
     this.altarcristalroxo.body.setImmovable(true)
     this.physics.add.collider(this.personagemLocal, this.altarcristalroxo, () => {
+      this.somcristal.play()
       this.cristalroxo.setVisible(true)
       this.altarcristalroxo.setFrame(1)
     }, null, this)
@@ -1298,6 +1316,19 @@ export default class mapa extends Phaser.Scene {
         this.personagemRemoto.setTexture(dados.personagemLocal.animacao)
         this.personagemRemoto.setFrame(dados.personagemLocal.frame)
       }
+      // BAÚ + finalfeliz:
+      this.physics.add.overlap(this.personagemLocal, this.bau, () => {
+        try {
+          if (globalThis.game.dadosJogo.readyState === 'open') {
+            globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
+          }
+        } catch (err) {
+          console.error(err)
+        }
+        this.scene.stop('mapa')
+        this.scene.start('finalFeliz')
+      }, null, this)
+
       // final triste para o outro jogador
       globalThis.game.dadosJogo.onmessage = (event) => {
         const dados = JSON.parse(event.data)

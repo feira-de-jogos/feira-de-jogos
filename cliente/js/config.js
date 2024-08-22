@@ -9,7 +9,7 @@ export default {
     default: 'arcade',
     arcade: {
       gravity: { y: 1000 },
-      debug: true // hitbox e vetores de força (COLOCAR FALSE QUANDO O JOGO ESTIVER PRONTO)
+      debug: false // hitbox e vetores de força (COLOCAR FALSE QUANDO O JOGO ESTIVER PRONTO)
     }
   },
   scale: {

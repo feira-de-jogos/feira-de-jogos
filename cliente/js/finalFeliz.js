@@ -1,5 +1,5 @@
-//import Phaser from 'phaser'
-//import axios from 'axios'
+// import Phaser from 'phaser'
+// import axios from 'axios'
 
 export default class finalFeliz extends Phaser.Scene {
   constructor () {
@@ -7,13 +7,14 @@ export default class finalFeliz extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('CenaFeliz', './assets/Cenas/CenaFeliz.png')
+    this.load.image('finalFeliz', './assets/Cenas/finalFeliz.png')
   }
 
   // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
 
   create () {
-    this.add.image(900, 494, 'CenaFeliz')
+    this.somvitoria.play()
+    this.add.image(450, 220, 'finalFeliz')
       .setInteractive()
       .on('pointerdown', () => {
         window.location.reload()

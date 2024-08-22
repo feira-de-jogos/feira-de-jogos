@@ -5,12 +5,13 @@ export default class finalTriste extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('CenaMorte', './assets/Cenas/CenaMorte.png')
+    this.load.image('finalTriste', './assets/Cenas/finalTriste.png')
   }
 
   create () {
+    this.somderrota.play()
     // Adiciona o texto de fim sem crédito e a possibilidade de reiniciar o jogo
-    this.add.image(900, 471, 'CenaMorte')
+    this.add.image(450, 220, 'finalTriste')
       .setInteractive()
       .on('pointerdown', () => {
         window.location.reload()
