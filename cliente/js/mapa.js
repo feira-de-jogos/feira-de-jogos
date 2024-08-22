@@ -399,6 +399,7 @@ export default class tilemapMapa extends Phaser.Scene {
         meia.overlap.destroy()
 
         // Anima a nuvem
+        globalThis.game.dadosJogo.send(JSON.stringify({ gamewin: true }))
         this.scene.stop('mapa')
         this.scene.start('finalTriste')
       }, null, this)
@@ -469,7 +470,7 @@ export default class tilemapMapa extends Phaser.Scene {
       }, null, this)
     })
 
-    this.timeout = 150
+    this.timeout = 100
     this.timerText = this.add.text(70, 45, this.timeout, {
       fontSize: '28px',
       fill: '#ffffff', // Cor chamativa
@@ -576,11 +577,11 @@ export default class tilemapMapa extends Phaser.Scene {
             }))(ketchup))
           }))
         }
-        this.pontos.setText('Ingredientes: ' + [this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length)
+        this.pontos.setText('Ingredientes: ' + [this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length + '/12')
 
         // Verifica se todos os ingredientes foram coletados
         if ([this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length === 12) {
-          globalThis.game.dadosJogo.send(JSON.stringify({ gamewin: true }))
+          globalThis.game.dadosJogo.send(JSON.stringify({ gameover: true }))
           this.scene.stop('mapa')
           this.scene.start('finalFeliz')
         }
