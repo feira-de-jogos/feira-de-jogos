@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export default class tilemapMapa extends Phaser.Scene {
   constructor () {
     super('mapa')
@@ -463,7 +464,7 @@ export default class tilemapMapa extends Phaser.Scene {
       }, null, this)
     })
 
-    this.timeout = 300
+    this.timeout = 180
     this.timerText = this.add.text(70, 45, this.timeout, {
       fontSize: '28px',
       fill: '#ffffff', // Cor chamativa
@@ -513,6 +514,16 @@ export default class tilemapMapa extends Phaser.Scene {
   }
 
   update () {
+    const ingredientesColetados = [this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length
+
+    // Atualiza o texto na tela
+    this.pontos.setText('Ingredientes: ' + ingredientesColetados)
+
+    // Verifica se todos os ingredientes foram coletados e inicia a cena de final feliz
+    if (ingredientesColetados === 3) {
+      this.scene.start('finalFeliz')
+      this.scene.stop('mapa')
+    }
     try {
       // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
@@ -560,6 +571,12 @@ export default class tilemapMapa extends Phaser.Scene {
           }))
         }
         this.pontos.setText('Ingredientes: ' + [this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length)
+
+        // Verifica se todos os ingredientes foram coletados
+        if ([this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length === 3) {
+          this.scene.stop('mapa')
+          this.scene.start('finalFeliz')
+        }
       }
     } catch (error) {
       console.error('Erro ao enviar os dados do jogo: ', error)
