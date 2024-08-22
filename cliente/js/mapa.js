@@ -442,7 +442,7 @@ export default class mapa extends Phaser.Scene {
 
     // Função para adicionar um alien
     this.addAlien = (x, y) => {
-      const alien = this.physics.add.sprite(x, y + 150, 'alien')
+      const alien = this.physics.add.sprite(x, y + 100, 'alien')
       this.physics.add.collider(alien, this.layerparedes)
       this.physics.add.collider(alien, this.layerobjetos)
       this.physics.add.overlap(this.personagemLocal, this.aliens, (personagem, alien) => {
@@ -524,16 +524,16 @@ export default class mapa extends Phaser.Scene {
 
     const diffX = alvo.x - alien.x
     if (diffX >= 10) {
-      alien.setVelocityX(100)
+      alien.setVelocityX(60)
     } else if (diffX <= 10) {
-      alien.setVelocityX(-100)
+      alien.setVelocityX(-60)
     }
 
     const diffY = alvo.y - alien.y
     if (diffY >= 10) {
-      alien.setVelocityY(100)
+      alien.setVelocityY(60)
     } else if (diffY <= 10) {
-      alien.setVelocityY(-100)
+      alien.setVelocityY(-60)
     }
 
     try {
