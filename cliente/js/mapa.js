@@ -234,8 +234,6 @@ export default class tilemapMapa extends Phaser.Scene {
       frameRate: 12
     })
 
-    this.pontos = 0
-
     // Configuração do plugin do joystick virtual
     this.joystick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
       x: 200,
@@ -258,15 +256,6 @@ export default class tilemapMapa extends Phaser.Scene {
         this.personagemRemoto.x = dados.personagem.x
         this.personagemRemoto.y = dados.personagem.y
         this.personagemRemoto.setFrame(dados.personagem.frame)
-        if (dados.tomate) {
-          // Atualiza a visibilidade dos cartões
-          this.tomate.forEach((tomate, i) => {
-            // Atualiza a visibilidade do cartão
-            if (!dados.tomate[i].visible) {
-              tomate.objeto.disableBody(true, true)
-            }
-          })
-        }
       }
       if (dados.tomates) {
         // Atualiza a visibilidade dos cartões
@@ -506,13 +495,28 @@ export default class tilemapMapa extends Phaser.Scene {
       callbackScope: this,
       loop: true
     })
+    this.pontos = this.add.text(450, 45, 0, {
+      fontSize: '28px',
+      fill: '#ffffff', // Cor chamativa
+      fontFamily: 'Comic Sans MS',
+      stroke: '#ffffff', // Cor da borda
+      strokeThickness: 2, // Espessura da borda
+      shadow: {
+        offsetX: 1,
+        offsetY: 1,
+        color: '#000000',
+        blur: 1,
+        stroke: true,
+        fill: true
+      }
+    }).setScrollFactor(0)
   }
 
   update () {
     try {
       // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
-        // Verifica se o personagem local existe
+        // Verifica que o personagem local existe
         if (this.personagemLocal) {
           // Envia os dados do personagem local via DataChannel
           globalThis.game.dadosJogo.send(JSON.stringify({
@@ -521,21 +525,7 @@ export default class tilemapMapa extends Phaser.Scene {
               y: this.personagemLocal.y,
               frame: this.personagemLocal.frame.name
             }
-          }));
-        }
-
-        if (this.tomates) {
-          // Envia os dados dos tomates via DataChannel
-          globalThis.game.dadosJogo.send(JSON.stringify({
-            tomates: this.tomates.map(tomate => ({
-              visible: tomate.objeto.visible
-            }))
-          }));
-        }
-
-        if (this.tomates) {
-          const tomatesColetados = this.tomates.filter(tomate => !tomate.objeto.active).length;
-          this.pontosTexto.setText(`Comidas: ${tomatesColetados}`);
+          }))
         }
         if (this.tomates) {
           // Envia os dados dos cartoes via DataChannel
@@ -572,53 +562,62 @@ export default class tilemapMapa extends Phaser.Scene {
         this.pontos.setText('Ingredientes: ' + [this.tomates, this.mostardas, this.cachorros, this.ketchups].flat().filter(ingrediente => !ingrediente.objeto.visible).length)
       }
     } catch (error) {
-      console.error('Erro ao enviar os dados do jogo: ', error);
+      console.error('Erro ao enviar os dados do jogo: ', error)
     }
   }
-} // Add the missing closing brace here
 
-handleJoystickMove() {
-  const speed = 120; // Velocidade constante do personagem
-  const threshold = 0.1; // Limite mínimo de força para considerar o movimento
+  handleJoystickMove () {
+    const speed = 100 // Velocidade constante do personagem
+    const threshold = 0.1 // Limite mínimo de força para considerar o movimento
 
-  // Movimenta o personagem com base na direção do joystick
-  const angle = Phaser.Math.DegToRad(this.joystick.angle); // Converte o ângulo para radianos
-  const force = this.joystick.force;
+    // Movimenta o personagem com base na direção do joystick
+    const angle = Phaser.Math.DegToRad(this.joystick.angle) // Converte o ângulo para radianos
+    const force = this.joystick.force
 
-  if (force > threshold) {
-    const velocityX = Math.cos(angle) * speed;
-    const velocityY = Math.sin(angle) * speed;
+    if (force > threshold) {
+      const velocityX = Math.cos(angle) * speed
+      const velocityY = Math.sin(angle) * speed
 
-    this.personagemLocal.setVelocity(velocityX, velocityY);
+      this.personagemLocal.setVelocity(velocityX, velocityY)
 
-    console.log('x: ', this.personagemLocal.x);
-    console.log('y: ', this.personagemLocal.y);
+      console.log('x: ', this.personagemLocal.x)
+      console.log('y: ', this.personagemLocal.y)
 
-    // Animação do personagem conforme a direção do movimento
-    if (Math.abs(velocityX) > Math.abs(velocityY)) {
-      if (velocityX > 0) {
-        this.personagemLocal.lado = 'direita';
-        this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true);
+      // Animação do personagem conforme a direção do movimento
+      if (Math.abs(velocityX) > Math.abs(velocityY)) {
+        if (velocityX > 0) {
+          this.personagemLocal.lado = 'direita'
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true)
+        } else {
+          this.personagemLocal.lado = 'esquerda'
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true)
+        }
       } else {
-        this.personagemLocal.lado = 'esquerda';
-        this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true);
+        if (velocityY > 0) {
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true) // Mude isso se houver uma animação de movimento para baixo
+        } else {
+          this.personagemLocal.anims.play('salsicha-' + this.personagemLocal.lado, true) // Mude isso se houver uma animação de movimento para cima
+        }
       }
     } else {
-      if (velocityY > 0) {
-        // Adicione a animação para baixo se houver uma
-        this.personagemLocal.anims.play('salsicha-baixo', true);
+      // Se a força do joystick for baixa, o personagem para
+      this.personagemLocal.setVelocity(0)
+      if (this.personagemLocal.lado === 'esquerda') {
+        this.personagemLocal.anims.play('salsicha-parado-esquerda', true)
       } else {
-        // Adicione a animação para cima se houver uma
-        this.personagemLocal.anims.play('salsicha-cima', true);
+        this.personagemLocal.anims.play('salsicha-parado-direita', true)
       }
-    }
-  } else {
-    // Se a força do joystick for baixa, o personagem para
-    this.personagemLocal.setVelocity(0);
-    if (this.personagemLocal.lado === 'esquerda') {
-      this.personagemLocal.anims.play('salsicha-parado-esquerda', true);
-    } else {
-      this.personagemLocal.anims.play('salsicha-parado-direita', true);
     }
   }
+  // finalTriste () {
+  // Encerra a cena atual e inicia a cena de final triste
+  // this.scene.stop('mapa')
+  // this.scene.start('finalTriste')
+  // }
+
+  // finalFeliz () {
+  // Encerra a cena atual e inicia a cena de final triste
+  // this.scene.stop('mapa')
+  // this.scene.start('finalFeliz')
+  // }
 }
