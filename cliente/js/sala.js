@@ -64,7 +64,7 @@ export default class abertura extends Phaser.Scene {
         // Para a cena atual e inicia a cena do cutscene
         this.scene.stop('sala')
         this.iniciar.stop()
-        this.scene.start('mapa')
+        this.scene.start('cutscene')
       } else if (jogadores.primeiro) {
         // Se o primeiro jogador já estiver conectado, aguarda o segundo
         this.espaco.setVisible(false)
