@@ -1,12 +1,14 @@
 # Configuração
 
-O *arcade* será controlado remotamente via teclado virtual. A tecla `SELECT`, que é usada nos emuladores MAME (e derivados) também como `COIN` (de adicionar moeda), deverá ser exclusiva do teclado. O mesmo deve ser feito com `HOTKEY`, para evitar saída do jogo ou outras funções especiais do RetroArch, como salvar e recuperar estado de jogo.
+A tecla `SELECT`, que é usada nos emuladores MAME (e derivados) também como `COIN` (de adicionar moeda), deve ser exclusiva do teclado virtual - de operação remota. O mesmo deve ser feito com `HOTKEY`, para evitar saída do jogo ou outras funções especiais do RetroArch, como salvar e recuperar estado de jogo.
 
-As teclas `J` e `K` serão usadas para adicionar moedas (`HOTKEY`/`COIN`) e fechar o jogo (`EXIT` quando combinada com `HOTKEY`), respectivamente. O teclado físico será usado apenas em caso de emergência.
+As teclas `J` e `K` são usadas para adicionar moedas (`HOTKEY`/`COIN`) e fechar o jogo (`EXIT` quando combinada com `HOTKEY`), respectivamente. O teclado físico é usado apenas em caso de emergência.
 
 ## Joystick
 
-1. Deixar os botãos `SELECT` e `HOTKEY` sem função na autoconfiguração. Deve ficar o arquivo `/opt/retropie/configs/all/retroarch/autoconfig/usb\ gamepad.cfg`:
+Para que o *joystick* funcione apenas com os comandos do jogo, deve-se:
+
+1. Deixar os botãos `SELECT` e `HOTKEY` sem função na autoconfiguração, mais especificamente nos arquivos do diretório `/opt/retropie/configs/all/retroarch/autoconfig/`:
 
   - Sem qualquer menção ao botão físico `8` (`SELECT`);
   - O botão `9` deve ser mencionado apenas para iniciar o jogo: `input_start_btn`.
@@ -19,7 +21,7 @@ input_enable_hotkey_btn = "nul"
 
 ## Teclado virtual
 
-O teclado virtual é a aplicação que recebe comenados remotamente e adiciona moedas ao jogo.
+O teclado virtual é a aplicação que recebe comandos remotamente e adiciona moedas ao jogo:
 
 1. Adicionar os módulos de *kernel* no final do arquivo `/etc/modules`:
 
@@ -28,15 +30,17 @@ uinput
 evdev
 ```
 
-2. Permitir que a aplicação seja executada pelo usuário `pi`, que por padrão já pertence ao grupo `games`. Criar, assim, o arquivo `/etc/udev/rules.d/10-uinput.rules` com o seguinte conteúdo:
+2. Permitir que a aplicação seja executada pelo usuário `pi` (usuário padrão de Raspberry Pi e semelhantes), que por padrão já pertence ao grupo `games`. Criar, assim, o arquivo `/etc/udev/rules.d/10-uinput.rules` com o seguinte conteúdo:
 
 ```
 KERNEL=="uinput", MODE="0660", GROUP="games"
 ```
 
+O teclado virtual é implementado no arquivo [`client.py`](client.py), onde a função `coinInsert()` define a inserção de moeda por controle remoto.
+
 ## Teclado físico
 
-O teclado físico não é obrigatório. Seu uso é apenas emergencial para adicionar manualmente moedas e fechar o jogo.
+O teclado físico não é obrigatório. Seu uso é apenas emergencial para adicionar manualmente moedas e fechar o jogo:
 
 1. Configurar o arquivo `/opt/retropie/configs/all/retroarch.cfg` para fixar o botão `SELECT` na tecla `j` e `START` na tecla `k`:
 
@@ -50,32 +54,4 @@ input_player1_start = "k"
 ```ini
 input_enable_hotkey = "j"
 input_exit_emulator = "k"
-```
-
-Dessa forma, será possível controlar o *arcade* remotamente, bem como permitir a manutenção local do equipamento em caso de necessidade.
-
-## Código de exemplo
-
-O arquivo a seguir é um exemplo de como criar um teclado virtual, adicionar algumas moedas e depois fechar o próprio jogo:
-
-```python
-from evdev import UInput, ecodes as e
-from time import sleep
-
-ui = UInput(name='Banco Central')
-
-for i in range(4):
-    print(i)
-    ui.write(e.EV_KEY, e.KEY_J, 1)  # Pressiona a tecla J
-    ui.syn() # Envia o comando
-    sleep(0.250)
-    ui.write(e.EV_KEY, e.KEY_J, 0)  # Solta a tecla J
-    ui.syn() # Envia o comando
-    sleep(2)
-
-print('closing game')
-ui.write(e.EV_KEY, e.KEY_J, 2)  # Mantém pressionada a tecla J
-ui.write(e.EV_KEY, e.KEY_K, 1)  # Pressiona a tecla K
-ui.syn() # Envia o comando com as duas teclas combinadas
-ui.close()
 ```
