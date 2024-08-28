@@ -1,6 +1,11 @@
 # Versão 1
 
-Implementação simples ([*basic*](https://datatracker.ietf.org/doc/html/rfc7617)), com autenticação embutida no corpo da requisição.
+Implementação simples, com autenticação embutida no corpo da requisição ([*basic*](https://datatracker.ietf.org/doc/html/rfc7617)).
+
+O código está distribuído em vários repositórios:
+
+- Servidor: [REST API](https://github.com/feira-de-jogos/rest-api/releases/tag/v1.0), [MQTT API](https://github.com/feira-de-jogos/mqtt-api/releases/tag/v1.0) e [aplicação de usuário](https://github.com/feira-de-jogos/frontend/releases/tag/v1.0).
+- [Equipamentos terminais](https://github.com/feira-de-jogos/equipamentos/releases/tag/v1.0).
 
 ## Interação do Usuário com o Sistema
 
@@ -48,7 +53,7 @@ Implementação simples ([*basic*](https://datatracker.ietf.org/doc/html/rfc7617
    - **API (MQTT Publish) -> Broker MQTT -> Dispenser (MQTT Subscribe)**
 
 ### 1. Cadastro e Autenticação
-- O usuário cria uma conta no [Banco digital para feira de jogos](https://feira-de-jogos.sj.ifsc.edu.br).
+- O usuário cria uma conta no banco digital para feira de jogos `https://feira-de-jogos.sj.ifsc.edu.br` (já desativado).
 - Ao iniciar a jornada, autentica-se nos jogos usando o sistema de autenticação via Google OAuth 2.0.
 
 ### 2. Interagindo com Jogos
@@ -89,7 +94,7 @@ Implementação simples ([*basic*](https://datatracker.ietf.org/doc/html/rfc7617
 ### 11. Diagrama de Blocos
 - Visualização da arquitetura de serviços e protocolos por meio de um diagrama de blocos:
 
-![diagrama de blocos](mermaid-diagram.png).
+![diagrama de blocos](mermaid-diagram.png)
 
 ### 12. Atualizações do Sistema
 - Possibilidade de atualização para a API (v2) pós-2023, conforme previsto.
