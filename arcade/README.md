@@ -36,7 +36,7 @@ evdev
 KERNEL=="uinput", MODE="0660", GROUP="games"
 ```
 
-O teclado virtual é implementado no arquivo [`client.py`](client.py), onde a função `coinInsert()` define a inserção de moeda por controle remoto.
+O teclado virtual é implementado no arquivo [`client.py`](client.py), onde a função `coinInsert()` define a inserção de moeda por controle remoto, conforme a [documentação](https://github.com/feira-de-jogos/docs/blob/v2.0/v2/machine.json).
 
 ## Teclado físico
 
