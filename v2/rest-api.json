@@ -515,13 +515,6 @@
       },
       "debitRequest": {
         "properties": {
-          "machine": {
-            "description": "machine id",
-            "example": 1,
-            "format": "int32",
-            "type": "integer",
-            "minimum": 0
-          },
           "product": {
             "description": "product id",
             "example": 1,
@@ -609,17 +602,22 @@
           },
           "name": {
             "description": "product name",
-            "example": "water",
+            "example": "chips",
             "type": "string"
           },
           "description": {
             "description": "product description",
-            "example": "mineral water, 500 mL",
+            "example": "150g",
+            "type": "string"
+          },
+          "type": {
+            "description": "product type",
+            "example": "foods",
             "type": "string"
           },
           "image": {
             "description": "product image",
-            "example": "https://feira-de-jogos.dev.br/products/images/water.png",
+            "example": "https://feira-de-jogos.dev.br/products/images/chips.png",
             "type": "string"
           },
           "price": {

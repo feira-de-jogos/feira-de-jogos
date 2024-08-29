@@ -129,44 +129,62 @@ sequenceDiagram
 Fluxo de escolha do servidor Web na resposta à requisição do usuário:
 
 ```mermaid
-flowchart TD
+ flowchart TD
   A[Usuário envia POST /debit]
   B
   C
   D[Retorna 401]
-  E[Consulta operações\nrecentes no BD]
+  E
   F[Retorna 400]
   G
-  H[Retorna 429]
+  H[Retorna 403]
   I
-  J[Consulta estoque\ndo produto no BD]
+  J[Retorna 403]
   K
-  L
+  L[Retorna 402]
   M[Retorna 403]
-  N[Insere operação de\ndébito no BD]
-  O[Retorna 200]
-  P[Retorna 403]
-  Q
-  R[Retorna 403]
+  N
+  P[Retorna 201]
 
-  A --> B{JWT\nválido?}
-  B -->|Sim| C{Requisição\nbem\nformatada?}
-  B -->|Não| D
-  C --> |Sim| E
+  AA[Insere operação não concluída no banco]
+  AB[Localiza a máquina do produto]
+  AC[Notifica a máquina para inserir moeda]
+
+  VA
+  VB[Máquina ocupada]
+  VC[Retorna 403]
+  VD[Insere operação não concluída no banco]
+  VE[Localiza slot do produto na máquina]
+  VF[Localiza nome do comprador]
+  VG[Notifica a máquina para estado MFA]
+
+  A --> B{JWT válido?}
+  B --> |Sim| C{Requisição bem formatada?}
+  B --> |Não| D
+  C --> |Sim| E{Máquina existe?}
   C --> |Não| F
-  E --> G{Existe\ndébito\nrecente?}
-  G --> |Sim| H
-  G --> |Não| I{Produto\nfísico ou\ndigital?}
-  I --> |Físico| Q{Máquina\nocupada?}
-  I --> |Digital| K
-  Q --> |Não| J
-  Q --> |Sim| R
-  J --> L{Produto em\nestoque?}
-  L --> |Sim| K{Usuário\ntem crédito\nem conta?}
-  L --> |Não| M
-  K --> |Sim| N
-  K --> |Não| P
-  N --> O
+  E --> |Sim| G{Produto existe?}
+  E --> |Não| H
+  G --> |Sim| I{Usuário tem saldo?}
+  G --> |Não| J
+  I --> |Sim| K{Máquina ocupada?}
+  I --> |Não| L
+  K --> |Sim| M
+  K --> |Não| N{Tipo de máquina?}
+  N --> |Vending machine| VA{Tem em estoque?}
+  N --> |Arcade| AA
+
+  AA --> AB
+  AB --> AC
+  AC --> P
+
+  VA --> |Sim| VB
+  VA --> |Não| VC
+  VB --> VD
+  VD --> VE
+  VE --> VF
+  VF --> VG
+  VG --> P
 ```
 
 ### Operação de transferência
