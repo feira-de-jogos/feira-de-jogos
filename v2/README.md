@@ -148,7 +148,7 @@ Fluxo de escolha do servidor Web na resposta à requisição do usuário:
 
   AA[Insere operação\nnão concluída\nno banco]
   AB[Localiza\na máquina\ndo produto]
-  AC[Notifica\na máquina\npara inserir moeda]
+  AC[Notifica\na máquina\npara inserir\nmoeda]
 
   VA
   VB[Máquina\nocupada]
@@ -156,9 +156,9 @@ Fluxo de escolha do servidor Web na resposta à requisição do usuário:
   VD[Insere operação\nnão concluída\nno banco]
   VE[Localiza slot\ndo produto\nna máquina]
   VF[Localiza nome\ndo comprador]
-  VG[Notifica\na máquina\npara estado MFA]
+  VG[Notifica\na máquina\npara\nestado MFA]
 
-  A --> B{JWT válido?}
+  A --> B{JWT\nválido?}
   B --> |Sim| C{Requisição\nbem\nformatada?}
   B --> |Não| D
   C --> |Sim| E{Máquina\nexiste?}
