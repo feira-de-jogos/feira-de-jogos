@@ -10,7 +10,7 @@ export default class mapa extends Phaser.Scene {
 
     // Sprites load
 
-    this.load.tilemapTiledJSON('mapa', '/assets/mapa/Mapa.json')
+    this.load.tilemapTiledJSON('mapa', './assets/mapa/Mapa.json')
 
     this.load.image('BlocosCenarioVerde', './assets/mapa/BlocosCenarioVerde.png')
     this.load.image('BlocosCenarioAmarelo', './assets/mapa/BlocosCenarioAmarelo.png')
