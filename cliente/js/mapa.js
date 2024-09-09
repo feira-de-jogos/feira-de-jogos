@@ -15,19 +15,19 @@ export default class mapa extends Phaser.Scene {
   preload () {
     this.load.audio('mapa', './assets/mapa.mp3')
 
-    this.load.tilemapTiledJSON('mapateste', '/assets/mapa/mapteste.json')
+    this.load.tilemapTiledJSON('mapateste', './assets/mapa/mapteste.json')
 
-    this.load.image('map', '/assets/mapa/map.png')
-    this.load.image('esgoto4', '/assets/background/10.png')
-    this.load.image('esgoto3', '/assets/background/9.png')
-    this.load.image('esgoto2', '/assets/background/8.png')
-    this.load.image('esgoto', '/assets/background/7.png')
-    this.load.image('comecoesgoto', '/assets/background/4.png')
-    this.load.image('floresta2', '/assets/background/3.png')
-    this.load.image('floresta', '/assets/background/2.png')
-    this.load.image('inicio', '/assets/background/1.png')
+    this.load.image('map', './assets/mapa/map.png')
+    this.load.image('esgoto4', './assets/background/10.png')
+    this.load.image('esgoto3', './assets/background/9.png')
+    this.load.image('esgoto2', './assets/background/8.png')
+    this.load.image('esgoto', './assets/background/7.png')
+    this.load.image('comecoesgoto', './assets/background/4.png')
+    this.load.image('floresta2', './assets/background/3.png')
+    this.load.image('floresta', './assets/background/2.png')
+    this.load.image('inicio', './assets/background/1.png')
 
-    this.load.image('fg2', '/assets/decoracao/fg2.png')
+    this.load.image('fg2', './assets/decoracao/fg2.png')
 
     this.load.spritesheet('cavaleiro-1', './assets/entities/kingone.png', { frameWidth: 32, frameHeight: 32 })
     this.load.spritesheet('cavaleiro-2', './assets/entities/kingtwo.png', { frameWidth: 32, frameHeight: 32 })
@@ -36,15 +36,15 @@ export default class mapa extends Phaser.Scene {
     this.load.spritesheet('rainall', './assets/particles/rainall.png', { frameWidth: 120, frameHeight: 120 })
     this.load.spritesheet('particula_jump', './assets/particles/jump_particle.png', { frameWidth: 32, frameHeight: 32 })
 
-    this.load.spritesheet('jump', '/assets/ui/jump.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('baixo', '/assets/ui/baixo.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('direita', '/assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('esquerda', '/assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
-    this.load.spritesheet('progress', '/assets/ui/progress.png', { frameWidth: 16, frameHeight: 32 })
-    this.load.spritesheet('fogueira', '/assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
-    this.load.spritesheet('torch', '/assets/decoracao/torch.png', { frameWidth: 32, frameHeight: 32 })
-    this.load.spritesheet('coroa', '/assets/decoracao/coroa.png', { frameWidth: 32, frameHeight: 32 })
-    this.load.spritesheet('skeleton', '/assets/decoracao/skeleton.png', { frameWidth: 24, frameHeight: 24 })
+    this.load.spritesheet('jump', './assets/ui/jump.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('baixo', './assets/ui/baixo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('direita', './assets/ui/direita.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('esquerda', './assets/ui/esquerda.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('progress', './assets/ui/progress.png', { frameWidth: 16, frameHeight: 32 })
+    this.load.spritesheet('fogueira', './assets/decoracao/bonfire.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('torch', './assets/decoracao/torch.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('coroa', './assets/decoracao/coroa.png', { frameWidth: 32, frameHeight: 32 })
+    this.load.spritesheet('skeleton', './assets/decoracao/skeleton.png', { frameWidth: 24, frameHeight: 24 })
   }
 
   create () {
