@@ -28,20 +28,9 @@
   <link rel="apple-touch-icon" sizes="512x512" href="./assets/logo/512.gif" />
 
   <link rel="stylesheet" type="text/css" href="./index.css" />
-  <script type="text/javascript">
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("./sw.js")
-        .then((reg) => console.info("Service worker registered: ", reg))
-        .catch((err) =>
-          console.error("Error registering service worker: ", err)
-        )
-    }
-  </script>
 </head>
 
 <body>
-
   <audio id="audio" autoplay></audio>
   <div class="center" id="game-container"></div>
   <script src="https://accounts.google.com/gsi/client" async></script>
