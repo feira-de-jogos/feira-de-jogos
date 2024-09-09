@@ -13,10 +13,12 @@ class Game extends Phaser.Game {
 
     let iceServers
     if (window.location.host === 'feira-de-jogos.dev.br') {
-      this.socket = io({ path: '/jogo/socket.io/' })
+      this.socket = io({ path: '/adcieqipt20241-vimdoalegrete-jogo/socket.io/' })
       iceServers = [
         {
-          urls: 'stun:stun.l.google.com:19302'
+          urls: 'turn:feira-de-jogos.dev.br',
+          username: 'adcieqipt20241',
+          credential: 'adcieqipt20241'
         }
       ]
     } else {
