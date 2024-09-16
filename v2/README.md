@@ -87,22 +87,22 @@ flowchart TD
   G
   H[Retorna 402]
   I[Retorna 403]
-  J[Consulta operações\nrecentes no BD]
+  J[Consulta operações recentes no BD]
   K
   L[Retorna 429]
-  M[Insere operação de\ncrédito no BD]
+  M[Insere operação de crédito no BD]
   N[Retorna 201]
 
-  A --> B{JWT\nválido?}
-  B -->|Sim| C{Requisição\nbem\nformatada?}
+  A --> B{JWT válido?}
+  B -->|Sim| C{Requisição bem formatada?}
   B -->|Não| D
-  C --> |Sim| E{Valor\nsolicitado\né inteiro\nnatural?}
+  C --> |Sim| E{Valor solicitado é inteiro natural?}
   C --> |Não| F
-  E --> |Sim| G{Valor\nacima do\nlimite?}
+  E --> |Sim| G{Valor acima do limite?}
   E --> |Não| H
   G --> |Sim| I
   G --> |Não| J
-  J --> K{Existe\ncrédito\nrecente?}
+  J --> K{Existe crédito recente?}
   K --> |Sim| L
   K --> |Não| M
   M --> N
@@ -146,32 +146,32 @@ Fluxo de escolha do servidor Web na resposta à requisição do usuário:
   N
   P[Retorna 201]
 
-  AA[Insere operação\nnão concluída\nno banco]
-  AB[Localiza\na máquina\ndo produto]
-  AC[Notifica\na máquina\npara inserir\nmoeda]
+  AA[Insere operação não concluída no banco]
+  AB[Localiza a máquina do produto]
+  AC[Notifica a máquina para inserir moeda]
 
   VA
-  VB[Máquina\nocupada]
+  VB[Máquina ocupada]
   VC[Retorna 403]
-  VD[Insere operação\nnão concluída\nno banco]
-  VE[Localiza slot\ndo produto\nna máquina]
-  VF[Localiza nome\ndo comprador]
-  VG[Notifica\na máquina\npara\nestado MFA]
+  VD[Insere operação não concluída no banco]
+  VE[Localiza slot do produto na máquina]
+  VF[Localiza nome do comprador]
+  VG[Notifica a máquina para estado MFA]
 
-  A --> B{JWT\nválido?}
-  B --> |Sim| C{Requisição\nbem\nformatada?}
+  A --> B{JWT válido?}
+  B --> |Sim| C{Requisição bem formatada?}
   B --> |Não| D
-  C --> |Sim| E{Máquina\nexiste?}
+  C --> |Sim| E{Máquina existe?}
   C --> |Não| F
-  E --> |Sim| G{Produto\nexiste?}
+  E --> |Sim| G{Produto existe?}
   E --> |Não| H
-  G --> |Sim| I{Usuário\ntem\nsaldo?}
+  G --> |Sim| I{Usuário tem saldo?}
   G --> |Não| J
-  I --> |Sim| K{Máquina\nocupada?}
+  I --> |Sim| K{Máquina ocupada?}
   I --> |Não| L
   K --> |Sim| M
-  K --> |Não| N{Tipo de\nmáquina?}
-  N --> |Vending\nmachine| VA{Tem em\nestoque?}
+  K --> |Não| N{Tipo de máquina?}
+  N --> |Vending machine| VA{Tem em estoque?}
   N --> |Arcade| AA
 
   AA --> AB
@@ -213,29 +213,29 @@ flowchart TD
   B
   C
   D[Retorna 401]
-  E[Consulta saldo\ndo usuário no BD]
+  E[Consulta saldo do usuário no BD]
   F
-  G[Consulta operações\nrecentes no BD]
+  G[Consulta operações recentes no BD]
   H[Retorna 403]
   I
   J[Retorna 429]
-  K[Insere operação de\n  transferência no BD]
+  K[Insere operação de   transferência no BD]
   L[Retorna 201]
   M[Retorna 400]
   N[Retorna 402]
   O[Retorna 429]
 
-  A --> B{JWT\nválido?}
-  B -->|Sim| C{Requisição\nbem\nformatada?}
+  A --> B{JWT válido?}
+  B -->|Sim| C{Requisição bem formatada?}
   B -->|Não| D
   C --> |Sim| E
   C --> |Não| M
-  E --> F{Usuário tem\nsaldo suficiente?}
-  F --> |Sim| I{Valor de\ntransferência\nválido?}
+  E --> F{Usuário tem saldo suficiente?}
+  F --> |Sim| I{Valor de transferência válido?}
   F --> |Não| N
   I --> |Sim| G
   I --> |Não| H
-  G --> J{Existe\n  transferência\nrecente?}
+  G --> J{Existe   transferência recente?}
   J --> |Sim| O
   J --> |Não| K
   K --> L
