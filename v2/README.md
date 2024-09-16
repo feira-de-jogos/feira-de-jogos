@@ -4,8 +4,8 @@ Implementação baseada em [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc
 
 O código está distribuído em vários repositórios:
 
-- [Servidor](https://github.com/feira-de-jogos/nuvem/releases/tag/v2.0) e submódulos [REST API](https://github.com/feira-de-jogos/rest-api/releases/tag/v2.0) e [aplicação de usuário](https://github.com/feira-de-jogos/frontend/releases/tag/v2.0), onde os [serviços](serviços.md) são preparados com systemd e Docker.
-- [Equipamentos terminais](https://github.com/feira-de-jogos/equipamentos/releases/tag/v2.0).
+- [Servidor](https://github.com/feira-de-jogos/nuvem/tree/v2.0) e submódulos [REST API](https://github.com/feira-de-jogos/rest-api/tree/v2.0) e [aplicação de usuário](https://github.com/feira-de-jogos/frontend/tree/v2.0), onde os [serviços](serviços.md) são preparados com systemd e Docker.
+- [Equipamentos terminais](https://github.com/feira-de-jogos/equipamentos/tree/v2.0).
 
 ## Requisitos do sistema
 
