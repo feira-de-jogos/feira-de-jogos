@@ -6,14 +6,12 @@ Nome : labzumbi
 
 Em um mundo pós-apocalíptico, dois personagens estão presos em lados opostos de um labirinto. A maior parte da população foi transformada em zumbis, e para sobreviver, eles precisam encontrar um caminho até o outro enquanto enfrentam os mortos-vivos e resolvem pequenos desafios no caminho. O labirinto é fixo, mas cheio de obstáculos, corredores e zumbis.
 
-Personagens:
+
 
 Personagem Nay : Especialista em resolver problemas e traçar caminhos. Ele(a) é mais ágil e pode ativar mecanismos, abrir portas ou mover obstáculos para avançar.
 
 Personagem Kelvin : Forte e habilidoso(a) em combate. Ele(a) enfrenta diretamente os zumbis, protege o outro personagem e é responsável por eliminar as ameaças.
 
-
-Dinâmica do Jogo:
 
 Labirinto Fixo: 
 
@@ -26,7 +24,6 @@ Obstáculos e Desafios:
 Zumbis: 
 
 Os zumbis estão espalhados por todo o labirinto. Alguns patrulham corredores, enquanto outros podem ser armadilhas escondidas. A dificuldade aumenta conforme o jogador avança, com  tipos diferentes de zumbis surgindo em níveis mais altos.
-
 
 Moedas e Recompensas:
 
