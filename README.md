@@ -14,6 +14,16 @@ Personagens-
 Regras do Jogo-
 
 
+universo
+
+personagens
+
+regras do jogo
+
+fontes de receita
+
+equipe
+
 
 Fontes de Receita-
 
