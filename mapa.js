@@ -1,4 +1,3 @@
-
 export default class mapa extends Phaser.Scene {
   constructor () {
     super('mapa')
