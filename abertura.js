@@ -1,19 +1,21 @@
-export default class abertura extends Phaser.Scene {
-  constructor () {
-    super('abertura')
-  }
 
-  preload () {
-    this.load.image('abertura', 'assets/abertura.png')
-  }
-
-  create () {
-    this.add.image(400, 225, 'abertura')
-      .setInteractive()
-      .on('pointerdown', () => {
-        this.scene.stop('abertura')
-        this.scene.start('sala')
-      })
-      .preFX.addBlur()
+export default {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 450,
+  parent: 'game-container',
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 0 },
+      debug: true
+    }
+  },
+  scale: {
+    mode: Phaser.Scale.FIT,
+    parent: 'game-container',
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: 800,
+    height: 450
   }
 }
