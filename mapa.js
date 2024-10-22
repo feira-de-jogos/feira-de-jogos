@@ -6,10 +6,31 @@ export default class mapa extends Phaser.Scene {
   preload () {
     this.load.tilemapTiledJSON('mapa', 'assets/mapa/mapa.json')
     this.load.image('abertura', 'assets/abertura.png')
-    this.load.image('personagem', 'assets/personagem.png')
+    this.load.image('baixo', 'assets/baixo.png')
+    this.load.image('cima', 'assets/cima.png')
+    this.load.image('direita', 'assets/direita.png')
+    this.load.image('esquerda', 'assets/esquerda.png')
+    this.load.image('labirinto', 'assets/labirinto.png')
     this.load.image('sala', 'assets/sala.png')
 
     this.load.spritesheet('personagem', 'assets/personagem.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
+
+    this.load.spritesheet('cima', 'assets/cima.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
+    this.load.spritesheet('direita', 'assets/direita.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
+    this.load.spritesheet('esquerda', 'assets/esquerda.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
+    this.load.spritesheet('baixo', 'assets/baixo.png', {
       frameWidth: 64,
       frameHeight: 64
     })
@@ -19,9 +40,6 @@ export default class mapa extends Phaser.Scene {
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
     this.tilesetEstrutura = this.tilemapMapa.addTilesetImage('mapa lab-zumbi')
-    // this.tilesetBarreiras = this.tilemapMapa.addTilesetImage('labirinto')
-    // this.tilesetChão = this.tilemapMapa.addTilesetImage('mapa lab-zumbii')
-    // this.tilesetPersonagem = this.tilemapMapa.addTilesetImage('personagem')
 
     this.anims.create({
       key: 'parado',
