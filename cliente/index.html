@@ -233,7 +233,7 @@ audioObj.setAttribute(&#39;autoplay&#39;, &#39;true&#39;)
 document.body.appendChild(audioObj)
 [continued]
 
-&gt; [[Apresentação]] </tw-passagedata><tw-passagedata pid="2" name="Apresentação" tags="" position="100,300" size="100,100">Era uma noite fria e silenciosa quando Marcos chegou em casa, exausto após mais um dia de trabalho. Ele sentia uma mistura de alívio e desconforto ao pensar em sua esposa, Letícia, que o esperava na sala de estar. Ela sempre estava tão concentrada em seus livros ou em seus projetos artísticos que ele sentia que, de alguma forma, a distância emocional entre eles havia aumentado com o tempo. Ele tirou o casaco, pensou em cumprimentá-la, mas uma estranha sensação o fez caminhar pela casa com cautela.
+&gt; [[Apresentação]] </tw-passagedata><tw-passagedata pid="2" name="Apresentação" tags="" position="100,300" size="100,100">Era uma noite fria e silenciosa quando Marcos chegou em casa, exausto após mais um dia de trabalho. Ele sentia uma mistura de alívio e desconforto ao pensar em sua esposa, Nay, que o esperava na sala de estar. Ela sempre estava tão concentrada em seus livros ou em seus projetos artísticos que ele sentia que, de alguma forma, a distância emocional entre eles havia aumentado com o tempo. Ele tirou o casaco, pensou em cumprimentá-la, mas uma estranha sensação o fez caminhar pela casa com cautela.
 &gt; [[Inicio]]  </tw-passagedata><tw-passagedata pid="3" name="Inicio" tags="" position="300,300" size="100,100">Ao entrar na sala, o que ele encontrou foi um choque absoluto. Letícia estava caída no chão, ensanguentada, com um olhar vazio fixo no teto. O coração de Marcos disparou, e ele correu até ela, tentando vê-la com vida, mas era tarde demais. Ela estava morta. Um misto de pavor e confusão tomou conta de sua mente. Como isso aconteceu? Quem poderia ter feito isso? E por quê?
 &gt; [[Quantidade de Jogadores ]] 
 
@@ -391,12 +391,85 @@ Encontre todas as chaves antes que o tempo acabe!
 [[opção 1]]
 [[opção 2]]</tw-passagedata><tw-passagedata pid="11" name="opção 1" tags="" position="1500,800" size="100,100">Marcos, não aguentando a dor da perca de sua amada, acaba cometendo suicidio.
 
-[[Proxima passagem ]]</tw-passagedata><tw-passagedata pid="12" name="opção 2" tags="" position="1775,800" size="100,100">Marcos empurra letícia !
+[[Proxima passagem ]]</tw-passagedata><tw-passagedata pid="12" name="opção 2" tags="" position="1800,1000" size="100,100">Marcos empurra letícia !
 
 [[verdadeira 2]]</tw-passagedata><tw-passagedata pid="13" name="verdadeira 2" tags="" position="1650,900" size="100,100">Na noite do assassinato, ele chegou em casa e encontrou Letícia conversando com alguém ao telefone, num tom tão tenso que ele não conseguiu mais se controlar. Em um ato impensado, ele a empurrou durante uma discussão, e ela caiu no chão, batendo a cabeça. Quando Marcos tentou ajudá-la, percebeu que ela não estava respirando mais.
 
 [[opção]]</tw-passagedata><tw-passagedata pid="14" name="Proxima passagem " tags="" position="1300,800" size="100,100">Iniciar partida com:
 &gt; [[Inicio]]</tw-passagedata><tw-passagedata pid="15" name="opção" tags="" position="1500,1000" size="100,100">marcos  é preso!
 
-[[verdadeira 3]]</tw-passagedata><tw-passagedata pid="16" name="verdadeira 3" tags="" position="1800,1100" size="100,100">Marcos entra em pânico, e, incapaz de lidar com a culpa, decide disfarçar a cena do crime, fazendo parecer um assassinato cometido por um intruso. Ele limpa tudo, apaga as evidências e vai até a delegacia para denunciar um roubo. Contudo, a polícia descobre inconsistências em sua história e encontra vestígios de luta. A investigação o coloca como principal suspeito, e no final, ele acaba sendo preso por homicídio culposo.
-[[voce ganhou parabens]]</tw-passagedata><tw-passagedata pid="17" name="voce ganhou parabens" tags="" position="1600,1100" size="100,100">Voce venceu parabens!</tw-passagedata><tw-passagedata pid="18" name="passagem falsa" tags="" position="1000,700" size="100,100"></tw-passagedata></tw-storydata></html>
+&gt;[[verdadeira 3]]
+&gt;[[opção 2]]</tw-passagedata><tw-passagedata pid="16" name="verdadeira 3" tags="" position="1800,1200" size="100,100">Marcos entra em pânico, e, incapaz de lidar com a culpa, decide disfarçar a cena do crime, fazendo parecer um assassinato cometido por um intruso. Ele limpa tudo, apaga as evidências e vai até a delegacia para denunciar um roubo. Contudo, a polícia descobre inconsistências em sua história e encontra vestígios de luta. A investigação o coloca como principal suspeito, e no final, ele acaba sendo preso por homicídio culposo.
+[[voce ganhou parabens]]</tw-passagedata><tw-passagedata pid="17" name="voce ganhou parabens" tags="" position="1600,1200" size="100,100">Voce venceu parabens!
+&gt;[[fianal feliz]]
+</tw-passagedata><tw-passagedata pid="18" name="passagem falsa" tags="" position="1000,700" size="100,100"></tw-passagedata><tw-passagedata pid="19" name="fianal feliz" tags="" position="1600,1400" size="100,100">Faça o login no Google para adicionar TJL${tijolinhos} de crédito.
+
+[JavaScript]
+window.setup = {}
+
+setup.loadError = function (oError) {
+  throw new URIError(
+    &#39;The script &#39; + oError.target.src + &quot; didn&#39;t load correctly.&quot;
+  )
+}
+
+setup.loadScript = function (url, onloadFunction) {
+  const newScript = document.createElement(&#39;script&#39;)
+  newScript.onerror = setup.loadError
+  if (onloadFunction) {
+    newScript.onload = onloadFunction
+  }
+  document.head.appendChild(newScript)
+  newScript.async = true
+  newScript.src = url
+}
+
+setup.loadScript(&#39;https://accounts.google.com/gsi/client&#39;, () =&gt; {
+  google.accounts.id.initialize({
+    client_id: engine.state.get(&#39;GoogleClientID&#39;),
+    callback: (res) =&gt; {
+      if (res.error) {
+        console.error(res.error)
+      } else {
+        const url = &#39;https://feira-de-jogos.dev.br/api/v2/credit&#39;
+        const options = {
+          method: &#39;POST&#39;,
+          headers: {
+            &#39;Accept&#39;: &#39;application/json&#39;,
+            &#39;Authorization&#39;: `Bearer ${res.credential}`,
+            &#39;Content-Type&#39;: &#39;application/json&#39;
+          },
+          body: JSON.stringify({
+            product: engine.state.get(&#39;produto&#39;),
+            value: engine.state.get(&#39;tijolinhos&#39;)
+          })
+        }
+        const req = new Request(url, options)
+        
+        fetch(req)
+          .then((response) =&gt; {
+            if (response.ok) {
+              alert(&quot;Crédito realizado com sucesso!&quot;)
+              console.log(response.status)
+            } else {
+              if (response.status == 429){
+                alert(&quot;Falha: operação duplicada.&quot;)
+              } else {
+                alert(&quot;Erro ao realizar operação de crédito.&quot;)
+              }
+              console.error(response)
+            }
+          }
+        )
+      }
+    },
+  })
+
+  google.accounts.id.prompt((notification) =&gt; {
+    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+      google.accounts.id.prompt()
+    }
+  })
+})
+[continued]
+</tw-passagedata></tw-storydata></html>
