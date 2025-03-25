@@ -72,7 +72,7 @@ export default class sala extends Phaser.Scene {
           this.iniciar.play()
 
           // Define a variável global da sala
-          globalThis.game.sala = sala.numero
+          globalThis.game.sala = 'adcieqipt20241-vimdoalegrete-jogo/' + sala.numero
 
           // Emite o evento 'entrar-na-sala' para o servidor
           globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
