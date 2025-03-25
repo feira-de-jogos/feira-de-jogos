@@ -14,7 +14,7 @@ class Game extends Phaser.Game {
 
     let iceServers
     if (window.location.host === 'feira-de-jogos.dev.br') {
-      this.socket = io({ path: '/adcieqipt20241-Thuthu-e-Aninha-jogo/socket.io/' })
+      this.socket = io({ path: '/api/v2/game/' })
       iceServers = [
         {
           urls: 'stun:feira-de-jogos.dev.br'
