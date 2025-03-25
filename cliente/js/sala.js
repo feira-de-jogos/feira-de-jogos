@@ -55,7 +55,7 @@ export default class sala extends Phaser.Scene {
           })
 
           // Variavel global da sala:
-          globalThis.game.sala = sala.numero
+          globalThis.game.sala = 'adcieqipt20241-huntersofancientbeasts-jogo/' + sala.numero
 
           // Emite o evento de entrar na sala
           globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
