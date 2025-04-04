@@ -1,4 +1,5 @@
 import { Abertura } from "./abertura"
+import { Precarregamento } from "./precarregamento"
 import { Principal } from "./principal"
 import { Game, Types } from "phaser"
 
@@ -17,7 +18,11 @@ const config: Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [Abertura, Principal],
+  scene: [
+    Abertura,
+    Precarregamento,
+    Principal
+  ],
 };
 
 export default new Game(config)

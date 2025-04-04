@@ -13,7 +13,7 @@ export class Abertura extends Scene {
     this.add.image(400, 225, "fundo")
       .setInteractive()
       .on("pointerdown", () => {
-        this.scene.start("Principal")
+        this.scene.start("Precarregamento")
       })
   }
 }
