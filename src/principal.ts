@@ -5,11 +5,11 @@ export class Principal extends Scene {
   alien: Physics.Arcade.Sprite
   alienParado: boolean = true
 
-  constructor () {
+  constructor() {
     super("Principal")
   }
 
-  preload () {
+  preload() {
     this.load.image("fundo", "assets/abertura-fundo.png")
 
     this.load.spritesheet("alien", "assets/alien.png", {
@@ -21,7 +21,7 @@ export class Principal extends Scene {
     this.load.audio("pop", "assets/pop.mp3")
   }
 
-  create () {
+  create() {
     this.add.image(400, 225, "fundo")
 
     this.sound.add("musica-espaco", {

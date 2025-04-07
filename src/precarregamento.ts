@@ -2,7 +2,7 @@ import { Scene } from "phaser"
 
 export class Precarregamento extends Scene {
 
-  constructor () {
+  constructor() {
     super("Precarregamento")
   }
 
@@ -16,14 +16,14 @@ export class Precarregamento extends Scene {
     })
   }
 
-  preload () {
+  preload() {
     this.load.setPath("assets/")
     this.load.image("fundo", "abertura-fundo.png")
     this.load.audio("pop", "pop.mp3")
     this.load.audio("musica-espaco", "musica-espaco.mp3")
   }
 
-  create () {
+  create() {
     this.scene.start("Principal")
   }
 }

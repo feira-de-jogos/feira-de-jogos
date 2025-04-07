@@ -1,15 +1,15 @@
 import { Scene, GameObjects } from "phaser"
 
 export class Abertura extends Scene {
-  constructor () {
+  constructor() {
     super("Abertura")
   }
 
-  preload () {
+  preload() {
     this.load.image("fundo", "assets/abertura-fundo.png")
   }
 
-  create () {
+  create() {
     this.add.image(400, 225, "fundo")
       .setInteractive()
       .on("pointerdown", () => {
