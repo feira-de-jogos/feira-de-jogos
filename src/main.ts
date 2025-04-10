@@ -1,7 +1,7 @@
+import { Game, Types } from "phaser"
 import { Abertura } from "./abertura"
 import { Precarregamento } from "./precarregamento"
 import { Principal } from "./principal"
-import { Game, Types } from "phaser"
 
 const config: Types.Core.GameConfig = {
   type: Phaser.AUTO,

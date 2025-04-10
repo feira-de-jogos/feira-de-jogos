@@ -1,4 +1,4 @@
-import { Scene, GameObjects } from "phaser"
+import { Scene } from "phaser"
 
 export class Abertura extends Scene {
   constructor() {
