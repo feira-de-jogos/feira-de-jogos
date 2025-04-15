@@ -1,6 +1,6 @@
 # Jogo modelo
 
-Este repositório é um jogo modelo a ser usado para desenvolvimento de jogos Web baseados em Phaser e MQTT. Ou seja, jogos multijogador com suporte a dispositivos físicos, como por exemplo *escape room*.
+Este repositório é um jogo modelo a ser usado para desenvolvimento de jogos Web baseados em Phaser e MQTT. Ou, mais especificamente, jogos Web multijogador com suporte a dispositivos físicos, como por exemplo *escape room*.
 
 ## Objetivo
 
