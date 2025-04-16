@@ -1,1 +1,3 @@
-# hardware
+# Hardware
+
+Documentação no repositório [docs](https://github.com/estacao-meteorologica/docs).
