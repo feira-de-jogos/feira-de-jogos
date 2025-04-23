@@ -1,19 +1,20 @@
-import { Scene } from "phaser"
+import { Scene } from "phaser";
 
 export class Abertura extends Scene {
   constructor() {
-    super("Abertura")
+    super("Abertura");
   }
 
   preload() {
-    this.load.image("fundo", "assets/abertura-fundo.png")
+    this.load.image("fundo", "assets/abertura-fundo.png");
   }
 
   create() {
-    this.add.image(400, 225, "fundo")
+    this.add
+      .image(400, 225, "fundo")
       .setInteractive()
       .on("pointerdown", () => {
-        this.scene.start("Precarregamento")
-      })
+        this.scene.start("Precarregamento");
+      });
   }
 }
