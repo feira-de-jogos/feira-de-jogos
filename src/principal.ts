@@ -9,6 +9,13 @@ export class Principal extends Scene {
     super("Principal");
   }
 
+  init() {
+    navigator.geolocation.watchPosition((pos) => {
+      const date: Date = new Date(pos.timestamp)
+      console.log(pos.coords, date);
+    });
+  }
+
   preload() {
     this.load.image("fundo", "assets/abertura-fundo.png");
 
