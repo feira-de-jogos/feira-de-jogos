@@ -8,6 +8,15 @@ const config: Types.Core.GameConfig = {
   width: 800,
   height: 450,
   parent: "game-container",
+  dom: {
+    createContainer: true,
+  },
+  input: {
+    gamepad: true,
+    touch: {
+      target: "game-container",
+    },
+  },
   physics: {
     default: "arcade",
     arcade: {
@@ -18,7 +27,7 @@ const config: Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [Abertura, Precarregamento, Principal],
+  scene: [Principal, Abertura, Precarregamento],
 };
 
 export default new Game(config);

@@ -17,10 +17,14 @@
     "typescript-eslint": "^8.31.0"
   },
   "dependencies": {
+    "@types/geojson": "^7946.0.16",
+    "@types/leaflet": "^1.9.17",
+    "leaflet": "^1.9.4",
     "phaser": "^3.88.2"
   },
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url ./"
+    "build": "parcel build src/index.html --public-url ./",
+    "clean": "rm -rf dist .parcel-cache"
   }
 }

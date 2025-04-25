@@ -1,71 +1,67 @@
-import { Scene, Physics } from "phaser";
+import { Scene } from "phaser";
+import Map, { LatLngExpression } from "leaflet";
+
+import "leaflet/dist/leaflet.css";
 
 export class Principal extends Scene {
-  pop: Phaser.Sound.BaseSound;
-  alien: Physics.Arcade.Sprite;
-  alienParado: boolean = true;
+  map: Map.Map = Map.map("game-container").setView([0, 0], 18);
 
   constructor() {
     super("Principal");
   }
 
-  init() {
-    navigator.geolocation.watchPosition((pos) => {
-      const date: Date = new Date(pos.timestamp)
-      console.log(pos.coords, date);
-    });
-  }
-
-  preload() {
-    this.load.image("fundo", "assets/abertura-fundo.png");
-
-    this.load.spritesheet("alien", "assets/alien.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.audio("musica-espaco", "assets/musica-espaco.mp3");
-    this.load.audio("pop", "assets/pop.mp3");
-  }
-
   create() {
-    this.add.image(400, 225, "fundo");
+    Map.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
 
-    this.sound
-      .add("musica-espaco", {
-        loop: true,
-        volume: 0.5,
-      })
-      .play();
+    const userMarker = Map.circleMarker([0, 0], {
+      radius: 8,
+      fillColor: "#3388ff",
+      color: "#000",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.8,
+    }).addTo(this.map);
 
-    this.pop = this.sound.add("pop");
+    const pathCoords: LatLngExpression[] = [];
+    const pathLine = Map.polyline(pathCoords, {
+      color: "red",
+      weight: 3,
+      opacity: 0.7,
+    }).addTo(this.map);
 
-    this.anims.create({
-      key: "alien-parado",
-      frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 0 }),
-      frameRate: 1,
-    });
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
+    };
 
-    this.anims.create({
-      key: "alien-andando",
-      frames: this.anims.generateFrameNumbers("alien", { start: 1, end: 8 }),
-      frameRate: 10,
-      repeat: -1,
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const accuracy = position.coords.accuracy;
+          console.log(lat, lng, accuracy);
 
-    this.alien = this.physics.add
-      .sprite(100, 225, "alien")
-      .setInteractive()
-      .on("pointerdown", () => {
-        if (this.alienParado) {
-          this.alien.anims.play("alien-andando");
-          this.alien.setVelocityX(100);
-          this.pop.play();
-        } else {
-          this.alien.anims.play("alien-parado");
-          this.alien.setVelocityX(0);
-        }
-        this.alienParado = !this.alienParado;
-      });
+          // Update marker position
+          userMarker.setLatLng([lat, lng]);
+
+          // Add to path
+          pathCoords.push([lat, lng] as LatLngExpression);
+          pathLine.setLatLngs(pathCoords);
+
+          // Center map on user with some padding
+          this.map.setView([lat, lng], 18, {
+            animate: true,
+            duration: 1,
+          });
+        },
+        () => {},
+        options,
+      );
+    }
   }
 }
