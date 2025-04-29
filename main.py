@@ -3,8 +3,8 @@ import network
 from time import sleep
 
 
-ssid = 'em'
-key = 'estacao-meteorlogica'
+ssid = "em"
+key = "estacao-meteorlogica"
 
 p2 = Pin(2, Pin.OUT)
 
