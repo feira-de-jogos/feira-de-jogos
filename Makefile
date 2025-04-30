@@ -24,4 +24,5 @@ repl:
 	minicom -b 115200 -D ${DEV} -c on
 
 write:
+	ampy --port ${DEV} put boot.py
 	ampy --port ${DEV} put main.py
