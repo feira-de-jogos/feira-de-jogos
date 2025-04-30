@@ -13,9 +13,6 @@ const config: Types.Core.GameConfig = {
   },
   input: {
     gamepad: true,
-    touch: {
-      target: "game-container",
-    },
   },
   physics: {
     default: "arcade",

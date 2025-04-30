@@ -13,3 +13,7 @@ Este jogo modelo se baseia nessa premissa batida e, por isso mesmo, tão poderos
 Imagina um colégio comum. Salas de aula, laboratórios, biblioteca, rotina. Adiciona um fino véu nessa aparente normalidade: um local proibido para alunos. Apenas uma porta com acesso restrito. Pode haver apenas documentos, não? Claro, por que não? Ou material sensível ou caro, como aqueles eletrônicos velhos usados nas festas. Ou um corredor com luz bruxuleante, paredes mofadas, tacos soltos no chão. Antigamente, haveria a lenda de um cemitério indígena; hoje em dia, seria um backroom. Ou apenas um sala velha, com certeza.
 
 Tobias e Lola não parecem, mas são irmãos. O primeiro é metódico, organizado, cerebral. Não usa óculos, porque isso seria óbvio demais para alguém que aos 19 anos mora na virtualidade dos jogos online. Lola é extrovertida, impulsiva e engraçada, fala alto e não tem medo do escuro (quando deveria). Queria ter nascido nos anos 1970, mas com apenas 15 anos, tem dificuldades para usar o celular. Irmãos com pouca diferença de idade fazem apostas surreais ou estúpidas, mas até mesmo essa foi além do que imaginavam: passar a noite na escola e ver o que está atrás daquela porta, enquanto o vigia noturno faz a ronda. Apenas os dois. Ok, recursos básicos de celular liberados: lanterna, mensagem, ligação.
+
+# *Assets*
+
+1. [Cainos: Pixel Art Top Down - Basic](https://cainos.itch.io/pixel-art-top-down-basic)

@@ -15,6 +15,15 @@ export class Precarregamento extends Scene {
 
   preload() {
     this.load.setPath("assets/");
+    this.load.image("estruturas", "estruturas.png");
+    this.load.image("grama", "grama.png");
+    this.load.image("jogador", "jogador.png");
+    this.load.image("objetos", "objetos.png");
+    this.load.image("paredes", "paredes.png");
+    this.load.image("pedras", "pedras.png");
+    this.load.image("plantas", "plantas.png");
+    this.load.image("sombras-plantas", "sombras-plantas.png");
+    this.load.image("sombras", "sombras.png");
   }
 
   create() {
