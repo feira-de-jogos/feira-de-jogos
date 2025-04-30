@@ -1,4 +1,8 @@
 from machine import Pin
+import network
 
 p2 = Pin(2, Pin.OUT)
-p2.on()
+
+wlan = network.WLAN()
+if wlan.isconnected():
+    p2.on()
