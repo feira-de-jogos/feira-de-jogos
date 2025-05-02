@@ -2,7 +2,8 @@ SHELL := /bin/bash
 FIRMWARE = ESP32_GENERIC-20250415-v1.25.0.bin
 DEV = /dev/ttyUSB0
 
-all: clean install flash write repl
+all: clean install flash write-libs repl
+write: write-app repl
 
 clean:
 	rm -rf venv/
@@ -19,7 +20,11 @@ flash:
 	venv/bin/esptool.py erase_flash
 	venv/bin/esptool.py --baud 460800 write_flash 0x1000 ${FIRMWARE}
 
-write:
+write-libs:
+	venv/bin/ampy --port ${DEV} put install_libs.py boot.py
+	venv/bin/ampy --port ${DEV} rm main.py
+
+write-app:
 	venv/bin/ampy --port ${DEV} put boot.py
 	venv/bin/ampy --port ${DEV} put main.py
 
