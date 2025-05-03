@@ -3,13 +3,13 @@ import network
 from time import sleep
 
 
-dotenv.load_dotenv()
+dotenv.load_env()
 
 wlan = network.WLAN()
 wlan.active(True)
 
 try:
-    wlan.connect(WIFI_SSID, WIFI_KEY)
+    wlan.connect(dotenv.WIFI_SSID, dotenv.WIFI_KEY)
 
     for i in range(15):
         print("Conectando ao WiFi...")

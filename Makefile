@@ -21,10 +21,13 @@ flash:
 	venv/bin/esptool.py --baud 460800 write_flash 0x1000 ${FIRMWARE}
 
 write-libs:
+	venv/bin/ampy --port ${DEV} put .env
+	venv/bin/ampy --port ${DEV} put dotenv.py
 	venv/bin/ampy --port ${DEV} put install_libs.py boot.py
-	venv/bin/ampy --port ${DEV} rm main.py
 
 write-app:
+	venv/bin/ampy --port ${DEV} put .env
+	venv/bin/ampy --port ${DEV} put dotenv.py
 	venv/bin/ampy --port ${DEV} put boot.py
 	venv/bin/ampy --port ${DEV} put main.py
 
