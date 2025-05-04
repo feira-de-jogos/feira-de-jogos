@@ -3,8 +3,9 @@ from machine import Pin
 import network
 import umqtt.simple
 
-p2 = Pin(2, Pin.OUT)
+dotenv.load_env()
 
+p2 = Pin(2, Pin.OUT)
 wlan = network.WLAN()
 mqtt_client = umqtt.simple.MQTTClient(client_id=dotenv.MQTT_CLIENT_ID, server=dotenv.MQTT_BROKER)
 

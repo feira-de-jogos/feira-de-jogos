@@ -6,5 +6,6 @@ def load_env(filename=".env"):
                     key, value = line.strip().split("=", 1)
                     value = value.strip("\"'")
                     globals()[key] = value
+
     except OSError:
         print("Warning: No .env file found")

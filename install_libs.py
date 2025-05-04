@@ -22,7 +22,7 @@ try:
             print("Conectado ao WiFi!")
             mip.install("umqtt.simple")
             break
-        
+
 except Exception as e:
     print("Falha ao conectar ao WiFi:", e)
 
