@@ -8,9 +8,6 @@ const config: Types.Core.GameConfig = {
   width: 800,
   height: 450,
   parent: "game-container",
-  dom: {
-    createContainer: true,
-  },
   input: {
     gamepad: true,
   },
