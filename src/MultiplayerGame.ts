@@ -2,37 +2,67 @@ import { Game, Types } from "phaser";
 import mqtt from "mqtt";
 
 export default class MultiplayerGame extends Game {
+  ws: WebSocket;
+  mqttClient: mqtt.MqttClient;
+
   constructor(config: Types.Core.GameConfig) {
     super(config);
 
-    let wsHost = window.location.host;
-    if (wsHost.match("github.dev")) {
-      const devHost = wsHost.split(".")[0].split("-");
-      wsHost = `${devHost[0]}-${devHost[1]}-${devHost[2]}-8080.app.github.dev`;
+    let wsURL = window.location.host;
+    if (wsURL.match("github.dev")) {
+      const devHost = wsURL.split(".")[0].split("-");
+      wsURL = `wss://${devHost[0]}-${devHost[1]}-${devHost[2]}-8080.app.github.dev/`;
+    } else {
+      wsURL = `wss://${wsURL}/ws`;
     }
 
-    const ws = new WebSocket(`wss://${wsHost}/ws`);
+    this.ws = new WebSocket(wsURL);
 
-    ws.onopen = () => {
+    this.ws.onopen = () => {
       console.log("WebSocket connection established");
+    };
+
+    interface eventData {
+      scene: string;
+      message: string;
+    }
+
+    this.ws.onmessage = (event: MessageEvent) => {
+      console.log("Message received from server:", event);
+      const data: eventData = JSON.parse(event.data);
+      const scene: string = data.scene;
+
+      if (scene === "Room") {
+        this.scene.start("Room");
+      }
     };
 
     const mqttBroker = "em.sj.ifsc.edu.br";
 
-    const mqttClient = mqtt.connect(
-      `wss://${mqttBroker}/mqtt/`
-    );
+    this.mqttClient = mqtt.connect(`wss://${mqttBroker}/mqtt/`);
 
-    mqttClient.on("connect", () => {
-      mqttClient.subscribe("jogo-modelo/#", (err) => {
+    this.mqttClient.on("connect", () => {
+      this.mqttClient.subscribe("jogo-modelo/#", (err) => {
         if (!err) {
-          mqttClient.publish("jogo-modelo/0", "Hello mqtt!");
+          this.mqttClient.publish("jogo-modelo/Game", "Starting a new game...");
         }
       });
     });
 
-    mqttClient.on("message", (topic, message) => {
-      console.log(message.toString());
+    this.mqttClient.on("message", (topic, message) => {
+      const scene: string = message.toString();
+
+      if (scene === "Room") {
+        this.scene.start("Room");
+      }
     });
+  }
+
+  public getWebSocket(): WebSocket {
+    return this.ws;
+  }
+
+  public getMqttClient(): mqtt.MqttClient {
+    return this.mqttClient;
   }
 }

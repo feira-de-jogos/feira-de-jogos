@@ -1,13 +1,12 @@
 import { WebSocket, WebSocketServer } from "ws";
 
-const wss = new WebSocketServer({ port: 8080 });
+const wsServer = new WebSocketServer({ port: 8080 });
 
-wss.on("connection", (ws: WebSocket) => {
-  console.log("New client connected");
+wsServer.on("connection", (ws: WebSocket) => {
+  ws.send(`Welcome to server!`);
 
   ws.on("message", (message: string) => {
     console.log(`Received message: ${message}`);
-    ws.send(`Server received your message: ${message}`);
   });
 
   ws.on("close", () => {
