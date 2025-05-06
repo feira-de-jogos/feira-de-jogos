@@ -15,3 +15,7 @@ O objetivo é ensinar os conceitos básicos do [Curso Integrado ao Ensino Médio
 ## Sobre o jogo
 
 A concepção do jogo modelo está descrita em [documento a parte](sobre-o-jogo.md).
+
+Fontes:
+
+- *Tilesets*: [Pixel Art Top Down - Basic](https://cainos.itch.io/pixel-art-top-down-basic), de [Cainos](https://cainos.itch.io/).
