@@ -15,15 +15,15 @@ export class Preloader extends Scene {
 
   preload() {
     this.load.setPath("assets/");
-    this.load.image("struct", "struct.png");
     this.load.image("grass", "grass.png");
+    this.load.image("plant", "plant.png");
     this.load.image("player", "player.png");
     this.load.image("props", "props.png");
-    this.load.image("wall", "wall.png");
-    this.load.image("stone-ground", "stone-ground.png");
-    this.load.image("plant", "plant.png");
     this.load.image("shadow-plant", "shadow-plant.png");
     this.load.image("shadow", "shadow.png");
+    this.load.image("stone-ground", "stone-ground.png");
+    this.load.image("struct", "struct.png");
+    this.load.image("wall", "wall.png");
   }
 
   create() {
