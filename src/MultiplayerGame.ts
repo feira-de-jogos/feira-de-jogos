@@ -37,7 +37,7 @@ export default class MultiplayerGame extends Game {
       }
     };
 
-    const mqttBroker = "em.sj.ifsc.edu.br";
+    const mqttBroker = "feira-de-jogos.dev.br";
 
     this.mqttClient = mqtt.connect(`wss://${mqttBroker}/mqtt/`);
 
