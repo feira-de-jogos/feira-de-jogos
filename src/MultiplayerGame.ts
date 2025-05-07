@@ -1,6 +1,14 @@
 import { Game, Types } from "phaser";
 import mqtt from "mqtt";
 
+interface eventData {
+  game: string;
+  room?: string;
+  scene?: string;
+  sender: string;
+  message: string;
+}
+
 export default class MultiplayerGame extends Game {
   ws: WebSocket;
   mqttClient: mqtt.MqttClient;
@@ -8,12 +16,13 @@ export default class MultiplayerGame extends Game {
   constructor(config: Types.Core.GameConfig) {
     super(config);
 
-    let wsURL = window.location.host;
-    if (wsURL.match("github.dev")) {
-      const devHost = wsURL.split(".")[0].split("-");
+    const host: string = window.location.hostname;
+    let wsURL: string = "";
+    if (host.match("github.dev")) {
+      const devHost = host.split(".")[0].split("-");
       wsURL = `wss://${devHost[0]}-${devHost[1]}-${devHost[2]}-8080.app.github.dev/`;
     } else {
-      wsURL = `wss://${wsURL}/ws`;
+      wsURL = `ws://${host}:8080/`;
     }
 
     this.ws = new WebSocket(wsURL);
@@ -21,11 +30,6 @@ export default class MultiplayerGame extends Game {
     this.ws.onopen = () => {
       console.log("WebSocket connection established");
     };
-
-    interface eventData {
-      scene: string;
-      message: string;
-    }
 
     this.ws.onmessage = (event: MessageEvent) => {
       console.log("Message received from server:", event);
