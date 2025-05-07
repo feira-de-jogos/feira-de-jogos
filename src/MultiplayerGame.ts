@@ -34,7 +34,7 @@ export default class MultiplayerGame extends Game {
     this.ws.onmessage = (event: MessageEvent) => {
       console.log("Message received from server:", event);
       const data: eventData = JSON.parse(event.data);
-      const scene: string = data.scene;
+      const scene: string | undefined = data.scene;
 
       if (scene === "Room") {
         this.scene.start("Room");
