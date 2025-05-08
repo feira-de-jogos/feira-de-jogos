@@ -20,21 +20,15 @@ def time():
         s.close()
     val = struct.unpack("!I", msg[40:44])[0]
 
+    # 2036
     MIN_NTP_TIMESTAMP = 3913056000
     if val < MIN_NTP_TIMESTAMP:
         val += 0x100000000
 
-    EPOCH_YEAR = gmtime(0)[0]
-    if EPOCH_YEAR == 2000:
-        NTP_DELTA = 3155673600
-    elif EPOCH_YEAR == 1970:
-        NTP_DELTA = 2208988800
-    else:
-        raise Exception("Unsupported epoch: {}".format(EPOCH_YEAR))
+    # Today - 70 years (diff between NTP and UNIX timestamp)
+    return val - 2208988800
 
-    return val - NTP_DELTA
-
-def settime():
+def set_time():
     t = time()
     tm = gmtime(t)
     RTC().datetime((tm[0], tm[1], tm[2], tm[6] + 1, tm[3], tm[4], tm[5], 0))

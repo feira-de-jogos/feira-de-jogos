@@ -23,7 +23,6 @@ flash:
 write-libs:
 	venv/bin/ampy --port ${DEV} put .env
 	venv/bin/ampy --port ${DEV} put dotenv.py
-	venv/bin/ampy --port ${DEV} put ntp.py
 	venv/bin/ampy --port ${DEV} put install_libs.py boot.py
 
 write-app:

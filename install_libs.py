@@ -20,11 +20,10 @@ try:
 
         if wlan.isconnected():
             print("Conectado ao WiFi!")
-            mip.install("umqtt.simple")
+            mip.install("umqtt.robust")
+            print("Instalada(s) a(s) biblioteca(s)!")
             break
+    p2.on()
 
 except Exception as e:
     print("Falha ao conectar ao WiFi:", e)
-
-finally:
-    p2.on()
