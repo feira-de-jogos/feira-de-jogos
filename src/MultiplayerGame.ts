@@ -1,13 +1,6 @@
 import { Game, Types } from "phaser";
 import mqtt from "mqtt";
-
-interface eventData {
-  game: string;
-  room?: string;
-  scene?: string;
-  sender: string;
-  message: string;
-}
+import { EventData } from "./interfaces"
 
 export default class MultiplayerGame extends Game {
   ws: WebSocket;
@@ -33,10 +26,9 @@ export default class MultiplayerGame extends Game {
 
     this.ws.onmessage = (event: MessageEvent) => {
       console.log("Message received from server:", event);
-      const data: eventData = JSON.parse(event.data);
-      const scene: string | undefined = data.scene;
+      const data: EventData = JSON.parse(event.data);
 
-      if (scene === "Room") {
+      if (data.scene === "Room") {
         this.scene.start("Room");
       }
     };

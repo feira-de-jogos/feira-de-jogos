@@ -1,22 +1,14 @@
 import { WebSocket, WebSocketServer } from "ws";
-
-interface eventData {
-  game: string;
-  room?: string;
-  scene?: string;
-  sender: string;
-  message: string;
-}
-
+import { EventData } from "./src/interfaces";
 
 const wsServer = new WebSocketServer({ port: 8080 });
 
 wsServer.on("connection", (ws: WebSocket) => {
-  const msg: eventData = {
+  const msg: EventData = {
     game: "jogo-modelo",
     sender: "server",
-    message: "Welcome to server!"
-  }
+    message: "Welcome to server!",
+  };
   ws.send(JSON.stringify(msg));
 
   ws.on("message", (message: string) => {
@@ -27,5 +19,7 @@ wsServer.on("connection", (ws: WebSocket) => {
     console.log("Client disconnected");
   });
 
-  ws.on("error", (error) => console.error(error));
+  ws.on("error", (error: string) => {
+    console.error(error);
+  });
 });

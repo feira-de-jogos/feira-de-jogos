@@ -1,5 +1,6 @@
 import { MqttClient } from "mqtt";
 import { Scene } from "phaser";
+import { EventData } from "../interfaces";
 
 export class Room extends Scene {
   constructor() {
@@ -8,7 +9,13 @@ export class Room extends Scene {
 
   create() {
     const ws: WebSocket = this.sys.game.getWebSocket();
-    ws.send("Hello from the Room scene!");
+    const msg: EventData = {
+      game: "jogo-modelo",
+      scene: "Room",
+      sender: "player",
+      message: "In the room scene!",
+    };
+    ws.send(JSON.stringify(msg));
 
     const mqttClient: MqttClient = this.sys.game.getMqttClient();
     mqttClient.publish("jogo-modelo/Room", "In the room scene!");
