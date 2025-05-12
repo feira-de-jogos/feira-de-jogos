@@ -5,7 +5,6 @@ from ntp import time
 import umqtt.robust
 from time import sleep
 
-
 dotenv.load_env()
 
 p2 = Pin(2, Pin.OUT)

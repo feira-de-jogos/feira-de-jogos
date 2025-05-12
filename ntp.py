@@ -4,8 +4,8 @@ import socket
 import struct
 from machine import RTC
 
-
 dotenv.load_env()
+
 
 def time():
     NTP_QUERY = bytearray(48)
@@ -27,6 +27,7 @@ def time():
 
     # Today - 70 years (diff between NTP and UNIX timestamp)
     return val - 2208988800
+
 
 def set_time():
     t = time()

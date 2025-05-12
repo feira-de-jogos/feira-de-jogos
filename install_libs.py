@@ -4,7 +4,6 @@ import network
 from time import sleep
 import mip
 
-
 dotenv.load_env()
 
 p2 = Pin(2, Pin.OUT)
