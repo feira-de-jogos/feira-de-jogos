@@ -1,4 +1,3 @@
-import { MqttClient } from "mqtt";
 import { Scene } from "phaser";
 import { EventData } from "../interfaces";
 
@@ -16,8 +15,5 @@ export class Room extends Scene {
       message: "In the room scene!",
     };
     ws.send(JSON.stringify(msg));
-
-    const mqttClient: MqttClient = this.sys.game.getMqttClient();
-    mqttClient.publish("jogo-modelo/Room", "In the room scene!");
   }
 }

@@ -1,10 +1,8 @@
 import { Game, Types } from "phaser";
-import mqtt from "mqtt";
-import { EventData } from "./interfaces"
+import { EventData } from "./interfaces";
 
 export default class MultiplayerGame extends Game {
   ws: WebSocket;
-  mqttClient: mqtt.MqttClient;
 
   constructor(config: Types.Core.GameConfig) {
     super(config);
@@ -32,33 +30,9 @@ export default class MultiplayerGame extends Game {
         this.scene.start("Room");
       }
     };
-
-    const mqttBroker = "feira-de-jogos.dev.br";
-
-    this.mqttClient = mqtt.connect(`wss://${mqttBroker}/mqtt/`);
-
-    this.mqttClient.on("connect", () => {
-      this.mqttClient.subscribe("jogo-modelo/#", (err) => {
-        if (!err) {
-          this.mqttClient.publish("jogo-modelo/Game", "Starting a new game...");
-        }
-      });
-    });
-
-    this.mqttClient.on("message", (topic, message) => {
-      const scene: string = message.toString();
-
-      if (scene === "Room") {
-        this.scene.start("Room");
-      }
-    });
   }
 
   public getWebSocket(): WebSocket {
     return this.ws;
-  }
-
-  public getMqttClient(): mqtt.MqttClient {
-    return this.mqttClient;
   }
 }
