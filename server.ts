@@ -1,46 +1,23 @@
-import mqtt from "mqtt";
-import { WebSocket, WebSocketServer } from "ws";
-import { EventData } from "./src/interfaces";
+import express from "express";
+import http from "http";
+const app = express();
+const httpServer = http.createServer(app);
+import ProtooServer from "protoo-server";
+const server = new ProtooServer.WebSocketServer(httpServer);
+const port = process.env.PORT || 3000;
 
-const mqttBroker = "feira-de-jogos.dev.br";
-const mqttClient = mqtt.connect(`wss://${mqttBroker}/mqtt/`);
+server.on("connectionrequest", (info, accept, reject) => {
+  try {
+    const transport = accept();
 
-mqttClient.on("connect", () => {
-  mqttClient.subscribe("jogo-modelo/#", (err) => {
-    if (!err) {
-      mqttClient.publish("jogo-modelo/Game", "Starting a new game...");
-    }
-  });
-});
-
-mqttClient.on("message", (topic, message) => {
-  const scene: string = message.toString();
-  console.log(`Received message: ${scene} on topic: ${topic}`);
-});
-
-mqttClient.on("error", (error) => {
-  console.error(error);
-});
-
-const wsServer = new WebSocketServer({ port: 8080 });
-
-wsServer.on("connection", (ws: WebSocket) => {
-  const msg: EventData = {
-    game: "jogo-modelo",
-    sender: "server",
-    message: "Welcome to server!",
-  };
-  ws.send(JSON.stringify(msg));
-
-  ws.on("message", (message: string) => {
-    console.log(`Received message: ${message}`);
-  });
-
-  ws.on("close", () => {
-    console.log("Client disconnected");
-  });
-
-  ws.on("error", (error: string) => {
+    const room = new ProtooServer.Room();
+    const peer = room.createPeer("sala-0", transport);
+  } catch (error) {
     console.error(error);
-  });
+    reject(403, "Forbidden");
+  }
+});
+
+httpServer.listen(port, () => {
+  console.log(`HTTP server listening on port ${port}`);
 });
