@@ -11,6 +11,10 @@ const config: Types.Core.GameConfig = {
   input: {
     gamepad: true,
   },
+  fps: {
+    target: 30,
+    limit: 60,
+  },
   physics: {
     default: "arcade",
     arcade: {
