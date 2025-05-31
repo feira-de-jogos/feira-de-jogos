@@ -3,6 +3,7 @@
 #include <Ethernet.h>             // Shield Ethernet
 #include <PubSubClient.h>         // Conexão MQTT
 
+
 #define LM35 A0
 #define MQ7 A1
 #define MQ5 A2
@@ -11,19 +12,20 @@
 #define PinoSD 53
 
 //VARIAVEIS PARA MQTT
-#define SSID "feira"
-#define PASSWORD "feiradejogos"
+/*#define SSID "feira"
+#define PASSWORD "feiradejogos"*/
 #define MQTT_SERVER "em.sj.ifsc.edu.br"
 #define MQTT_PORT 1883
 #define MQTT_CLIENT_ID "EMv0"
 
-//VARIAVEIS PARA REDE
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01, 0x02};
 IPAddress ip{192, 168, 0, 100};
 EthernetClient espClient;
 PubSubClient client(espClient);
 
-//VARIAVEIS GLOBAIS
+// Variáveis Globais
+unsigned long tempoAnterior = 0;
+const long intervalo = 400;
 int n = 0;
 int cartao = 0;
 int MQ2G = analogRead(MQ2);
@@ -34,7 +36,7 @@ int N2 = 0;
 int N3 = 0;
 float temperatura = 0;                    // Leitura do sensor pela função
 
-// CONFIG
+
 void setup() {
   delay(500);
   pinMode(PinoSD, OUTPUT);
@@ -59,9 +61,9 @@ void setup() {
     SD.remove("EM.txt");
   }
   delay(500);
+  client.setServer(MQTT_SERVER, MQTT_PORT);
 }
 
-// LOOP
 void loop() {
   MQ2G = analogRead(MQ2);
   MQ5G = analogRead(MQ5);
@@ -136,8 +138,19 @@ void loop() {
     mensagem.length();
     char mensagem2[32];
     mensagem.toCharArray(mensagem2, mensagem.length());
-    client.publish("/v0", mensagem2);
-    client.loop();
+    
+    if (client.connected()){
+      client.publish("/v0", mensagem2);
+      client.loop();
+    } else {
+      digitalWrite(LED, LOW);
+      if (client.connect(MQTT_CLIENT_ID)) {
+      Serial.println("Conectado ao broker MQTT!");
+      digitalWrite(LED, HIGH);
+      } else {
+        Serial.println("Broker MQTT: reconectando em 1s...");
+      }
+    }
     Serial.println(" | ");
     Serial.print(mensagem2);
   }
