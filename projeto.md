@@ -3,6 +3,15 @@
 ```mermaid
 flowchart LR
 
+kSw[Programação: Linguagens]
+pFT[Programação: Comunicação assíncrona]
+npD[Programação: Estruturada]
+nTP[Programação: Orientação a objetos]
+lTu[Programação: Tipos de variáveis e escopo]
+mEy[Programação: JavaScript]
+hgR[Programação: TypeScript]
+ASw[Programação: Web APIs]
+
 zAt[Programação: Jogo mínimo com Phaser]
 LAz[Programação: Controle por toque de tela]
 sKg[Programação: Colisão entre mapa e personagens]
@@ -13,11 +22,11 @@ rwz[Programação: Salas]
 UHj[Programação: Escolha de personagem]
 bLw[Programação: Fases]
 Brs[Programação: Autenticação com OAuth 2.0]
-CMy[Programação: crédito]
+CMy[Programação: Crédito]
 RsJ[Programação: Game over]
-ZfY[Programação: servidor WebSocket]
+ZfY[Programação: Servidor WebSocket]
 VFX[Programação: SFU]
-mwl[Programação: servidor HTTPS]
+mwl[Programação: Servidor HTTPS]
 ORs[Programação: PWA]
 
 wfO[Conceito: Premissa]
@@ -56,6 +65,26 @@ EQu[Teste: público beta]
 
 HFN[Feira de Jogos]
 
+kSw --> pFT
+npD --> mEy
+nTP --> mEy
+npD --> hgR
+nTP --> hgR
+npD --> lTu
+nTP --> lTu
+kSw --> mEy
+kSw --> hgR
+pFT --> mEy
+pFT --> ASw
+kSw --> npD
+kSw --> nTP
+lTu --> hgR
+mEy --> ASw
+ASw --> ZfY
+ASw --> mwl
+ASw --> ORs
+mEy --> hgR
+hgR --> zAt
 LFm --> HFN
 EQu --> LFm
 ORs --> EQu
