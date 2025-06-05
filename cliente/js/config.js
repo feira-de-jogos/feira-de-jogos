@@ -7,21 +7,21 @@ export default {
   width: 448,
   height: 800,
   input: {
-    activePointers: 3
+    activePointers: 3,
   },
-  parent: 'game-container',
+  parent: "game-container",
   physics: {
-    default: 'arcade',
+    default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: false
-    }
+      debug: false,
+    },
   },
   scale: {
     mode: Phaser.Scale.FIT,
-    parent: 'game-container',
+    parent: "game-container",
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: 448,
-    height: 800
-  }
-}
+    height: 800,
+  },
+};
