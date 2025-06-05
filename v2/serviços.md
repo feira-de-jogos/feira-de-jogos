@@ -34,10 +34,12 @@ e, uma vez dentro do CLI do Redis:
 # Fonte: https://github.com/coturn/coturn/blob/master/turndb/schema.userdb.redis
 #
 # A chave é o MD5 de "<usuário>:<realm>:<senha>".
-# Logo, a senha é gerada com o comando: "echo -n "adcieqipt20241:feira-de-jogos.dev.br:adcieqipt20241" | md5sum
+# Logo, a senha é gerada com o comando: echo -n "adcieqipt20241:feira-de-jogos.dev.br:adcieqipt20241" | md5sum
 
+set turn/realm/feira-de-jogos.dev.br/user/adcipt20232/key "fb046cdf048513f46fdc25de0648cad7"
 set turn/realm/feira-de-jogos.dev.br/user/adcieqipt20241/key "6e6aa4257ae2c25c98f4a0fba10d060b"
 set turn/realm/feira-de-jogos.dev.br/user/adcipt20242/key "2497504be47882984ac53f7d41758887"
+persist turn/realm/feira-de-jogos.dev.br/user/adcipt20232/key
 persist turn/realm/feira-de-jogos.dev.br/user/adcieqipt20241/key
 persist turn/realm/feira-de-jogos.dev.br/user/adcipt20242/key
 save
