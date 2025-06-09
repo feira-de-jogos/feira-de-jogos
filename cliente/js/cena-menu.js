@@ -1,210 +1,204 @@
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class menu extends Phaser.Scene {
   constructor() {
     super("menu");
   }
 
   preload() {
-    this.load.image("fundo", "../assets/menu-selecao.png");
+    this.load.image("fundo", "./assets/menu-selecao.png");
 
     this.load.spritesheet(
       "thiaguinho-cocar",
-      "../assets/patos/thiaguinho/thiaguinho-cocar.png",
+      "./assets/patos/thiaguinho/thiaguinho-cocar.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "thiaguinho-default",
-      "../assets/patos/thiaguinho/thiaguinho-default.png",
+      "./assets/patos/thiaguinho/thiaguinho-default.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "thiaguinho-mago",
-      "../assets/patos/thiaguinho/thiaguinho-mago.png",
+      "./assets/patos/thiaguinho/thiaguinho-mago.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "thiaguinho-oculos",
-      "../assets/patos/thiaguinho/thiaguinho-oculos.png",
+      "./assets/patos/thiaguinho/thiaguinho-oculos.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "thiaguinho-palha",
-      "../assets/patos/thiaguinho/thiaguinho-palha.png",
+      "./assets/patos/thiaguinho/thiaguinho-palha.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
 
     this.load.spritesheet(
       "cacique-cocar",
-      "../assets/patos/cacique/cacique-cocar.png",
+      "./assets/patos/cacique/cacique-cocar.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "cacique-default",
-      "../assets/patos/cacique/cacique-default.png",
+      "./assets/patos/cacique/cacique-default.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "cacique-mago",
-      "../assets/patos/cacique/cacique-mago.png",
+      "./assets/patos/cacique/cacique-mago.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "cacique-oculos",
-      "../assets/patos/cacique/cacique-oculos.png",
+      "./assets/patos/cacique/cacique-oculos.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "cacique-palha",
-      "../assets/patos/cacique/cacique-palha.png",
+      "./assets/patos/cacique/cacique-palha.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
 
-    this.load.spritesheet("isa-cocar", "../assets/patos/isa/isa-cocar.png", {
+    this.load.spritesheet("isa-cocar", "./assets/patos/isa/isa-cocar.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
-    this.load.spritesheet(
-      "isa-default",
-      "../assets/patos/isa/isa-default.png",
-      {
-        frameWidth: 92,
-        frameHeight: 108,
-      },
-    );
-    this.load.spritesheet("isa-mago", "../assets/patos/isa/isa-mago.png", {
+    this.load.spritesheet("isa-default", "./assets/patos/isa/isa-default.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
-    this.load.spritesheet("isa-oculos", "../assets/patos/isa/isa-oculos.png", {
+    this.load.spritesheet("isa-mago", "./assets/patos/isa/isa-mago.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
-    this.load.spritesheet("isa-palha", "../assets/patos/isa/isa-palha.png", {
+    this.load.spritesheet("isa-oculos", "./assets/patos/isa/isa-oculos.png", {
+      frameWidth: 92,
+      frameHeight: 108,
+    });
+    this.load.spritesheet("isa-palha", "./assets/patos/isa/isa-palha.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
 
-    this.load.spritesheet("pam-cocar", "../assets/patos/pam/pam-cocar.png", {
+    this.load.spritesheet("pam-cocar", "./assets/patos/pam/pam-cocar.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
-    this.load.spritesheet(
-      "pam-default",
-      "../assets/patos/pam/pam-default.png",
-      {
-        frameWidth: 92,
-        frameHeight: 108,
-      },
-    );
-    this.load.spritesheet("pam-mago", "../assets/patos/pam/pam-mago.png", {
+    this.load.spritesheet("pam-default", "./assets/patos/pam/pam-default.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
-    this.load.spritesheet("pam-oculos", "../assets/patos/pam/pam-oculos.png", {
+    this.load.spritesheet("pam-mago", "./assets/patos/pam/pam-mago.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
-    this.load.spritesheet("pam-palha", "../assets/patos/pam/pam-palha.png", {
+    this.load.spritesheet("pam-oculos", "./assets/patos/pam/pam-oculos.png", {
+      frameWidth: 92,
+      frameHeight: 108,
+    });
+    this.load.spritesheet("pam-palha", "./assets/patos/pam/pam-palha.png", {
       frameWidth: 92,
       frameHeight: 108,
     });
 
     this.load.spritesheet(
       "tucano-cocar",
-      "../assets/patos/tucano/tucano-cocar.png",
+      "./assets/patos/tucano/tucano-cocar.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "tucano-default",
-      "../assets/patos/tucano/tucano-default.png",
+      "./assets/patos/tucano/tucano-default.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "tucano-mago",
-      "../assets/patos/tucano/tucano-mago.png",
+      "./assets/patos/tucano/tucano-mago.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "tucano-oculos",
-      "../assets/patos/tucano/tucano-oculos.png",
+      "./assets/patos/tucano/tucano-oculos.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "tucano-palha",
-      "../assets/patos/tucano/tucano-palha.png",
+      "./assets/patos/tucano/tucano-palha.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
 
     this.load.spritesheet(
       "botao-selecionar",
-      "../assets/botoes/selecionar.png",
+      "./assets/botoes/selecionar.png",
       {
         frameWidth: 35,
         frameHeight: 50,
-      },
+      }
     );
-    this.load.spritesheet("botao-iniciar", "../assets/botoes/iniciar.png", {
+    this.load.spritesheet("botao-iniciar", "./assets/botoes/iniciar.png", {
       frameWidth: 155,
       frameHeight: 60,
     });
-    this.load.spritesheet("seta-barra", "../assets/botoes/seta-barra.png", {
+    this.load.spritesheet("seta-barra", "./assets/botoes/seta-barra.png", {
       frameWidth: 25,
       frameHeight: 25,
     });
-    this.load.spritesheet("barra", "../assets/botoes/barra.png", {
+    this.load.spritesheet("barra", "./assets/botoes/barra.png", {
       frameWidth: 15,
       frameHeight: 50,
     });
-    this.load.spritesheet("migalha", "../assets/migalha-pao.png", {
+    this.load.spritesheet("migalha", "./assets/migalha-pao.png", {
       frameWidth: 26,
       frameHeight: 24,
     });
 
-    this.load.audio("trilha-menu", "../assets/audios/trilha-menu.mp3");
+    this.load.audio("trilha-menu", "./assets/audios/trilha-menu.mp3");
   }
 
   create() {
@@ -293,7 +287,7 @@ export default class menu extends Phaser.Scene {
         this.setaBarraCima.setFrame(0);
         this.barra.setY(520);
         this.textoDescricao.setText(
-          this.personagens[this.game.personagemEscolhido].texto1,
+          this.personagens[this.game.personagemEscolhido].texto1
         );
       })
       .on("pointerout", () => {
@@ -310,7 +304,7 @@ export default class menu extends Phaser.Scene {
         this.setaBarraBaixo.setFrame(0);
         this.barra.setY(635);
         this.textoDescricao.setText(
-          this.personagens[this.game.personagemEscolhido].texto2,
+          this.personagens[this.game.personagemEscolhido].texto2
         );
       })
       .on("pointerout", () => {
@@ -458,7 +452,7 @@ export default class menu extends Phaser.Scene {
       this.game.estadoPersonagem,
       {
         escolha: this.escolhaRemoto,
-      },
+      }
     );
 
     this.personagemFinal = this.add
@@ -467,7 +461,7 @@ export default class menu extends Phaser.Scene {
         315,
         this.personagens[this.game.personagemEscolhido].id +
           "-" +
-          this.acessorios[this.game.acessorioEscolhido].id,
+          this.acessorios[this.game.acessorioEscolhido].id
       )
       .setScale(2.5);
 
@@ -481,7 +475,7 @@ export default class menu extends Phaser.Scene {
         stroke: "#000000",
         strokeThickness: 4,
         fill: "#ffffff",
-      },
+      }
     );
 
     this.textoDescricao = this.add.text(
@@ -494,7 +488,7 @@ export default class menu extends Phaser.Scene {
         stroke: "#000000",
         strokeThickness: 2,
         fill: "#ffffff",
-      },
+      }
     );
 
     if (this.idle) {
@@ -509,13 +503,13 @@ export default class menu extends Phaser.Scene {
         {
           start: 0,
           end: 43,
-        },
+        }
       ),
       frameRate: 40,
       repeat: -1,
     });
     this.textoPersonagem.setText(
-      this.personagens[this.game.personagemEscolhido].id,
+      this.personagens[this.game.personagemEscolhido].id
     );
     this.personagemFinal.anims.play("pato-idle", true);
   }

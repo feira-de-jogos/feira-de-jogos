@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
-/* Configuração do objeto Game */
-
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default {
   type: Phaser.AUTO,
   pixelArt: true,

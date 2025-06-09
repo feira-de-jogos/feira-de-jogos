@@ -1,4 +1,5 @@
-/* eslint-disable no-undef */
+/*global Phaser, io*/
+/*eslint no-undef: "error"*/
 import config from "./config.js";
 import abertura from "./cena-abertura.js";
 import sala from "./cena-sala.js";
@@ -22,19 +23,20 @@ class Game extends Phaser.Game {
     this.id = 2;
     this.valor = 100;
 
+    this.audio = document.querySelector("audio");
+
     let iceServers;
-    if (window.location.host === "feira-de-jogos.sj.ifsc.edu.br") {
+    if (window.location.host === "feira-de-jogos.dev.br") {
+      this.socket = io({ path: "/api/v2/game/" });
       iceServers = [
         {
-          urls: "stun:feira-de-jogos.sj.ifsc.edu.br",
-        },
-        {
-          urls: "turns:feira-de-jogos.sj.ifsc.edu.br",
-          username: "adcipt",
+          urls: "turn:feira-de-jogos.dev.br",
+          username: "adcipt20232",
           credential: "adcipt20232",
         },
       ];
     } else {
+      this.socket = io();
       iceServers = [
         {
           urls: "stun:stun.l.google.com:19302",
@@ -42,9 +44,7 @@ class Game extends Phaser.Game {
       ];
     }
     this.iceServers = { iceServers };
-    this.audio = document.querySelector("audio");
 
-    this.socket = io();
     this.socket.on("connect", () => {
       console.log("Conectado ao servidor!");
 
@@ -98,7 +98,7 @@ class Game extends Phaser.Game {
     this.scene.add("vitoria", vitoria);
     this.scene.add("vitoria-migalhas", vitoriaMigalhas);
 
-    this.scene.start("abertura");
+    this.scene.start("vitoria");
   }
 }
 

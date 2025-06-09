@@ -1,16 +1,17 @@
-// eslint-disable-next-line no-undef
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class cutscene extends Phaser.Scene {
   constructor() {
     super("cutscene");
   }
 
   preload() {
-    this.load.spritesheet("cutscene", "../assets/cutscene.png", {
+    this.load.spritesheet("cutscene", "./assets/cutscene.png", {
       frameWidth: 448,
       frameHeight: 800,
     });
 
-    this.load.spritesheet("dialogo", "../assets/dialogo.png", {
+    this.load.spritesheet("dialogo", "./assets/dialogo.png", {
       frameWidth: 448,
       frameHeight: 800,
     });

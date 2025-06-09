@@ -1,17 +1,19 @@
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class abertura extends Phaser.Scene {
   constructor() {
     super("abertura");
   }
 
   preload() {
-    this.load.image("tela-aberturav3", "../assets/tela-abertura-v3.png");
+    this.load.image("tela-aberturav3", "./assets/tela-abertura-v3.png");
 
-    this.load.spritesheet("sala", "../assets/botoes/sala.png", {
+    this.load.spritesheet("sala", "./assets/botoes/sala.png", {
       frameWidth: 104,
       frameHeight: 56,
     });
 
-    this.load.spritesheet("tela-cheia", "../assets/botoes/tela-cheia.png", {
+    this.load.spritesheet("tela-cheia", "./assets/botoes/tela-cheia.png", {
       frameWidth: 56,
       frameHeight: 56,
     });

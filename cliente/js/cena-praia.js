@@ -1,92 +1,91 @@
-/* eslint-disable no-return-assign */
-/* eslint-disable no-undef */
-// eslint-disable-next-line no-template-curly-in-string
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class praia extends Phaser.Scene {
   constructor() {
     super("praia");
   }
 
   preload() {
-    this.load.tilemapTiledJSON("mapa", "../assets/mapa/mapa-full.json");
+    this.load.tilemapTiledJSON("mapa", "./assets/mapa/mapa-full.json");
 
-    this.load.image("tileset-geral", "../assets/mapa/tileset-geral.png");
+    this.load.image("tileset-geral", "./assets/mapa/tileset-geral.png");
 
-    this.load.image("fundo-preto", "../assets/fundo-preto.png");
+    this.load.image("fundo-preto", "./assets/fundo-preto.png");
 
-    this.load.image("tela-gameover", "../assets/tela-gameover.png");
+    this.load.image("tela-gameover", "./assets/tela-gameover.png");
 
-    this.load.image("tela-vitoria", "../assets/tela-vitoria.png");
+    this.load.image("tela-vitoria", "./assets/tela-vitoria.png");
 
-    this.load.spritesheet("migalha", "../assets/migalha-pao.png", {
+    this.load.spritesheet("migalha", "./assets/migalha-pao.png", {
       frameWidth: 26,
       frameHeight: 24,
     });
     this.load.spritesheet(
       `sprite-${this.game.estadoPersonagem.spriteId}`,
-      `../assets/patos/${this.game.estadoPersonagem.spritePato}`,
+      `./assets/patos/${this.game.estadoPersonagem.spritePato}`,
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       `sprite-${this.game.estadoPersonagemRemoto.spriteId}`,
-      `../assets/patos/${this.game.estadoPersonagemRemoto.spritePato}`,
+      `./assets/patos/${this.game.estadoPersonagemRemoto.spritePato}`,
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
     this.load.spritesheet(
       "tucano-idle",
-      "../assets/patos/tucano/tucano-oculos.png",
+      "./assets/patos/tucano/tucano-oculos.png",
       {
         frameWidth: 92,
         frameHeight: 108,
-      },
+      }
     );
-    this.load.spritesheet("caranguejo", "../assets/inimigos/caranguejo.png", {
+    this.load.spritesheet("caranguejo", "./assets/inimigos/caranguejo.png", {
       frameWidth: 34,
       frameHeight: 18,
     });
-    this.load.spritesheet("botao-cima", "../assets/botoes/cima.png", {
+    this.load.spritesheet("botao-cima", "./assets/botoes/cima.png", {
       frameWidth: 96,
       frameHeight: 102,
     });
-    this.load.spritesheet("botao-baixo", "../assets/botoes/baixo.png", {
+    this.load.spritesheet("botao-baixo", "./assets/botoes/baixo.png", {
       frameWidth: 96,
       frameHeight: 102,
     });
-    this.load.spritesheet("botao-direita", "../assets/botoes/direita.png", {
+    this.load.spritesheet("botao-direita", "./assets/botoes/direita.png", {
       frameWidth: 96,
       frameHeight: 102,
     });
-    this.load.spritesheet("botao-esquerda", "../assets/botoes/esquerda.png", {
+    this.load.spritesheet("botao-esquerda", "./assets/botoes/esquerda.png", {
       frameWidth: 96,
       frameHeight: 102,
     });
-    this.load.spritesheet("tela-cheia", "../assets/botoes/tela-cheia.png", {
+    this.load.spritesheet("tela-cheia", "./assets/botoes/tela-cheia.png", {
       frameWidth: 56,
       frameHeight: 56,
     });
 
-    this.load.spritesheet("coracoes", "../assets/hud/vida.png", {
+    this.load.spritesheet("coracoes", "./assets/hud/vida.png", {
       frameWidth: 115,
       frameHeight: 40,
     });
 
-    this.load.spritesheet("caixa-de-som", "../assets/caixa-de-som.png", {
+    this.load.spritesheet("caixa-de-som", "./assets/caixa-de-som.png", {
       frameWidth: 60,
       frameHeight: 60,
     });
 
-    this.load.audio("trilha-praia", "../assets/audios/trilha-praia.mp3");
+    this.load.audio("trilha-praia", "./assets/audios/trilha-praia.mp3");
 
-    this.load.audio("audio-migalha", "../assets/audios/migalha.mp3");
+    this.load.audio("audio-migalha", "./assets/audios/migalha.mp3");
 
-    this.load.audio("audio-dano", "../assets/audios/dano.mp3");
+    this.load.audio("audio-dano", "./assets/audios/dano.mp3");
 
-    this.load.audio("audio-vitoria", "../assets/audios/vitoria.mp3");
+    this.load.audio("audio-vitoria", "./assets/audios/vitoria.mp3");
 
     this.load.audio("audio-gameover", "./assets/audios/gameover.mp3");
   }
@@ -478,28 +477,28 @@ export default class praia extends Phaser.Scene {
       this.layerCasteloF,
       this.danoCenario,
       null,
-      this,
+      this
     );
     this.physics.add.collider(
       this.personagemLocal,
       this.layerCasteloT,
       this.danoCenario,
       null,
-      this,
+      this
     );
     this.physics.add.collider(
       this.personagemLocal,
       this.caixaDeSom,
       this.forcarPointerOut,
       null,
-      this,
+      this
     );
     this.physics.add.collider(
       this.personagemLocal,
       this.caixaDeSom2,
       this.forcarPointerOut,
       null,
-      this,
+      this
     );
 
     this.physics.add.overlap(
@@ -507,21 +506,21 @@ export default class praia extends Phaser.Scene {
       this.area3,
       this.area3F,
       null,
-      this,
+      this
     );
     this.physics.add.overlap(
       this.personagemLocal,
       this.area4,
       this.area4F,
       null,
-      this,
+      this
     );
     this.physics.add.overlap(
       this.personagemLocal,
       this.area5,
       this.area5F,
       null,
-      this,
+      this
     );
 
     this.physics.add.collider(this.tucano, this.layerChao);
@@ -533,7 +532,7 @@ export default class praia extends Phaser.Scene {
       this.tucano,
       this.encontrarTucano,
       null,
-      this,
+      this
     );
 
     this.migalhas.forEach((migalha) => {
@@ -543,7 +542,7 @@ export default class praia extends Phaser.Scene {
         migalha.objeto,
         this.coletarMigalha,
         null,
-        this,
+        this
       );
     });
 
@@ -553,14 +552,14 @@ export default class praia extends Phaser.Scene {
         caranguejoD.objeto,
         this.danoCaranguejosD,
         null,
-        this,
+        this
       );
       this.physics.add.collider(
         caranguejoD.objeto,
         this.area1,
         this.voltarCaranguejosD,
         null,
-        this,
+        this
       );
     });
 
@@ -570,14 +569,14 @@ export default class praia extends Phaser.Scene {
         caranguejoE.objeto,
         this.danoCaranguejosE,
         null,
-        this,
+        this
       );
       this.physics.add.collider(
         caranguejoE.objeto,
         this.area1,
         this.voltarCaranguejosE,
         null,
-        this,
+        this
       );
     });
 
@@ -587,7 +586,7 @@ export default class praia extends Phaser.Scene {
         caranguejoCB.objeto,
         this.danoCaranguejosCB,
         null,
-        this,
+        this
       );
       this.physics.add.collider(caranguejoCB.objeto, this.layerCasteloF);
     });
@@ -598,7 +597,7 @@ export default class praia extends Phaser.Scene {
         caranguejoBC.objeto,
         this.danoCaranguejosBC,
         null,
-        this,
+        this
       );
       this.physics.add.collider(caranguejoBC.objeto, this.layerCasteloF);
     });
@@ -614,7 +613,7 @@ export default class praia extends Phaser.Scene {
         stroke: "#000000",
         strokeThickness: 4,
         fill: "#ffffff",
-      },
+      }
     );
     this.texto.setScrollFactor(0);
 
@@ -776,6 +775,7 @@ export default class praia extends Phaser.Scene {
 
     // Estado notificar //
 
+    // eslint-disable-next-line no-unused-vars
     this.game.socket.on("estado-notificar", ({ cena, x, y, frame, flipx }) => {
       this.personagemRemoto.x = x;
       this.personagemRemoto.y = y;
@@ -842,7 +842,7 @@ export default class praia extends Phaser.Scene {
         this.personagem = this.add.sprite(
           this.personagem.x,
           this.personagem.y,
-          this.personagem.frame.name,
+          this.personagem.frame.name
         );
       }
     } catch (error) {
@@ -862,7 +862,7 @@ export default class praia extends Phaser.Scene {
     }
   }
 
-  encontrarTucano(personagemLocal) {
+  encontrarTucano() {
     this.trilhaPraia.loop = false;
     this.trilhaPraia.stop();
     this.audioVitoria.play();
@@ -902,7 +902,7 @@ export default class praia extends Phaser.Scene {
       });
   }
 
-  morrer(personagemLocal) {
+  morrer() {
     const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     const centroy =
       this.cameras.main.worldView.y + this.cameras.main.height / 2;
