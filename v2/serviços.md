@@ -116,12 +116,13 @@ Assim como a máquina de vendas, deve-se instalar as dependências:
 pip install -r arcade/requirements.txt
 ```
 
-E, depois,  definir a chave JWT no arquivo `.env` com o seguinte formato:
+E, depois,  definir ID e chave JWT no arquivo `.env` com o seguinte formato:
 
 ```ini
+ARCADE_ID=<número>
 TOKEN_SECRET_KEY_ARCADE=<chave>
 ```
-onde `<chave>` deve ser substituído pelo valor equivalente ao do servidor.
+onde `<numero>` e `<chave>` devem ser substituídos pelos valores equivalente ao do servidor.
 
 Na sequência, pode-se criar o serviço no systemd com o arquivo `/etc/systemd/system/arcade.service`:
 
