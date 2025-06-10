@@ -30,7 +30,7 @@ while True:
         err_count += 1
     else:
         payload = " ".join([dotenv.MQTT_CLIENT_ID, str(time())])
-        mqtt_client.publish("em/" + dotenv.MQTT_CLIENT_ID, payload)
+        mqtt_client.publish("em/" + dotenv.MQTT_CLIENT_ID, payload, qos=1)
         print("Mensagem enviada ao broker:", payload)
         for x in range(2):
             sleep(0.1)
