@@ -1,0 +1,5 @@
+python-dotenv
+requests
+python-socketio[client]
+pyjwt
+evdev==1.1.2
