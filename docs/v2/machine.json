@@ -1,0 +1,371 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "contact": {
+      "name": "Feira de Jogos do IFSC São José",
+      "email": "feiradejogosifscsaojose@gmail.com"
+    },
+    "description": "REST API for a game fair",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "title": "Game Fair REST API",
+    "version": "2.1.0",
+    "externalDocs": {
+      "url": "https://github.com/feira-de-jogos/docs"
+    },
+    "tags": [
+      {
+        "$ref": "#/components/tags/arcade2server"
+      },
+      {
+        "$ref": "#/components/tags/server2arcade"
+      },
+      {
+        "$ref": "#/components/tags/vending-machine2server"
+      },
+      {
+        "$ref": "#/components/tags/server2vending-machine"
+      }
+    ]
+  },
+  "servers": {
+    "production": {
+      "host": "feira-de-jogos.dev.br",
+      "description": "WebSocket server",
+      "pathname": "/api/v2/machine",
+      "protocol": "wss"
+    }
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "vending-machine": {
+      "address": "vending-machine",
+      "messages": {
+        "stateUpdate": {
+          "$ref": "#/components/messages/stateUpdate",
+          "tags": [
+            {
+              "$ref": "#/components/tags/vending-machine2server"
+            }
+          ]
+        },
+        "stateMFA": {
+          "$ref": "#/components/messages/stateMFA",
+          "tags": [
+            {
+              "$ref": "#/components/tags/server2vending-machine"
+            }
+          ]
+        },
+        "stateReleasing": {
+          "$ref": "#/components/messages/stateReleasing",
+          "tags": [
+            {
+              "$ref": "#/components/tags/server2vending-machine"
+            }
+          ]
+        }
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/vending-machine2server"
+        },
+        {
+          "$ref": "#/components/tags/server2vending-machine"
+        }
+      ]
+    },
+    "arcade": {
+      "address": "arcade",
+      "messages": {
+        "coinInsert": {
+          "$ref": "#/components/messages/coinInsert",
+          "tags": [
+            {
+              "$ref": "#/components/tags/server2arcade"
+            }
+          ]
+        },
+        "coinInserted": {
+          "$ref": "#/components/messages/coinInserted",
+          "tags": [
+            {
+              "$ref": "#/components/tags/arcade2server"
+            }
+          ]
+        }
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/arcade2server"
+        },
+        {
+          "$ref": "#/components/tags/server2arcade"
+        }
+      ]
+    }
+  },
+  "operations": {
+    "onStateUpdate": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/vending-machine"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/vending-machine/messages/stateUpdate"
+        }
+      ],
+      "tags": [
+        {
+          "$ref": "#/components/tags/vending-machine2server"
+        }
+      ]
+    },
+    "onStateMFA": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/vending-machine"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/vending-machine/messages/stateMFA"
+        }
+      ],
+      "reply": {
+        "messages": [
+          {
+            "$ref": "#/channels/vending-machine/messages/stateUpdate"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/server2vending-machine"
+        }
+      ]
+    },
+    "onStateReleasing": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/vending-machine"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/vending-machine/messages/stateReleasing"
+        }
+      ],
+      "reply": {
+        "messages": [
+          {
+            "$ref": "#/channels/vending-machine/messages/stateUpdate"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/server2vending-machine"
+        }
+      ]
+    },
+    "onCoinInsert": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/arcade"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/arcade/messages/coinInsert"
+        }
+      ],
+      "reply": {
+        "messages": [
+          {
+            "$ref": "#/channels/arcade/messages/coinInserted"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "$ref": "#/components/tags/server2arcade"
+        }
+      ]
+    },
+    "onCoinInserted": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/arcade"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/arcade/messages/coinInserted"
+        }
+      ],
+      "tags": [
+        {
+          "$ref": "#/components/tags/arcade2server"
+        }
+      ]
+    }
+  },
+  "components": {
+    "messages": {
+      "stateUpdate": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "description": "Vending machine state updated"
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "state": "idle",
+              "operation": 1000
+            }
+          ]
+        }
+      },
+      "stateMFA": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "User's first name"
+            },
+            "code": {
+              "type": "integer",
+              "format": "int32",
+              "description": "MFA code",
+              "minimum": 10,
+              "maximum": 99
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "username": "John",
+              "code": 86,
+              "operation": 1000
+            }
+          ]
+        }
+      },
+      "stateReleasing": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "product": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Product id",
+              "minimum": 0
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "product": 1,
+              "operation": 1000
+            }
+          ]
+        }
+      },
+      "coinInsert": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "arcade": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Arcade id",
+              "minimum": 0
+            },
+            "coins": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Number of coins",
+              "minimum": 1
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "arcade": 1,
+              "coins": 1,
+              "operation": 1000
+            }
+          ]
+        }
+      },
+      "coinInserted": {
+        "payload": {
+          "type": "object",
+          "properties": {
+            "arcade": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Arcade id",
+              "minimum": 0
+            },
+            "operation": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Bank operation number",
+              "minimum": 0
+            }
+          },
+          "examples": [
+            {
+              "arcade": 1,
+              "operation": 1000
+            }
+          ]
+        }
+      }
+    },
+    "tags": {
+      "arcade2server": {
+        "name": "arcade2server",
+        "description": "From arcade to server"
+      },
+      "server2arcade": {
+        "name": "server2arcade",
+        "description": "From server to arcade"
+      },
+      "vending-machine2server": {
+        "name": "vending-machine2arcade",
+        "description": "From vending machine to server"
+      },
+      "server2vending-machine": {
+        "name": "server2vending-machine",
+        "description": "From server to vending machine"
+      }
+    }
+  }
+}

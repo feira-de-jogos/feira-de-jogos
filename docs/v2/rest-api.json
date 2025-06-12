@@ -1,0 +1,709 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "contact": {
+      "name": "Feira de Jogos do IFSC São José",
+      "email": "feiradejogosifscsaojose@gmail.com"
+    },
+    "description": "REST API for a game fair",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "title": "Game Fair REST API",
+    "version": "2.1.1"
+  },
+  "externalDocs": {
+    "url": "https://github.com/feira-de-jogos/docs"
+  },
+  "servers": [
+    {
+      "url": "https://feira-de-jogos.dev.br/api/v2"
+    }
+  ],
+  "tags": [
+    {
+      "description": "User related operations",
+      "name": "user"
+    },
+    {
+      "description": "Machine related operations",
+      "name": "machine"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "description": "User authentication",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "302": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            },
+            "description": "Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/machine": {
+      "get": {
+        "description": "Machine persistent connection to server",
+        "responses": {
+          "101": {
+            "description": "Switching Protocols"
+          },
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "machine"
+        ],
+        "security": [
+          {
+            "machine_auth": []
+          }
+        ]
+      }
+    },
+    "/credit": {
+      "post": {
+        "description": "Credit operation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/creditRequest"
+              }
+            }
+          },
+          "description": "Credit information",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/creditResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Time in seconds to wait before a new request"
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/debit": {
+      "post": {
+        "description": "Debit operation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/debitRequest"
+              }
+            }
+          },
+          "description": "Debit information",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/debitResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Time in seconds to wait before a new request"
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/transfer": {
+      "post": {
+        "description": "Transfer operation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/transferRequest"
+              }
+            }
+          },
+          "description": "Transfer information",
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/transferResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "402": {
+            "description": "Payment Required"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Time in seconds to wait before a new request"
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/mfa": {
+      "post": {
+        "description": "Two-factor authentication",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/mfaRequest"
+              }
+            }
+          },
+          "description": "two-factor authentication code",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/games": {
+      "get": {
+        "description": "Games list",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/gamesResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/products": {
+      "get": {
+        "description": "Products list",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/productsResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/balance": {
+      "get": {
+        "description": "User balance",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/balanceResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    },
+    "/statement": {
+      "get": {
+        "description": "Bank statement",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/statementResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "user_auth": [
+              "read:user"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "mfaRequest": {
+        "properties": {
+          "operation": {
+            "description": "operation id",
+            "example": 1000,
+            "format": "int32",
+            "type": "integer",
+            "minimum": 0
+          },
+          "code": {
+            "description": "two-factor authentication code",
+            "example": 42,
+            "type": "string",
+            "pattern": "^[1-9][0-9]$"
+          }
+        }
+      },
+      "loginResponse": {
+        "properties": {
+          "user": {
+            "description": "user id",
+            "example": 1,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "creditRequest": {
+        "properties": {
+          "product": {
+            "description": "product id",
+            "example": 1,
+            "format": "int32",
+            "type": "integer",
+            "minimum": 0
+          },
+          "value": {
+            "description": "product value",
+            "example": 100,
+            "format": "int32",
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "creditResponse": {
+        "properties": {
+          "operation": {
+            "description": "operation id",
+            "example": 1000,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "debitRequest": {
+        "properties": {
+          "product": {
+            "description": "product id",
+            "example": 1,
+            "format": "int32",
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "debitResponse": {
+        "properties": {
+          "operation": {
+            "description": "operation id",
+            "example": 1000,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "transferRequest": {
+        "properties": {
+          "to": {
+            "description": "user id",
+            "example": 1,
+            "format": "int32",
+            "type": "integer",
+            "minimum": 0
+          },
+          "value": {
+            "description": "value to be transferred",
+            "example": 100,
+            "format": "int32",
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "transferResponse": {
+        "properties": {
+          "operation": {
+            "description": "operation id",
+            "example": 1000,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "gamesResponse": {
+        "properties": {
+          "product": {
+            "description": "product id",
+            "example": 1,
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "description": "product name",
+            "example": "Super Mario",
+            "type": "string"
+          },
+          "description": {
+            "description": "product description",
+            "example": "Super Mario World",
+            "type": "string"
+          },
+          "image": {
+            "description": "product image",
+            "example": "https://feira-de-jogos.dev.br/games/images/super-mario.png",
+            "type": "string"
+          },
+          "url": {
+            "description": "product url",
+            "example": "https://feira-de-jogos.dev.br/super-mario",
+            "type": "string"
+          }
+        }
+      },
+      "productsResponse": {
+        "properties": {
+          "product": {
+            "description": "product id",
+            "example": 1,
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "description": "product name",
+            "example": "chips",
+            "type": "string"
+          },
+          "description": {
+            "description": "product description",
+            "example": "150g",
+            "type": "string"
+          },
+          "type": {
+            "description": "product type",
+            "example": "foods",
+            "type": "string"
+          },
+          "image": {
+            "description": "product image",
+            "example": "https://feira-de-jogos.dev.br/products/images/chips.png",
+            "type": "string"
+          },
+          "price": {
+            "description": "product price",
+            "example": 100,
+            "format": "int32",
+            "type": "integer"
+          },
+          "stock": {
+            "description": "stock quantity",
+            "example": 10,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "balanceResponse": {
+        "properties": {
+          "balance": {
+            "description": "user balance",
+            "example": 100,
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "statementResponse": {
+        "properties": {
+          "operation": {
+            "description": "operation id",
+            "example": 1000,
+            "format": "int32",
+            "type": "integer"
+          },
+          "from": {
+            "description": "origin user",
+            "example": "João",
+            "type": "string"
+          },
+          "to": {
+            "description": "destination user",
+            "example": "Maria",
+            "type": "string"
+          },
+          "product": {
+            "description": "product name",
+            "example": "Pix",
+            "type": "string"
+          },
+          "value": {
+            "description": "value to be transferred",
+            "example": 100,
+            "format": "int32",
+            "type": "integer"
+          },
+          "timestamp": {
+            "description": "operation date and time",
+            "example": "2024-10-01T15:00:00.000Z",
+            "format": "date-time",
+            "type": "string"
+          },
+          "completed": {
+            "description": "operation status",
+            "example": true,
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "machine_auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "user_auth": {
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://hippogames.dev/api/oauth/redirect",
+            "scopes": {
+              "read:user": "user information"
+            }
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  }
+}
