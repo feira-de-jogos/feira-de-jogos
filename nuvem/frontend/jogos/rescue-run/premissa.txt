@@ -1,0 +1,1 @@
+inicialmente a primeira ideia do jogo seria com 2 personagens onde um tenta salvar o outro. durante o jogo, aquele que tentaria resgatar o outro passaria por uma série de desafios como um labirinto, atravessar terreno com obstáculos até chegar ao outro lado do mapa para resgatar o amigo.
