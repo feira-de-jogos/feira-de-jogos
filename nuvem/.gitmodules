@@ -1,9 +1,0 @@
-[submodule "rest-api"]
-	path = rest-api
-	url = https://github.com/feira-de-jogos/rest-api
-[submodule "frontend"]
-	path = frontend
-	url = https://github.com/feira-de-jogos/frontend
-[submodule "jogos"]
-	path = jogos
-	url = https://github.com/feira-de-jogos/jogos
