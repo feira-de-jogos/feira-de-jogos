@@ -2,7 +2,7 @@
 
 - No projeto será utilizado um NodeMCU ESP32 em conjunto da linguagem [MicroPython](http://micropython.org/) para programação do dispositivo. Para obtenção dos dados, serão utilizados os respectivos sensores para cada informação meteorológica exigida.
 
-## Andamento do projeto (Atualizado)
+## Andamento do projeto
 
 Até o momento, estão em operação os sensores DHT11, BME280, e MQ7, além do módulo DS3231. 
 
@@ -12,7 +12,7 @@ Até o momento, estão em operação os sensores DHT11, BME280, e MQ7, além do 
 1. **Módulo DS3231:** Este módulo também utiliza I2C para comunicação com a ESP32, está conectado nas GPIOs 5 (SCL) e 4 (SDA). Ele opera como um relógio em tempo real, marcando o tempo mesmo se a ESP32 fique sem energia usando uma bateria CR2032. O módulo utilizado pode ser encontrado [aqui](https://github.com/pangopi/micropython-DS3231-AT24C32).
 
 ##### Código utilizado até o momento:
-'''
+
 
     import dht, time
     from libs import BME280, ds3231, MQ7
@@ -49,4 +49,4 @@ Até o momento, estão em operação os sensores DHT11, BME280, e MQ7, além do 
 
 
 
-##### Atualizado em 16/06/2025 às 12:38
+##### Atualizado em 16/06/2025 às 13:10
