@@ -1,4 +1,6 @@
+# Python
 __pycache__/
 venv/
-ESP32*.bin
+
+# Environment
 .env

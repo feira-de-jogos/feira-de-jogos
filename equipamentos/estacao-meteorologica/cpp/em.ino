@@ -14,7 +14,7 @@
 //VARIAVEIS PARA MQTT
 /*#define SSID "feira"
 #define PASSWORD "feiradejogos"*/
-#define MQTT_SERVER "em.sj.ifsc.edu.br"
+#define MQTT_SERVER "feira-de-jogos.dev.br"
 #define MQTT_PORT 1883
 #define MQTT_CLIENT_ID "EMv0"
 
