@@ -1,11 +1,4 @@
 services:
-  mqtt-broker:
-    image: eclipse-mosquitto
-    restart: always
-    ports:
-      - 1883:1883
-    volumes:
-      - ./mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
   db:
     environment:
       POSTGRES_USER: feira
@@ -16,6 +9,40 @@ services:
       - db
     volumes:
       - ./db/data:/var/lib/postgresql/data:rw
+  tsdb:
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME_FILE: /run/secrets/tsdb-username
+      DOCKER_INFLUXDB_INIT_PASSWORD_FILE: /run/secrets/tsdb-password
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE: /run/secrets/tsdb-admin-token
+      DOCKER_INFLUXDB_INIT_ORG: em
+      DOCKER_INFLUXDB_INIT_BUCKET: em
+    image: influxdb:2
+    restart: always
+    secrets:
+      - tsdb-username
+      - tsdb-password
+      - tsdb-admin-token
+    volumes:
+      - ./tsdb/data:/var/lib/influxdb2:rw
+  mqtt-broker:
+    image: eclipse-mosquitto
+    restart: always
+    ports:
+      - 1883:1883
+    volumes:
+      - ./mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
+  grafana:
+    image: grafana/grafana-enterprise
+    restart: unless-stopped
+    depends_on:
+      - tsdb
+    environment:
+      GF_SERVER_DOMAIN: em.sj.ifsc.edu.br
+      GF_SERVER_ROOT_URL: https://em.sj.ifsc.edu.br/grafana/
+      GF_SERVER_SERVE_FROM_SUB_PATH: true
+    volumes:
+      - ./grafana/data:/var/lib/grafana:rw
   rest-api:
     command: "npm start"
     depends_on:
@@ -29,6 +56,7 @@ services:
   http-proxy:
     depends_on:
       - mqtt-broker
+      - grafana
       - rest-api
     image: nginx
     ports:
@@ -58,5 +86,11 @@ services:
     volumes:
       - ./stun/coturn.conf:/etc/turnserver.conf:ro
 secrets:
+  tsdb-username:
+    file: secret-tsdb-username
+  tsdb-password:
+    file: secret-tsdb-password
+  tsdb-admin-token:
+    file: secret-tsdb-admin-token
   db:
     file: secret-db
