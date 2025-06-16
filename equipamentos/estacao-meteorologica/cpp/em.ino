@@ -1,157 +1,104 @@
-#include <SD.h>                   // Leitura/Escrita Shield Cartao microSD | Pino 53 (MEGA) ou Pino 10 (UNO)
-#include <SPI.h>                  // Comunicação SPI (SD)
-#include <Ethernet.h>             // Shield Ethernet
-#include <PubSubClient.h>         // Conexão MQTT
+// Bibliotecas
+#include <PubSubClient.h>
+#include <DallasTemperature.h>
+#include <OneWire.h>
+#include <Wire.h>
+#include <TinyDHT.h>
+#include <Adafruit_BMP280.h>
+#include <WiFi.h>
 
+// Configuração
+#include "em.h"
 
-#define LM35 A0
-#define MQ7 A1
-#define MQ5 A2
-#define MQ2 A3
-#define LED 13
-#define PinoSD 53
-
-//VARIAVEIS PARA MQTT
-/*#define SSID "feira"
-#define PASSWORD "feiradejogos"*/
-#define MQTT_SERVER "feira-de-jogos.dev.br"
-#define MQTT_PORT 1883
-#define MQTT_CLIENT_ID "EMv0"
-
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01, 0x02};
-IPAddress ip{192, 168, 0, 100};
-EthernetClient espClient;
+// Objetos
+WiFiClient espClient;
 PubSubClient client(espClient);
+DHT dht(sensor_DHT11, DHT11);
+OneWire oneWire(sensor_DS18B20);
+DallasTemperature sensors(&oneWire);
+DeviceAddress endereco;
+Adafruit_BMP280 bmp;
 
-// Variáveis Globais
-unsigned long tempoAnterior = 0;
-const long intervalo = 400;
-int n = 0;
-int cartao = 0;
-int MQ2G = analogRead(MQ2);
-int MQ5G = analogRead(MQ5);
-int MQ7G = analogRead(MQ7);  
-int N1 = 0;
-int N2 = 0;
-int N3 = 0;
-float temperatura = 0;                    // Leitura do sensor pela função
+// Variáveis globais
+String mensagem = "";
+float leitura;
 
-
-void setup() {
-  delay(500);
-  pinMode(PinoSD, OUTPUT);
-  pinMode(LED, OUTPUT);
-  pinMode(MQ2,INPUT);
-  pinMode(MQ5,INPUT);
-  pinMode(MQ7,INPUT);
-  pinMode(LM35,INPUT);
-  
-  Serial.begin(9600);
-  Ethernet.begin(mac,ip);
-  delay(500);
-
-  Serial.println("Inicializando SD card...");
-  if (!SD.begin(PinoSD)) {
-    Serial.println("Falha ao inicializar SD card");
-    while (1); // Bloqueia o código se a inicialização falhar
-  }
-  Serial.println("SD card inicializado com sucesso!");
-  digitalWrite(LED,HIGH);
-  if (SD.exists("EM.txt")) {
-    SD.remove("EM.txt");
-  }
-  delay(500);
-  client.setServer(MQTT_SERVER, MQTT_PORT);
+void ler_sensores(){
+  dtostrf(analogRead(sensor_MQ2), 6, 2, MQ2G);
+  dtostrf(analogRead(sensor_MQ5), 6, 2, MQ5G);
+  dtostrf(analogRead(sensor_MQ7), 6, 2, MQ7G);
+  dtostrf(sensors.requestTemperatures(), 6, 2, D18T);
+  dtostrf(bmp.readTemperature(), 6, 2, BMPT);
+  dtostrf(bmp.readPressure(), 6, 2, BMPP);
+  dtostrf(bmp.readAltitude(1013.25), 6, 2, BMPA);
+  dtostrf(dht.readHumidity(), 6, 2, DHTU);
+  dtostrf(dht.readTemperature(1), 6, 2, DHTT);
+  dtostrf(((analogRead(sensor_LM35) / 1024.0) * 3300) / 10, 6, 2, L35T);
 }
 
-void loop() {
-  MQ2G = analogRead(MQ2);
-  MQ5G = analogRead(MQ5);
-  MQ7G = analogRead(MQ7);  
-  N1 = random(110, 305);  // random()-> sorteia numero entre (min) e (max-1)
-  N2 = random(168, 389);
-  N3 = random(90, 198);
-  temperatura = analogRead(LM35);                    // Leitura do sensor pela função
-  temperatura = temperatura * 5000 / (1024 * 10);  // Conversão de volts para graus celsius
+String formatar_mensagem()
+{
+  String msg = "";
 
-  n++;
-  String EM = "BD.txt";
-  File arquivo = SD.open(EM, FILE_WRITE); // Abre para escrita
-  if (arquivo) {
-    arquivo.print(n);
-    arquivo.print(",");
-    arquivo.print(MQ2G);
-    arquivo.print(",");
-    arquivo.print(MQ5G);
-    arquivo.print(",");
-    arquivo.print(MQ7G);
-    arquivo.print(",");
-    arquivo.print(N1);
-    arquivo.print(",");
-    arquivo.print(N2);
-    arquivo.print(",");
-    arquivo.print(N3);
-    arquivo.print(",");
-    arquivo.print(temperatura);
-    arquivo.close();
-    Serial.println("\nDados gravados com sucesso em " + EM);
-  }
+  msg += mqtt_client_id;
+  msg += " ";
+  msg += "MQ2G=" + String(MQ2G) + ",";
+  msg += "MQ5G=" + String(MQ5G) + ",";
+  msg += "MQ7G=" + String(MQ7G) + ",";
+  msg += "D18T=" + String(D18T) + ",";
+  msg += "BMPT=" + String(BMPT) + ",";
+  msg += "BMPP=" + String(BMPP) + ",";
+  msg += "BMPA=" + String(BMPA) + ",";
+  msg += "DHTU=" + String(DHTU) + ",";
+  msg += "DHTT=" + String(DHTT) + ",";
+  msg += "L35T=" + String(L35T);
+  // msg += " " + timestamp
+  return msg;
+}
 
-  if (SD.exists("EM.txt")) {
-    SD.remove("EM.txt");
+void setup()
+{
+  pinMode(LED, OUTPUT);
+  pinMode(sensor_MQ2, INPUT);
+  pinMode(sensor_MQ5, INPUT);
+  pinMode(sensor_MQ7, INPUT);
+  pinMode(sensor_DHT11, INPUT);
+  pinMode(sensor_DS18B20, INPUT);
+  pinMode(sensor_LM35, INPUT);
+
+  dht.begin();
+  sensors.begin();
+  WiFi.begin(ssid, password);
+  client.setServer(mqtt_server, mqtt_port);
+  Serial.begin(115200);
+
+  digitalWrite(LED, LOW);
+}
+
+void loop()
+{
+  ler_sensores();
+
+  if (client.connected())
+  {
+    mensagem = formatar_mensagem();
+    client.publish(topico, mensagem.c_str());
+
+    client.loop();
   }
-  EM = "EM.txt";
-  arquivo = SD.open(EM, FILE_WRITE); // Abre para escrita
-  if (arquivo) {
-    arquivo.print(n);
-    arquivo.print(",");
-    arquivo.print(MQ2G);
-    arquivo.print(",");
-    arquivo.print(MQ5G);
-    arquivo.print(",");
-    arquivo.print(MQ7G);
-    arquivo.print(",");
-    arquivo.print(N1);
-    arquivo.print(",");
-    arquivo.print(N2);
-    arquivo.print(",");
-    arquivo.print(N3);
-    arquivo.print(",");
-    arquivo.print(temperatura);
-    arquivo.close();
-    Serial.println("Dados gravados com sucesso em " + EM);
-    cartao = 1;
-  } else {
-    Serial.println("Falha ao abrir o arquivo.");
-    cartao = 0;
-  }
-  delay(2421);
-  if (cartao == 1){
-    arquivo = SD.open(EM, FILE_READ); // Abre para leitura
-    String mensagem = "#";
-    while (arquivo.available()) {
-      //Serial.write(arquivo.read());
-      mensagem = arquivo.readStringUntil('\n');
-    }
-    arquivo.close();
-    Serial.print(mensagem);
-    mensagem.length();
-    char mensagem2[32];
-    mensagem.toCharArray(mensagem2, mensagem.length());
-    
-    if (client.connected()){
-      client.publish("/v0", mensagem2);
-      client.loop();
-    } else {
-      digitalWrite(LED, LOW);
-      if (client.connect(MQTT_CLIENT_ID)) {
+  else
+  {
+    digitalWrite(LED, LOW);
+    if (client.connect(mqtt_client_id))
+    {
       Serial.println("Conectado ao broker MQTT!");
       digitalWrite(LED, HIGH);
-      } else {
-        Serial.println("Broker MQTT: reconectando em 1s...");
-      }
     }
-    Serial.println(" | ");
-    Serial.print(mensagem2);
+    else
+    {
+      Serial.println("Broker MQTT: reconectando em 1s...");
+    }
   }
+
+  delay(1000);
 }
