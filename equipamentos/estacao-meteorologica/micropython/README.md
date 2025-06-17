@@ -4,7 +4,7 @@
 
 ## Andamento do projeto
 
-Até o momento, estão em operação os sensores DHT11, BME280, e MQ7, além do módulo DS3231. 
+Até o momento, estão em operação os sensores DHT11, BME280, MQ7 e DS18B20, além do módulo DS3231. 
 
 1. **Sensor DHT11:** O sensor está conectado na GPIO 23 da ESP32 e fornece leituras de temperatura e umidade. O módulo utilizado é integrado à linguagem.
 1. **Sensor BME280:** O sensor usa o protocolo serial I2C para comunicação com a ESP32, está conectado nas GPIOs 22 (SCL) e 21 (SDA). Ele opera medindo temperatura, umidade e pressão. O módulo utilizado pode ser encontrado [aqui](https://github.com/kevbu/micropython-bme280/tree/master).
@@ -15,4 +15,4 @@ Até o momento, estão em operação os sensores DHT11, BME280, e MQ7, além do 
 - As leituras destes sensores são obtidas a cada 60 segundos.
 
 ##### O código atualizado pode ser encontrado na pasta da estação junto dos módulos utilizados.
-##### Atualizado em 17/06/2025 às 12:49
+##### Atualizado em 17/06/2025 às 12:51
