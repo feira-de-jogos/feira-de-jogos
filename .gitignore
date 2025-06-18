@@ -1,6 +1,18 @@
+# SO
+.DS_Store
+
 # Python
 __pycache__/
 venv/
 
+# JS
+node_modules/
+
+# Parcel
+.parcel-cache/
+dist/
+
 # Environment
 .env
+secret-*
+data/
