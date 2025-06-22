@@ -38,8 +38,8 @@ services:
     depends_on:
       - tsdb
     environment:
-      GF_SERVER_DOMAIN: em.sj.ifsc.edu.br
-      GF_SERVER_ROOT_URL: https://em.sj.ifsc.edu.br/grafana/
+      GF_SERVER_DOMAIN: feira-de-jogos.dev.br
+      GF_SERVER_ROOT_URL: https://feira-de-jogos.dev.br/grafana/
       GF_SERVER_SERVE_FROM_SUB_PATH: true
     volumes:
       - ./grafana/data:/var/lib/grafana:rw
