@@ -1,26 +1,12 @@
 import Phaser from "phaser";
 import axios from "axios";
 
-export default class finalFeliz extends Phaser.Scene {
+export default class gameoverMundoMagico extends Phaser.Scene {
   constructor() {
-    super("finalFeliz");
+    super("gameover-mundo-magico");
   }
-
-  preload() {
-    this.load.image("finalFeliz", "./assets/Cenas/finalFeliz.png");
-  }
-
-  // colocar após a barrinha o plano de fundo, lembrando que deve importa-lo para o assets
 
   create() {
-    this.add
-      .image(450, 220, "finalFeliz")
-      .setInteractive()
-      .on("pointerdown", () => {
-        window.location.reload();
-      });
-
-    // Inicializa o Google Sign-In
     globalThis.google.accounts.id.initialize({
       client_id:
         "331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com",
@@ -32,26 +18,27 @@ export default class finalFeliz extends Phaser.Scene {
             .post(
               "https://feira-de-jogos.dev.br/api/v2/credit",
               {
-                product: 8, // id do jogo cadastrado no banco de dados da Feira de Jogos
-                value: 300, // crédito em tijolinhos
+                product: 43, // id do jogo cadastrado no banco de dados da Feira de Jogos
+                value: 20, // crédito em tijolinhos
               },
               {
                 headers: {
                   Authorization: `Bearer ${res.credential}`,
                 },
-              },
+              }
             )
             .then(function (response) {
+              alert("Crédito adicionado!");
               console.log(response);
             })
             .catch(function (error) {
+              alert("Falha ao adicionar crédito :(");
               console.error(error);
             });
         }
       },
     });
 
-    // Exibe o prompt de login
     globalThis.google.accounts.id.prompt((notification) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
         globalThis.google.accounts.id.prompt();

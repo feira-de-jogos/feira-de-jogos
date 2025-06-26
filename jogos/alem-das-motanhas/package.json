@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build": "parcel build"
+  },
+  "targets": {
+    "default": {
+      "source": "src/index.html",
+      "distDir": "../../nuvem/frontend/jogos/alem-das-montanhas",
+      "publicUrl": "/jogos/alem-das-montanhas"
+    }
+  }
+}

@@ -1,21 +1,20 @@
-import Phaser from 'phaser'
+import Phaser from "phaser";
 export default class finalTriste extends Phaser.Scene {
-  constructor () {
-    super('finalTriste')
+  constructor() {
+    super("finalTriste");
   }
 
-  preload () {
-    this.load.image('finalTriste', './assets/Cenas/finalTriste.png')
+  preload() {
+    this.load.image("finalTriste", "./assets/Cenas/finalTriste.png");
   }
 
-  create () {
+  create() {
     // Adiciona o texto de fim sem crédito e a possibilidade de reiniciar o jogo
-    this.add.image(450, 220, 'finalTriste')
+    this.add
+      .image(450, 220, "finalTriste")
       .setInteractive()
-      .on('pointerdown', () => {
-        window.location.reload()
-      })
+      .on("pointerdown", () => {
+        window.location.reload();
+      });
   }
-
-  update () { }
 }
