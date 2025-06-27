@@ -56,10 +56,10 @@ while True:
     dados['rain_value'] = rain.read()
     
     execution_time = time() - start 
-    ts = timestamp() 
+    ts_ns = timestamp() 
     
     
-    print('Em:', ts)
+    print('Em:', ts_ns)
     print('- A Temperatura no DS18B20 era: ' + str(dados["temp.ds18x20"]) + ' °C')
     print('- A concentração de Monóxido de Carbono no MQ7 era: ' + str(dados["co.mq7"]) + 'ppm')
     print('- A Temperatura e Umidade no DHT11 eram: ' + str(dados["temp.dht11"]) + '°C, ' +  str(dados["hum.dht11"]) + '%')
@@ -72,4 +72,4 @@ while True:
     if execution_time < 60:
         sleep(60 - execution_time)
     else:
-        print("Tempo de execução excedido")
+        print("Tempo de execução excedido")	
