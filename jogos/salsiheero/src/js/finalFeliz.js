@@ -1,0 +1,59 @@
+import Phaser from "phaser";
+import axios from "axios";
+
+export default class finalFeliz extends Phaser.Scene {
+  constructor () {
+    super('finalFeliz')
+  }
+
+  preload () {
+    this.load.image('finalfeliz', './assets/Final feliz.png')
+  }
+
+  create () {
+    // Adiciona o texto de parabéns e a possibilidade de reiniciar o jogo
+    this.add.image(400, 225, 'finalfeliz')
+      .setInteractive()
+      .on('pointerdown', () => {
+        location.reload()
+      })
+      .setInteractive()
+      .on('pointerdown', () => {
+        location.reload()
+      })
+
+    // Inicializa o Google Sign-In
+    globalThis.google.accounts.id.initialize({
+      client_id: '331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com',
+      callback: (res) => {
+        if (res.error) {
+          console.error(res.error)
+        } else {
+          axios.post('https://feira-de-jogos.dev.br/api/v2/credit', {
+            product: 14, // id do jogo cadastrado no banco de dados da Feira de Jogos
+            value: 25 // crédito em tijolinhos
+          }, {
+            headers: {
+              Authorization: `Bearer ${res.credential}`
+            }
+          })
+            .then(function (response) {
+              console.log(response)
+              this.game.scene.getScene('finalFeliz').mensagem.setText('Parabéns! Você conseguiu! Seus tijolinhos foram creditados!')
+            })
+            .catch(function (error) {
+              console.error(error)
+              this.game.scene.getScene('finalFeliz').mensagem.setText('Erro ao creditar tijolinhos:', error)
+            })
+        }
+      }
+    })
+
+    // Exibe o prompt de login
+    globalThis.google.accounts.id.prompt((notification) => {
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        globalThis.google.accounts.id.prompt()
+      }
+    })
+  }
+}
