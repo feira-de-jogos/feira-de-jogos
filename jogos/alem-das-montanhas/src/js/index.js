@@ -30,7 +30,7 @@ class Game extends Phaser.Game {
       this.socket = io({ path: "/api/v2/game/" });
       iceServers = [
         {
-          urls: "turn:feira-de-jogos.dev.br",
+          urls: "turns:feira-de-jogos.dev.br",
           username: "adcipt20232",
           credential: "adcipt20232",
         },

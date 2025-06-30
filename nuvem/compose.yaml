@@ -3,6 +3,12 @@ services:
     environment:
       POSTGRES_USER: feira
       POSTGRES_PASSWORD_FILE: /run/secrets/db
+    healthcheck:
+      interval: 30s
+      retries: 3
+      start_period: 5s
+      test: ["CMD", "pg_isready", "-U", "feira"]
+      timeout: 1s
     image: postgres
     restart: always
     secrets:
@@ -46,7 +52,14 @@ services:
   rest-api:
     command: "npm start"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck:
+      interval: 30s
+      retries: 3
+      start_period: 5s
+      test: ["CMD", "curl", "-f", "http://localhost:3000/healthcheck"]
+      timeout: 1s
     image: node
     restart: always
     user: "node"
@@ -58,32 +71,35 @@ services:
       - mqtt-broker
       - grafana
       - rest-api
+    healthcheck:
+      interval: 30s
+      retries: 3
+      start_period: 1s
+      test: ["CMD", "curl", "-f", "https://feira-de-jogos.dev.br"]
+      timeout: 1s
     image: nginx
     ports:
       - 80:80/tcp
       - 443:443/tcp
+    restart: always
     volumes:
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
       - ./frontend:/frontend:ro
       - ./jogos:/jogos:ro
       - ./http-proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-  redis:
-    command: "redis-server --save 60 1 --loglevel warning"
-    image: redis
+  stun:
+    environment:
+      DETECT_EXTERNAL_IP: yes
+      DETECT_RELAY_IP: yes
+      DETECT_EXTERNAL_IPV6: yes
+      DETECT_RELAY_IPV6: yes
+    image: coturn/coturn
     network_mode: host
     restart: always
     volumes:
-      - ./redis/data:/data:rw
-  stun:
-    depends_on:
-      - redis
-    environment:
-      DETECT_EXTERNAL_IP: yes
-      DETECT_EXTERNAL_IPV6: yes
-    image: coturn/coturn
-    network_mode: host
-    volumes:
+      - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/fullchain.pem:ro
+      - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/privkey.pem:ro
       - ./stun/coturn.conf:/etc/turnserver.conf:ro
 secrets:
   tsdb-username:
