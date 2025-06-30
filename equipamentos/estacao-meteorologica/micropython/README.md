@@ -12,10 +12,40 @@ Sensores instalados:
 1. **RTC DS3231:** Este módulo também utiliza I2C para comunicação com a ESP32, está conectado nas GPIOs 5 (SCL) e 4 (SDA). Ele opera como um relógio em tempo real, marcando o tempo mesmo se a ESP32 fique sem energia usando uma bateria CR2032. O módulo utilizado pode ser encontrado [aqui](https://github.com/pangopi/micropython-DS3231-AT24C32).
 1. **Sensor DS18B20:** Este sensor utiliza o protocolo OneWire para comunicação com a ESP32, enviando os dados coletador de forma digital. Ele está conectado na GPIO 2 da ESP32. Ele é capaz de medir temperaturas entre -55°C e 125°C com precisão informada de 0,5°C. O módulo utilizado é integrado à linguagem MicroPython.
 1. **Sensor MQ4:** Este sensor foi instalado usando a porta análogica, ele está conectado na GPIO 39 (Somente leitura, com ADC presente). Ele fornece a concentração de Gás Metano presente no ar em PPM (partículas por milhão). O módulo utilizado pode ser encontrado [aqui](https://github.com/kartun83/micropython-MQ/tree/master)
-1. **Sensor de pingos de chuva:** Foi intalado na GPIO 34 (Somente leitura, com ADC presente) usando a porta analógica, mas até agora não obteve leitura consistente.
+1. **Sensor de pingos de chuva:** Foi intalado na GPIO 34 (Somente leitura, com ADC presente) usando a conexão analógica.
 
-- A leitura do RTC é transformada em formato timestamp UNIX
-- As leituras destes sensores são obtidas aproximadamente a cada 60~120 segundos.
+| Ordem | Variável| Unidade| Descrição|
+|-|-|-|-|
+| 1º| `dht11_temp`| °C| Temperatura ambiente medida pelo sensor DHT11|
+| 2º| `dht11_umid`| %| Umidade relativa do ar medida pelo sensor DHT11|
+| 3º| `bme280_temp`| °C| Temperatura ambiente medida pelo sensor BME280|
+| 4º| `bme280_umid`| %| Umidade relativa do ar medida pelo sensor BME280|
+| 5º| `bme280_press`| hPa| Pressão atmosférica medida pelo sensor BME280|
+| 6º| `ds18b20_temp`| °C| Temperatura medida pelo sensor DS18B20|
+| 7º| `mq7_co`| ppm| Concentração de monóxido de carbono (CO) detectada  |
+| 8º| `mq4_ch4`| ppm| Concentração de metano, Gás Natural ou GLP detectada   |
+| 9º| `sensor_chuva`| sem unidade |Detecção analógica de água no sensor de chuva|
 
-##### O código atualizado pode ser encontrado na pasta da estação junto dos módulos utilizados.
-##### Atualizado em 26/06/2025 às 23:13
+
+- A leitura do RTC é transformada em formato timestamp UNIX 
+- As leituras destes sensores são obtidas a cada 60~120 segundos.
+
+#### Modelo de dados:
+Este é o modelo de dados usado para tramissão dos dados:
+* O modelo segue o padrão [Line protocol](https://docs.influxdata.com/influxdb/v2/reference/syntax/line-protocol/) da Influxdata.
+
+| Ordem | Variável| Unidade| Descrição|
+|-|-|-|-|
+| 1º| `dht11_temp`| °C| Temperatura ambiente medida pelo sensor DHT11|
+| 2º| `dht11_umid`| %| Umidade relativa do ar medida pelo sensor DHT11|
+| 3º| `bme280_temp`| °C| Temperatura ambiente medida pelo sensor BME280|
+| 4º| `bme280_umid`| %| Umidade relativa do ar medida pelo sensor BME280|
+| 5º| `bme280_press`| hPa| Pressão atmosférica medida pelo sensor BME280|
+| 6º| `ds18b20_temp`| °C| Temperatura medida pelo sensor DS18B20|
+| 7º| `mq7_co`| ppm| Concentração de monóxido de carbono (CO) detectada  |
+| 8º| `mq4_ch4`| ppm| Concentração de metano, Gás Natural ou GLP detectada   |
+| 9º| `sensor_chuva`| sem unidade |Detecção de água no sensor de chuva|
+|X|`timestamp`|ns|Timestamp UNIX em ns medindo o tempo no momento da leitura|
+
+***O código atualizado pode ser encontrado na pasta da estação junto dos módulos utilizados.***
+***Atualizado em 30/06/2025 às 11:38***
