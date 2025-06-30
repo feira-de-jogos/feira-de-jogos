@@ -14,18 +14,6 @@ Sensores instalados:
 1. **Sensor MQ4:** Este sensor foi instalado usando a porta análogica, ele está conectado na GPIO 39 (Somente leitura, com ADC presente). Ele fornece a concentração de Gás Metano presente no ar em PPM (partículas por milhão). O módulo utilizado pode ser encontrado [aqui](https://github.com/kartun83/micropython-MQ/tree/master)
 1. **Sensor de pingos de chuva:** Foi intalado na GPIO 34 (Somente leitura, com ADC presente) usando a conexão analógica.
 
-| Ordem | Variável| Unidade| Descrição|
-|-|-|-|-|
-| 1º| `dht11_temp`| °C| Temperatura ambiente medida pelo sensor DHT11|
-| 2º| `dht11_umid`| %| Umidade relativa do ar medida pelo sensor DHT11|
-| 3º| `bme280_temp`| °C| Temperatura ambiente medida pelo sensor BME280|
-| 4º| `bme280_umid`| %| Umidade relativa do ar medida pelo sensor BME280|
-| 5º| `bme280_press`| hPa| Pressão atmosférica medida pelo sensor BME280|
-| 6º| `ds18b20_temp`| °C| Temperatura medida pelo sensor DS18B20|
-| 7º| `mq7_co`| ppm| Concentração de monóxido de carbono (CO) detectada  |
-| 8º| `mq4_ch4`| ppm| Concentração de metano, Gás Natural ou GLP detectada   |
-| 9º| `sensor_chuva`| sem unidade |Detecção analógica de água no sensor de chuva|
-
 
 - A leitura do RTC é transformada em formato timestamp UNIX 
 - As leituras destes sensores são obtidas a cada 60~120 segundos.
