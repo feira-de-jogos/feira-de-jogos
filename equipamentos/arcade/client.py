@@ -3,10 +3,8 @@ from dotenv import load_dotenv
 import socketio
 from datetime import datetime, timezone, timedelta
 import jwt
-
 from evdev import UInput, ecodes as e
 from time import sleep
-
 
 load_dotenv()
 url = getenv("URL", default="wss://feira-de-jogos.dev.br")
@@ -14,8 +12,6 @@ socketio_path = getenv("SOCKETIO_PATH", default="/api/v2/machine")
 namespace = getenv("NAMESPACE", default="/arcade")
 secret_key = getenv("TOKEN_SECRET_KEY_ARCADE", default="")
 id = getenv("ARCADE_ID", default="0")
-
-
 sio = socketio.Client(logger=False, engineio_logger=True)
 ui = UInput(name="Banco Central")
 
@@ -36,7 +32,8 @@ def coinInsert(data):
     try:
         arcade, coins, operation = data.values()
         arcade = str(arcade)
-    except:
+    except Exception as e:
+        print(f"Error: {e}")
         return
 
     if arcade == id:
