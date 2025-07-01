@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "cp -r static ../../nuvem/frontend/jogos/rescue-run"
+  }
+}
