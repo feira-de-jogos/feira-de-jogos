@@ -1,0 +1,1 @@
+Projeto em micropython separado pelas versões da estação meteorológica.
