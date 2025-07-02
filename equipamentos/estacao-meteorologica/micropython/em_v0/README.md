@@ -35,5 +35,11 @@ Este é o modelo de dados usado para tramissão dos dados:
 | 9º| `sensor_chuva`| sem unidade |Detecção de água no sensor de chuva|
 |X|`timestamp`|ns|Timestamp UNIX em ns medindo o tempo no momento da leitura|
 
+- Os dados estão sendo enviados via MQTT para o broker da feira de jogos.
+- A versão v0 já está pronta e rodando.
+
+- Os dados sensíveis marcados no código com `dotenv.` são armazenados no arquivo `config.env`
+
+
 ***O código atualizado pode ser encontrado na pasta da estação junto dos módulos utilizados.***
-***Atualizado em 30/06/2025 às 11:38***
+***Atualizado em 01/07/2025 às 21:15***

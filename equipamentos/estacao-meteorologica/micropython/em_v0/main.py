@@ -1,32 +1,48 @@
-import dht, onewire, ds18x20
-from libs import BME280, ds3231, MQ7, MQ4
+import dht, onewire, ds18x20, network
+from umqtt.simple import MQTTClient
+from libs import BME280, ds3231, MQ7, MQ4, dotenv
 from time import sleep, time, mktime
 from machine import Pin, I2C, ADC
 
 i2c0 = I2C(0, scl=Pin(22), sda=Pin(21), freq=10000)
 i2c1 = I2C(1, sda=Pin(4), scl=Pin(5))
+led = Pin(2, Pin.OUT)
+led.value(0)
+sleep(1)
+led.value(1)
 
-data_ds18x20 = Pin(2)
+dotenv.load_env()
+topico = b"em/v0"
+
+data_ds18x20 = Pin(15)
 ow = onewire.OneWire(data_ds18x20)
 ds18x20 = ds18x20.DS18X20(ow)
 roms = ds18x20.scan()
-
-dados = {}
-
 dht11 = dht.DHT11(Pin(23))
 bme280 = BME280.BME280(i2c=i2c0)
 ds3231 = ds3231.DS3231(i2c=i2c1)
 rain = ADC(34)
 
+dados = {}
 
 mq4 = MQ4.MQ4(pinData=39)
 mq4.calibrate()
-
 mq7 = MQ7.MQ7(pinData=36)
 mq7.calibrate()
 
-sleep(180)
+#sleep(180)
 print('Calibrado e funcionando')
+
+def conecta_wifi():
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    if not wlan.isconnected():
+        print("Conectando ao Wi-Fi...")
+        wlan.connect(dotenv.WIFI_SSID, dotenv.WIFI_PASS)
+        while not wlan.isconnected():
+            sleep(0.5)
+            print('CONECTANDO')
+        print("Wi-Fi conectado:", wlan.ifconfig())
 
 def timestamp():
     x = ds3231.datetime()
@@ -37,7 +53,7 @@ def timestamp():
 
 def formatar(ts_ns):
     data = ''
-    data += 'estaçao_v0'
+    data += 'EMv0'
     data += ' '
     data += 'dht11_temp=' + str(dados['temp.dht11']) + ','
     data += 'dht11_umid=' + str(dados['umid.dht11']) + ','
@@ -46,11 +62,16 @@ def formatar(ts_ns):
     data += 'bme280_press=' + str(dados['press.bme280']) + ','
     data += 'ds18b20_temp=' + str(dados['temp.ds18b20']) + ','
     data += 'mq7_co=' + str(dados['co.mq7']) + ','
-    data += 'mq4_gi=' + str(dados['gi.mq4']) + ','
+    data += 'mq4_ch4=' + str(dados['ch4.mq4']) + ','
     data += 'sensor_chuva=' + str(dados['valor_chuva'])
     data += ' ' + str(ts_ns)
 
     return data
+
+print('ok')
+conecta_wifi()
+client = MQTTClient(dotenv.MQTT_ID,dotenv.MQTT_BROKER, port=dotenv.MQTT_PORT)
+client.connect()
 
 while True:
     inicio = time()
@@ -68,7 +89,7 @@ while True:
     dados["temp.ds18b20"] = ds18x20.read_temp(roms[0])
         
     dados["co.mq7"] = mq7.readCarbonMonoxide()
-    dados['gi.mq4'] = mq4.readMethane()
+    dados['ch4.mq4'] = mq4.readMethane()
     
     dados['valor_chuva'] = rain.read()
     
@@ -76,9 +97,11 @@ while True:
     ts_ns = timestamp() 
     
     data = formatar(ts_ns)
+    client.publish(topico, data, qos=1)
     print(data)
-    
+    #client.check_msg() 
     if tempo_execucao < 60:
         sleep(60 - tempo_execucao)
     else:
         print('Tempo de execução excedido: ' + str(tempo_execucao))
+

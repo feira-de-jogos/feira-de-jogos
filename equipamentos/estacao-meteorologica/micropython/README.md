@@ -1,1 +1,2 @@
-Projeto em micropython separado pelas versões da estação meteorológica.
+# Estação Meteorológica baseada em MicroPython e NodeMCU ESP32
+Projeto separado por versões.
