@@ -39,6 +39,7 @@ Este é o modelo de dados usado para tramissão dos dados:
 - A versão v0 já está pronta e rodando.
 
 - Os dados sensíveis marcados no código com `dotenv.` são armazenados no arquivo `config.env`
+- Para identificação das mensagens enviadas e das estações ativas será usado o sistema de `UUIDs`, o [arquivo](./uuids_v0.md) contém os IDs.
 
 
 ***O código atualizado pode ser encontrado na pasta da estação junto dos módulos utilizados.***
