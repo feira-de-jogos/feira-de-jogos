@@ -15,9 +15,9 @@
 *ALIMENTAÇÃO:*  
 - 2.2 - 5.5 V
 
-*POTÊNCIA:** 
-- Idle: 0,8 µW  
-- Ativo: 3,2 mW
+*CONSUMO DE CORRENTE:*  
+- Stand-by: 0,25 µA  
+- Medição: 980 µA
 
 *UMIDADE:** 
 - Resolução: 0.024%  
@@ -38,7 +38,7 @@
   - -40 ºC em 100% umidade  
   - 0 ºC em 10% umidade
 
-*VALOR TÍPICO DE TRABALHO:** 
+*VALOR TÍPICO DE TRABALHO:*
 - Temperatura: 0 — 60 ºC  
 - Umidade: 20 - 80%
 
@@ -49,6 +49,10 @@
 
 *ALIMENTAÇÃO:*  
 - 3,3 - 6 V
+
+*CONSUMO DE CORRENTE:*  
+- Stand-by: 40~50 µA  
+- Medição: 1~1,5 mA
 
 *COMUNICAÇÃO: Digital por fio único*  
 
@@ -70,3 +74,24 @@
 
 *TEMPO PARA LEITURA:*  
 - 2 s   
+
+#### 3. LM35DZ - Temperatura
+
+*ALIMENTAÇÃO:*  
+- Faixa de entrada: -1 V a 30 V
+
+*COMUNICAÇÃO:*  
+- Analógica
+
+*TEMPERATURA:*  
+- Faixa de leitura: 0 — 100 ºC  
+- Precisão:  
+  - Típica: ±0,6 ºC  
+  - Máxima: ±2,0 ºC
+
+*CONSUMO DE CORRENTE:*  
+- Típico: 56 µA  
+- Máximo: 141 µA
+
+*ESTABILIDADE:*  
+- ±0,08 ºC a cada 1000 h na temperatura máxima
