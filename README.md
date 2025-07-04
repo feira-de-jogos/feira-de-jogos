@@ -10,14 +10,29 @@ Escolhas:
 - [#11](https://github.com/feira-de-jogos/feira-de-jogos/issues/11): Sinalização de mídia com [Livekit](https://livekit.io/) e lógica de jogo com [Socket.IO](https://socket.io/).
 - [#12](https://github.com/feira-de-jogos/feira-de-jogos/issues/12): SFU com [Livekit](https://livekit.io/).
 
+## Serviços da Feira de Jogos
+
 ```mermaid
 flowchart LR
-  A[Jogador]
-  B[Proxy HTTP]
-  C1[Node.js + Socket.IO]
-  C2[Node.js + Socket.IO]
-  C3[Node.js + Socket.IO]
-  D[Redis Streams]
+  A[Aplicação Web]
+
+  subgraph Nuvem
+    B[Proxy HTTP]
+
+    subgraph Cluster Node.js + Socket.IO
+      C1[1]
+      C2[2]
+      C3[...]
+      C4[N]
+    end
+
+    E[Grafana]
+
+    subgraph Bancos de Dados
+    D[Redis Streams]
+      F[InfluxDB]
+    end
+  end
 
   A --> B
   B --> C1
@@ -26,7 +41,17 @@ flowchart LR
   C1 --> D
   C2 --> D
   C3 --> D
+  C4 --> D
+
+  B--> E
+  C1 --> F
+  C2 --> F
+  C3 --> F
+  C4 --> F
+  E --> F
 ```
+
+## Estações Meteorológicas
 
 Para as estações meteorológicas, o fluxo é  o seguinte:
 
