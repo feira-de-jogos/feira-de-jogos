@@ -1,6 +1,6 @@
-import dht, onewire, ds18x20, network
+import dht, onewire, ds18x20, network, utime
 from umqtt.simple import MQTTClient
-from libs import BME280, ds3231, MQ7, MQ4, dotenv
+from libs import BME280, ds3231, MQ7, MQ4, dotenv, neo6m
 from time import sleep, time, mktime
 from machine import Pin, I2C, ADC
 
@@ -12,8 +12,10 @@ sleep(1)
 led.value(1)
 
 dotenv.load_env()
-topico = b"em/v0"
+topico = 'em/' + str(dotenv.MQTT_ID	)
+versao_em = '0'
 
+gps = neo6m.GPS(uart_id=1, baudrate=9600, tx_pin=12, rx_pin=13)
 data_ds18x20 = Pin(15)
 ow = onewire.OneWire(data_ds18x20)
 ds18x20 = ds18x20.DS18X20(ow)
@@ -51,9 +53,20 @@ def timestamp():
     ts_ns = timestamp * 10**9
     return ts_ns
 
+def espera_gps():
+    while True:
+        data = gps.read()
+        if data:
+            return data
+        utime.sleep_ms(200) 
+
 def formatar(ts_ns):
     data = ''
-    data += 'EMv0'
+    data += topico + ','
+    data += 'v=' + versao_em + ','
+    data += 'lat=' + str(gps_data['latitude']) + ','
+    data += 'lng=' + str(gps_data['longitude']) + ','
+    data += 'alt=' + str(gps_data['altitude'])
     data += ' '
     data += 'dht11_temp=' + str(dados['temp.dht11']) + ','
     data += 'dht11_umid=' + str(dados['umid.dht11']) + ','
@@ -96,6 +109,9 @@ while True:
     tempo_execucao = time() - inicio 
     ts_ns = timestamp() 
     
+    print("Esperando fix GPS...")
+    gps_data = espera_gps()
+    
     data = formatar(ts_ns)
     client.publish(topico, data, qos=1)
     print(data)
@@ -104,4 +120,3 @@ while True:
         sleep(60 - tempo_execucao)
     else:
         print('Tempo de execução excedido: ' + str(tempo_execucao))
-
