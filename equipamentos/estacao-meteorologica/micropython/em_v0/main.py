@@ -66,9 +66,9 @@ def espera_gps(timeout_ms=60000):
 
 def ds18b20_ler():
     try:
-        ds.convert_temp()
+        ds18x20.convert_temp()
         sleep(1)
-        temp = ds.read_temp(rom)
+        temp = ds18x20.read_temp(roms[0])
         return temp
     except Exception as e:
         print('Erro DS18B20', e)
@@ -112,7 +112,7 @@ while True:
     dados["umid.bme280"] = bme280.humidity()
     dados["press.bme280"] = bme280.pressure()
     
-    dados ['ds18b20_temp'] = ds18b20_ler() 
+    dados ['temp.ds18b20'] = ds18b20_ler() 
     
     dados["co.mq7"] = mq7.readCarbonMonoxide()
     dados['ch4.mq4'] = mq4.readMethane()
