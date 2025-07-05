@@ -16,10 +16,10 @@ topico = 'em/' + str(dotenv.MQTT_ID	)
 versao_em = '0'
 
 gps = neo6m.GPS(uart_id=1, baudrate=9600, tx_pin=12, rx_pin=13)
-data_ds18x20 = Pin(15)
-ow = onewire.OneWire(data_ds18x20)
-ds18x20 = ds18x20.DS18X20(ow)
-roms = ds18x20.scan()
+#data_ds18x20 = Pin(15)
+#ow = onewire.OneWire(data_ds18x20)
+#ds18x20 = ds18x20.DS18X20(ow)
+#roms = ds18x20.scan()
 dht11 = dht.DHT11(Pin(23))
 bme280 = BME280.BME280(i2c=i2c0)
 ds3231 = ds3231.DS3231(i2c=i2c1)
@@ -53,12 +53,29 @@ def timestamp():
     ts_ns = timestamp * 10**9
     return ts_ns
 
-def espera_gps():
-    while True:
+def espera_gps(timeout_ms=60000):
+    print("Esperando fix GPS...")
+    inicio = utime.ticks_ms()
+    while utime.ticks_diff(utime.ticks_ms(), inicio) < timeout_ms:
         data = gps.read()
         if data:
             return data
-        utime.sleep_ms(200) 
+        client.check_msg()  # Mantém MQTT vivo durante a espera
+        utime.sleep_ms(200)
+
+    print("Sem fix GPS após timeout.")
+    return {'latitude': 0.0, 'longitude': 0.0, 'altitude': 0.0}
+
+def ds18b20_ler():
+    try:
+        ds.convert_temp()
+        sleep(1)
+        temp = ds.read_temp(rom)
+        return temp
+    except Exception as e:
+        print('Erro DS18B20', e)
+        temp = 0.0
+        return temp
 
 def formatar(ts_ns):
     data = ''
@@ -97,10 +114,8 @@ while True:
     dados["umid.bme280"] = bme280.humidity()
     dados["press.bme280"] = bme280.pressure()
     
-    ds18x20.convert_temp()
-    sleep(0.75)
-    dados["temp.ds18b20"] = ds18x20.read_temp(roms[0])
-        
+    dados ['ds18b20_temp'] = ds18b20_ler() 
+    
     dados["co.mq7"] = mq7.readCarbonMonoxide()
     dados['ch4.mq4'] = mq4.readMethane()
     
@@ -109,14 +124,14 @@ while True:
     tempo_execucao = time() - inicio 
     ts_ns = timestamp() 
     
-    print("Esperando fix GPS...")
     gps_data = espera_gps()
     
     data = formatar(ts_ns)
     client.publish(topico, data, qos=1)
     print(data)
-    #client.check_msg() 
+    client.check_msg() 
     if tempo_execucao < 60:
         sleep(60 - tempo_execucao)
     else:
         print('Tempo de execução excedido: ' + str(tempo_execucao))
+        
