@@ -16,10 +16,8 @@ topico = 'em/' + str(dotenv.MQTT_ID	)
 versao_em = '0'
 
 gps = neo6m.GPS(uart_id=1, baudrate=9600, tx_pin=12, rx_pin=13)
-#data_ds18x20 = Pin(15)
-#ow = onewire.OneWire(data_ds18x20)
-#ds18x20 = ds18x20.DS18X20(ow)
-#roms = ds18x20.scan()
+ds18x20 = ds18x20.DS18X20(onewire.OneWire(Pin(15)))
+roms = ds18x20.scan()
 dht11 = dht.DHT11(Pin(23))
 bme280 = BME280.BME280(i2c=i2c0)
 ds3231 = ds3231.DS3231(i2c=i2c1)
@@ -134,4 +132,5 @@ while True:
         sleep(60 - tempo_execucao)
     else:
         print('Tempo de execução excedido: ' + str(tempo_execucao))
-        
+
+
