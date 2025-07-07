@@ -58,7 +58,7 @@ def espera_gps(timeout_ms=60000):
         data = gps.read()
         if data:
             return data
-        client.check_msg()  # Mantém MQTT vivo durante a espera
+        client.check_msg()
         utime.sleep_ms(200)
 
     print("Sem fix GPS após timeout.")
@@ -71,9 +71,15 @@ def ds18b20_ler():
         temp = ds18x20.read_temp(roms[0])
         return temp
     except Exception as e:
-        print('Erro DS18B20', e)
-        temp = 0.0
-        return temp
+        print('Erro no DS18B20: ' + str(e))
+
+def sensores_gas():
+    try: 
+        mq4 = mq4.readMethane()
+        mq7 = mq7.readCarbonMonoxide()
+        return mq4, mq7
+    except Exception as e:
+        print('Erro na leitura dos gases: ' + str(e))
 
 def formatar(ts_ns):
     data = ''
@@ -93,10 +99,8 @@ def formatar(ts_ns):
     data += 'mq4_ch4=' + str(dados['ch4.mq4']) + ','
     data += 'sensor_chuva=' + str(dados['valor_chuva'])
     data += ' ' + str(ts_ns)
-
     return data
 
-print('ok')
 conecta_wifi()
 client = MQTTClient(dotenv.MQTT_ID,dotenv.MQTT_BROKER, port=dotenv.MQTT_PORT)
 client.connect()
@@ -114,8 +118,7 @@ while True:
     
     dados ['temp.ds18b20'] = ds18b20_ler() 
     
-    dados["co.mq7"] = mq7.readCarbonMonoxide()
-    dados['ch4.mq4'] = mq4.readMethane()
+    dados['ch4.mq4'], dados['co.mq7'] = sensores_gas()
     
     dados['valor_chuva'] = rain.read()
     
@@ -128,6 +131,7 @@ while True:
     client.publish(topico, data, qos=1)
     print(data)
     client.check_msg() 
+
     if tempo_execucao < 60:
         sleep(60 - tempo_execucao)
     else:
