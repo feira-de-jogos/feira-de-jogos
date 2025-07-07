@@ -72,12 +72,12 @@ def ds18b20_ler():
         return temp
     except Exception as e:
         print('Erro no DS18B20: ' + str(e))
-
+        
 def sensores_gas():
     try: 
-        mq4 = mq4.readMethane()
-        mq7 = mq7.readCarbonMonoxide()
-        return mq4, mq7
+        mq4_v = mq4.readMethane()
+        mq7_v = mq7.readCarbonMonoxide()
+        return mq4_v, mq7_v
     except Exception as e:
         print('Erro na leitura dos gases: ' + str(e))
 
