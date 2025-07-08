@@ -72,6 +72,7 @@ def ds18b20_ler():
         return temp
     except Exception as e:
         print('Erro no DS18B20: ' + str(e))
+        return 0.0
         
 def sensores_gas():
     try: 
@@ -80,6 +81,7 @@ def sensores_gas():
         return mq4_v, mq7_v
     except Exception as e:
         print('Erro na leitura dos gases: ' + str(e))
+        return 0.0, 0.0
 
 def formatar(ts_ns):
     data = ''
@@ -136,5 +138,4 @@ while True:
         sleep(60 - tempo_execucao)
     else:
         print('Tempo de execução excedido: ' + str(tempo_execucao))
-
 
