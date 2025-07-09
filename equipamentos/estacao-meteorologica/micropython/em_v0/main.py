@@ -58,7 +58,6 @@ def espera_gps(timeout_ms=60000):
         data = gps.read()
         if data:
             return data
-        client.check_msg()
         utime.sleep_ms(200)
 
     print("Sem fix GPS após timeout.")
@@ -103,6 +102,9 @@ def formatar(ts_ns):
     data += ' ' + str(ts_ns)
     return data
 
+gps_data = espera_gps()
+print(gps_data)
+
 conecta_wifi()
 client = MQTTClient(dotenv.MQTT_ID,dotenv.MQTT_BROKER, port=dotenv.MQTT_PORT)
 client.connect()
@@ -126,13 +128,10 @@ while True:
     
     tempo_execucao = time() - inicio 
     ts_ns = timestamp() 
-    
-    gps_data = espera_gps()
-    
+        
     data = formatar(ts_ns)
     client.publish(topico, data, qos=1)
     print(data)
-    client.check_msg() 
 
     if tempo_execucao < 60:
         sleep(60 - tempo_execucao)
