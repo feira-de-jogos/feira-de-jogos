@@ -4,94 +4,75 @@
 - Aprimorar a versão 0 com sensores melhores para garantir mais qualidade e confiabilidade dos dados coletados.
 - Adicionar os sensores requisitados que não foram instalados na v0.
 
-### Sensores instalados até o momento:
-1. **BMP280 (Temperatura e Pressão), módulo interno usado**
-2. **DHT22 (Temperatura e Umidade), [esse](https://github.com/PaszaVonPomiot/micropython-driver-bmp280) módulo foi usado**
+---
+# SHT31 - Sensor Digital de Temperatura e Umidade
 
-### Dados sobre os sensores pesquisados (instalados ou não):
+### Informações Gerais:
+- Interface: I2C (clock máximo de 1 MHz)
+- Endereços I2C:
+	 - 0x44 (ADDR conectado ao GND)
+	 - 0x45 (ADDR conectado ao VDD)
+	- Tempo de resposta (temperatura): <2s
+	- Tempo de resposta (umidade): 8s
+### Temperatura:
+- Faixa: -40°C a 125°C
+- Precisão: ±0.3°C (entre 10ºC e 55ºC, typ.) e ±0.5°C (máx.)
+- Resolução: 14 bits
+- Deriva de longo prazo: < 0,03°C/ano
+### Umidade Relativa:
+- Faixa: 0% a 100 %
+- Precisão (em 25°C): ±2% (typ.) e ±3% (máx.)
+- Resolução: 14 bits (~0,0061%)
+- Deriva de longo prazo: < 0,25%/ano
+### Tipos de Encapsulamento:
+- **open-cavity DFN**
+### Características Elétricas:
+- Tensão de operação: 2,15 V a 5,5 V
+- Consumo de corrente (Standby): 0,2µA (typ.) e 6µA (máx.)
+- Consumo de corrente (Ativo):  600µA (typ.) e 1,5mA (máx)
 
-#### 1. ATH25 - Temperatura e Umidade (Não instalado)
+---
 
-*ALIMENTAÇÃO:*  
-- 2.2 - 5.5 V
+# LM75 - Sensor Digital de Temperatura
 
-*CONSUMO DE CORRENTE:*  
-- Stand-by: 0,25 µA  
-- Medição: 980 µA
+### Informações Gerais:
+- Interface: I2C standard (até 100 kHz).
+- Endereços I2C: configuráveis via pinos A0, A1, A2 (até 8 dispositivos).
+- Tempo de conversão:  100ms (typ.), 300ms (máx.).
+### Temperatura:
+- Faixa: -55°C a 125°C
+- Precisão:
+	- ±2.0 °C (de -25°C a 100°C)
+	- ±3.0 °C (de -55°C a 125°C)
+- Resolução: 0.5 °C (9 bits)
+### Tipos de Encapsulamento:
+- **SOP-8** (SMD)
+- **MSOP-8** (SMD)
+### Características Elétricas:
+- Tensão de operação: 3,0V a 5,5V
+- Consumo de corrente (Ativo):  250µA (typ.) e 1mA (máx.)
+- Consumo de corrente (Standby): 4µA (3V, máx.) e 6µA (5V, máx.)
+---
+# DS18B20 - Sensor Digital de Temperatura
+### Informações Gerais:
+- Interface: 1-Wire (requere apenas um fio de dados + GND)
+- Tempo para conversão de temperatura: 750ms (usando a resolução máxima)
+- Tempo para entrega dos dados após a leitura: 5ms
+### Temperatura:
+- Faixa: -55°C a 125°C
+- Precisão: ±0.5 °C (de -10°C a 85°C) e ±2ºC (entre -55ºC e 125ºC)
+- Resolução configurável: 9 a 12 bits
+	 - 9 bits: 0.5°C
+	 - 10 bits: 0.25°C
+	 - 11 bits: 0.125°C
+	 - 12 bits: 0.0625°C
+### Tipos de Encapsulamentos:
+-  **TO-92** (3 pinos)
+-  **8-Pin SOIC** (SMD)
+-  **Encapsulamento a Prova D’água**
+### Características Elétricas:
+- Tensão de operação: 3,0V a 5,5V
+- Consumo de corrente (Standby): 0,75µA (typ.) e 1,0µA (máx.) 
+- Consumo de corrente (Ativo): 1,0mA (typ.) e 1,5mA (máx.)
 
-*UMIDADE:** 
-- Resolução: 0.024%  
-- Faixa máxima: 0 - 100%
-- Precisão:  
-  - Tolerância média: 2%  
-  - Tolerância máxima: 6%
-
-*TEMPERATURA:*  
-- Resolução: 0.01 ºC  
-- Precisão:  
-  - Média: ±0.3 ºC  
-  - Máxima distorção: ±2 ºC (acima de 50ºC ou abaixo de 0 ºC)  
-- Máxima medida:  
-  - 50 ºC em 100% umidade  
-  - 80 ºC em 20% umidade  
-- Mínima medida:  
-  - -40 ºC em 100% umidade  
-  - 0 ºC em 10% umidade
-
-*VALOR TÍPICO DE TRABALHO:*
-- Temperatura: 0 — 60 ºC  
-- Umidade: 20 - 80%
-
-*COMUNICAÇÃO: I2C*  
-
-
-#### 2. DHT22 - Temperatura e Umidade (Instalado)
-
-*ALIMENTAÇÃO:*  
-- 3,3 - 6 V
-
-*CONSUMO DE CORRENTE:*  
-- Stand-by: 40~50 µA  
-- Medição: 1~1,5 mA
-
-*COMUNICAÇÃO: Digital por fio único*  
-
-*UMIDADE:*  
-- Faixa: 0 - 100%  
-- Precisão:  
-  - Média: ±2%  
-  - Tolerância máxima: ±5%  
-- Resolução: 0.1%
-
-*TEMPERATURA:*  
-- Precisão:  
-  - Máxima distorção: ±0,5 ºC  
-- Faixa: -40 — 80 ºC  
-- Resolução: 0.1 ºC
-
-*ESTABILIDADE:*  
-- ±0.5% ao ano (umidade)
-
-*TEMPO PARA LEITURA:*  
-- 2 s   
-
-#### 3. LM35DZ - Temperatura
-
-*ALIMENTAÇÃO:*  
-- Faixa de entrada: -1 V a 30 V
-
-*COMUNICAÇÃO:*  
-- Analógica
-
-*TEMPERATURA:*  
-- Faixa de leitura: 0 — 100 ºC  
-- Precisão:  
-  - Típica: ±0,6 ºC  
-  - Máxima: ±2,0 ºC
-
-*CONSUMO DE CORRENTE:*  
-- Típico: 56 µA  
-- Máximo: 141 µA
-
-*ESTABILIDADE:*  
-- ±0,08 ºC a cada 1000 h na temperatura máxima
+---
