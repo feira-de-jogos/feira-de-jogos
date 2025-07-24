@@ -12,13 +12,14 @@
 - 1x [DHT11](https://www.eletrogate.com/sensor-de-umidade-e-temperatura-dht11)
 - 1x [DHT22](https://www.eletrogate.com/sensor-de-umidade-e-temperatura-dht22-am2302?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant)
 - 1x [AHT10](https://www.eletrogate.com/modulo-sensor-de-temperatura-e-umidade-de-alta-precisao-aht10?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant)
-- 1x [DS18B20](https://www.eletrogate.com/sensor-de-temperatura-digital-ds18b20?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant)
+- 2x [DS18B20](https://www.eletrogate.com/sensor-de-temperatura-digital-ds18b20?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant)
 - 2x [HR202L](https://www.makerhero.com/produto/sensor-de-umidade-hr202l-higrometro/)
 - 2x Cartão SD: [Lexar 32GB 47,99R$](https://www.pichau.com.br/cartao-de-memoria-lexar-800x-pro-32gb-sdhc-uhs-i-lsd0800p032g-bnnng), [Adata 32GB 39,99R$](https://www.pichau.com.br/cartao-de-memoria-adata-premier-32gb-sdhc-asdh32guicl10-r)
 - 2x Cartão Micro SD: [Adata 32GB 32,99R$](https://www.pichau.com.br/cartao-de-memoria-adata-premier-32gb-micro-sdhc-adaptador-ausdh32guicl10a1-ra1), [Lexar 32GB 28,99R$](https://www.pichau.com.br/cartao-de-memoria-lexar-633x-32gb-micro-sdhc-uhs-i-lms0633032g-bnnng), [Kingston 32GB 35,99R$](https://www.pichau.com.br/cartao-de-memoria-kingston-32gb-classe-10-micro-sdhc-adaptador-sdcs2-32gb), [SanDisk 32GB 42,99R$](https://www.pichau.com.br/cartao-de-memoria-sandisk-ultra-32gb-classe-10-micro-sdhc-adaptador-sdsqunr-032g-gn3ma)
+- 2x [Módulo cartão SD](https://www.eletrogate.com/modulo-sd-card?utm_source=Site&utm_medium=GoogleMerchant&utm_campaign=GoogleMerchant)
 
 **Os sensores `SHT85`, `SHT35-DIS` e `SHT31-DIS` são sensores bem parecidos em termos de especificações, além mais caros por causa de sua alta precisão.**
 
 **A unidade do DS18B20 que eu tenho é no encapsulamento a prova d'água**
 
-**Adicionei 2 cartões SD para deixar um para a V2, há a opção de cartão SD ou Micro SD. Eu só tenho 1 módulo SD.**
+**Adicionei 2 cartões SD para deixar um para a V2, há a opção de cartão SD ou Micro SD.**
