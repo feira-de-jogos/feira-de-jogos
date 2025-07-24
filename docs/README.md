@@ -14,4 +14,23 @@ Foi preciso, assim, pensar na [economia](economia.md) da Feira, bem como nos [se
 
 ![Diagrama do funcionamento da feira](imagens/infografico.jpg)
 
-Como o projeto depende de financiamento, devido a bolsas de pesquisa e custos de produção e operação (compra dos brindes, material para as máquinas e outros), foi projetado um modelo simples para o segundo semestre de 2023, denominado [**versão 1**](v1/README.md). Várias melhorias foram feitas para o semestre seguinte, no início de 2024 - a [**versão 2**](v2/README.md).
+Como o projeto depende de financiamento, devido a bolsas de pesquisa e custos de produção e operação (compra dos brindes, material para as máquinas e outros), foi projetado um modelo simples para o segundo semestre de 2023, denominado [**versão 1**](v1/README.md). Várias melhorias foram feitas para o semestre seguinte, no início de 2024 - a [**versão 2**](v2/README.md). Em atual desenvolvimento, a versão [3](v3/README.md).
+
+## *Tags* e Versões
+
+As *tags* se referem a determinados *commits*, já as versões (*releases*) se destinam a identificar versões de produção para serem usadas nas feiras de jogos.
+
+Prefixo de *tags*:
+
+- `3d`: projetos 3D para dispositivos físicos, como estações meteorológicas e outros.
+- `hw`: projeto elétrico (esquemáticos etc.) e código fonte para embarcados.
+- `sw`: código fonte para *frontend* e *backend*, bem como implantação e serviços de nuvem.
+- `v`: versões de produção. No GitHub, será usado para as *releases*.
+
+Para sufixo de *tags*, será adotado o [versionamento semântico](https://semver.org/lang/pt-BR/).
+
+Exemplos:
+
+- `hw0.1.0`: primeira versão de teste de * hardware*.
+- `sw2.0.0`: segunda versão de produção de * software*, sem retrocompatibilidade com a versão anterior.
+- `v3.0.0`: terceira versão de produção.
