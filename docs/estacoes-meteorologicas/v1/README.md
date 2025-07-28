@@ -49,6 +49,20 @@ Objetivos:
 | **HIH-4031**  | 0 a 100   | ±3,5%                | ADC 12 bits   | ±1.2%/ano          | SMD               | —               | 200µA / 500µA      | Analógica         | 5s (1/e 63%)        | [~570,96R$](https://br.mouser.com/ProductDetail/Honeywell/HIH-4031-003?qs=yJVtgANCw03sE9P%2FDzBvRA%3D%3D)                                                                                       |
 | **HR202L**     | 20 a 95   | ±5%                  | ADC 12 bits   | ±1%/ano            | PTH               | —               | 0,2mW  (Tensão CA) | Analógica         | 20s ~ 40s (1/e 63%) | [5,13R$](https://www.makerhero.com/produto/sensor-de-umidade-hr202l-higrometro/)                                                                                                                |
 
+## Pressão:
+| Sensor      | Faixa (hPa) | Precisão (typ./máx.) | Resolução    | Deriva Longo Prazo | Encapsulamento  | Consumo Standby | Consumo Ativo  | Interface | Tempo de Resposta | Valor para compra                                                                                                                                        |
+| ----------- | ----------- | -------------------- | ------------ | ------------------ | --------------- | --------------- | -------------- | --------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **LPS22HB** | 260 a 1260  | ±0,1hPa / ±1,0hPa    | 24 bits      | —                  | HLGA-10L        | 1µA             | 12µA           | I2C / SPI | 2,5ns ~100ns      | N/A
+| **MS5611**  | 10 a 1200   | ±1,5hPa / ±2,5hPa    | 24 bits      | ±1hPa/ano          | QFN             | 0,14µA          | 1,4mA          | I2C / SPI | ~8,22ms           | [79,90R$](https://www.smartkits.com.br/sensor-de-pressao-atmosferica-gy-63?parceiro=9390) |
+| **BMP180**  | 300 a 1100  | ±1,0hPa / ±4,5hPa    | 0,01hPa      | ±1hPa/ano          | LGA (metal-lid) | 0,1µA / 4µA     | 650µA / 1,0mA  | I2C       | 4,5ms ~ 76,5ms    | [21,90R$](https://www.eletrogate.com/sensor-de-pressao-barometrico-bmp-180)                                                                              |
+| **BMP280**  | 300 a 1100  | ±1,0hPa / ±1,7hPa    | 0,0016hPa    | ±1hPa/ano          | LGA (metal-lid) | 0,1µA / 0,3µA   | 720µA / 1,12mA | I2C / SPI | 5,5ms ~ 43,2ms    | [6,56R$](https://www.makerhero.com/produto/sensor-de-pressao-e-temperatura-bmp280/?srsltid=AfmBOopCqoIFAp6BhPX3RC5JIYkg1dIOkYtuVFlLqpDHLyf-OjU2tPXUPXo)                                        |
+| **BME280**  | 300 a 1100  | ±1,0hPa / ±1,7hPa    | 0,18Pa       | ±1,0hPa/ano        | LGA (metal-lid) | 0,1µA / 0,3µA   | 340µA / 714µA  | I2C / SPI | 1,5ms (I2C)       | [36,96R$](https://www.usinainfo.com.br/sensor-de-pressao-arduino/sensor-de-pressao-umidade-e-temperatura-bme280-de-alta-precisao-33v-4682.html)          |
+| **DPS310**  | 300 a 1200  | ±1hPa                | ±0,002 hPa   | —                  | LGA             | 0,5µA           | 280µA / 345µA  | I2C / SPI | 5,2ms ~ 105ms     | [94,90R$](https://www.robocore.net/briick/briick-sensor-de-pressao-dps310)                   |
+| **HP203B**  | 300 a 1200  | ±1,5hPa / ±3,0hPa    | 20 bits (Pa) | ±1.5hPa/ano        | LGA             | 0,1µA           | 1,3mA          | I2C       | 2,1ms ~ 78,ms     | N/A                                                |
+| **LPS33H**  | 260 a 1260  | ±1,0hPa / ±2,5hPa    | 24 bits      | ±1hPa/ano          | CCLGA 10L       | 1µA             | 12µA           | I2C / SPI | 13ms ~ 300ms      | N/A                                                                         |
+
+
+
 ---
 ## Informações sobre os sensores
 
@@ -617,4 +631,166 @@ Tempo de Resposta:
 - Aumento da umidade: < 20s (1/e 63%)
 - Diminuição da umidade < 40s(1/e 63%)
 
+### LPS22HB - Sensor Digital de Temperatura e Pressão
+
+Informações Gerais:
+- Interface: I2C (até 400kHz) e SPI
+
+Pressão:
+- Faixa: 260hPa a 1260hPa
+- Precisão: ±0,1hPa (typ.) e ±1hPa (máx.)
+- Resolução: 24 bits
+Temperatura:
+
+- Faixa: -40ºC a 85ºC
+- Precisão: ±1,5ºC
+- Resolução: 0,01ºC
+
+Tipos de Encapsulamento:
+- **HLGA-10L**
+Características Elétricas:
+
+- Tensão de operação: 1,7V a 3,6V
+- Consumo de corrente (Ativo):  12µA (máx.)
+- Consumo de corrente (Standby): 1µA (máx.)
+
+Tempo de Resposta:
+- SPI: 100ns
+- I2C: 2,5 - 10µs
+
+### MS5611 - Sensor Digital de Temperatura e Pressão
+
+Informações Gerais:
+- Interface: I2C e SPI (até 20MHz)
+
+Pressão:
+- Faixa: 10mbar a 1200mbar
+- Precisão: ±1,5mbar (typ.) e ±2,5mbar (máx.)
+- Resolução: 24 bits
+- Deriva de longo prazo: ±1mbar/ano
+
+Temperatura:
+- Faixa: -40ºC a 85ºC
+- Precisão: ±0,8ºC
+- Resolução: 24 bits
+
+Tipos de Encapsulamento:
+- **QFN**
+
+Características Elétricas:
+- Tensão de operação: 1,8V a 3,6V
+- Consumo de corrente (Ativo):  1,4mA (máx.)
+- Consumo de corrente (Standby): 0,14µA (máx.)
+
+Tempo de Resposta:
+- Resolução máxima: 8,22ms
+
+### BMP180 - Sensor Digital de Temperatura e Pressão
+
+Informações Gerais:
+- Interface: I2C (clock máximo de 3,4 MHz)
+
+Temperatura:
+- Faixa: -40°C a 85°C
+- Precisão: ±0,5°C (typ.) e ±2,0°C (máx.)
+- Resolução: 0,1ºC 
+
+Pressão:
+- Faixa: 300hPa a 1100hPa
+- Precisão: ±1,0hPa (typ.) e ±4,5hPa (máx.)
+- Resolução: 0,01hPa
+- Deriva de longo prazo: ±1,0hPa/ano
+
+Tipos de Encapsulamento:
+- ***8-pin metal-lid LGA***
+
+Características Elétricas:
+- Tensão de operação: 1,8V a 3,6V
+- Consumo de corrente (Ativo):  650µA (typ.) e 1,0mA (máx)
+- Consumo de corrente (Standby): 0,1µA (typ.) e 4µA (máx.)
+
+ Tempo de Resposta:
+- Tempo de medição: 4,5ms (menor resolução), 76,5ms (maior resolução)
+
+### DPS310 - Sensor Digital de Temperatura e Pressão
+
+Informações Gerais:
+- Interface: I2C (clock máximo de 3,4 MHz) e SPI (Até 10MHz)
+
+Temperatura:
+- Faixa: -40°C a 85°C
+- Precisão: ±0.5°C (typ.) e ±1,0°C (máx.)
+- Resolução: 0,01ºC
+
+Pressão:
+- Faixa: 300hPa a 1200hPa
+- Precisão: ±1hPa
+- Resolução: ±0,002 hPa
+
+Tipos de Encapsulamento:
+- ***8-pin LGA***
+
+Características Elétricas:
+- Tensão de operação: 1,7V a 3,6V
+- Consumo de corrente (Ativo):  280µA (typ.) e 345µA (máx)
+- Consumo de corrente (Standby): 0,5µA
+
+Tempo de Resposta:
+- Tempo de medição: 5,2ms (menor resolução), 105ms (maior resolução)
+
+
+### HP203B - Sensor Digital de Temperatura e Pressão
+
+Informações Gerais:
+- Interface: I2C (clock máximo de 400kHz)
+
+Temperatura:
+- Faixa: -40°C a 85°C
+- Precisão: ±0,5°C (typ.) e ±3,0°C (máx.)
+- Resolução: 20 bits
+
+Pressão:
+- Faixa: 300mbar a 1200mbar
+- Precisão: ±1,5mbar (typ.) e ±3,0mbar (máx.)
+- Resolução: 20 bits (em Pa)
+- Deriva de longo prazo: ±1,5mbar/ano
+
+Tipos de Encapsulamento:
+- ***8-pin LGA***
+
+Características Elétricas:
+- Tensão de operação: 1,8V a 3,6V
+- Consumo de corrente (Ativo):  1,3mA
+- Consumo de corrente (Standby): < 0,1μA
+
+Tempo de Resposta:
+- Tempo de medição: 2,1ms (menor resolução), 78,7ms (maior resolução)
+
+### LPS33HW - Sensor Digital de Temperatura e Pressão
+
+Informações Gerais:
+- Interface: I2C (clock máximo de 3,4 MHz) e SPI (Até 10MHz)
+
+Temperatura:
+- Faixa: -40°C a 85°C
+- Precisão: N/A
+- Resolução: 0,01ºC
+
+Pressão:
+- Faixa: 260hPa a 1260hPa
+- Precisão: ±1hPa (typ.) e ±2,5hPa (máx.)
+- Resolução: 24 bits
+- Deriva de longo prazo: 1hPa/ano
+
+Tipos de Encapsulamento:
+- ***CCLGA 10L***
+
+Características Elétricas:
+- Tensão de operação: 1,7V a 3,6V
+- Consumo de corrente (Ativo):  12µA
+- Consumo de corrente (Standby): 1µA
+
+Tempo de Resposta:
+- **Sem filtro:** ~13 ms (ODR = 75Hz)
+- **Com filtro RMS:** ~200–300 ms (ODR = 75Hz)
 ---
