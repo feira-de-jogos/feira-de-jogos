@@ -6,7 +6,7 @@ Esta primeira versão contém apenas os sensores básicos e conexão direta à I
 
 Sensores instalados:
 
-1. **Sensor DHT11:** O sensor está conectado na GPIO 23 da ESP32 e fornece leituras de temperatura e umidade. O módulo utilizado é integrado à linguagem.
+1. **Sensor DHT11:** O sensor está conectado na GPIO 14 da ESP32 e fornece leituras de temperatura e umidade. O módulo utilizado é integrado à linguagem.
 1. **Sensor BMP280:** O sensor usa o protocolo serial I2C para comunicação com a ESP32, está conectado nas GPIOs 22 (SCL) e 21 (SDA). Ele opera medindo temperatura e pressão. O módulo utilizado pode ser encontrado [aqui](https://github.com/PaszaVonPomiot/micropython-driver-bmp280).
 1. **Sensor MQ7:** Este sensor oferece 2 tipos de conexão: digital e análogica, como o projeto pretende obter valores, ele está conectado na GPIO 36 (Somente leitura, com ADC presente). Ele fornece a concentração de Monoxido de Carbono presente no ar em PPM (partículas por milhão). O módulo utilizado pode ser encontrado [aqui](https://github.com/kartun83/micropython-MQ/tree/master).
 1. **RTC DS3231:** Este módulo também utiliza I2C para comunicação com a ESP32, está conectado nas GPIOs 5 (SCL) e 4 (SDA). Ele opera como um relógio em tempo real, marcando o tempo mesmo se a ESP32 fique sem energia usando uma bateria CR2032. O módulo utilizado pode ser encontrado [aqui](https://github.com/pangopi/micropython-DS3231-AT24C32).
@@ -14,6 +14,7 @@ Sensores instalados:
 1. **Sensor MQ4:** Este sensor foi instalado usando a porta análogica, ele está conectado na GPIO 39 (Somente leitura, com ADC presente). Ele fornece a concentração de Gás Metano presente no ar em PPM (partículas por milhão). O módulo utilizado pode ser encontrado [aqui](https://github.com/kartun83/micropython-MQ/tree/master)
 1. **Sensor de pingos de chuva:** Foi instalado na GPIO 34 (Somente leitura, com ADC presente) usando a conexão analógica.
 1. **Módulo GPS NEO-6M:** Foi instalado nas GPIOs 12 e 13, utilizando interface serial para envio dos dados de GPS. O hardware pode apresentar algumas distorções nos dados caso não esteja nas condições ideais (Ambiente aberto, céu limpo, baixa interferência).
+1. **Módulo Cartão SD:** Foi instalado nas GPIOs 18 (SCK), 19 (MISO), 23 (MOSI) e 27 (CS). O cartão é usado paa garantir que os dados coletados estejam sendo gravados. O módulo utilizado pode ser encontrado [aqui](https://github.com/avovk1/micropython_sdcard/blob/main/sdcard.py).
 
 Observações:
 
