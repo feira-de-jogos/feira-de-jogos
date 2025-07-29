@@ -31,6 +31,6 @@ Para sufixo de *tags*, será adotado o [versionamento semântico](https://semver
 
 Exemplos:
 
-- `hw0.1.0`: primeira versão de teste de * hardware*.
-- `sw2.0.0`: segunda versão de produção de * software*, sem retrocompatibilidade com a versão anterior.
+- `hw0.1.0`: primeira versão de teste de *hardware*.
+- `sw2.0.0`: segunda versão de produção de *software*, sem retrocompatibilidade com a versão anterior.
 - `v3.0.0`: terceira versão de produção.

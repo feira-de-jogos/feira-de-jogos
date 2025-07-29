@@ -3,7 +3,7 @@
 - Coordenador: [Prof. Clayrton Monteiro Henrique](https://github.com/henriquecmh)
 - Participante: [Prof. Ederson Torresini](https://github.com/ederson-torresini)
 - Bolsista: [Léo Jung Neves](https://github.com/leojungjung)
-- Voluntário:	[Vitor Henrique dos Santos Olipia](VitorHSO-VtV)
+- Voluntário: [Vitor Henrique dos Santos Olipia](VitorHSO-VtV)
 
 ## Preâmbulo
 
