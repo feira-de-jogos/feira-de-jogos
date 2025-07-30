@@ -793,4 +793,163 @@ Características Elétricas:
 Tempo de Resposta:
 - **Sem filtro:** ~13 ms (ODR = 75Hz)
 - **Com filtro RMS:** ~200–300 ms (ODR = 75Hz)
+
+### NEO-M8N - Chip de Localização GNSS
+
+Informações Gerais:
+- Interface: UART (9,6kbps), I2C (400kbps) e SPI (até 1,0Mbps)
+- Temperatura de operação: -40°C a 85°C
+
+Leitura:
+- Sensibilidade: 
+	- Rastreamento: –167 dBm
+	- Reaquisição de Sinal: –160 dBm 
+	- Inicialização a Frio: –148 dBm
+	- Inicialização a Quente: –156 dBm 
+- Redes GNSS alcançáveis: GPS, QZSS, SBAS, GLONASS, BeiDou e Galileo
+- Precisão no plano horizontal: 2,5m (CEP)
+
+Características Elétricas:
+- Tensão de operação: 2,7V a 3,6V
+- Tensão da bateria 1,4V a 3,6V
+- Consumo de corrente:
+	- Pico Máximo: 67mA
+	- Aquisição: 27mA a 34mA
+	- Rastreamento (Contínuo): 26,5mA a 34mA
+
+Tempo para FIX:
+- Inicialização a Frio:  27s
+- Inicialização com ajuda: 4s
+- Inicialização a Quente: 1s
+
+### NEO-7M - Chip de Localização GNSS
+
+Informações Gerais:
+- Interface: UART, I2C (400kbps) e SPI (até 1,0Mbps)
+- Temperatura de operação: -40°C a 85°C
+
+Leitura:
+- Sensibilidade: 
+	- Rastreamento: –161 dBm
+	- Reaquisição de Sinal: –160 dBm 
+	- Inicialização a Frio: –147 dBm
+	- Inicialização a Quente: –155 dBm 
+- Redes GNSS alcançáveis: GPS, Galileo, SBAS e QZSS
+- Precisão no plano horizontal: 2,5m (CEP)
+
+Características Elétricas:
+- Tensão de operação: 1,65V a 3,6V
+- Tensão da bateria 1,4V a 3,6V
+- Consumo de corrente: 
+	- Pico Máximo: 67mA
+	- Aquisição: 22mA
+	- Rastreamento (Contínuo): 17 mA
+
+Tempo para FIX:
+- Inicialização a Frio:  30s
+- Inicialização com ajuda: 5s
+- Inicialização a Quente: 1s
+
+### NEO-6M - Chip de Localização GNSS
+
+Informações Gerais:
+- Interface: UART, I2C (400kbps) e SPI
+- Temperatura de operação: -40°C a 85°C
+
+Leitura:
+- Sensibilidade: 
+	- Rastreamento: –167 dBm
+	- Reaquisição de Sinal: –161 dBm 
+	- Inicialização a Frio: –147 dBm
+	- Inicialização a Quente: –156 dBm 
+- Redes GNSS alcançáveis: GPS
+- Precisão no plano horizontal: 2,5m (CEP)
+
+Características Elétricas:
+- Tensão de operação: 2,7V a 3,6V
+- Tensão da bateria 1,4V a 3,6V
+- Consumo de corrente: 
+	- Pico Máximo: 67mA
+	- Aquisição: 27mA a 34mA
+	- Rastreamento (Contínuo): 37 mA
+
+Tempo para FIX:
+- Inicialização a Frio:  27s
+- Inicialização com ajuda: < 3s
+- Inicialização a Quente: 1s
+
+### BN-220 - Chip de Localização GNSS
+
+Informações Gerais:
+- Interface: UART (4,8kbps a 92,16kbps)
+- Temperatura de operação: -40°C a 85°C
+
+Leitura:
+- Sensibilidade: 
+	- Rastreamento: –167 dBm
+	- Reaquisição de Sinal: –160 dBm 
+	- Inicialização a Frio: –148 dBm
+	- Inicialização a Quente: –156 dBm 
+- Redes GNSS alcançáveis: GPS, GLONASS, Galileo, BeiDou, QZSS e SBAS
+- Precisão no plano horizontal: 2,0m (CEP)
+
+Características Elétricas:
+- Tensão de operação: 3,0V a 5,5V
+- Consumo de corrente: 50mA
+
+Tempo para FIX:
+- Inicialização a Frio:  16s
+- Inicialização a Quente: 1s
+
+### L86 - Chip de Localização GNSS
+
+Informações Gerais:
+- Interface: UART (4,8kbps a 92,16kbps)
+- Temperatura de operação: -40°C a 85°C
+
+Leitura:
+- Sensibilidade: 
+	- Rastreamento: –165 dBm
+	- Reaquisição de Sinal: –160 dBm 
+	- Aquisição de Sinal: –148 dBm
+- Redes GNSS alcançáveis: GPS e GLONASS
+- Precisão no plano horizontal: 2,5m (CEP)
+
+Características Elétricas:
+- Tensão de operação: 3,0V a 4,3V
+- Tensão da bateria 1,5V a 4,3V
+- Consumo de corrente: 
+	- Aquisição: 30mA
+	- Rastreamento (Contínuo): 26mA
+	- Standby: 1mA
+
+Tempo para FIX:
+- Inicialização a Frio: 15s
+- Inicialização a Quente: 1s
+
+### ATGM336H - Chip de Localização GNSS
+Informações Gerais:
+- Interface: UART (4,8kbps a 92,16kbps)
+- Temperatura de operação: -40°C a 85°C
+
+Leitura:
+- Sensibilidade: 
+	- Rastreamento: –162 dBm
+	- Reaquisição de Sinal: –160 dBm 
+	- Inicialização a Frio: –148 dBm
+	- Inicialização a Quente: –156 dBm 
+- Redes GNSS alcançáveis: GPS, QZSS, SBAS, GLONASS, BeiDou e Galileo
+- Precisão: 2,0m (CEP)
+
+Características Elétricas:
+- Tensão de operação: 2,7V a 3,6V
+- Tensão da bateria 1,5V a 3,6V
+- Consumo de corrente: 
+	- Pico Máximo: 100mA
+	- Típico: 25mA
+
+Tempo para FIX:
+- Inicialização a Frio:  35s
+- Inicialização a Quente: 1s
+
 ---
