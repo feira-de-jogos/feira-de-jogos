@@ -1,6 +1,6 @@
 # Versão 2
 
-Há páginas dedicadas tanto ao [*hardware*](./hardware.md) quanto ao [*software*](./software.md) da Feira. 
+Há páginas dedicadas tanto ao [*hardware*](./hardware.md) quanto ao [*software*](./software.md) da Feira.
 
 ## Requisitos do sistema
 
@@ -69,7 +69,7 @@ sequenceDiagram
   Servidor Web -->+ Banco de Dados: DML SQL
   Banco de Dados -->- Servidor Web: resposta do DML
   Servidor Web ->>- Usuário: resposta do POST
-``` 
+```
 
 Fluxo de escolha do servidor Web na resposta à requisição do usuário:
 

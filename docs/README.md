@@ -10,7 +10,7 @@ Assim, surgiu a Feira de Jogos, um projeto de ensino e pesquisa para apresentar 
 
 Nos anos anteriores, já havia os jogos, mas faltava  atrair o público. Uma inovação em relação aos anos anteriores foi que cada jogo, uma vez terminado, rende dinheiro virtual, os **Tijolinhos** (**$TJL**), para serem gastos na Feira: troca de brindes e doces, jogos antigos na *lanhouse* etc.
 
-Foi preciso, assim, pensar na [economia](./economia.md) da Feira, bem como nos serviços.md e padrões para manter todo o evento. Segue o mapa mental da ideia geral:
+Foi preciso, assim, pensar na [economia](./economia.md) da Feira, bem como nos serviços e padrões para manter todo o evento. Segue o mapa mental da ideia geral:
 
 ![Diagrama do funcionamento da feira](imagens/infografico.jpg)
 

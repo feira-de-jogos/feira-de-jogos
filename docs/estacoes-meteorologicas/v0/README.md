@@ -2,7 +2,7 @@
 
 Esta primeira versão contém apenas os sensores básicos e conexão direta à Internet via Wi-Fi.
 
-## Andamento da versão:
+## Andamento da versão
 
 Sensores instalados:
 
@@ -57,11 +57,9 @@ Observações:
 - Para identificação das mensagens enviadas e das estações ativas será usado o sistema de `UUIDs`:
   - `fa875d3f-d1ef-4c27-b774-b41c69d70608` - **1ª estação V0**.
 
+## Dados provenientes do prof. Clayrton
 
---- 
- # Dados provenientes do prof. Clayrton 
-
- ## Possíveis sensores:
+### Possíveis sensores
 
 Temperatura:
 
@@ -123,8 +121,8 @@ Fonte: [Eletrogate](https://www.eletrogate.com/real-time-clock-rtc-ds3231).
 | MQ8G | inteiro | 100 a 10.000 | ppm |
 | MQ135 | inteiro | 10 a 1.000   | ppm |
 
+### Dados sobre a  versãi antiga
 
-### Dados sobre a  V0 antiga:
 ![ligação](./prototipagem.png)
 Esquemático
 
@@ -152,8 +150,6 @@ Esquemático
 | 6                   | Umidade                      | %                      |
 | 7                   | Luminosidade                 | %                      |
 
----
-
 ### Grandezas solicitadas
 
 Conforme reunião realizada em 12/02/2025 as principais grandezas a serem monitoradas consistem em:
@@ -170,4 +166,3 @@ Conforme reunião realizada em 12/02/2025 as principais grandezas a serem monito
 |Qualidade do ar (N2, O2)* (ppm)|Humberto|
 |Tempo real (segundos)|Clayrton|
 |Intensidade de chuva (mm)|Paulo|
-

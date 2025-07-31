@@ -49,7 +49,8 @@ Objetivos:
 | **HIH-4031**  | 0 a 100   | ±3,5%                | ADC 12 bits   | ±1.2%/ano          | SMD               | —               | 200µA / 500µA      | Analógica         | 5s (1/e 63%)        | [~570,96R$](https://br.mouser.com/ProductDetail/Honeywell/HIH-4031-003?qs=yJVtgANCw03sE9P%2FDzBvRA%3D%3D)                                                                                       |
 | **HR202L**     | 20 a 95   | ±5%                  | ADC 12 bits   | ±1%/ano            | PTH               | —               | 0,2mW  (Tensão CA) | Analógica         | 20s ~ 40s (1/e 63%) | [5,13R$](https://www.makerhero.com/produto/sensor-de-umidade-hr202l-higrometro/)                                                                                                                |
 
-## Pressão:
+## Pressão
+
 | Sensor      | Faixa (hPa) | Precisão (typ./máx.) | Resolução    | Deriva Longo Prazo | Encapsulamento  | Consumo Standby | Consumo Ativo  | Interface | Tempo de Resposta | Valor para compra                                                                                                                                        |
 | ----------- | ----------- | -------------------- | ------------ | ------------------ | --------------- | --------------- | -------------- | --------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **LPS22HB** | 260 a 1260  | ±0,1hPa / ±1,0hPa    | 24 bits      | —                  | HLGA-10L        | 1µA             | 12µA           | I2C / SPI | 2,5ns ~100ns      | N/A
@@ -61,7 +62,7 @@ Objetivos:
 | **HP203B**  | 300 a 1200  | ±1,5hPa / ±3,0hPa    | 20 bits (Pa) | ±1.5hPa/ano        | LGA             | 0,1µA           | 1,3mA          | I2C       | 2,1ms ~ 78,ms     | N/A                                                |
 | **LPS33H**  | 260 a 1260  | ±1,0hPa / ±2,5hPa    | 24 bits      | ±1hPa/ano          | CCLGA 10L       | 1µA             | 12µA           | I2C / SPI | 13ms ~ 300ms      | N/A                                                                         |
 
-## GNSS:
+## GNSS
 
 | Sensor   | Redes GNSS Suportadas                      | Sensibilidade<br>(Rastreamento/<br>Cold Start) | Precisão (CEP) | Temperatura<br>de operação | Tempo para Fix           | Interface                                         | Consumo em rastreamento | Valor para compra                                                                                                                                                                                                                   |
 | -------- | ------------------------------------------ | ---------------------------------------------- | -------------- | -------------------------- | ------------------------ | ------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -72,9 +73,8 @@ Objetivos:
 | L86      | GPS e GLONASS                              | –165 dBm /<br>–148 dBm                         | 2,5m           | -40°C a 85°C               | 15s (Frio) / 1s (Quente) | UART (4,8kbps a 92,16kbps)                        | 26mA                    | N/A                                                                                                                                                                                                                                 |
 | ATGM336H | GPS, QZSS, SBAS, GLONASS, BeiDou e Galileo | –162 dBm /<br>–148 dBm                         | 2,0m           | -40°C a 85°C               | 35s (Frio) / 1s (Quente) | UART (4,8kbps a 92,16kbps)                        | 25mA                    | [99,71R$](https://curtocircuito.com.br/modulo-gps-atgm336h.html)                                                                                                                                                                    |
 
-
-
 ---
+
 ## Informações sobre os sensores
 
 ### SHT31-DIS - Sensor Digital de Temperatura e Umidade
@@ -603,6 +603,7 @@ Tempo de resposta:
 ### HIH-4031 - Sensor Analógico de Umidade
 
 Informações Gerais:
+
 - Interface: Analógica
 Umidade Relativa:
 - Faixa: 0% a 100% (máx.)
@@ -611,9 +612,11 @@ Umidade Relativa:
 - Deriva de longo prazo: ±1.2%/ano
 
 Tipos de Encapsulamento:
+
 - **SMD**
 
 Características Elétricas:
+
 - Tensão de operação: 4V a 5,8V
 - Consumo de corrente (Constante):  200µA (typ.) e 500µA (máx.)
 Tempo de Resposta:
@@ -622,6 +625,7 @@ Tempo de Resposta:
 ### HR202L - Sensor Analógico de Umidade
 
 Informações Gerais:
+
 - Interface: Analógica
 Umidade Relativa:
 - Faixa: 20% a 95% (operacional)
@@ -630,9 +634,11 @@ Umidade Relativa:
 - Deriva de longo prazo: ±1%/ano
 
 Tipos de Encapsulamento:
+
 - **PTH**
 
 Características Elétricas:
+
 - Alimentação recomendada: 1 VAC (senoidal), 1 kHz
 - Tensão: 1.5 VAC (máx.)
 - Potência: 0.2 mW (máx.)
@@ -645,9 +651,11 @@ Tempo de Resposta:
 ### LPS22HB - Sensor Digital de Temperatura e Pressão
 
 Informações Gerais:
+
 - Interface: I2C (até 400kHz) e SPI
 
 Pressão:
+
 - Faixa: 260hPa a 1260hPa
 - Precisão: ±0,1hPa (typ.) e ±1hPa (máx.)
 - Resolução: 24 bits
@@ -658,6 +666,7 @@ Temperatura:
 - Resolução: 0,01ºC
 
 Tipos de Encapsulamento:
+
 - **HLGA-10L**
 Características Elétricas:
 
@@ -666,169 +675,203 @@ Características Elétricas:
 - Consumo de corrente (Standby): 1µA (máx.)
 
 Tempo de Resposta:
+
 - SPI: 100ns
 - I2C: 2,5 - 10µs
 
 ### MS5611 - Sensor Digital de Temperatura e Pressão
 
 Informações Gerais:
+
 - Interface: I2C e SPI (até 20MHz)
 
 Pressão:
+
 - Faixa: 10mbar a 1200mbar
 - Precisão: ±1,5mbar (typ.) e ±2,5mbar (máx.)
 - Resolução: 24 bits
 - Deriva de longo prazo: ±1mbar/ano
 
 Temperatura:
+
 - Faixa: -40ºC a 85ºC
 - Precisão: ±0,8ºC
 - Resolução: 24 bits
 
 Tipos de Encapsulamento:
+
 - **QFN**
 
 Características Elétricas:
+
 - Tensão de operação: 1,8V a 3,6V
 - Consumo de corrente (Ativo):  1,4mA (máx.)
 - Consumo de corrente (Standby): 0,14µA (máx.)
 
 Tempo de Resposta:
+
 - Resolução máxima: 8,22ms
 
 ### BMP180 - Sensor Digital de Temperatura e Pressão
 
 Informações Gerais:
+
 - Interface: I2C (clock máximo de 3,4 MHz)
 
 Temperatura:
+
 - Faixa: -40°C a 85°C
 - Precisão: ±0,5°C (typ.) e ±2,0°C (máx.)
-- Resolução: 0,1ºC 
+- Resolução: 0,1ºC
 
 Pressão:
+
 - Faixa: 300hPa a 1100hPa
 - Precisão: ±1,0hPa (typ.) e ±4,5hPa (máx.)
 - Resolução: 0,01hPa
 - Deriva de longo prazo: ±1,0hPa/ano
 
 Tipos de Encapsulamento:
+
 - ***8-pin metal-lid LGA***
 
 Características Elétricas:
+
 - Tensão de operação: 1,8V a 3,6V
 - Consumo de corrente (Ativo):  650µA (typ.) e 1,0mA (máx)
 - Consumo de corrente (Standby): 0,1µA (typ.) e 4µA (máx.)
 
  Tempo de Resposta:
+
 - Tempo de medição: 4,5ms (menor resolução), 76,5ms (maior resolução)
 
 ### DPS310 - Sensor Digital de Temperatura e Pressão
 
 Informações Gerais:
+
 - Interface: I2C (clock máximo de 3,4 MHz) e SPI (Até 10MHz)
 
 Temperatura:
+
 - Faixa: -40°C a 85°C
 - Precisão: ±0.5°C (typ.) e ±1,0°C (máx.)
 - Resolução: 0,01ºC
 
 Pressão:
+
 - Faixa: 300hPa a 1200hPa
 - Precisão: ±1hPa
 - Resolução: ±0,002 hPa
 
 Tipos de Encapsulamento:
+
 - ***8-pin LGA***
 
 Características Elétricas:
+
 - Tensão de operação: 1,7V a 3,6V
 - Consumo de corrente (Ativo):  280µA (typ.) e 345µA (máx)
 - Consumo de corrente (Standby): 0,5µA
 
 Tempo de Resposta:
-- Tempo de medição: 5,2ms (menor resolução), 105ms (maior resolução)
 
+- Tempo de medição: 5,2ms (menor resolução), 105ms (maior resolução)
 
 ### HP203B - Sensor Digital de Temperatura e Pressão
 
 Informações Gerais:
+
 - Interface: I2C (clock máximo de 400kHz)
 
 Temperatura:
+
 - Faixa: -40°C a 85°C
 - Precisão: ±0,5°C (typ.) e ±3,0°C (máx.)
 - Resolução: 20 bits
 
 Pressão:
+
 - Faixa: 300mbar a 1200mbar
 - Precisão: ±1,5mbar (typ.) e ±3,0mbar (máx.)
 - Resolução: 20 bits (em Pa)
 - Deriva de longo prazo: ±1,5mbar/ano
 
 Tipos de Encapsulamento:
+
 - ***8-pin LGA***
 
 Características Elétricas:
+
 - Tensão de operação: 1,8V a 3,6V
 - Consumo de corrente (Ativo):  1,3mA
 - Consumo de corrente (Standby): < 0,1μA
 
 Tempo de Resposta:
+
 - Tempo de medição: 2,1ms (menor resolução), 78,7ms (maior resolução)
 
 ### LPS33HW - Sensor Digital de Temperatura e Pressão
 
 Informações Gerais:
+
 - Interface: I2C (clock máximo de 3,4 MHz) e SPI (Até 10MHz)
 
 Temperatura:
+
 - Faixa: -40°C a 85°C
 - Precisão: N/A
 - Resolução: 0,01ºC
 
 Pressão:
+
 - Faixa: 260hPa a 1260hPa
 - Precisão: ±1hPa (typ.) e ±2,5hPa (máx.)
 - Resolução: 24 bits
 - Deriva de longo prazo: 1hPa/ano
 
 Tipos de Encapsulamento:
+
 - ***CCLGA 10L***
 
 Características Elétricas:
+
 - Tensão de operação: 1,7V a 3,6V
 - Consumo de corrente (Ativo):  12µA
 - Consumo de corrente (Standby): 1µA
 
 Tempo de Resposta:
+
 - **Sem filtro:** ~13 ms (ODR = 75Hz)
 - **Com filtro RMS:** ~200–300 ms (ODR = 75Hz)
 
 ### NEO-M8N - Chip de Localização GNSS
 
 Informações Gerais:
+
 - Interface: UART (9,6kbps), I2C (400kbps) e SPI (até 1,0Mbps)
 - Temperatura de operação: -40°C a 85°C
 
 Leitura:
-- Sensibilidade: 
-	- Rastreamento: –167 dBm
-	- Reaquisição de Sinal: –160 dBm 
-	- Inicialização a Frio: –148 dBm
-	- Inicialização a Quente: –156 dBm 
+
+- Sensibilidade:
+  - Rastreamento: –167 dBm
+  - Reaquisição de Sinal: –160 dBm
+  - Inicialização a Frio: –148 dBm
+  - Inicialização a Quente: –156 dBm
 - Redes GNSS alcançáveis: GPS, QZSS, SBAS, GLONASS, BeiDou e Galileo
 - Precisão no plano horizontal: 2,5m (CEP)
 
 Características Elétricas:
+
 - Tensão de operação: 2,7V a 3,6V
 - Tensão da bateria 1,4V a 3,6V
 - Consumo de corrente:
-	- Pico Máximo: 67mA
-	- Aquisição: 27mA a 34mA
-	- Rastreamento (Contínuo): 26,5mA a 34mA
+  - Pico Máximo: 67mA
+  - Aquisição: 27mA a 34mA
+  - Rastreamento (Contínuo): 26,5mA a 34mA
 
 Tempo para FIX:
+
 - Inicialização a Frio:  27s
 - Inicialização com ajuda: 4s
 - Inicialização a Quente: 1s
@@ -836,27 +879,31 @@ Tempo para FIX:
 ### NEO-7M - Chip de Localização GNSS
 
 Informações Gerais:
+
 - Interface: UART, I2C (400kbps) e SPI (até 1,0Mbps)
 - Temperatura de operação: -40°C a 85°C
 
 Leitura:
-- Sensibilidade: 
-	- Rastreamento: –161 dBm
-	- Reaquisição de Sinal: –160 dBm 
-	- Inicialização a Frio: –147 dBm
-	- Inicialização a Quente: –155 dBm 
+
+- Sensibilidade:
+  - Rastreamento: –161 dBm
+  - Reaquisição de Sinal: –160 dBm
+  - Inicialização a Frio: –147 dBm
+  - Inicialização a Quente: –155 dBm
 - Redes GNSS alcançáveis: GPS, Galileo, SBAS e QZSS
 - Precisão no plano horizontal: 2,5m (CEP)
 
 Características Elétricas:
+
 - Tensão de operação: 1,65V a 3,6V
 - Tensão da bateria 1,4V a 3,6V
-- Consumo de corrente: 
-	- Pico Máximo: 67mA
-	- Aquisição: 22mA
-	- Rastreamento (Contínuo): 17 mA
+- Consumo de corrente:
+  - Pico Máximo: 67mA
+  - Aquisição: 22mA
+  - Rastreamento (Contínuo): 17 mA
 
 Tempo para FIX:
+
 - Inicialização a Frio:  30s
 - Inicialização com ajuda: 5s
 - Inicialização a Quente: 1s
@@ -864,27 +911,31 @@ Tempo para FIX:
 ### NEO-6M - Chip de Localização GNSS
 
 Informações Gerais:
+
 - Interface: UART, I2C (400kbps) e SPI
 - Temperatura de operação: -40°C a 85°C
 
 Leitura:
-- Sensibilidade: 
-	- Rastreamento: –167 dBm
-	- Reaquisição de Sinal: –161 dBm 
-	- Inicialização a Frio: –147 dBm
-	- Inicialização a Quente: –156 dBm 
+
+- Sensibilidade:
+  - Rastreamento: –167 dBm
+  - Reaquisição de Sinal: –161 dBm
+  - Inicialização a Frio: –147 dBm
+  - Inicialização a Quente: –156 dBm
 - Redes GNSS alcançáveis: GPS
 - Precisão no plano horizontal: 2,5m (CEP)
 
 Características Elétricas:
+
 - Tensão de operação: 2,7V a 3,6V
 - Tensão da bateria 1,4V a 3,6V
-- Consumo de corrente: 
-	- Pico Máximo: 67mA
-	- Aquisição: 27mA a 34mA
-	- Rastreamento (Contínuo): 37 mA
+- Consumo de corrente:
+  - Pico Máximo: 67mA
+  - Aquisição: 27mA a 34mA
+  - Rastreamento (Contínuo): 37 mA
 
 Tempo para FIX:
+
 - Inicialização a Frio:  27s
 - Inicialização com ajuda: < 3s
 - Inicialização a Quente: 1s
@@ -892,74 +943,87 @@ Tempo para FIX:
 ### BN-220 - Chip de Localização GNSS
 
 Informações Gerais:
+
 - Interface: UART (4,8kbps a 92,16kbps)
 - Temperatura de operação: -40°C a 85°C
 
 Leitura:
-- Sensibilidade: 
-	- Rastreamento: –167 dBm
-	- Reaquisição de Sinal: –160 dBm 
-	- Inicialização a Frio: –148 dBm
-	- Inicialização a Quente: –156 dBm 
+
+- Sensibilidade:
+  - Rastreamento: –167 dBm
+  - Reaquisição de Sinal: –160 dBm
+  - Inicialização a Frio: –148 dBm
+  - Inicialização a Quente: –156 dBm
 - Redes GNSS alcançáveis: GPS, GLONASS, Galileo, BeiDou, QZSS e SBAS
 - Precisão no plano horizontal: 2,0m (CEP)
 
 Características Elétricas:
+
 - Tensão de operação: 3,0V a 5,5V
 - Consumo de corrente: 50mA
 
 Tempo para FIX:
+
 - Inicialização a Frio:  16s
 - Inicialização a Quente: 1s
 
 ### L86 - Chip de Localização GNSS
 
 Informações Gerais:
+
 - Interface: UART (4,8kbps a 92,16kbps)
 - Temperatura de operação: -40°C a 85°C
 
 Leitura:
-- Sensibilidade: 
-	- Rastreamento: –165 dBm
-	- Reaquisição de Sinal: –160 dBm 
-	- Aquisição de Sinal: –148 dBm
+
+- Sensibilidade:
+  - Rastreamento: –165 dBm
+  - Reaquisição de Sinal: –160 dBm
+  - Aquisição de Sinal: –148 dBm
 - Redes GNSS alcançáveis: GPS e GLONASS
 - Precisão no plano horizontal: 2,5m (CEP)
 
 Características Elétricas:
+
 - Tensão de operação: 3,0V a 4,3V
 - Tensão da bateria 1,5V a 4,3V
-- Consumo de corrente: 
-	- Aquisição: 30mA
-	- Rastreamento (Contínuo): 26mA
-	- Standby: 1mA
+- Consumo de corrente:
+  - Aquisição: 30mA
+  - Rastreamento (Contínuo): 26mA
+  - Standby: 1mA
 
 Tempo para FIX:
+
 - Inicialização a Frio: 15s
 - Inicialização a Quente: 1s
 
 ### ATGM336H - Chip de Localização GNSS
+
 Informações Gerais:
+
 - Interface: UART (4,8kbps a 92,16kbps)
 - Temperatura de operação: -40°C a 85°C
 
 Leitura:
-- Sensibilidade: 
-	- Rastreamento: –162 dBm
-	- Reaquisição de Sinal: –160 dBm 
-	- Inicialização a Frio: –148 dBm
-	- Inicialização a Quente: –156 dBm 
+
+- Sensibilidade:
+  - Rastreamento: –162 dBm
+  - Reaquisição de Sinal: –160 dBm
+  - Inicialização a Frio: –148 dBm
+  - Inicialização a Quente: –156 dBm
 - Redes GNSS alcançáveis: GPS, QZSS, SBAS, GLONASS, BeiDou e Galileo
 - Precisão: 2,0m (CEP)
 
 Características Elétricas:
+
 - Tensão de operação: 2,7V a 3,6V
 - Tensão da bateria 1,5V a 3,6V
-- Consumo de corrente: 
-	- Pico Máximo: 100mA
-	- Típico: 25mA
+- Consumo de corrente:
+  - Pico Máximo: 100mA
+  - Típico: 25mA
 
 Tempo para FIX:
+
 - Inicialização a Frio:  35s
 - Inicialização a Quente: 1s
 

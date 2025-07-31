@@ -40,11 +40,17 @@ Requisitos não funcionais:
 De acordo com [#5](https://github.com/feira-de-jogos/feira-de-jogos/issues/5), [#6](https://github.com/feira-de-jogos/feira-de-jogos/issues/6) e [#7](https://github.com/feira-de-jogos/feira-de-jogos/issues/7), os serviços estão assim interligados:
 
 ```mermaid
-flowchart LR
+flowchart TD
 
-subgraph Usuário
-  A[Frontend]
-  B[Estação Meteorológica]
+subgraph Rede Local
+  subgraph Usuário
+    A[Frontend]
+    B[Estação Meteorológica]
+  end
+
+  subgraph cluster de SFU
+    K[1, 2, ..., N]
+  end
 end
 
 subgraph Nuvem
@@ -58,19 +64,22 @@ subgraph Nuvem
 
   subgraph Backend
     subgraph Feira de Jogos
-      subgraph Cluster Node.js + Socket.IO
+      subgraph Cluster da Feira
         G[1, 2, ..., N]
       end
 
       subgraph Servidores dos Jogos
         I[1, 2, ..., N]
       end
+
+      M[SFU]
     end
   end
 
   subgraph Bancos de Dados
-    H[Redis]
-    E[TSDB]
+    H[Chave-valor: Redis]
+    L[SQL: PostgreSQL]
+    E[TSDB: InfluxDB]
   end
 end
 
@@ -92,10 +101,14 @@ C --> J
 J --> E
 
 I ==> E
+
+A --> |SRTP| K
+A --> |SRTP| M
+K ==> L
+M --> L
 ```
 
 Em termos de mensagens, um exemplo é o de entrada em um jogo com sessão válida a partir do *backend* da feira de jogos:
-
 
 ```mermaid
 sequenceDiagram
