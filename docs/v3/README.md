@@ -33,6 +33,7 @@ Requisitos não funcionais:
 - [#11](https://github.com/feira-de-jogos/feira-de-jogos/issues/11): Sinalização de mídia com [Livekit](https://livekit.io/) e lógica de jogo com [Socket.IO](https://socket.io/).
 - [#12](https://github.com/feira-de-jogos/feira-de-jogos/issues/12): (*Selective Forwarding Unit*) SFU com [Livekit](https://livekit.io/).
 - [#13](https://github.com/feira-de-jogos/feira-de-jogos/issues/13): *Single Sign-On* (SSO) via OAuth 2.0  no Google e posterior sessão com o uso de *cookies*.
+- [#22](https://github.com/feira-de-jogos/feira-de-jogos/issues/22): MongoDB para operações além de SQL, além de permitir [dados menos estruturados](./banco-de-dados.md).
 
 ## Integração entre serviços
 

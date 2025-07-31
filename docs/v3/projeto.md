@@ -1,4 +1,6 @@
-# Fluxograma de tarefas do projeto
+# Fluxograma
+
+Tarefas para o desenvolvimento do jogo:
 
 ```mermaid
 flowchart LR
