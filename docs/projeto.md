@@ -16,14 +16,14 @@ proposta, estabeleceu-se como ponto primordial a integração de diferentes disc
 
 ## Objetivos
 
-O objetivo geral deste projeto visa o desenvolvimento de games por parte das equipes dos alunos da oitava fase do Curso Técnico Integrado em Telecomunicações do IFSC Campus São José, tendo como produto final a promoção de uma feira de games para a comunidade escolar. Visando atender o objetivo geral, pode-se citar como objetivos específicos: 
+O objetivo geral deste projeto visa o desenvolvimento de games por parte das equipes dos alunos da oitava fase do Curso Técnico Integrado em Telecomunicações do IFSC Campus São José, tendo como produto final a promoção de uma feira de games para a comunidade escolar. Visando atender o objetivo geral, pode-se citar como objetivos específicos:
 
 1. Integrar diferentes unidades curriculares de tal forma que seja viável a
-compreensão dos conhecimentos necessários para o desenvolvimento dos games; 
-1. Estimular e melhorar o processo de ensino e aprendizagem com problemas reais, desenvolvendo o protagonismo discente por meio de práticas que estimulem a busca por conhecimentos pautado especialmente na resolução de problemas, posicionando aos alunos uma visão mais ampla do que a de usuários; 
-1. Estimular a criatividade e a capacidade de inovação dos alunos para o desenvolvimento das gameplays (enredo, histórias, fases, personagens, etc.); 
-1. Buscar parcerias para que este projeto possa se tornar um evento recorrente no Campus; 
-1. Implementar a organização, montagem e implementação da feira de games no hall principal do campus, atuando no sentido de viabilizar a infraestrutura de hardware e software necessárias à sua implementação; e 
+compreensão dos conhecimentos necessários para o desenvolvimento dos games;
+1. Estimular e melhorar o processo de ensino e aprendizagem com problemas reais, desenvolvendo o protagonismo discente por meio de práticas que estimulem a busca por conhecimentos pautado especialmente na resolução de problemas, posicionando aos alunos uma visão mais ampla do que a de usuários;
+1. Estimular a criatividade e a capacidade de inovação dos alunos para o desenvolvimento das gameplays (enredo, histórias, fases, personagens, etc.);
+1. Buscar parcerias para que este projeto possa se tornar um evento recorrente no Campus;
+1. Implementar a organização, montagem e implementação da feira de games no hall principal do campus, atuando no sentido de viabilizar a infraestrutura de hardware e software necessárias à sua implementação; e
 1. Prover a divulgação dos cursos e das atividades desenvolvidas neste contexto para a comunidade (interna/externa).
 
 ## Máquina de Vendas Automática (*Vending Machine*)
@@ -96,7 +96,7 @@ Descrição: Outra opção seria a implementação de leitor RF Id, com o auxíl
 ### Fase 3 (Confirmação do Débito)
 
 - Confirmar com senha???;
-- Débito na conta 
+- Débito na conta
 
 Descrição: Digitar no teclado numérico o código de usuário (4 dígitos), o qual busca no BD o “nickname” do usuário e seu saldo, apresentado no display.
 
