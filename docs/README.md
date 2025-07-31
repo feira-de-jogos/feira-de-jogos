@@ -22,7 +22,7 @@ As *tags* se referem a determinados *commits*, já as versões (*releases*) se d
 
 Prefixo de *tags*:
 
-- `3d`: projetos 3D para dispositivos físicos, como estações meteorológicas e outros.
+- `es`: estruturas para dispositivos físicos, como estações meteorológicas e outros.
 - `hw`: projeto elétrico (esquemáticos etc.) e código fonte para embarcados.
 - `sw`: código fonte para *frontend* e *backend*, bem como implantação e serviços de nuvem.
 - `v`: versões de produção. No GitHub, será usado para as *releases*.
