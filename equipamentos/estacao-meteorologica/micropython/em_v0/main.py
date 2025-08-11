@@ -5,14 +5,13 @@ from libs.gps_fix_manager import GPSFixManager
 from time import sleep, time, mktime
 from machine import Pin, I2C, ADC, SPI
 
+led = Pin(2, Pin.OUT)
+led.value(1)
+
 i2c0 = I2C(0, scl=Pin(22), sda=Pin(21), freq=10000)
 i2c1 = I2C(1, sda=Pin(4), scl=Pin(5))
 spi = SPI(1, baudrate=1_000_000, polarity=0, phase=0, sck=Pin(18), mosi=Pin(23), miso=Pin(19))
 cs = Pin(27, Pin.OUT)
-led = Pin(2, Pin.OUT)
-led.value(0)
-sleep(1)
-led.value(1)
 
 dotenv.load_env()
 topico_data = 'em/' + str(dotenv.MQTT_ID)
@@ -161,6 +160,7 @@ conecta_wifi()
 client = MQTTClient(dotenv.MQTT_ID,dotenv.MQTT_BROKER, port=dotenv.MQTT_PORT)
 client.connect()
 
+led.value(0)
 while True:
     inicio = time()
 
@@ -218,3 +218,5 @@ while True:
         sleep(60 - tempo_execucao)
     else:
         print('Tempo de execução excedido: ' + str(tempo_execucao))
+
+
