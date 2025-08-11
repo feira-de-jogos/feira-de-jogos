@@ -52,6 +52,7 @@ Observações:
 
 - Os dados são enviados via MQTT para o *broker* da feira de jogos.
 - A versão `0` já está operacional.
+- Antes de qualquer boot, a estação fica congelada por 5 minutos para aquecer os sensores.
 - O GPS instalado fornece dados de altitude, longitude e latitude que são checadas 3 vezes pelo mesmo na inicialização. Os dados de GPS só são atualizados caso haja mudança de mais de 500m, e são armazenados em arquivo `fix.json`.
 - Os dados sensíveis marcados no código com `dotenv.` são armazenados no arquivo `config.env`. São eles: credenciais do Wi-Fi e informações do *broker* MQTT.
 - Para identificação das mensagens enviadas e das estações ativas será usado o sistema de `UUIDs`:

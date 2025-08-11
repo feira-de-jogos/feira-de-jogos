@@ -4,12 +4,9 @@ Objetivos:
 
 - Aprimorar a versão 0 com sensores melhores para garantir mais qualidade e confiabilidade dos dados coletados.
 - Adicionar os sensores requisitados que não foram instalados na v0.
+- Para identificação das mensagens enviadas e das estações ativas será usado o sistema de `UUIDs`:
+  - `88a2e875-30a9-49b5-ab15-4a185eaa85e3` - **1ª estação V1 (Testes)**.
 
-## Bibliotecas utilizadas para os testes
-
-[SD](https://github.com/avovk1/micropython_sdcard/blob/main/sdcard.py)
-[ATHx0](https://github.com/targetblank/micropython_ahtx0/blob/master/ahtx0.py)
-[BMP280](https://github.com/PaszaVonPomiot/micropython-driver-bmp280)
 
 ## Tabelas Comparativas
 
