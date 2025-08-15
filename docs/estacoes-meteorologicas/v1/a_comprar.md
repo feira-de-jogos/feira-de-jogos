@@ -41,9 +41,7 @@
 - 2x [Módulo cartão SD](https://www.eletrogate.com/modulo-sd-card) | Eletrogate (02 unid.)
 - 2x [Multiplexador I2C](https://www.usinainfo.com.br/conversores-de-sinal/multiplexador-tca9548a-i2c-1-a-8-canais-5986.html)
 - 2x [Acelerometro/Giroscopio](https://www.makerhero.com/produto/acelerometro-e-giroscopio-3-eixos-6-dof-mpu-6050/) | Makerhero (01 unid.)
-
-**Os sensores `SHT85`, `SHT35-DIS` e `SHT31-DIS` são sensores bem parecidos em termos de especificações, além de serem mais caros por causa de sua alta precisão.**
+- Fontes e cabos micro usb para alimentação das estações.
 
 **Adicionei 2 cartões SD para deixar um para a V2, há a opção de cartão SD ou Micro SD.**
-
-** Concentraremos a compra de mídias para o formato microSD com a finalidade de intercambiar entre dispositivos. Para a Estação Meteorológica em campo vamos utilizar o cartão microSD mediante adaptador microSD/SD. **
+**Concentraremos a compra de mídias para o formato microSD com a finalidade de intercambiar entre dispositivos. Para a Estação Meteorológica em campo vamos utilizar o cartão microSD mediante adaptador microSD/SD.**
