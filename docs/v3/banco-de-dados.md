@@ -5,6 +5,23 @@ Esquema do banco de dados não relacional:
 ![Esquema MongoDB](../imagens/db-schema-v3.png)
 
 ```js
+db.createCollection("games", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      title: "games",
+      required: ["_id", "name", "url"],
+      properties: {
+        "_id": { bsonType: "objectId" },
+        "name": { bsonType: "string" },
+        "description": { bsonType: "string" },
+        "url": { bsonType: "string" },
+        "categories": { bsonType: "array", items: { bsonType: "string" } },
+      },
+    },
+  },
+});
+
 db.createCollection("operations", {
   validator: {
     $jsonSchema: {
@@ -21,44 +38,6 @@ db.createCollection("operations", {
         "description": { bsonType: "string" },
         "value": { bsonType: "int" },
         "timestamp": { bsonType: "timestamp" },
-      },
-    },
-  },
-});
-
-db.createCollection("users", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      title: "users",
-      required: ["_id", "email", "name", "balance"],
-      properties: {
-        "_id": { bsonType: "objectId" },
-        "email": { bsonType: "string" },
-        "name": { bsonType: "string" },
-        "photoUrl": { bsonType: "string" },
-        "admin": { bsonType: "bool" },
-        "blocked": { bsonType: "bool" },
-        "balance": { bsonType: "int" },
-        "rankings": { bsonType: "array", items: { bsonType: "object" } },
-        "avatars": { bsonType: "array", items: { bsonType: "object" } },
-      },
-    },
-  },
-});
-
-db.createCollection("games", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      title: "games",
-      required: ["_id", "name", "url"],
-      properties: {
-        "_id": { bsonType: "objectId" },
-        "name": { bsonType: "string" },
-        "description": { bsonType: "string" },
-        "url": { bsonType: "string" },
-        "categories": { bsonType: "array", items: { bsonType: "string" } },
       },
     },
   },
@@ -108,6 +87,27 @@ db.createCollection("foods", {
         "description": { bsonType: "string" },
         "image": { bsonType: "binData" },
         "value": { bsonType: "int" },
+      },
+    },
+  },
+});
+
+db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      title: "users",
+      required: ["_id", "email", "name", "balance"],
+      properties: {
+        "_id": { bsonType: "objectId" },
+        "email": { bsonType: "string" },
+        "name": { bsonType: "string" },
+        "photoUrl": { bsonType: "string" },
+        "admin": { bsonType: "bool" },
+        "blocked": { bsonType: "bool" },
+        "balance": { bsonType: "int" },
+        "rankings": { bsonType: "array", items: { bsonType: "object" } },
+        "avatars": { bsonType: "array", items: { bsonType: "object" } },
       },
     },
   },
