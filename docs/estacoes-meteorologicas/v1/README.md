@@ -71,7 +71,18 @@ Objetivos:
 | NEO-6M   | GPS                                        | –167 dBm /<br>–147 dBm                         | 2,5m           | -40°C a 85°C               | 27s (Frio) / 1s (Quente) | UART, I2C (400kbps) e SPI                         | 37mA                    | [35,31R$](https://loja.fabricadebolso.com.br/modulo-neo-6m-gps?utm_source=Site&utm_medium=GoogleShopping&utm_campaign=IntegracaoGoogle)                                                                                               |
 | BN-220   | GPS, GLONASS, Galileo, BeiDou, QZSS e SBAS | –167 dBm /<br>–148 dBm                         | 2,0m           | -40°C a 85°C               | 16s (Frio) / 1s (Quente) | UART (4,8kbps a 92,16kbps)                        | 50mA                    | [90,35R$](https://www.mercadolivre.com.br/modulo-gps-bn-220-com-flash-hmc5883-compass-glonass-beidou/p/MLB2000803226?matt_tool=18956390&utm_source=google_shopping&utm_medium=organic&pdp_filters=item_id:MLB5241942678&from=gshop) |
 | L86      | GPS e GLONASS                              | –165 dBm /<br>–148 dBm                         | 2,5m           | -40°C a 85°C               | 15s (Frio) / 1s (Quente) | UART (4,8kbps a 92,16kbps)                        | 26mA                    | N/A                                                                                                                                                                                                                                 |
-| ATGM336H | GPS, QZSS, SBAS, GLONASS, BeiDou e Galileo | –162 dBm /<br>–148 dBm                         | 2,0m           | -40°C a 85°C               | 35s (Frio) / 1s (Quente) | UART (4,8kbps a 92,16kbps)                        | 25mA                    | [99,71R$](https://curtocircuito.com.br/modulo-gps-atgm336h.html)                                                                                                                                                                    |
+| ATGM336H | GPS, QZSS, SBAS, GLONASS, BeiDou e Galileo | –162 dBm /<br>–148 dBm                         | 2,0m           | -40°C a 85°C               | 35s (Frio) / 1s (Quente) | UART (4,8kbps a 92,16kbps)                        | 25mA                    | [99,71R$](https://curtocircuito.com.br/modulo-gps-atgm336h.html)                                                                                                                                                             
+
+## Piranômetro:
+
+| Sensor    | Material detector   | Faixa de leitura                  | Sensibilidade  | Ambiente<br>de operação                         | Faixa espectral | Interface | Consumo         | Uso                                                 | Zero offset                                                              | Valor para compra |
+| --------- | ------------------- | --------------------------------- | -------------- | ----------------------------------------------- | --------------- | --------- | --------------- | --------------------------------------------------- | ------------------------------------------------------------------------ | ----------------- |
+| SP-110-SS | Célula fotovoltaica | Sem limites (célula fotovoltaica) | 0,2mV/Wm⁻²     | -40ºC a 70ºC (temperatura),  0 a 100% (umidade) | 360nm a 1120nm  | Analógica | Autoalimentação | Upward-Looking (mede radiação incidente)            | N/A                                                                      | N/A               |
+| SP-510-SS | Termopilha          | 0Wm⁻² a 2000 Wm⁻²<br>             | 0,045mV/Wm⁻²   | -50ºC a 80ºC (temperatura),  0 a 100% (umidade) | 385nm a 2105nm  | Analógica | 15,4mA (12V)    | Upward-Looking (mede radiação incidente)            | < 2Wm⁻² (sem aquecedor), < 10Wm⁻² (com aquecedor)                        | N/A               |
+| SP-610-SS | Termopilha          | 0Wm⁻² a 2000 Wm⁻²<br>             | 0,035mV/Wm⁻²   | -50ºC a 80ºC (temperatura),  0 a 100% (umidade) | 370nm a 2240nm  | Analógica | 15,4mA (12V)    | Downward-Looking (mede radiação refletida - albedo) | < 2Wm⁻² (sem aquecedor), < 10Wm⁻² (com aquecedor)                        | N/A               |
+| CMP6      | Termopilha          | 0Wm⁻² a 2000 Wm⁻²<br>             | 5 a 20 μV/Wm⁻² | -40ºC a 80ºC (temperatura),  0 a 100% (umidade) | 285nm a 2800nm  | Analógica | Autoalimentação | Upward-Looking (mede radiação incidente)            | < ±2Wm⁻² (radiação do ambiente), < 8Wm⁻² (mudança de temperatura brusca) | N/A               |
+| SR20      | Termopilha          | 0Wm⁻² a 4000 Wm⁻²<br>             | 15μV/Wm⁻²      | -40ºC a 80ºC (temperatura)                      | 285nm a 3000nm  | Analógica | 1,5W (12V)      | Upward-Looking (mede radiação incidente)            | < 5 Wm⁻²                                                                 | N/A               |
+
 
 ---
 
@@ -1026,5 +1037,115 @@ Tempo para FIX:
 
 - Inicialização a Frio:  35s
 - Inicialização a Quente: 1s
+
+
+### SP-110-SS - Piranômetro (célula fotovoltaica)
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -40ºC a 70ºC (temperatura),  0 a 100% (umidade)
+- Upward-Looking (mede radiação incidente)
+
+Leitura:
+- Sensibilidade: 0,2mV/Wm⁻²
+- Deriva de longo prazo: < ±2%/ano
+- Faixa espectral: 360nm a 1120nm
+- Tempo de resposta: < 1ms
+- Resolução: ADC da ESP32 (12 bits)
+- Precisão: < ±3% a 1000 W/m²
+- Campo de visão: 180º
+
+Características Elétricas:
+- Autoalimentação
+- Saída analógica em mV proporcional à irradiância
+
+### SP-510-SS - Piranômetro (termopilha)
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -50ºC a 80ºC (temperatura),  0 a 100% (umidade)
+- Upward-Looking (mede radiação incidente)
+
+Leitura:
+- Sensibilidade: 0,045mV/Wm⁻²
+- Deriva de longo prazo: < ±2%/ano
+- Faixa espectral: 385nm a 2105nm
+- Tempo de resposta: 0,5s
+- Resolução: ADC da ESP32 (12 bits)
+- Precisão: < ±3% a 1000 W/m²
+- Faixa de medição: 0Wm⁻² a 2000 Wm⁻²
+- Zero offset: < 2Wm⁻² (sem aquecedor), < 10Wm⁻² (com aquecedor)
+- Campo de visão: 180º
+
+Características Elétricas:
+- Alimentação para o aquecedor (780Ω)
+- Alimentação típica: 12V
+- Consumo (em 12V): 15,4mA
+ 
+### SP-610-SS - Piranômetro (termopilha)
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -50ºC a 80ºC (temperatura),  0 a 100% (umidade)
+- Downward-Looking (mede radiação refletida - albedo)
+
+Leitura:
+- Sensibilidade: 0,035mV/Wm⁻²
+- Deriva de longo prazo: < ±2%/ano
+- Faixa espectral: 370nm a 2240nm
+- Tempo de resposta: 0,5s
+- Resolução: ADC da ESP32 (12 bits)
+- Precisão: < ±3% a 1000 W/m²
+- Faixa de medição: 0Wm⁻² a 2000 Wm⁻²
+- Zero offset: < 2Wm⁻² (sem aquecedor), < 10Wm⁻² (com aquecedor)
+- Campo de visão: 150º
+
+Características Elétricas:
+- Alimentação para o aquecedor (780Ω)
+- Alimentação típica: 12V
+- Consumo (em 12V): 15,4mA
+
+### CMP6 - Piranômetro (termopilha)
+
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -40ºC a 80ºC (temperatura),  0 a 100% (umidade)
+- Upward-looking (mede radiação incidente)
+
+Leitura:
+- Sensibilidade: 5 a 20 μV/Wm⁻²
+- Deriva de longo prazo: < 1%/ano
+- Não-linearidade: ±1%
+- Resposta por seletividade do espectro: < ±3%
+- Resposta por inclinação do sensor: < ±1%
+- Resposta por temperatura: < ±2%
+- Faixa espectral: 285nm a 2800nm
+- Tempo de resposta: < 6s
+- Resolução: ADC da ESP32 (12 bits)
+- Faixa de medição: 0Wm⁻² a 2000 Wm⁻²
+- Zero offset: < ±2Wm⁻² (radiação do ambiente), < 8Wm⁻² (mudança de temperatura brusca)
+- Campo de visão: 180º
+
+Características Elétricas:
+- Não necessita de alimentação externa
+
+### SR20 - Piranômetro (termopilha)
+
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -40ºC a 80ºC (temperatura)
+- Upward-Looking (mede radiação incidente)
+
+Leitura:
+- Sensibilidade: 15μV/Wm⁻²
+- Incerteza de calibração: < 1,2%
+- Resposta por temperatura: < ±1%
+- Faixa espectral: 285nm a 3000nm
+- Resolução: ADC da ESP32 (12 bits)
+- Faixa de medição: 0Wm⁻² a 4000 Wm⁻²
+- Zero offset: 	
+- Campo de visão: 180º
+
+Características Elétricas:
+- Alimentação para o aquecedor
+- Alimentação: 12V
+- Consumo: 1,5W
 
 ---
