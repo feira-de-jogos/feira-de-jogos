@@ -5,12 +5,15 @@ Objetivos:
 - Aprimorar a versão 0 com sensores melhores para garantir mais qualidade e confiabilidade dos dados coletados.
 - Adicionar os sensores requisitados que não foram instalados na v0.
 - Para identificação das mensagens enviadas e das estações ativas será usado o sistema de `UUIDs`:
-  - `88a2e875-30a9-49b5-ab15-4a185eaa85e3` - **1ª estação V1 (Testes)**.
+  - `88a2e875-30a9-49b5-ab15-4a185eaa85e3` - **Estação V1 (Somente para testes)**.
+---
+## Testes práticos:
+- Bibliotecas usadas nos testes: [BMP180](https://github.com/robert-hh/BMP085_BMP180/blob/master/bmp085.py), [BMP388](https://github.com/DFRobot/DFRobot_BMP388/blob/master/micropython/bmp388.py), [MCP9808](https://github.com/kfricke/micropython-mcp9808/blob/master/mcp9808.py), [LM75](https://github.com/mcauser/micropython-lm75a/blob/master/lm75a.py), [BMP280](https://github.com/PaszaVonPomiot/micropython-driver-bmp280), [DS3231](https://github.com/pangopi/micropython-DS3231-AT24C32), [AHT10](https://github.com/targetblank/micropython_ahtx0/blob/master/ahtx0.py) e [BME280](https://github.com/kevbu/micropython-bme280/blob/master/bme280.py)
 
-
+---
 ## Tabelas Comparativas
 
-## Temperatura
+### Temperatura
 
 | Sensor        | Faixa (°C) | Precisão (typ./máx.) | Resolução         | Deriva Longo Prazo | Encapsulamento                | Consumo Standby | Consumo Ativo  | Interface         | Tempo de Resposta     | Valor para compra                                                                                                                                                                              |
 | ---------- | ---------- | -------------------- | ----------------- | ------------------ | ----------------------------- | --------------- | -------------- | ----------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +33,7 @@ Objetivos:
 | **BME280**    | -40 a 85   | ±0,5°C / ±1,5°C      | 0,01°C            | —                  | LGA (metal-lid)               | 0,1µA / 0,3µA   | 340–714µA      | I2C / SPI         | ~ 1,5 ms (I2C)         | [36,96R$](https://www.usinainfo.com.br/sensor-de-pressao-arduino/sensor-de-pressao-umidade-e-temperatura-bme280-de-alta-precisao-33v-4682.html)                                                 |
 | **AHT10**     | -40 a 85   | ±0,3°C / ±1,75°C     | 0,01ºC            | < 0,04ºC/ano       | similar to QFN                | 0,25µA          | 25µA           | I2C (400kHz)      | 5 a 30s (1/e 63%)    | [13,98R$](https://www.usinainfo.com.br/sensor-de-temperatura/sensor-aht10-de-alta-precisao-para-medir-temperatura-e-umidade-5691.html)                                                          |
 
-## Umidade
+### Umidade
 
 | Sensor        | Faixa (%) | Precisão (typ./máx.) | Resolução     | Deriva Longo Prazo | Encapsulamento    | Consumo Standby | Consumo Ativo      | Interface         | Tempo de Resposta   | Valor para compra                                                                                                                                                                               |
 | ------------- | --------- | -------------------- | ------------- | ------------------ | ----------------- | --------------- | ------------------ | ----------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -46,7 +49,7 @@ Objetivos:
 | **HIH-4031**  | 0 a 100   | ±3,5%                | ADC 12 bits   | ±1.2%/ano          | SMD               | —               | 200µA / 500µA      | Analógica         | 5s (1/e 63%)        | [~570,96R$](https://br.mouser.com/ProductDetail/Honeywell/HIH-4031-003?qs=yJVtgANCw03sE9P%2FDzBvRA%3D%3D)                                                                                       |
 | **HR202L**     | 20 a 95   | ±5%                  | ADC 12 bits   | ±1%/ano            | PTH               | —               | 0,2mW  (Tensão CA) | Analógica         | 20s ~ 40s (1/e 63%) | [5,13R$](https://www.makerhero.com/produto/sensor-de-umidade-hr202l-higrometro/)                                                                                                                |
 
-## Pressão
+### Pressão
 
 | Sensor      | Faixa (hPa) | Precisão (typ./máx.) | Resolução    | Deriva Longo Prazo | Encapsulamento  | Consumo Standby | Consumo Ativo  | Interface | Tempo de Resposta | Valor para compra                                                                                                                                        |
 | ----------- | ----------- | -------------------- | ------------ | ------------------ | --------------- | --------------- | -------------- | --------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -59,7 +62,7 @@ Objetivos:
 | **HP203B**  | 300 a 1200  | ±1,5hPa / ±3,0hPa    | 20 bits (Pa) | ±1.5hPa/ano        | LGA             | 0,1µA           | 1,3mA          | I2C       | 2,1ms ~ 78,ms     | N/A                                                |
 | **LPS33H**  | 260 a 1260  | ±1,0hPa / ±2,5hPa    | 24 bits      | ±1hPa/ano          | CCLGA 10L       | 1µA             | 12µA           | I2C / SPI | 13ms ~ 300ms      | N/A                                                                         |
 
-## GNSS
+### GNSS
 
 | Sensor   | Redes GNSS Suportadas                      | Sensibilidade<br>(Rastreamento/<br>Cold Start) | Precisão (CEP) | Temperatura<br>de operação | Tempo para Fix           | Interface                                         | Consumo em rastreamento | Valor para compra                                                                                                                                                                                                                   |
 | -------- | ------------------------------------------ | ---------------------------------------------- | -------------- | -------------------------- | ------------------------ | ------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
