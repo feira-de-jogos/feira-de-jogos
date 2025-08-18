@@ -29,11 +29,12 @@ Requisitos não funcionais:
 - [#2](https://github.com/feira-de-jogos/feira-de-jogos/issues/2): [Parcel](https://parceljs.org/).
 - [#5](https://github.com/feira-de-jogos/feira-de-jogos/issues/5): [Docker Compose](https://docs.docker.com/compose/) com [réplicas](https://docs.docker.com/reference/compose-file/deploy/#replicas) e [monitoramento de contêiner](https://docs.docker.com/reference/compose-file/services/#healthcheck).
 - [#8](https://github.com/feira-de-jogos/feira-de-jogos/issues/8): [Node.js](https://nodejs.org/).
-- [#10](https://github.com/feira-de-jogos/feira-de-jogos/issues/10): cluster [Node.js](https://nodejs.org/) e [Redis Streams](https://redis.io/) via [Redis Streams](https://socket.io/docs/v4/redis-streams-adapter/).
+- [#10](https://github.com/feira-de-jogos/feira-de-jogos/issues/10): *cluster* [Node.js](https://nodejs.org/) e [Redis Streams](https://redis.io/) via [Redis Streams](https://socket.io/docs/v4/redis-streams-adapter/).
 - [#11](https://github.com/feira-de-jogos/feira-de-jogos/issues/11): Sinalização de mídia com [Livekit](https://livekit.io/) e lógica de jogo com [Socket.IO](https://socket.io/).
-- [#12](https://github.com/feira-de-jogos/feira-de-jogos/issues/12): (*Selective Forwarding Unit*) SFU com [Livekit](https://livekit.io/).
+- [#12](https://github.com/feira-de-jogos/feira-de-jogos/issues/12) e [#55](https://github.com/feira-de-jogos/feira-de-jogos/issues/55): (*Selective Forwarding Unit*) SFU com cluster [Livekit](https://livekit.io/) e Redis.
 - [#13](https://github.com/feira-de-jogos/feira-de-jogos/issues/13): *Single Sign-On* (SSO) via OAuth 2.0  no Google e posterior sessão com o uso de *cookies*.
 - [#22](https://github.com/feira-de-jogos/feira-de-jogos/issues/22): MongoDB para operações além de SQL, além de permitir [dados menos estruturados](./banco-de-dados.md).
+- : *cluster* LiveKit com Redis.
 
 ## Integração entre serviços
 
@@ -78,7 +79,7 @@ subgraph Nuvem
 
   subgraph Bancos de Dados
     H[Chave-valor: Redis]
-    L[SQL: PostgreSQL]
+    L[Documento: MongoDB]
     E[TSDB: InfluxDB]
   end
 end
@@ -104,8 +105,10 @@ I ==> E
 
 A --> |SRTP| K
 A --> |SRTP| M
-K ==> L
-M --> L
+K ==> H
+M --> H
+
+G ==> L
 ```
 
 Em termos de mensagens, um exemplo é o de entrada em um jogo com sessão válida a partir do *backend* da feira de jogos:
