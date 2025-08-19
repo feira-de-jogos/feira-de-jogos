@@ -45,7 +45,7 @@ dht22 = dht.DHT22(Pin(27))
 dht11 = dht.DHT11(Pin(0))
 lm75 = lm75a.LM75A(i2c=i2c0)
 lm35dz = ADC(Pin(32))
-lm35dz.atten(ADC.ATTN_11DB)
+#lm35dz.atten(ADC.ATTN_11DB)
 lm35dz.width(ADC.WIDTH_12BIT)
 
 def timestamp():
@@ -77,7 +77,7 @@ def ler_lm35dz():
         total += lm35dz.read()
         sleep_ms(20)
     media = total / amostras
-    volts = (media / 4095) * 3.3
+    volts = (media / 4095)
     temp = volts * 100
     return temp
 
@@ -197,5 +197,6 @@ while True:
     
     print(data)
     sleep(30)
+
 
 
