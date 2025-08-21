@@ -1,7 +1,7 @@
 from machine import Pin, I2C, SPI, ADC
 from umqtt.robust import MQTTClient
 from time import sleep, mktime, sleep_ms
-from libs import ahtx0, sdcard, bme280, bmp280, ds3231, mcp9808, bmp180, bmp388, lm75a
+from libs import ahtx0, sdcard, bme280, bmp280, ds3231, mcp9808, bmp180, bmp388, lm75a, ads1x15, aht25
 import dht, os, network, ds18x20, onewire
 
 led = Pin(2, Pin.OUT)
@@ -23,7 +23,7 @@ longitude = '-48.62854'
 dados = {}
 
 i2c0 = I2C(0, scl=Pin(22), sda=Pin(21))
-i2c1 = I2C(1, scl=Pin(26), sda=Pin(25), freq=100000)
+i2c1 = I2C(1, scl=Pin(26), sda=Pin(25))
 
 print("Dispositivos I2C0 encontrados:", i2c0.scan())
 print("I2C1 encontrados:", i2c1.scan())
@@ -33,6 +33,7 @@ sleep_ms(200)
 roms = ds18x20.scan()
 print(roms)
 aht10 = ahtx0.AHT10(i2c0, 56)
+aht25 = aht25.AHT25(i2c1)
 mcp9808 = mcp9808.MCP9808(i2c0)
 mcp9808.set_resolution(3)
 bmp180 = bmp180.BMP180(i2c=i2c0)
@@ -44,9 +45,7 @@ ds3231 = ds3231.DS3231(i2c0)
 dht22 = dht.DHT22(Pin(27))
 dht11 = dht.DHT11(Pin(0))
 lm75 = lm75a.LM75A(i2c=i2c0)
-lm35dz = ADC(Pin(32))
-#lm35dz.atten(ADC.ATTN_11DB)
-lm35dz.width(ADC.WIDTH_12BIT)
+adc = ads1x15.ADS1115(i2c1, address=72, gain=0)
 
 def timestamp():
     x = ds3231.datetime()
@@ -71,14 +70,9 @@ def ds18b20_ler():
         return 0.0
 
 def ler_lm35dz():
-    total = 0
-    amostras = 20
-    for _ in range(amostras):
-        total += lm35dz.read()
-        sleep_ms(20)
-    media = total / amostras
-    volts = (media / 4095)
-    temp = volts * 100
+    valor = adc.read(0, 0)
+    tensao = (6.144 * valor) / 32768
+    temp = tensao / 0.01
     return temp
 
 def conecta_wifi():
@@ -91,7 +85,12 @@ def conecta_wifi():
             sleep(0.5)
             print('CONECTANDO')
         print("Wi-Fi conectado:", wlan.ifconfig())
-        
+try:
+    AHT25_RH, dados['temp.aht25'], AHT25_status, AHT25_CRC = aht25.read_sensor()
+except Exception as e:
+    print('erro aht25', e)
+sleep(0.05)
+    
 try:
     dados["temp.bme280"] = bme280.temperature()
 except Exception as e:
@@ -142,6 +141,12 @@ while True:
     except Exception as e:
         print('erro lm75', e)
     sleep(0.05)
+    
+    try:
+        AHT25_RH, dados['temp.aht25'], AHT25_status, AHT25_CRC = aht25.read_sensor()
+    except Exception as e:
+        print('erro aht25', e)
+    sleep(0.05)
 
     dados['temp.lm35dz'] = ler_lm35dz()
     
@@ -176,6 +181,8 @@ while True:
     
     data += 'temp.aht10=' + str(dados['temp.aht10']) + ','
     
+    data += 'temp.aht25=' + str(dados['temp.aht25']) + ','
+    
     data += 'temp.lm35dz=' + str(dados['temp.lm35dz']) + ','
     
     data += 'temp.lm75=' + str(dados['temp.lm75']) + ','
@@ -197,6 +204,7 @@ while True:
     
     print(data)
     sleep(30)
+
 
 
 
