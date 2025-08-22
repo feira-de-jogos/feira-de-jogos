@@ -1148,4 +1148,62 @@ Características Elétricas:
 - Alimentação: 12V
 - Consumo: 1,5W
 
+### WS01 - Anemômetro
+
+Informações Gerais:
+- Interface: Digital
+- Conector: RJ11
+- Comprimento do Cabo: ~40cm
+- Diâmetro do Copo: 40mm
+
+Características Elétricas:
+- Alimentação: 5V
+
+### SV10 - Anemômetro
+
+Informações Gerais:
+- Interface: Digital
+- Conector: RJ11
+- Ambiente operacional: -40ºC a 80ºC (temperatura)
+- Diâmetro do copo: 50mm
+- Comprimento do cabo: ~ 5 metros
+
+Leitura:
+- Sensibilidade inicial: 0,9Km/h
+- Medição máxima: 120 Km/h
+
+Características Elétricas:
+- Alimentação: 5V
+
+### SVDV10 - Anemômetro e Indicador de Direção do Vento
+
+Informações Gerais:
+- Interface: Digital (Anemômetro) e Analógico (Direção do vento)
+- Ambiente operacional: -40ºC a 80ºC (temperatura)
+- Diâmetro do copo: 50mm
+- Comprimento do cabo: ~ 5 metros
+
+Leitura:
+- Sensibilidade inicial: 0,9Km/h
+- Medição máxima: 120 Km/h
+- Giro: 360°
+- Precisão: ~95%
+- Indica 8 direções do vento: N - 0°, NE - 45° , E - 90° , SE - 135° , S - 180° , SO - 235°, O - 270° e NO - 315°.
+
+Características Elétricas:
+- Alimentação: 5V
+
+### [SEM MODELO](https://www.mercadolivre.com.br/anemmetro-com-saida-de-liga-de-sensor-de-velocidade-do-de/p/MLB2005784054?matt_tool=18956390&utm_source=google_shopping&utm_medium=organic&pdp_filters=item_id%3AMLB4024269299&from=gshop) - Anemômetro
+
+Informações Gerais:
+- Interface: RS485
+- Ambiente operacional: -40ºC a 80ºC (temperatura)
+
+Leitura:
+- Resulução: 0,36Km/h
+- Medição máxima: 108 Km/h
+
+Características Elétricas:
+- Alimentação: 12-24V
+- Consumo Máximo: 1W
 ---
