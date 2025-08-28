@@ -113,8 +113,9 @@ flowchart LR
   end
 
   jogo[Servidor do Jogo]
-  style jogo stroke:orange
+  style jogo stroke:yellow
 
+  jogador --> |HTTPS| httpProxy
   em --> |MQTT| mqtt
   em --> |WSS| httpProxy
   httpProxy --> |WS| mqtt
@@ -124,7 +125,7 @@ flowchart LR
   assinante --> |HTTP| influx
   grafana --> |HTTP| influx
 
-  linkStyle 0,1,2,3,4,5,6,7 stroke:red
+  linkStyle 0,1,2,3,4,5,6,7,8 stroke:red
  
   jogador --> |WSS| httpProxy
   httpProxy ==> |WS| ws
@@ -137,18 +138,18 @@ flowchart LR
   feira --> mongo
   personagem --> mongo
 
-  linkStyle 8,9,10,11,12,13,14,15,16,17 stroke:yellow
+  linkStyle 9,10,11,12,13,14,15,16,17,18 stroke:yellow
 
   jogador --> |SRTP| clusterSFU
   livekit1 --> |Redis| redis
   livekit2 --> |Redis| redis
 
-  linkStyle 18,19,20 stroke:white
+  linkStyle 19,20,21 stroke:white
 
   jogador --> |HTTPS| jogo
   jogo --> |WSS| httpProxy
 
-  linkStyle 21,22 stroke:orange
+  linkStyle 22,23 stroke:yellow
 ```
 
 Em termos de mensagens, um exemplo é o de entrada em um jogo com sessão válida a partir do *backend* da feira de jogos:
