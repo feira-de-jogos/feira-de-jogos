@@ -38,7 +38,7 @@ Requisitos não funcionais:
 
 ## Integração entre serviços
 
-De acordo com [#5](https://github.com/feira-de-jogos/feira-de-jogos/issues/5), [#6](https://github.com/feira-de-jogos/feira-de-jogos/issues/6) e [#7](https://github.com/feira-de-jogos/feira-de-jogos/issues/7), os serviços estão assim interligados:
+De acordo com [#5](https://github.com/feira-de-jogos/feira-de-jogos/issues/5), [#6](https://github.com/feira-de-jogos/feira-de-jogos/issues/6) [#7](https://github.com/feira-de-jogos/feira-de-jogos/issues/7) e [#63](https://github.com/feira-de-jogos/feira-de-jogos/issues/63), os serviços estão assim interligados:
 
 ```mermaid
 flowchart LR
