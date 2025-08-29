@@ -1206,4 +1206,32 @@ Leitura:
 Características Elétricas:
 - Alimentação: 12-24V
 - Consumo Máximo: 1W
+
+### [PB10](https://www.usinainfo.com.br/estacao-meteorologica-arduino/pluviometro-de-bascula-digital-para-arduino-e-estacao-meteorologica-pb10-4637.html) - Pluviômetro
+
+Informações Gerais:
+- Interface: Digital
+- Diâmetro coletor: ~147mm
+
+Leitura:
+- Resolução: 0,25 mm
+- Precisão: 4% ( até 30 mm/h), 5% ( até 50mm/h), 7% ( até 90 mm/h)
+
+Características Elétricas:
+- Alimentação: 12-30V
+
+### [K6466](https://www.climaeambiente.com.br/prod,idproduto,3723427,pluviometros-pluviometro-davis---k6466) - Pluviômetro
+
+Informações Gerais:
+- Interface: Desconhecida
+- Conector: RJ11
+- Área coletor: 214 cm²
+
+Leitura:
+- Resolução: 0,2 mm
+- Precisão: ±4% ( até 50mm/h), ±5% ( até 100 mm/h)
+
+Características Elétricas:
+- Alimentação: Desconhecida
+
 ---
