@@ -38,77 +38,118 @@ Requisitos não funcionais:
 
 ## Integração entre serviços
 
-De acordo com [#5](https://github.com/feira-de-jogos/feira-de-jogos/issues/5), [#6](https://github.com/feira-de-jogos/feira-de-jogos/issues/6) e [#7](https://github.com/feira-de-jogos/feira-de-jogos/issues/7), os serviços estão assim interligados:
+De acordo com [#5](https://github.com/feira-de-jogos/feira-de-jogos/issues/5), [#6](https://github.com/feira-de-jogos/feira-de-jogos/issues/6) [#7](https://github.com/feira-de-jogos/feira-de-jogos/issues/7) e [#63](https://github.com/feira-de-jogos/feira-de-jogos/issues/63), os serviços estão assim interligados:
 
 ```mermaid
-flowchart TD
+flowchart LR
 
-subgraph Rede Local
-  subgraph Usuário
-    A[Frontend]
-    B[Estação Meteorológica]
-  end
+  subgraph Local
+    em[Estacão Meteorológica]
 
-  subgraph cluster de SFU
-    K[1, 2, ..., N]
-  end
-end
+    jogador[Jogador]
+    style em stroke:red
 
-subgraph Nuvem
-  C[Proxy HTTP]
+    subgraph clusterSFU[Cluster SFU]
+      style clusterSFU stroke:white
 
-  subgraph Estações Meteorológicas
-    D[Broker MQTT]
-    F[Assinante]
-    J[Grafana]
-  end
+      livekit1[LiveKit 1]
+      style livekit1 stroke:white
 
-  subgraph Backend
-    subgraph Feira de Jogos
-      subgraph Cluster da Feira
-        G[1, 2, ..., N]
-      end
+      livekit2[LiveKit 2]
+      style livekit2 stroke:white
 
-      subgraph Servidores dos Jogos
-        I[1, 2, ..., N]
-      end
-
-      M[SFU]
+      redis[Redis]
+      style redis stroke:white
     end
   end
 
-  subgraph Bancos de Dados
-    H[Chave-valor: Redis]
-    L[Documento: MongoDB]
-    E[TSDB: InfluxDB]
+  subgraph clusterNuvem[Nuvem]
+    httpProxy[HTTP Proxy]
+    
+    assinante[Assinante]
+    style assinante stroke:red
+    
+    grafana[Grafana]
+    style grafana stroke:red
+  
+    subgraph clusterFeira[Feira de Jogos]
+      style clusterFeira stroke:yellow
+
+      feira[Feira]
+      style feira stroke:yellow
+
+      personagem[Gerador de Personagem]
+      style personagem stroke:yellow
+
+      subgraph ws[Cluster Socket.IO]
+        style ws stroke:yellow
+
+        ws1[WS 1]
+        style ws1 stroke:yellow
+
+        ws2[WS 2]
+        style ws2 stroke:yellow
+
+        ws3[WS 3]
+        style ws3 stroke:yellow
+      end
+    end
+
+    subgraph clusterBrokers[Brokers]
+      mqtt[MQTT]
+      style mqtt stroke:red
+      
+      redisPubSub[Redis PubSub]
+      redisStreams[Redis Streams]
+    end
+
+    subgraph clusterBDs[Bancos de Dados]
+      influx[InfluxDB]
+      style influx stroke:red
+
+      mongo[MongoDB]
+      style mongo stroke:yellow
+    end
   end
-end
 
-A --> |HTTPS| C
-B --> |WebSockets| C
-B --> |MQTT| D
+  jogo[Servidor do Jogo]
+  style jogo stroke:yellow
 
-C --> D
-D --> F
-F --> E
+  jogador --> |HTTPS| httpProxy
+  em --> |MQTT| mqtt
+  em --> |WSS| httpProxy
+  httpProxy --> |WS| mqtt
+  httpProxy --> |HTTP| influx
+  httpProxy --> |HTTP| grafana
+  assinante --> |MQTT| mqtt
+  assinante --> |HTTP| influx
+  grafana --> |HTTP| influx
 
-C ==> G
-G ==> H
+  linkStyle 0,1,2,3,4,5,6,7,8 stroke:red
+ 
+  jogador --> |WSS| httpProxy
+  httpProxy ==> |WS| ws
+  ws ==> |PubSub| redisPubSub
+  feira --> |PubSub| redisPubSub
+  personagem --> |PubSub| redisPubSub
+  ws1 -.-> |Streams| redisStreams
+  ws2 -.-> |Streams| redisStreams
+  ws3 -.-> |Streams| redisStreams
+  feira --> mongo
+  personagem --> mongo
 
-C ==> I
-I ==> H
+  linkStyle 9,10,11,12,13,14,15,16,17,18 stroke:yellow
 
-C --> J
-J --> E
+  jogador --> |SRTP| clusterSFU
+  livekit1 --> |Redis| redis
+  livekit2 --> |Redis| redis
 
-I ==> E
+  linkStyle 19,20,21 stroke:white
 
-A --> |SRTP| K
-A --> |SRTP| M
-K ==> H
-M --> H
+  jogador --> |HTTPS| jogo
+  jogo --> |WSS| httpProxy
 
-G ==> L
+  linkStyle 22,23 stroke:yellow
 ```
 
 Em termos de mensagens, um exemplo é o de entrada em um jogo com sessão válida a partir do *backend* da feira de jogos:
