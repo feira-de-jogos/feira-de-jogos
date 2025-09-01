@@ -35,11 +35,18 @@
 - 2x L86 (Não encontrado)
 - 2x [ATGM336H](https://curtocircuito.com.br/modulo-gps-atgm336h.html)
 
+### Anemômetros
+- [Sem Modelo - MeLi](https://www.mercadolivre.com.br/anemmetro-com-saida-de-liga-de-sensor-de-velocidade-do-de/p/MLB2005784054?matt_tool=18956390&utm_source=google_shopping&utm_medium=organic&pdp_filters=item_id%3AMLB4024269299&from=gshop)
+- [SVDV10](https://www.usinainfo.com.br/estacao-meteorologica-arduino/anemometro-para-arduino-indicador-de-direcao-do-vento-para-estacao-meteorologica-svdv10-8353.html)
+- [SV10](https://www.usinainfo.com.br/estacao-meteorologica-arduino/anemometro-para-estacao-meteorologica-e-arduino-sv10-3686.html)
+- [WS01](https://www.usinainfo.com.br/estacao-meteorologica-arduino/anemometro-ws01-para-estacao-meteorologica-8574.html)
+
 ### Outros componentes:
 - 2x Cartão SD: [Lexar 32GB 47,99R$](https://www.pichau.com.br/cartao-de-memoria-lexar-800x-pro-32gb-sdhc-uhs-i-lsd0800p032g-bnnng), [Adata 32GB 39,99R$](https://www.pichau.com.br/cartao-de-memoria-adata-premier-32gb-sdhc-asdh32guicl10-r)
 - 2x Cartão Micro SD: [32 GB](https://www.makerhero.com/produto/cartao-de-memoria-microsd-32gb-classe-a2-raspberry-pi/)  | Makerhero (02 unid.)
 - 2x [Módulo cartão SD](https://www.eletrogate.com/modulo-sd-card) | Eletrogate (02 unid.)
 - 2x [Multiplexador I2C](https://www.usinainfo.com.br/conversores-de-sinal/multiplexador-tca9548a-i2c-1-a-8-canais-5986.html)
+- [ADC - ADS1115](https://www.usinainfo.com.br/conversor-ad-da-arduino/conversor-analogico-digital-ads1115-16-bits-4-canais-adc-8069.html)
 - 2x [Acelerometro/Giroscopio](https://www.makerhero.com/produto/acelerometro-e-giroscopio-3-eixos-6-dof-mpu-6050/) | Makerhero (01 unid.)
 - Fontes e cabos micro usb para alimentação das estações.
 
