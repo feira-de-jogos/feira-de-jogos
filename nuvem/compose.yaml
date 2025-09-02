@@ -57,9 +57,7 @@ services:
     depends_on:
       - tsdb
     environment:
-      GF_SERVER_DOMAIN: feira-de-jogos.dev.br
-      GF_SERVER_ROOT_URL: https://feira-de-jogos.dev.br/grafana/
-      GF_SERVER_SERVE_FROM_SUB_PATH: true
+      GF_SERVER_DOMAIN: grafana.feira-de-jogos.dev.br
     volumes:
       - ./grafana/data:/var/lib/grafana:rw
   rest-api:
@@ -80,6 +78,7 @@ services:
     depends_on:
       - mqtt-broker
       - grafana
+      - tsdb
       - rest-api
     healthcheck:
       start_period: 10s
