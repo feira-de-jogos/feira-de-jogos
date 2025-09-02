@@ -79,4 +79,4 @@ sequenceDiagram
   Mensagem: 8364DE0C-2534-431A-B6A2-965569C3EE52,v=1,lat=-27.608574,lng=-48.633181,alt=57 temperatura=17,umidade=76.4 1751665693000000000
   ```
 
-Para visualizar os dados: [painel do Grafana](https://feira-de-jogos.dev.br/grafana/public-dashboards/7957a49460e34d0f8a41f393526cf09b).
+Para visualizar os dados: [painel do Grafana](https://grafana.feira-de-jogos.dev.br/public-dashboards/7957a49460e34d0f8a41f393526cf09b).
