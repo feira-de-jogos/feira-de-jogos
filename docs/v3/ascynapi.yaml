@@ -1,0 +1,2 @@
+    tags:
+      - $ref: "#/components/tags/player"
