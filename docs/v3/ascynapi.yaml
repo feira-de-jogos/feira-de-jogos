@@ -1,2 +1,295 @@
+asyncapi: 3.0.0
+info:
+  description: Feira de Jogos do IFSC campus São José
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Feira de Jogos
+  version: 2.1.0
+  externalDocs:
+    url: https://feira-de-jogos.github.io/feira-de-jogos/
+  tags:
+    - $ref: "#/components/tags/player"
+    - $ref: "#/components/tags/machine"
+    - $ref: "#/components/tags/game"
+servers:
+  production:
+    host: feira-de-jogos.dev.br
+    description: WebSocket server
+    pathname: /api/v3
+    protocol: wss
+defaultContentType: application/json
+channels:
+  player:
+    address: Player
+    messages:
+      ping:
+        $ref: "#/components/messages/ping"
+      server:
+        $ref: "#/components/messages/server"
+      channel:
+        $ref: "#/components/messages/channel"
+      transfer:
+        $ref: "#/components/messages/transfer"
     tags:
       - $ref: "#/components/tags/player"
+  machine:
+    address: Machine
+    messages:
+      ping:
+        $ref: "#/components/messages/ping"
+      credit:
+        $ref: "#/components/messages/credit"
+      debit:
+        $ref: "#/components/messages/debit"
+    tags:
+      - $ref: "#/components/tags/machine"
+  game:
+    address: Game Server
+    messages:
+      ping:
+        $ref: "#/components/messages/ping"
+      credit:
+        $ref: "#/components/messages/credit"
+      debit:
+        $ref: "#/components/messages/debit"
+    tags:
+      - $ref: "#/components/tags/game"
+operations:
+  onPlayer:
+    action: receive
+    channel:
+      $ref: "#/channels/player"
+    messages:
+      - $ref: "#/channels/player/messages/ping"
+      - $ref: "#/channels/player/messages/server"
+      - $ref: "#/channels/player/messages/channel"
+      - $ref: "#/channels/player/messages/transfer"
+    tags:
+      - $ref: "#/components/tags/player"
+  onMachine:
+    action: receive
+    channel:
+      $ref: "#/channels/machine"
+    messages:
+      - $ref: "#/channels/machine/messages/ping"
+      - $ref: "#/channels/machine/messages/credit"
+      - $ref: "#/channels/machine/messages/debit"
+    tags:
+      - $ref: "#/components/tags/machine"
+  onGame:
+    action: receive
+    channel:
+      $ref: "#/channels/game"
+    messages:
+      - $ref: "#/channels/game/messages/ping"
+      - $ref: "#/channels/game/messages/credit"
+      - $ref: "#/channels/game/messages/debit"
+    tags:
+      - $ref: "#/components/tags/game"
+components:
+  messages:
+    ping:
+      title: Ping
+      description: Ping to main server
+      payload:
+        type: object
+        properties:
+          from:
+            type: string
+            description: Sender's identifier
+          to:
+            type: string
+            description: Receiver's identifier
+          timestamp:
+            type: integer
+            description: Timestamp in miliseconds
+        required:
+          - from
+          - to
+          - timestamp
+        examples:
+          - from: ederson@ifsc.edu.br
+            to: server@feira-de-jogos.dev.br
+            timestamp: 1756868440297
+      tags:
+        - $ref: "#/components/tags/player"
+        - $ref: "#/components/tags/machine"
+        - $ref: "#/components/tags/game"
+    server:
+      title: Server
+      description: Choose a server
+      payload:
+        type: object
+        properties:
+          from:
+            type: string
+            description: Sender's identifier
+          to:
+            type: string
+            description: Receiver's identifier
+          server:
+            type: string
+            description: Server identifier
+          timestamp:
+            type: integer
+            description: Timestamp in miliseconds
+        required:
+          - from
+          - to
+          - server
+          - timestamp
+        examples:
+          - from: ederson@ifsc.edu.br
+            to: server@feira-de-jogos.dev.br
+            server: main
+            timestamp: 1756868440297
+      tags:
+        - $ref: "#/components/tags/player"
+    channel:
+      title: Channel
+      description: Choose a channel
+      payload:
+        type: object
+        properties:
+          from:
+            type: string
+            description: Sender's identifier
+          to:
+            type: string
+            description: Receiver's identifier
+          channel:
+            type: string
+            description: Channel identifier
+          timestamp:
+            type: integer
+            description: Timestamp in miliseconds
+        required:
+          - from
+          - to
+          - channel
+          - timestamp
+        examples:
+          - from: ederson@ifsc.edu.br
+            to: server@feira-de-jogos.dev.br
+            channel: shopping-center
+            timestamp: 1756868440297
+      tags:
+        - $ref: "#/components/tags/player"
+    transfer:
+      title: Transfer
+      description: Transfer operation
+      payload:
+        type: object
+        properties:
+          from:
+            type: string
+            description: Sender's identifier
+          to:
+            type: string
+            description: Receiver's identifier
+          credited:
+            type: string
+            description: Credited's identifier
+          value:
+            type: integer
+            description: Transfer value
+          timestamp:
+            type: integer
+            description: Timestamp in miliseconds
+        required:
+          - from
+          - to
+          - credited
+          - value
+          - timestamp
+        examples:
+          - from: ederson@ifsc.edu.br
+            to: server@feira-de-jogos.dev.br
+            credited: leo@aluno.ifsc.edu.br
+            value: 100
+            timestamp: 1756868440297
+      tags:
+        - $ref: "#/components/tags/player"
+    credit:
+      title: Credit
+      description: Credit operation
+      payload:
+        type: object
+        properties:
+          from:
+            type: string
+            description: Sender's identifier
+          to:
+            type: string
+            description: Receiver's identifier
+          credited:
+            type: string
+            description: Credited identifier
+          value:
+            type: integer
+            description: Credit value
+          timestamp:
+            type: integer
+            description: Timestamp in miliseconds
+        required:
+          - from
+          - to
+          - credited
+          - value
+          - timestamp
+        examples:
+          - from: escape-room@feira-de-jogos.dev.br
+            to: server@feira-de-jogos.dev.br
+            credited: ederson@ifsc.edu.br
+            value: 100
+            timestamp: 1756868440297
+      tags:
+        - $ref: "#/components/tags/machine"
+        - $ref: "#/components/tags/game"
+    debit:
+      title: Debit
+      description: Debit operation
+      payload:
+        type: object
+        properties:
+          from:
+            type: string
+            description: Sender's identifier
+          to:
+            type: string
+            description: Receiver's identifier
+          debited:
+            type: string
+            description: Debited's identifier
+          value:
+            type: integer
+            description: Debit value
+          timestamp:
+            type: integer
+            description: Timestamp in miliseconds
+        required:
+          - from
+          - to
+          - debited
+          - value
+          - timestamp
+        examples:
+          - from: ederson@ifsc.edu.br
+            to: leo@aluno.ifsc.edu.br
+            debited: ederson@ifsc.edu.br
+            value: 100
+            timestamp: 1756868440297
+      tags:
+        - $ref: "#/components/tags/machine"
+        - $ref: "#/components/tags/game"
+  tags:
+    player:
+      name: player
+      description: From player to main server
+    machine:
+      name: machine
+      description: From machine to main server
+    game:
+      name: game
+      description: From game server to main server
