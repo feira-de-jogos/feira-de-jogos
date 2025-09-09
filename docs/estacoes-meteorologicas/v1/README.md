@@ -1234,4 +1234,146 @@ Leitura:
 Características Elétricas:
 - Alimentação: Desconhecida
 
+### MH-Z19 - Sensor de gás dióxido de carbono (CO2)
+
+Informações Gerais:
+- Interface: UART (9,6Kbps) e PWM
+- Ambiente operacional: 0ºC a 50ºC (temperatura) e 0% a 95% (umidade relativa)
+
+Leitura:
+- Faixas de Leitura: 0～2000 ppm e 0～5000 ppm
+- Precisão: ±(50ppm + 5% do valor medido)
+
+Características Elétricas:
+- Consumo de corrente médio: < 18mA
+- Tensão de operação: 3,6V a 5,5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: 3 minutos
+- Tempo de resposta: < 60s
+
+### MQ-8 - Sensor de gás hidrogênio (H2)
+
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -10ºC a 50ºC (temperatura) e 0% a 95% (umidade relativa)
+
+Leitura:
+- Faixas de Leitura: 100～10000 ppm
+- Precisão: N/A
+
+Características Elétricas:
+- Potência média dissipada: < 800mW
+- Resistência do aquecedor: 31Ω±5%
+- Tensão de operação: 5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: > 24 horas
+
+### MQ-5 - Sensor de gás natural/GLP
+
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -10ºC a 50ºC (temperatura) e 0% a 95% (umidade relativa)
+
+Leitura:
+- Faixas de Leitura: 200～10000 ppm
+- Precisão: N/A
+
+Características Elétricas:
+- Potência média dissipada: < 800mW
+- Resistência do aquecedor: 31Ω±5%
+- Tensão de operação: 5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: > 24 horas
+
+### MQ-7 - Sensor de gás monóxido de carbono (CO)
+
+Informações Gerais:
+- Interface: Analógica
+
+Leitura:
+- Faixas de Leitura: 10～10000 ppm
+- Precisão: N/A
+
+Características Elétricas:
+- Potência média dissipada: < 350mW
+- Resistência do aquecedor: 31Ω±3Ω
+- Tensão de operação: 5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: > 48 horas
+
+### MQ-2 - Sensor de gás butano, propano, metano, hidrogênio, GLP, álcool, gás natural e fumaça
+
+Informações Gerais:
+- Interface: Analógica
+
+Leitura:
+- Faixas de Leitura:  300～10000 ppm
+- Precisão: N/A
+
+Características Elétricas:
+- Potência média dissipada: < 900mW
+- Resistência do aquecedor: 31Ω±3Ω
+- Tensão de operação: 5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: > 48 horas
+
+### MQ-4 - Sensor de gás metano e gás natural
+
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -10ºC a 50ºC (temperatura) e 0% a 95% (umidade relativa)
+
+Leitura:
+- Faixas de Leitura:  200～10000 ppm
+- Precisão: N/A
+
+Características Elétricas:
+- Potência média dissipada: < 750mW
+- Resistência do aquecedor: 33Ω±5%
+- Tensão de operação: 5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: > 24 horas
+
+### MQ-6 - Sensor de gás GLP, Propano e Iso-Butano
+
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -10ºC a 50ºC (temperatura) e 0% a 95% (umidade relativa)
+
+Leitura:
+- Faixas de Leitura:  200～10000 ppm
+- Precisão: N/A
+
+Características Elétricas:
+- Potência média dissipada: < 750mW
+- Resistência do aquecedor: 33Ω±5%
+- Tensão de operação: 5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: > 24 horas
+
+### MQ-135 - Sensor de gás Amônia, Óxido Nítrico, Álcool, Benzeno, Dióxido de Carbono e Fumaça
+
+Informações Gerais:
+- Interface: Analógica
+- Ambiente operacional: -10ºC a 45ºC (temperatura) e 0% a 95% (umidade relativa)
+
+Leitura:
+- Faixas de Leitura:  10～300 ppm (NH3 e Álcool), 10 ~ 1000 ppm (Benzeno)
+- Precisão: N/A
+
+Características Elétricas:
+- Potência média dissipada: < 800mW
+- Resistência do aquecedor: 33Ω±5%
+- Tensão de operação: 5V
+
+Tempo de Resposta:
+- Tempo para aquecimento: > 24 horas
+
 ---
