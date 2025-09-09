@@ -10,8 +10,7 @@ info:
     url: https://feira-de-jogos.github.io/feira-de-jogos/
   tags:
     - $ref: "#/components/tags/player"
-    - $ref: "#/components/tags/machine"
-    - $ref: "#/components/tags/game"
+    - $ref: "#/components/tags/server"
 servers:
   production:
     host: feira-de-jogos.dev.br
@@ -23,78 +22,43 @@ channels:
   player:
     address: Player
     messages:
-      ping:
-        $ref: "#/components/messages/ping"
-      server:
-        $ref: "#/components/messages/server"
-      channel:
-        $ref: "#/components/messages/channel"
-      transfer:
-        $ref: "#/components/messages/transfer"
+      pingRequest:
+        $ref: "#/components/messages/pingRequest"
     tags:
       - $ref: "#/components/tags/player"
-  machine:
-    address: Machine
+  server:
+    address: Server
     messages:
-      ping:
-        $ref: "#/components/messages/ping"
-      credit:
-        $ref: "#/components/messages/credit"
-      debit:
-        $ref: "#/components/messages/debit"
+      pingResponse:
+        $ref: "#/components/messages/pingResponse"
     tags:
-      - $ref: "#/components/tags/machine"
-  game:
-    address: Game Server
-    messages:
-      ping:
-        $ref: "#/components/messages/ping"
-      credit:
-        $ref: "#/components/messages/credit"
-      debit:
-        $ref: "#/components/messages/debit"
-    tags:
-      - $ref: "#/components/tags/game"
+      - $ref: "#/components/tags/server"
 operations:
-  onPlayer:
-    action: receive
+  Ping:
+    action: send
     channel:
       $ref: "#/channels/player"
     messages:
-      - $ref: "#/channels/player/messages/ping"
-      - $ref: "#/channels/player/messages/server"
-      - $ref: "#/channels/player/messages/channel"
-      - $ref: "#/channels/player/messages/transfer"
+      - $ref: "#/channels/player/messages/pingRequest"
+    reply:
+      messages:
+        - $ref: "#/components/messages/pingResponse"
     tags:
       - $ref: "#/components/tags/player"
-  onMachine:
-    action: receive
-    channel:
-      $ref: "#/channels/machine"
-    messages:
-      - $ref: "#/channels/machine/messages/ping"
-      - $ref: "#/channels/machine/messages/credit"
-      - $ref: "#/channels/machine/messages/debit"
-    tags:
-      - $ref: "#/components/tags/machine"
-  onGame:
-    action: receive
-    channel:
-      $ref: "#/channels/game"
-    messages:
-      - $ref: "#/channels/game/messages/ping"
-      - $ref: "#/channels/game/messages/credit"
-      - $ref: "#/channels/game/messages/debit"
-    tags:
-      - $ref: "#/components/tags/game"
 components:
   messages:
-    ping:
+    pingRequest:
       title: Ping
       description: Ping to main server
       payload:
         type: object
         properties:
+          type:
+            type: string
+            enum: ["request"]
+          method:
+            type: string
+            enum: ["ping"]
           from:
             type: string
             description: Sender's identifier
@@ -105,191 +69,58 @@ components:
             type: integer
             description: Timestamp in miliseconds
         required:
+          - type
+          - method
           - from
           - to
           - timestamp
         examples:
-          - from: ederson@ifsc.edu.br
+          - type: request
+            method: ping
+            from: ederson@ifsc.edu.br
             to: server@feira-de-jogos.dev.br
             timestamp: 1756868440297
       tags:
         - $ref: "#/components/tags/player"
-        - $ref: "#/components/tags/machine"
-        - $ref: "#/components/tags/game"
-    server:
-      title: Server
-      description: Choose a server
+    pingResponse:
+      title: Ping Response
+      description: Ping response from main server
       payload:
         type: object
         properties:
+          type:
+            type: string
+            enum: ["response"]
+          method:
+            type: string
+            enum: ["ping"]
           from:
             type: string
             description: Sender's identifier
           to:
             type: string
             description: Receiver's identifier
-          server:
-            type: string
-            description: Server identifier
           timestamp:
             type: integer
             description: Timestamp in miliseconds
         required:
+          - type
+          - method
           - from
           - to
-          - server
           - timestamp
         examples:
-          - from: ederson@ifsc.edu.br
+          - type: response
+            method: ping
+            from: ederson@ifsc.edu.br
             to: server@feira-de-jogos.dev.br
-            server: main
             timestamp: 1756868440297
       tags:
-        - $ref: "#/components/tags/player"
-    channel:
-      title: Channel
-      description: Choose a channel
-      payload:
-        type: object
-        properties:
-          from:
-            type: string
-            description: Sender's identifier
-          to:
-            type: string
-            description: Receiver's identifier
-          channel:
-            type: string
-            description: Channel identifier
-          timestamp:
-            type: integer
-            description: Timestamp in miliseconds
-        required:
-          - from
-          - to
-          - channel
-          - timestamp
-        examples:
-          - from: ederson@ifsc.edu.br
-            to: server@feira-de-jogos.dev.br
-            channel: shopping-center
-            timestamp: 1756868440297
-      tags:
-        - $ref: "#/components/tags/player"
-    transfer:
-      title: Transfer
-      description: Transfer operation
-      payload:
-        type: object
-        properties:
-          from:
-            type: string
-            description: Sender's identifier
-          to:
-            type: string
-            description: Receiver's identifier
-          credited:
-            type: string
-            description: Credited's identifier
-          value:
-            type: integer
-            description: Transfer value
-          timestamp:
-            type: integer
-            description: Timestamp in miliseconds
-        required:
-          - from
-          - to
-          - credited
-          - value
-          - timestamp
-        examples:
-          - from: ederson@ifsc.edu.br
-            to: server@feira-de-jogos.dev.br
-            credited: leo@aluno.ifsc.edu.br
-            value: 100
-            timestamp: 1756868440297
-      tags:
-        - $ref: "#/components/tags/player"
-    credit:
-      title: Credit
-      description: Credit operation
-      payload:
-        type: object
-        properties:
-          from:
-            type: string
-            description: Sender's identifier
-          to:
-            type: string
-            description: Receiver's identifier
-          credited:
-            type: string
-            description: Credited identifier
-          value:
-            type: integer
-            description: Credit value
-          timestamp:
-            type: integer
-            description: Timestamp in miliseconds
-        required:
-          - from
-          - to
-          - credited
-          - value
-          - timestamp
-        examples:
-          - from: escape-room@feira-de-jogos.dev.br
-            to: server@feira-de-jogos.dev.br
-            credited: ederson@ifsc.edu.br
-            value: 100
-            timestamp: 1756868440297
-      tags:
-        - $ref: "#/components/tags/machine"
-        - $ref: "#/components/tags/game"
-    debit:
-      title: Debit
-      description: Debit operation
-      payload:
-        type: object
-        properties:
-          from:
-            type: string
-            description: Sender's identifier
-          to:
-            type: string
-            description: Receiver's identifier
-          debited:
-            type: string
-            description: Debited's identifier
-          value:
-            type: integer
-            description: Debit value
-          timestamp:
-            type: integer
-            description: Timestamp in miliseconds
-        required:
-          - from
-          - to
-          - debited
-          - value
-          - timestamp
-        examples:
-          - from: ederson@ifsc.edu.br
-            to: leo@aluno.ifsc.edu.br
-            debited: ederson@ifsc.edu.br
-            value: 100
-            timestamp: 1756868440297
-      tags:
-        - $ref: "#/components/tags/machine"
-        - $ref: "#/components/tags/game"
+        - $ref: "#/components/tags/server"
   tags:
     player:
       name: player
-      description: From player to main server
-    machine:
-      name: machine
-      description: From machine to main server
-    game:
-      name: game
-      description: From game server to main server
+      description: From player
+    server:
+      name: server
+      description: From main server
