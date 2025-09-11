@@ -41,6 +41,16 @@
 - [SV10](https://www.usinainfo.com.br/estacao-meteorologica-arduino/anemometro-para-estacao-meteorologica-e-arduino-sv10-3686.html)
 - [WS01](https://www.usinainfo.com.br/estacao-meteorologica-arduino/anemometro-ws01-para-estacao-meteorologica-8574.html)
 
+### Sensores de contaminação do ar
+- 2x [MQ-2](https://www.usinainfo.com.br/sensor-de-gas-arduino/detector-de-gas-sensor-de-gas-mq-2-para-glp-alcool-gases-inflamaveis-e-fumaca-2536.html)
+- 2x [MQ-4](https://www.usinainfo.com.br/sensor-de-gas-arduino/detector-de-gas-sensor-de-gas-mq-4-metano-e-gas-natural-2962.html)
+- 2x [MQ-5](https://www.usinainfo.com.br/sensor-de-gas-arduino/detector-de-gas-sensor-de-gas-mq-5-glp-gas-de-cozinha-e-gas-natural-2966.html)
+- 2x [MQ-6](https://www.usinainfo.com.br/sensor-de-gas-arduino/detector-de-gas-sensor-de-gas-mq-6-glp-gas-de-cozinha-propano-isobutano-e-gas-natural-liquefeito-2963.html)
+- 2x [MQ-7](https://www.usinainfo.com.br/sensor-de-gas-arduino/detector-de-gas-sensor-de-gas-mq-7-monoxido-de-carbono-2738.html)
+- 2x [MQ-8](https://www.usinainfo.com.br/sensor-de-gas-arduino/detector-de-gas-sensor-de-gas-mq-8-hidrogenio-2961.html)
+- 2x [MQ-135](https://www.usinainfo.com.br/sensor-de-gas-arduino/detector-de-gas-sensor-de-gas-mq-135-amonia-oxido-nitrico-alcool-benzeno-dioxido-de-carbono-e-fumaca-2964.html)
+
+
 ### Outros componentes:
 - 2x Cartão SD: [Lexar 32GB 47,99R$](https://www.pichau.com.br/cartao-de-memoria-lexar-800x-pro-32gb-sdhc-uhs-i-lsd0800p032g-bnnng), [Adata 32GB 39,99R$](https://www.pichau.com.br/cartao-de-memoria-adata-premier-32gb-sdhc-asdh32guicl10-r)
 - 2x Cartão Micro SD: [32 GB](https://www.makerhero.com/produto/cartao-de-memoria-microsd-32gb-classe-a2-raspberry-pi/)  | Makerhero (02 unid.)
