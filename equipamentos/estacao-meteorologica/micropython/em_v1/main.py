@@ -11,8 +11,8 @@ led.off()
 
 uuid = '88a2e875-30a9-49b5-ab15-4a185eaa85e3'
 topico_data = 'em/' + uuid 
-SSID = 'INTERNET'
-PASSWORD = '33467840'
+SSID = ''
+PASSWORD = ''
 versao_em = 1
 
 latitude = '-27.55256'
