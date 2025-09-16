@@ -2,8 +2,6 @@
 
 Esquema do banco de dados não relacional:
 
-![Esquema MongoDB](../imagens/db-schema-v3.png)
-
 ```js
 db.createCollection("games", {
   validator: {
@@ -108,6 +106,21 @@ db.createCollection("users", {
         "balance": { bsonType: "int" },
         "rankings": { bsonType: "array", items: { bsonType: "object" } },
         "avatars": { bsonType: "array", items: { bsonType: "object" } },
+      },
+    },
+  },
+});
+
+db.createCollection("characterTemplate", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      title: "sprites",
+      required: ["_id", "name", "spritesheet"],
+      properties: {
+        "_id": { bsonType: "objectId" },
+        "name": { bsonType: "string" },
+        "spritesheet": { bsonType: "binData" },
       },
     },
   },
