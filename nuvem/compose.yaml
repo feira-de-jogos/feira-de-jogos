@@ -1,113 +1,34 @@
 services:
-  mqtt-broker:
-    image: eclipse-mosquitto
-    restart: always
-    ports:
-      - 1883:1883
-    volumes:
-      - ./mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
-  db:
+  matrix-db:
     environment:
-      POSTGRES_USER: feira
-      POSTGRES_PASSWORD_FILE: /run/secrets/db
+      POSTGRES_USER: matrix
+      POSTGRES_PASSWORD_FILE: /run/secrets/matrix-db-password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     healthcheck:
       start_period: 10s
-      test: ["CMD", "pg_isready", "-U", "feira"]
+      test: ["CMD", "pg_isready", "-U", "matrix"]
     image: postgres
     restart: always
     secrets:
-      - db
+      - matrix-db-password
     volumes:
-      - ./db/data:/var/lib/postgresql/data:rw
-  tsdb:
+      - ./matrix-db/data:/var/lib/postgresql/data:rw
+  matrix:
+    depends_on:
+      matrix-db:
+        condition: service_healthy
     environment:
-      DOCKER_INFLUXDB_INIT_MODE: setup
-      DOCKER_INFLUXDB_INIT_USERNAME_FILE: /run/secrets/tsdb-username
-      DOCKER_INFLUXDB_INIT_PASSWORD_FILE: /run/secrets/tsdb-password
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE: /run/secrets/tsdb-admin-token
-      DOCKER_INFLUXDB_INIT_ORG: feira
-      DOCKER_INFLUXDB_INIT_BUCKET: feira
-    healthcheck:
-      start_period: 10s
-      test: ["CMD", "influx", "ping"]
-    image: influxdb:2
-    restart: always
+      SYNAPSE_SERVER_NAME: matrix.feira-de-jogos.dev.br
+      SYNAPSE_REPORT_STATS: yes
+      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
+    #healthcheck:
+    #  test: ["CMD", "curl", "-f", "http://localhost:8008/"]
+    image: matrixdotorg/synapse
+    restart: unless-stopped
     secrets:
-      - tsdb-username
-      - tsdb-password
-      - tsdb-admin-token
+      - matrix-db-password
     volumes:
-      - ./tsdb/data:/var/lib/influxdb2:rw
-  mqtt-subscriber:
-    command: "npm start"
-    depends_on:
-      mqtt-broker:
-        condition: service_started
-      tsdb:
-        condition: service_healthy
-    image: node:lts
-    restart: always
-    user: "node"
-    volumes:
-      - ./mqtt-subscriber:/home/node/app:ro
-    working_dir: /home/node/app
-  grafana:
-    image: grafana/grafana-enterprise
-    restart: always
-    depends_on:
-      - tsdb
-    environment:
-      GF_SERVER_DOMAIN: grafana.feira-de-jogos.dev.br
-    volumes:
-      - ./grafana/data:/var/lib/grafana:rw
-  rest-api:
-    command: "npm start"
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      start_period: 10s
-      test: ["CMD", "curl", "-f", "http://localhost:3000/healthcheck"]
-    image: node
-    restart: always
-    user: "node"
-    volumes:
-      - ./rest-api:/home/node/app:ro
-    working_dir: /home/node/app
-  http-proxy:
-    depends_on:
-      - mqtt-broker
-      - grafana
-      - tsdb
-      - rest-api
-    healthcheck:
-      start_period: 10s
-      test: ["CMD", "curl", "-f", "https://feira-de-jogos.dev.br"]
-    image: nginx
-    ports:
-      - 80:80/tcp
-      - 443:443/tcp
-    restart: always
-    volumes:
-      - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
-      - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
-      - ./frontend:/frontend:ro
-      - ./jogos:/jogos:ro
-      - ./http-proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-  stun:
-    image: coturn/coturn
-    network_mode: host
-    restart: always
-    volumes:
-      - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/fullchain.pem:ro
-      - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/privkey.pem:ro
-      - ./stun/coturn.conf:/etc/turnserver.conf:ro
+      - ./matrix/data:/data:rw
 secrets:
-  tsdb-username:
-    file: secret-tsdb-username
-  tsdb-password:
-    file: secret-tsdb-password
-  tsdb-admin-token:
-    file: secret-tsdb-admin-token
-  db:
-    file: secret-db
+  matrix-db-password:
+    file: secret-matrix-db-password
