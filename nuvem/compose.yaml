@@ -86,6 +86,7 @@ services:
     ports:
       - 80:80/tcp
       - 443:443/tcp
+      - 443:443/udp
     restart: always
     volumes:
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/fullchain.pem:/etc/nginx/fullchain.pem:ro
