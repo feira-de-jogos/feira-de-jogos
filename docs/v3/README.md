@@ -15,10 +15,11 @@ Requisitos funcionais:
 1. Suporte desejável às APIs Web: Battery, Web Bluetooth, Console, Fetch,  Notification, Performance, Push, Vibration, WebTransport, WebXR.
 1. Persistência dos dados de usuários em bancos de dados centralizado.
 1. Uso de *Selective Forwarding Unit* (SFU) para mídias em tempo real entre os jogadores.
+1. Suporte a pelo menos 1000 conexões WebSocket simultâneas.
+1. Suporte a pelo menos 20 fluxos de áudio em mesma sessão de mídia.
 
 Requisitos não funcionais:
 
-1. Suporte a pelo menos 1000 conexões WebSocket simultâneas.
 1. Testes regulares de carga em servidores e de monitoramento dos serviços Web.
 1. Possibilidade de migração futura de WebSocket sobre HTTP/1.1 para WebTransport sobre HTTP/3.
 1. Possibilidade de migração futura de SRTP sobre HTTP/1.1 e HTTP/2.0 para Media over QUIC (MoQ) sobre HTTP/3.
