@@ -1377,4 +1377,22 @@ Características Elétricas:
 Tempo de Resposta:
 - Tempo para aquecimento: > 24 horas
 
+### ZP07-MP503 - Sensor de formaldeído, benzeno, monóxido de carbono, hidrogênio, álcool, amônia e fumaça de cigarro
+
+Informações Gerais:
+- Interface: Digital (2 bits)
+- Ambiente operacional: -20ºC a 60ºC (temperatura) e 0% a 95% (umidade relativa)
+
+Leitura:
+- Faixas de Leitura:  N/A
+- Precisão: N/A
+
+Características Elétricas:
+- Consumo de corrente: < 60mA
+- Tensão de operação: 5V±0,2
+
+Tempo de Resposta:
+- Tempo de resposta: < 20s
+- Tempo para aquecimento: ≤ 3min
+
 ---
