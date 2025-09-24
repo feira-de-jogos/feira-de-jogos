@@ -86,7 +86,6 @@ flowchart LR
                 grafana[Grafana]
                 assinante[Assinante]
             end
-        
         end
 
         subgraph servidorJogo[Servidor de jogo]
@@ -122,7 +121,6 @@ flowchart LR
     grafana --> tsdb
     proxy --> tsdb
 
-    jogo --> servidor
     servidor --> proxy
 ```
 
