@@ -111,7 +111,7 @@ flowchart LR
     livekitEngine1 --> redis
     livekitEngine2 --> redis
     livekitGateway --> redis
-
+ 
     em --> mqtt
     em --> proxy
     proxy --> mqtt
