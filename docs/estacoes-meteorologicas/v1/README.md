@@ -8,6 +8,8 @@ Objetivos:
   - `88a2e875-30a9-49b5-ab15-4a185eaa85e3` - **Estação V1 (Somente para testes)**.
 ---
 ## Testes práticos:
+
+- Issues dos testes: #59 (Temperatura), #65 (Umidade) e #74 (Pressão Atmosférica)
 - Bibliotecas usadas nos testes: [BMP180](https://github.com/robert-hh/BMP085_BMP180/blob/master/bmp085.py), [BMP388](https://github.com/DFRobot/DFRobot_BMP388/blob/master/micropython/bmp388.py), [MCP9808](https://github.com/kfricke/micropython-mcp9808/blob/master/mcp9808.py), [LM75](https://github.com/mcauser/micropython-lm75a/blob/master/lm75a.py), [BMP280](https://github.com/PaszaVonPomiot/micropython-driver-bmp280), [DS3231](https://github.com/pangopi/micropython-DS3231-AT24C32), [AHT10](https://github.com/targetblank/micropython_ahtx0/blob/master/ahtx0.py), [BME280](https://github.com/kevbu/micropython-bme280/blob/master/bme280.py), [ADS1115](https://github.com/robert-hh/ads1x15), [AHT25](https://github.com/sshahryiar/Pyboard-MicroPython-on-STM32s/tree/main/Weather%20Station%20(AHT25%20%2B%20SPL06-007%20-%20I2C)) e [MS5611](https://github.com/jposada202020/MicroPython_MS5611)
   - A linha 31 da biblioteca do sensor **AHT25** foi comentada.
   - A linha 18 da biblioteca do sensor **MS5611** foi alterada para se adequar à organização de diretórios da ESP32.
