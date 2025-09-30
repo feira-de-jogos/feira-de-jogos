@@ -18,10 +18,10 @@
  - [Equalizador c/ 2 Canais e 3 Ajustes (AliExpress , **13,01R$**)](https://pt.aliexpress.com/item/1005006143269742.html?spm=a2g0o.productlist.main.16.33bb65e9l7sXfw&aem_p4p_detail=2025092517002118791350184138960000622107&algo_pvid=a7cdfa1d-7a88-406d-9404-cbe0a41e4bec&algo_exp_id=a7cdfa1d-7a88-406d-9404-cbe0a41e4bec-15&pdp_ext_f=%7B%22order%22%3A%2215%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21BRL%219.91%219.91%21%21%2112.28%2112.28%21%40210330dd17588448218473620ed1f0%2112000036012459353%21sea%21BR%212294966270%21X%211%210%21n_tag%3A-29919%3Bd%3A1bd2524f%3Bm03_new_user%3A-29895&curPageLogUid=DmPrCpCrHOcT&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005006143269742%7C_p_origin_prod%3A&search_p4p_id=2025092517002118791350184138960000622107_4)
 
 ### Lista de componentes para montagem de um equalizador passivo com 4 ajustes: 
- - 2 resistores de 10K
- - 1 resistor de 22K
- - 1 capacitor de poliéster 10nF
- - 1 capacitor de poliéster de 47nF
- - 1 capacitor de poliéster de 3,3nF
- - 1 capacitor de poliéster de 68nF
- - 4 potenciômetros de 50K
+ - 4x resistores de 10K
+ - 2x resistor de 22K
+ - 2x capacitor de poliéster 10nF
+ - 2x capacitor de poliéster de 47nF
+ - 2x capacitor de poliéster de 3,3nF
+ - 2x capacitor de poliéster de 68nF
+ - 4x potenciômetro duplo de 50K
