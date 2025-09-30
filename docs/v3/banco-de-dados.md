@@ -81,11 +81,11 @@ db.createCollection("games", {
   },
 });
 
-db.createCollection("machines", {
+db.createCollection("checkout", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      title: "machines",
+      title: "checkout",
       properties: {
         _id: { bsonType: "objectId" },
         name: { bsonType: "string" },
@@ -105,7 +105,7 @@ db.createCollection("machines", {
             bsonType: "object",
             properties: {
               id: { bsonType: "int" },
-              food: { bsonType: "string" },
+              product: { bsonType: "string" },
               description: { bsonType: "string" },
               image: { bsonType: "binData" },
               quantity: { bsonType: "int" },
@@ -115,14 +115,14 @@ db.createCollection("machines", {
             },
             required: [
               "id",
-              "food",
-              "quantity",
+              "product",
               "value",
               "createdAt",
               "updatedAt",
             ],
           },
         },
+        busy: "boolean",
         createdAt: { bsonType: "date" },
         updatedAt: { bsonType: "date" },
       },
@@ -141,7 +141,7 @@ db.createCollection("operations", {
         from: { bsonType: "string" },
         to: { bsonType: "string" },
         game: { bsonType: "string" },
-        food: { bsonType: "string" },
+        product: { bsonType: "string" },
         transfer: { bsonType: "bool" },
         description: { bsonType: "string" },
         value: { bsonType: "int" },
@@ -150,7 +150,7 @@ db.createCollection("operations", {
       required: ["_id", "value", "timestamp"],
       oneOf: [
         { required: ["from", "to"] },
-        { required: ["game", "food", "transfer"] },
+        { required: ["game", "product", "transfer"] },
       ],
     },
   },
