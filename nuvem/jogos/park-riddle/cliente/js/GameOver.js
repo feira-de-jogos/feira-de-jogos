@@ -1,23 +1,23 @@
 export default class GameOver extends Phaser.Scene {
-
-  constructor () {
-    super('GameOver')
+  constructor() {
+    super("GameOver");
   }
 
-  init () { }
+  init() {}
 
-  preload () {
-    this.load.image('game-over', 'assets/GameOver.png')
+  preload() {
+    this.load.image("game-over", "assets/GameOver.png");
   }
 
-  create () {
-    this.imagemFinal = this.add.image(0, 0, 'game-over').setInteractive()
-    .on('pointerdown', () => {
-      window.location.reload();
-    })
-    this.cameras.main.startFollow(this.imagemFinal)
+  create() {
+    this.imagemFinal = this.add
+      .image(0, 0, "game-over")
+      .setInteractive()
+      .on("pointerdown", () => {
+        window.location.reload();
+      });
+    this.cameras.main.startFollow(this.imagemFinal);
+  }
 
-   }
-
-  update () { }
+  update() {}
 }

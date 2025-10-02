@@ -1,19 +1,17 @@
 /*global Phaser, axios*/
 /*eslint no-undef: "error"*/
 export default class Win extends Phaser.Scene {
-  constructor () {
+  constructor() {
     super("Win");
   }
 
-  preload () {
-    this.load.image('final-feliz', 'assets/final-feliz.png')
+  preload() {
+    this.load.image("final-feliz", "assets/final-feliz.png");
   }
 
-  create () {
-    this.imagemFinal = this.add.image(0, 0, 'final-feliz')
-    this.cameras.main.startFollow(this.imagemFinal)
-
-
+  create() {
+    this.imagemFinal = this.add.image(0, 0, "final-feliz");
+    this.cameras.main.startFollow(this.imagemFinal);
 
     globalThis.google.accounts.id.initialize({
       client_id:
