@@ -29,7 +29,8 @@
     "parcel-reporter-clean-dist": "^1.0.4",
     "parcel-reporter-static-files-copy": "^1.5.3",
     "prettier": "^3.5.3",
-    "typescript-eslint": "^8.34.1"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0"
   },
   "name": "feira-de-jogos",
   "scripts": {
