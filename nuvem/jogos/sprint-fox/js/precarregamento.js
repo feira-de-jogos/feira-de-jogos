@@ -64,13 +64,13 @@ export default class precarregamento extends Phaser.Scene {
     this.load.audio("crystalsound", "assets/crystalsound.mp3");
     this.load.audio("jumpsound", "assets/jumpsound.mp3");
     this.load.audio("morte", "assets/morte.mp3");
-      this.load.audio("passarosound", "assets/passarosound.mp3");
+    this.load.audio("passarosound", "assets/passarosound.mp3");
     this.load.image("fceu", "assets/ceu.jpg");
     this.load.spritesheet("bomba", "assets/mapa/bomba.png", {
       frameWidth: 8,
       frameHeight: 8,
     });
-    
+
     // personagens (colocar o segundo depois)
     this.load.spritesheet("fox-primeiro", "assets/Spritesheet.png", {
       frameWidth: 64,
@@ -95,5 +95,4 @@ export default class precarregamento extends Phaser.Scene {
   create() {
     this.scene.start("sala");
   }
-  update() {}
 }

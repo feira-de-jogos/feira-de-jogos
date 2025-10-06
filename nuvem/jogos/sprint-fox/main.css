@@ -13,3 +13,16 @@ html {
   -ms-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
+
+@font-face {
+  font-family: "game-over";
+  src: url("/assets/game-over.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "game-over", sans-serif;
+}

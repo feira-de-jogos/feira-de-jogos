@@ -1,7 +1,7 @@
 /*global Phaser*/
 /*eslint no-undef: "error"*/
 export default class fase1 extends Phaser.Scene {
-  constructor () {
+  constructor() {
     super("fase1");
 
     this.threshold = 0.2;
@@ -22,7 +22,7 @@ export default class fase1 extends Phaser.Scene {
     this.contadorCristais = 0; // Inicialize o contador de cristais
   }
 
-  preload () {
+  preload() {
     this.load.tilemapTiledJSON("mapa", "assets/mapa/mapa.json");
     this.load.image("arvore", "assets/mapa/arvore.png");
     this.load.image("tp", "assets/mapa/tp.png");
@@ -73,13 +73,13 @@ export default class fase1 extends Phaser.Scene {
     this.load.audio("crystalsound", "assets/crystalsound.mp3");
     this.load.audio("jumpsound", "assets/jumpsound.mp3");
     this.load.audio("morte", "assets/morte.mp3");
-      this.load.audio("passarosound", "assets/passarosound.mp3");
+    this.load.audio("passarosound", "assets/passarosound.mp3");
     this.load.image("fceu", "assets/ceu.jpg");
     this.load.spritesheet("bomba", "assets/mapa/bomba.png", {
       frameWidth: 8,
       frameHeight: 8,
     });
-    
+
     // personagens (colocar o segundo depois)
     this.load.spritesheet("fox-primeiro", "assets/Spritesheet.png", {
       frameWidth: 64,
@@ -101,21 +101,23 @@ export default class fase1 extends Phaser.Scene {
     this.load.image("fullscreen", "assets/fullscreen.png");
   }
 
-  create () {
-    this.fundoEscuro = this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x000000, 0.6)
-  .setOrigin(0)
-  .setScrollFactor(0)
-  .setDepth(999); // abaixo da imagem de objetivo
-this.objetivoImagem = this.add.image(this.scale.width / 2, this.scale.height / 2, "objetivo")
-  .setScrollFactor(0)
-  .setDepth(1000)
-  .setOrigin(0.5)
-  .setDepth(10000)
-  .setInteractive(); // permite clique
-this.objetivoImagem.on("pointerdown", () => {
-  this.objetivoImagem.destroy(); // remove a imagem
-   this.fundoEscuro.destroy();
-});
+  create() {
+    this.fundoEscuro = this.add
+      .rectangle(0, 0, this.scale.width, this.scale.height, 0x000000, 0.6)
+      .setOrigin(0)
+      .setScrollFactor(0)
+      .setDepth(999); // abaixo da imagem de objetivo
+    this.objetivoImagem = this.add
+      .image(this.scale.width / 2, this.scale.height / 2, "objetivo")
+      .setScrollFactor(0)
+      .setDepth(1000)
+      .setOrigin(0.5)
+      .setDepth(10000)
+      .setInteractive(); // permite clique
+    this.objetivoImagem.on("pointerdown", () => {
+      this.objetivoImagem.destroy(); // remove a imagem
+      this.fundoEscuro.destroy();
+    });
     this.musica = this.sound.add("musicaa", {
       loop: true, // para repetir indefinidamente
       volume: 0.5, // volume entre 0 e 1
@@ -281,7 +283,7 @@ this.objetivoImagem.on("pointerdown", () => {
           .forEach((track) =>
             this.game.localConnection.addTrack(track, this.game.midias)
           );
-        }
+      }
 
       this.game.localConnection
         .createOffer()
@@ -321,61 +323,58 @@ this.objetivoImagem.on("pointerdown", () => {
       console.log("Conexão de dados aberta!");
     };
 
-  this.game.dadosJogo.onmessage = (event) => {
+    this.game.dadosJogo.onmessage = (event) => {
       const dados = JSON.parse(event.data);
 
-     if (dados.type === "finalizou" && !this.jogoFinalizado) {
-  console.log("→ Recebido sinal de finalização do outro jogador");
-  this.jogoFinalizado = true;
+      if (dados.type === "finalizou" && !this.jogoFinalizado) {
+        console.log("→ Recebido sinal de finalização do outro jogador");
+        this.jogoFinalizado = true;
 
-  
+        const totalVerdes = dados.verdes ?? 0;
+        const totalVermelhos = dados.vermelhos ?? 0;
+        const pontuacao = dados.pontuacao ?? 0;
 
-  const totalVerdes = dados.verdes ?? 0;
-const totalVermelhos = dados.vermelhos ?? 0;
-const pontuacao = dados.pontuacao ?? 0;
+        if (this.personagemLocal?.body) {
+          this.personagemLocal.body.enable = false;
+        }
+        this.finalizarJogoRemoto(
+          dados.pontuacao,
+          dados.verdes ?? 0,
+          dados.vermelhos ?? 0
+        );
+      }
+      if (dados.type === "pontuacao") {
+        console.log("[RECEBIDO PONTUAÇÃO]", dados);
 
-  if (this.personagemLocal?.body) {
-    this.personagemLocal.body.enable = false;
-  }
- this.finalizarJogoRemoto(dados.pontuacao, dados.verdes ?? 0, dados.vermelhos ?? 0);
-  
-}
-     if (dados.type === "pontuacao") {
-  console.log("[RECEBIDO PONTUAÇÃO]", dados);
+        this.pontuacao = dados.pontuacao;
+        this.cristaisContagem.verde = dados.verdes || 0;
+        this.cristaisContagem.vermelho = dados.vermelhos || 0;
 
-  this.pontuacao = dados.pontuacao;
-  this.cristaisContagem.verde = dados.verdes || 0;
-  this.cristaisContagem.vermelho = dados.vermelhos || 0;
+        if (dados.type === "cristal-coletado") {
+          const index = dados.index;
+          const cristal = this.cristal?.[index];
+          if (cristal && !cristal.coletado) {
+            cristal.coletado = true;
+            cristal.objeto.disableBody(true, true);
 
- if (dados.type === "cristal-coletado") {
-  const index = dados.index;
-  const cristal = this.cristal?.[index];
-  if (cristal && !cristal.coletado) {
-    cristal.coletado = true;
-    cristal.objeto.disableBody(true, true);
+            this.tweens.add({
+              targets: cristal.objeto,
+              scale: 0,
+              alpha: 0,
+              duration: 300,
+            });
 
-    this.tweens.add({
-      targets: cristal.objeto,
-      scale: 0,
-      alpha: 0,
-      duration: 300,
-    });
+            const tint = dados.cor;
+            if (tint === 0x00ff00) {
+              this.cristaisContagem.verde += 1;
+            } else if (tint === 0xff6666) {
+              this.cristaisContagem.vermelho += 1;
+            }
 
-    const tint = dados.cor;
-    if (tint === 0x00ff00) {
-      this.cristaisContagem.verde += 1;
-    } else if (tint === 0xff6666) {
-      this.cristaisContagem.vermelho += 1;
-    }
-
-    console.log("[CRISTAL REMOTO] Coletado index:", index);
-  }
-}
-
-
-
-
-}
+            console.log("[CRISTAL REMOTO] Coletado index:", index);
+          }
+        }
+      }
 
       if (dados.personagem) {
         this.personagemRemoto.x = dados.personagem.x;
@@ -383,46 +382,45 @@ const pontuacao = dados.pontuacao ?? 0;
         this.personagemRemoto.setFrame(dados.personagem.frame);
       }
 
- if (dados.type === "vidas" && dados.vidas !== undefined) {
-  if (dados.vidas < this.vidas) {
-    this.vidas = dados.vidas;
-    this.atualizarVidas();    // atualize a UI local também
-}
- }
-
-if (dados.gameOver && !this.jogoFinalizado) {
-  this.jogoFinalizado = true;
-  this.scene.start("final-perdeu");
-}
-
-if (dados.type === "cristal-coletado") {
-  const index = dados.index;
-  const cristal = this.cristal?.[index];
-
-  if (cristal && !cristal.coletado) {
-    cristal.coletado = true;
-
-    this.tweens.add({
-      targets: cristal.objeto,
-      alpha: 0,
-      scale: 0,
-      duration: 300,
-      onComplete: () => {
-        cristal.objeto.disableBody(true, true);
+      if (dados.type === "vidas" && dados.vidas !== undefined) {
+        if (dados.vidas < this.vidas) {
+          this.vidas = dados.vidas;
+          this.atualizarVidas(); // atualize a UI local também
+        }
       }
-    });
 
-    // Atualiza a contagem remota se quiser
-    if (dados.cor === 0x00ff00) {
-      this.cristaisContagem.verde += 1;
-    } else if (dados.cor === 0xff6666) {
-      this.cristaisContagem.vermelho += 1;
-    }
+      if (dados.gameOver && !this.jogoFinalizado) {
+        this.jogoFinalizado = true;
+        this.scene.start("final-perdeu");
+      }
 
-    console.log(`[SYNC] Cristal #${index} escondido remotamente`);
-  }
-}
+      if (dados.type === "cristal-coletado") {
+        const index = dados.index;
+        const cristal = this.cristal?.[index];
 
+        if (cristal && !cristal.coletado) {
+          cristal.coletado = true;
+
+          this.tweens.add({
+            targets: cristal.objeto,
+            alpha: 0,
+            scale: 0,
+            duration: 300,
+            onComplete: () => {
+              cristal.objeto.disableBody(true, true);
+            },
+          });
+
+          // Atualiza a contagem remota se quiser
+          if (dados.cor === 0x00ff00) {
+            this.cristaisContagem.verde += 1;
+          } else if (dados.cor === 0xff6666) {
+            this.cristaisContagem.vermelho += 1;
+          }
+
+          console.log(`[SYNC] Cristal #${index} escondido remotamente`);
+        }
+      }
 
       if (dados.passarinho) {
         this.passarinho.x = dados.passarinho.x;
@@ -438,7 +436,7 @@ if (dados.type === "cristal-coletado") {
         }
       }
     };
-    
+
     // this.personagemLocal.setTint(0x800080);
     /*candidate && 
   this.personagemLocal = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'fox-primeiro')
@@ -524,10 +522,6 @@ if (dados.type === "cristal-coletado") {
         .setScrollFactor(0)
         .setDepth(10),
     });
-
-   
-   
-
 
     // Substituindo o botão de pulo com a imagem 'jump'
     this.botaoPulo = this.add
@@ -686,96 +680,114 @@ if (dados.type === "cristal-coletado") {
     ];
 
     this.cristaisContagem = {
-  verde: 0,
-  vermelho: 0
-};
+      verde: 0,
+      vermelho: 0,
+    };
 
-this.cristal.forEach((cristal, index) => {
-  cristal.objeto = this.physics.add.sprite(cristal.x, cristal.y, "crystal");
-  cristal.objeto.body.setAllowGravity(false);
-  cristal.objeto.play("crystal_spin");
+    this.cristal.forEach((cristal, index) => {
+      cristal.objeto = this.physics.add.sprite(cristal.x, cristal.y, "crystal");
+      cristal.objeto.body.setAllowGravity(false);
+      cristal.objeto.play("crystal_spin");
 
-  cristal.objeto.setTint(cristal.cor);
+      cristal.objeto.setTint(cristal.cor);
 
-  this.physics.add.collider(cristal.objeto, this.layerChao);
-  this.physics.add.overlap(
-  this.personagemLocal,
-  cristal.objeto,
-  (personagem, sprite) => {
-    // Buscar o objeto original da lista
-    const cristal = this.cristal.find(c => c.objeto === sprite);
-    if (!cristal || cristal.coletado) return;
-    cristal.coletado = true;
+      this.physics.add.collider(cristal.objeto, this.layerChao);
+      this.physics.add.overlap(
+        this.personagemLocal,
+        cristal.objeto,
+        (personagem, sprite) => {
+          // Buscar o objeto original da lista
+          const cristal = this.cristal.find((c) => c.objeto === sprite);
+          if (!cristal || cristal.coletado) return;
+          cristal.coletado = true;
 
-    cristal.objeto.disableBody(true, true);
+          cristal.objeto.disableBody(true, true);
 
-    if (this.game.dadosJogo && this.game.dadosJogo.readyState === "open") {
-  this.game.dadosJogo.send(
-    JSON.stringify({
-      type: "cristal-coletado",
-      index: index, // ← manda o índice
-      cor: cristal.cor
-    })
-  );
-}
+          if (
+            this.game.dadosJogo &&
+            this.game.dadosJogo.readyState === "open"
+          ) {
+            this.game.dadosJogo.send(
+              JSON.stringify({
+                type: "cristal-coletado",
+                index: index, // ← manda o índice
+                cor: cristal.cor,
+              })
+            );
+          }
 
-    this.tweens.add({
-      targets: cristal.objeto,
-      scale: 0,
-      alpha: 0,
-      duration: 300,
-      onComplete: () => {
-        cristal.objeto.disableBody(true, true);
-      },
-    });
+          this.tweens.add({
+            targets: cristal.objeto,
+            scale: 0,
+            alpha: 0,
+            duration: 300,
+            onComplete: () => {
+              cristal.objeto.disableBody(true, true);
+            },
+          });
 
-    this.sound.play("crystalsound");
-    this.pontuacao += 1;
+          this.sound.play("crystalsound");
+          this.pontuacao += 1;
 
-    const tint = cristal.cor; // agora usa a cor original corretamente
-    if (tint === 0x00ff00) {
-      this.cristaisContagem.verde += 1;
-      console.log("[CRISTAL] Verde coletado:", this.cristaisContagem.verde);
-    } else if (tint === 0xff6666) {
-      this.cristaisContagem.vermelho += 1;
-      console.log("[CRISTAL] Vermelho coletado:", this.cristaisContagem.vermelho);
-    }
+          const tint = cristal.cor; // agora usa a cor original corretamente
+          if (tint === 0x00ff00) {
+            this.cristaisContagem.verde += 1;
+            console.log(
+              "[CRISTAL] Verde coletado:",
+              this.cristaisContagem.verde
+            );
+          } else if (tint === 0xff6666) {
+            this.cristaisContagem.vermelho += 1;
+            console.log(
+              "[CRISTAL] Vermelho coletado:",
+              this.cristaisContagem.vermelho
+            );
+          }
 
-    console.log("[CRISTAL] Total:", this.pontuacao);
+          console.log("[CRISTAL] Total:", this.pontuacao);
 
-    if (this.game.dadosJogo && this.game.dadosJogo.readyState === "open") {
-      this.game.dadosJogo.send(
-        JSON.stringify({
-          type: "pontuacao",
-          pontuacao: this.pontuacao,
-          verdes: this.cristaisContagem.verde,
-          vermelhos: this.cristaisContagem.vermelho,
-          cristal: this.cristal.map(c => ({ visivel: c.objeto.visible }))
-        })
+          if (
+            this.game.dadosJogo &&
+            this.game.dadosJogo.readyState === "open"
+          ) {
+            this.game.dadosJogo.send(
+              JSON.stringify({
+                type: "pontuacao",
+                pontuacao: this.pontuacao,
+                verdes: this.cristaisContagem.verde,
+                vermelhos: this.cristaisContagem.vermelho,
+                cristal: this.cristal.map((c) => ({
+                  visivel: c.objeto.visible,
+                })),
+              })
+            );
+          }
+
+          // Efeito arco-íris
+          const rainbowColors = [
+            0xff0000, 0xff7f00, 0xffff00, 0x00ff00, 0x0000ff, 0x4b0082,
+            0x8f00ff,
+          ];
+          let colorIndex = 0;
+
+          const colorEvent = this.time.addEvent({
+            delay: 50,
+            loop: true,
+            callback: () => {
+              this.personagemLocal.setTint(rainbowColors[colorIndex]);
+              colorIndex = (colorIndex + 1) % rainbowColors.length;
+            },
+          });
+
+          this.time.delayedCall(700, () => {
+            colorEvent.remove(false);
+            this.personagemLocal.clearTint();
+          });
+        },
+        null,
+        this
       );
-    }
-
-    // Efeito arco-íris
-    const rainbowColors = [0xff0000, 0xff7f00, 0xffff00, 0x00ff00, 0x0000ff, 0x4b0082, 0x8f00ff];
-    let colorIndex = 0;
-
-    const colorEvent = this.time.addEvent({
-      delay: 50,
-      loop: true,
-      callback: () => {
-        this.personagemLocal.setTint(rainbowColors[colorIndex]);
-        colorIndex = (colorIndex + 1) % rainbowColors.length;
-      },
     });
-
-    this.time.delayedCall(700, () => {
-      colorEvent.remove(false);
-      this.personagemLocal.clearTint();
-    });
-  },
-  null,
-  this
-  )})
 
     this.checarUI = () => {
       const elementosUI = [
@@ -843,31 +855,31 @@ this.cristal.forEach((cristal, index) => {
       this.canAirDash = true;
     });
     this.physics.add.overlap(
-    this.personagemLocal,
-    this.passarinhos,
-    (personagem, passarinho) => {
-      if (!passarinho.atingido) {
-        personagem.setVelocityY(-425);
-        this.canDash = true;
-        this.canAirDash = true;
-        passarinho.atingido = true;
+      this.personagemLocal,
+      this.passarinhos,
+      (personagem, passarinho) => {
+        if (!passarinho.atingido) {
+          personagem.setVelocityY(-425);
+          this.canDash = true;
+          this.canAirDash = true;
+          passarinho.atingido = true;
 
-        this.sound.play("passarosound");
+          this.sound.play("passarosound");
 
-        const direcao = passarinho.body.velocity.x > 0 ? 1 : -1;
+          const direcao = passarinho.body.velocity.x > 0 ? 1 : -1;
 
-        passarinho.setVelocityX(0);
-        passarinho.play("passarinho-dano");
+          passarinho.setVelocityX(0);
+          passarinho.play("passarinho-dano");
 
-        this.time.delayedCall(200, () => {
-          passarinho.play("passarinho");
-          passarinho.setVelocityX(100 * direcao);
-          passarinho.setFlipX(direcao > 0);
-          passarinho.atingido = false;
-        });
+          this.time.delayedCall(200, () => {
+            passarinho.play("passarinho");
+            passarinho.setVelocityX(100 * direcao);
+            passarinho.setFlipX(direcao > 0);
+            passarinho.atingido = false;
+          });
+        }
       }
-    }
-  )
+    );
     this.passarinhos.minX = 8180.0;
     this.passarinhos.maxX = 8352.0;
     /*
@@ -962,7 +974,7 @@ this.cristal.forEach((cristal, index) => {
     this.flag.setScale(2);
   }
 
-  update () {
+  update() {
     const emCimaDaPlataforma =
       this.personagemLocal.body.touching.down &&
       this.plataforma.body.touching.up &&
@@ -1180,36 +1192,36 @@ this.cristal.forEach((cristal, index) => {
     if (this.personagemLocal.x > 19133 && !this.jogoFinalizado) {
       this.jogoFinalizado = true;
 
-       const dadosFinal = {
-    type: "finalizou",
-    pontuacao: this.pontuacao,
-    verdes: this.cristaisContagem.verde,
-    vermelhos: this.cristaisContagem.vermelho
-  };
-this.finalizarJogoLocal();
+      const dadosFinal = {
+        type: "finalizou",
+        pontuacao: this.pontuacao,
+        verdes: this.cristaisContagem.verde,
+        vermelhos: this.cristaisContagem.vermelho,
+      };
+      this.finalizarJogoLocal();
     } else {
       // Se não passou do limite máximo, mantém a lógica normal do cemitério
       const dentroDoCemiterio = this.personagemLocal.x > 14012.12;
 
-  if (
-    dentroDoCemiterio &&
-    !this.entrouNoCemiterio &&
-    !this.jogoFinalizado
-  ) {
-    this.entrouNoCemiterio = true;
+      if (
+        dentroDoCemiterio &&
+        !this.entrouNoCemiterio &&
+        !this.jogoFinalizado
+      ) {
+        this.entrouNoCemiterio = true;
 
-    console.log("→ Entrando no cemitério");
-    this.fundoAtual = "cemiterio";
+        console.log("→ Entrando no cemitério");
+        this.fundoAtual = "cemiterio";
 
-    this.musica.stop();
-    this.sound.play("fantasma", { loop: false });
-    if (!this.horrorScheduled) {
-      this.horrorScheduled = true;
-      this.time.delayedCall(4000, () => {
-        console.log("Tocando horror");
-        this.sound.play("horror", { volume: 10, loop: true });
-      });
-    }
+        this.musica.stop();
+        this.sound.play("fantasma", { loop: false });
+        if (!this.horrorScheduled) {
+          this.horrorScheduled = true;
+          this.time.delayedCall(4000, () => {
+            console.log("Tocando horror");
+            this.sound.play("horror", { volume: 10, loop: true });
+          });
+        }
 
         // Mostrar texto "FUGA" imediatamente
         this.time.delayedCall(1000, () => {
@@ -1499,63 +1511,59 @@ this.finalizarJogoLocal();
       this.game.dadosJogo.send(JSON.stringify(dados));
     }
 
-  if (this.jogoFinalizado) return;  // para não mexer no personagem após fim
-  // resto do update
-        
-      
-  
-    
+    if (this.jogoFinalizado) return; // para não mexer no personagem após fim
+    // resto do update
   }
-tratarDano() {
-  if (this.personagemLocal.isInvulnerable) return;
-  this.levandoDano = true;
+  tratarDano() {
+    if (this.personagemLocal.isInvulnerable) return;
+    this.levandoDano = true;
 
-  if (this.vidas > 0) {
-    this.vidas--;
+    if (this.vidas > 0) {
+      this.vidas--;
 
-    // Atualizar UI corações
-    if (this.coracoes[this.vidas]) {
-      this.coracoes[this.vidas].setVisible(false);
-    }
-    if (this.animacoesDano[this.vidas]) {
-      const animDano = this.animacoesDano[this.vidas];
-      animDano.setVisible(true);
-      animDano.anims.play("dano");
-      animDano.on(
-        "animationcomplete",
-        () => {
-          animDano.setVisible(false);
-        },
-        this
-      );
-    }
+      // Atualizar UI corações
+      if (this.coracoes[this.vidas]) {
+        this.coracoes[this.vidas].setVisible(false);
+      }
+      if (this.animacoesDano[this.vidas]) {
+        const animDano = this.animacoesDano[this.vidas];
+        animDano.setVisible(true);
+        animDano.anims.play("dano");
+        animDano.on(
+          "animationcomplete",
+          () => {
+            animDano.setVisible(false);
+          },
+          this
+        );
+      }
 
-    this.atualizarVidas();
+      this.atualizarVidas();
 
-    // **Enviar vida atualizada para o outro jogador**
-    if (this.game.dadosJogo && this.game.dadosJogo.readyState === "open") {
-      this.game.dadosJogo.send(
-        JSON.stringify({
-          type: "vidas",    // importante ter o type para identificar a mensagem
-          vidas: this.vidas
-        })
-      );
-    }
-
-    if (this.vidas <= 0 && !this.jogoFinalizado) {
-      this.jogoFinalizado = true;
-
-      // Enviar explicitamente gameOver para garantir
+      // **Enviar vida atualizada para o outro jogador**
       if (this.game.dadosJogo && this.game.dadosJogo.readyState === "open") {
         this.game.dadosJogo.send(
           JSON.stringify({
-            type: "gameOver",
+            type: "vidas", // importante ter o type para identificar a mensagem
             vidas: this.vidas,
-            gameOver: true,
           })
         );
       }
-    }
+
+      if (this.vidas <= 0 && !this.jogoFinalizado) {
+        this.jogoFinalizado = true;
+
+        // Enviar explicitamente gameOver para garantir
+        if (this.game.dadosJogo && this.game.dadosJogo.readyState === "open") {
+          this.game.dadosJogo.send(
+            JSON.stringify({
+              type: "gameOver",
+              vidas: this.vidas,
+              gameOver: true,
+            })
+          );
+        }
+      }
 
       // **Aqui escondemos o fantasma e desativamos**
       this.fantasmaAtivado = false;
@@ -1594,25 +1602,25 @@ tratarDano() {
 
     this.isDashing = true;
     this.jumpPressed = false;
-this.time.delayedCall(750, () => {
-  const xAtual = this.personagemLocal.x;
+    this.time.delayedCall(750, () => {
+      const xAtual = this.personagemLocal.x;
 
-  if (this.entrouNoCemiterio) {
-    // ⚰️ Renasce no cemitério
-    this.personagemLocal.setPosition(13138.67, 3389.33);
-    if (this.sound && this.sound.isPlaying('horror')) {
-      this.sound.stopByKey('horror');
-    }
-  } else if (xAtual > 7361.00 && xAtual < 14012.12) {
-    // 📍 Renasce no ponto fixo se estiver entre os limites
-    this.personagemLocal.setPosition(7422.00, 4228.00);
-  } else {
-    // 🏠 Renasce no ponto padrão
-    this.personagemLocal.setPosition(this.spawnPoint.x, this.spawnPoint.y);
-  }
+      if (this.entrouNoCemiterio) {
+        // ⚰️ Renasce no cemitério
+        this.personagemLocal.setPosition(13138.67, 3389.33);
+        if (this.sound && this.sound.isPlaying("horror")) {
+          this.sound.stopByKey("horror");
+        }
+      } else if (xAtual > 7361.0 && xAtual < 14012.12) {
+        // 📍 Renasce no ponto fixo se estiver entre os limites
+        this.personagemLocal.setPosition(7422.0, 4228.0);
+      } else {
+        // 🏠 Renasce no ponto padrão
+        this.personagemLocal.setPosition(this.spawnPoint.x, this.spawnPoint.y);
+      }
 
-  this.personagemLocal.setVelocity(0, 0); // reseta movimento
-  this.personagemLocal.clearTint();
+      this.personagemLocal.setVelocity(0, 0); // reseta movimento
+      this.personagemLocal.clearTint();
 
       this.isDashing = false;
       this.personagemLocal.isInvulnerable = false;
@@ -1626,7 +1634,7 @@ this.time.delayedCall(750, () => {
     });
   }
 
-  createAnims () {
+  createAnims() {
     this.anims.create({
       key: "personagem-andando-direita",
       frames: this.anims.generateFrameNumbers(
@@ -1857,7 +1865,7 @@ this.time.delayedCall(750, () => {
     });
   }
 
-  resetarParaSpawn () {
+  resetarParaSpawn() {
     this.personagemLocal.setPosition(this.spawnPoint.x, this.spawnPoint.y);
     this.personagemLocal.setVelocity(0, 0);
     this.personagemLocal.clearTint();
@@ -1872,7 +1880,7 @@ this.time.delayedCall(750, () => {
       this.personagemLocal.anims.play("personagem-parado-esquerda", true);
     }
   }
-  trocarFundo (personagem, zona) {
+  trocarFundo(personagem, zona) {
     if (zona.tipo === "mudarFundo") {
       this.back.setTexture("fundo2");
 
@@ -1880,7 +1888,7 @@ this.time.delayedCall(750, () => {
       zona.destroy();
     }
   }
-  matarJogador () {
+  matarJogador() {
     console.log("Jogador morreu! Voltando para o respawn...");
 
     // Reseta a posição para o spawnPoint
@@ -1897,7 +1905,7 @@ this.time.delayedCall(750, () => {
     // Pode também tocar algum som ou animação de "morte" antes de voltar
     // this.sound.play("deathSound");
   }
-  atualizarCoracoes () {
+  atualizarCoracoes() {
     for (let i = 0; i < this.coracoes.length; i++) {
       if (i < this.vidas) {
         this.coracoes[i].setVisible(true);
@@ -1906,207 +1914,198 @@ this.time.delayedCall(750, () => {
       }
     }
   }
-   atualizarVidas () {
+  atualizarVidas() {
     this.atualizarCoracoes();
- console.log("→ atualizarVidas chamada. vidas =", this.vidas);
+    console.log("→ atualizarVidas chamada. vidas =", this.vidas);
 
-  if (this.game.dadosJogo && this.game.dadosJogo.readyState === "open") {
-    console.log("→ Enviando estado via WebSocket:", {
-      vidas: this.vidas,
-      gameOver: this.vidas <= 0,
-    });
-
-    this.game.dadosJogo.send(
-      JSON.stringify({
+    if (this.game.dadosJogo && this.game.dadosJogo.readyState === "open") {
+      console.log("→ Enviando estado via WebSocket:", {
         vidas: this.vidas,
         gameOver: this.vidas <= 0,
-      })
+      });
+
+      this.game.dadosJogo.send(
+        JSON.stringify({
+          vidas: this.vidas,
+          gameOver: this.vidas <= 0,
+        })
       );
     }
   }
 
- finalizarJogoLocal() {
-  // Garante que a música volta ao normal
-  this.fundoAtual = "back";
-  this.sound.stopByKey("horror");
-  this.musica.play();
+  finalizarJogoLocal() {
+    // Garante que a música volta ao normal
+    this.fundoAtual = "back";
+    this.sound.stopByKey("horror");
+    this.musica.play();
 
-  // Esconde o cemitério
-  this.tweens.add({
-    targets: this.cemiterio,
-    alpha: 0,
-    duration: 1000,
-    ease: "Linear",
-    onComplete: () => {
-      this.cemiterio.setVisible(false);
-      console.log("→ Cemitério escondido");
+    // Esconde o cemitério
+    this.tweens.add({
+      targets: this.cemiterio,
+      alpha: 0,
+      duration: 1000,
+      ease: "Linear",
+      onComplete: () => {
+        this.cemiterio.setVisible(false);
+        console.log("→ Cemitério escondido");
 
-      // Mensagem "obrigado"
-      const obrigadoText = this.add.text(
-        this.cameras.main.centerX,
-        80,
-        "Obrigado por jogar",
-        {
-          fontFamily: "game-over",
-          fontSize: "35px",
-          color: "#FFFFFF",
-          fontStyle: "bold",
-          stroke: "#000000",
-          strokeThickness: 4,
+        // Mensagem "obrigado"
+        const obrigadoText = this.add
+          .text(this.cameras.main.centerX, 80, "Obrigado por jogar", {
+            fontFamily: "game-over",
+            fontSize: "35px",
+            color: "#FFFFFF",
+            fontStyle: "bold",
+            stroke: "#000000",
+            strokeThickness: 4,
+          })
+          .setDepth(3000)
+          .setOrigin(0.5)
+          .setScrollFactor(0)
+          .setAlpha(0);
+
+        this.tweens.add({
+          targets: obrigadoText,
+          alpha: 1,
+          duration: 1500,
+          ease: "Linear",
+          delay: 500,
+        });
+
+        // Mensagem da princesa
+        const princesaText = this.add
+          .text(
+            this.cameras.main.centerX,
+            130,
+            "mas a princesa esta em outro castelo",
+            {
+              fontFamily: "game-over",
+              fontSize: "15px",
+              color: "#FFA500",
+              fontStyle: "bold",
+              stroke: "#000000",
+              strokeThickness: 4,
+            }
+          )
+          .setDepth(3000)
+          .setOrigin(0.5)
+          .setScrollFactor(0)
+          .setAlpha(0);
+
+        this.tweens.add({
+          targets: princesaText,
+          alpha: 1,
+          duration: 1500,
+          ease: "Linear",
+          delay: 2000,
+        });
+
+        // Envia mensagem de finalização para o outro jogador
+        if (this.game.dadosJogo?.readyState === "open") {
+          this.game.dadosJogo.send(
+            JSON.stringify({
+              type: "finalizou",
+              pontuacao: this.pontuacao,
+              verdes: this.cristaisContagem.verde,
+              vermelhos: this.cristaisContagem.vermelho,
+            })
+          );
         }
-      )
-        .setDepth(3000)
-        .setOrigin(0.5)
-        .setScrollFactor(0)
-        .setAlpha(0);
 
-      this.tweens.add({
-        targets: obrigadoText,
-        alpha: 1,
-        duration: 1500,
-        ease: "Linear",
-        delay: 500,
-      });
+        // Aguarda 4 segundos antes de trocar de cena, para mostrar as mensagens
+        this.time.delayedCall(7000, () => {
+          let pegouTodosCristais =
+            this.cristaisContagem.verde === 11 &&
+            this.cristaisContagem.vermelho === 7;
 
-      // Mensagem da princesa
-      const princesaText = this.add.text(
-        this.cameras.main.centerX,
-        130,
-        "mas a princesa esta em outro castelo",
-        {
-          fontFamily: "game-over",
-          fontSize: "15px",
-          color: "#FFA500",
-          fontStyle: "bold",
-          stroke: "#000000",
-          strokeThickness: 4,
-        }
-      )
-        .setDepth(3000)
-        .setOrigin(0.5)
-        .setScrollFactor(0)
-        .setAlpha(0);
+          let creditos = pegouTodosCristais ? 1500 : 500;
 
-      this.tweens.add({
-        targets: princesaText,
-        alpha: 1,
-        duration: 1500,
-        ease: "Linear",
-        delay: 2000,
-      });
-
-      // Envia mensagem de finalização para o outro jogador
-      if (this.game.dadosJogo?.readyState === "open") {
-        this.game.dadosJogo.send(
-          JSON.stringify({
-            type: "finalizou",
+          this.scene.start("final-unico", {
             pontuacao: this.pontuacao,
             verdes: this.cristaisContagem.verde,
             vermelhos: this.cristaisContagem.vermelho,
+            creditos: creditos,
+          });
+        });
+      },
+    });
+  }
+
+  finalizarJogoRemoto(pontuacao, verdes, vermelhos) {
+    this.fundoAtual = "back";
+    this.sound.stopByKey("horror");
+    this.musica.play();
+
+    this.tweens.add({
+      targets: this.cemiterio,
+      alpha: 0,
+      duration: 1000,
+      ease: "Linear",
+      onComplete: () => {
+        this.cemiterio.setVisible(false);
+        console.log("→ Cemitério escondido (remoto)");
+
+        const obrigadoText = this.add
+          .text(this.cameras.main.centerX, 80, "Obrigado por jogar", {
+            fontFamily: "game-over",
+            fontSize: "35px",
+            color: "#FFFFFF",
+            fontStyle: "bold",
+            stroke: "#000000",
+            strokeThickness: 4,
           })
-        );
-      }
+          .setDepth(3000)
+          .setOrigin(0.5)
+          .setScrollFactor(0)
+          .setAlpha(0);
 
-      // Aguarda 4 segundos antes de trocar de cena, para mostrar as mensagens
- this.time.delayedCall(7000, () => {
-  let pegouTodosCristais =
-    this.cristaisContagem.verde === 11 &&
-    this.cristaisContagem.vermelho === 7;
+        this.tweens.add({
+          targets: obrigadoText,
+          alpha: 1,
+          duration: 1500,
+          ease: "Linear",
+          delay: 500,
+        });
 
-  let creditos = pegouTodosCristais ? 1500 : 500;
+        const princesaText = this.add
+          .text(
+            this.cameras.main.centerX,
+            130,
+            "mas a princesa esta em outro castelo",
+            {
+              fontFamily: "game-over",
+              fontSize: "15px",
+              color: "#FFA500",
+              fontStyle: "bold",
+              stroke: "#000000",
+              strokeThickness: 4,
+            }
+          )
+          .setDepth(3000)
+          .setOrigin(0.5)
+          .setScrollFactor(0)
+          .setAlpha(0);
 
-  this.scene.start("final-unico", {
-    pontuacao: this.pontuacao,
-    verdes: this.cristaisContagem.verde,
-    vermelhos: this.cristaisContagem.vermelho,
-    creditos: creditos,
-  });
-})
-    }
-  })
-}
-  
-        
+        this.tweens.add({
+          targets: princesaText,
+          alpha: 1,
+          duration: 1500,
+          ease: "Linear",
+          delay: 2000,
+        });
 
-finalizarJogoRemoto(pontuacao, verdes, vermelhos) {
-  this.fundoAtual = "back";
-  this.sound.stopByKey("horror");
-  this.musica.play();
+        this.time.delayedCall(7000, () => {
+          let pegouTodosCristais = verdes === 11 && vermelhos === 7;
+          let creditos = pegouTodosCristais ? 1500 : 500;
 
-  this.tweens.add({
-    targets: this.cemiterio,
-    alpha: 0,
-    duration: 1000,
-    ease: "Linear",
-    onComplete: () => {
-      this.cemiterio.setVisible(false);
-      console.log("→ Cemitério escondido (remoto)");
-
-      const obrigadoText = this.add.text(
-        this.cameras.main.centerX,
-        80,
-        "Obrigado por jogar",
-        {
-          fontFamily: "game-over",
-          fontSize: "35px",
-          color: "#FFFFFF",
-          fontStyle: "bold",
-          stroke: "#000000",
-          strokeThickness: 4,
-        }
-      )
-        .setDepth(3000)
-        .setOrigin(0.5)
-        .setScrollFactor(0)
-        .setAlpha(0);
-
-      this.tweens.add({
-        targets: obrigadoText,
-        alpha: 1,
-        duration: 1500,
-        ease: "Linear",
-        delay: 500,
-      });
-
-      const princesaText = this.add.text(
-        this.cameras.main.centerX,
-        130,
-        "mas a princesa esta em outro castelo",
-        {
-          fontFamily: "game-over",
-          fontSize: "15px",
-          color: "#FFA500",
-          fontStyle: "bold",
-          stroke: "#000000",
-          strokeThickness: 4,
-        }
-      )
-        .setDepth(3000)
-        .setOrigin(0.5)
-        .setScrollFactor(0)
-        .setAlpha(0);
-
-      this.tweens.add({
-        targets: princesaText,
-        alpha: 1,
-        duration: 1500,
-        ease: "Linear",
-        delay: 2000,
-      });
-
-    this.time.delayedCall(7000, () => {
-  let pegouTodosCristais = verdes === 11 && vermelhos === 7;
-  let creditos = pegouTodosCristais ? 1500 : 500;
-
-  this.scene.start("final-unico", {
-    pontuacao: pontuacao,
-    verdes: verdes,
-    vermelhos: vermelhos,
-    creditos: creditos,
-  });
-});
-    },
-  });
-}
-
+          this.scene.start("final-unico", {
+            pontuacao: pontuacao,
+            verdes: verdes,
+            vermelhos: vermelhos,
+            creditos: creditos,
+          });
+        });
+      },
+    });
+  }
 }
