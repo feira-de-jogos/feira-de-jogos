@@ -48,7 +48,7 @@ export default class sala extends Phaser.Scene {
         .setShadow(2, 2, "#000000", 2, true, true)
         .setInteractive()
         .on("pointerdown", () => {
-          this.game.sala = sala.numero;
+          this.game.sala = "sprint-fox/" + sala.numero;
           this.game.socket.emit("entrar-na-sala", this.game.sala);
           this.showWaitingOverlay();
         });

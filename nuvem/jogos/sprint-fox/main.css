@@ -16,7 +16,7 @@ html {
 
 @font-face {
   font-family: "game-over";
-  src: url("/assets/game-over.ttf") format("truetype");
+  src: url("./assets/game-over.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
