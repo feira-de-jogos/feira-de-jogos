@@ -56,7 +56,9 @@ Observações:
 - O GPS instalado fornece dados de altitude, longitude e latitude que são checadas 3 vezes pelo mesmo na inicialização. Os dados de GPS só são atualizados caso haja mudança de mais de 500m, e são armazenados em arquivo `fix.json`.
 - Os dados sensíveis marcados no código com `dotenv.` são armazenados no arquivo `config.env`. São eles: credenciais do Wi-Fi e informações do *broker* MQTT.
 - Para identificação das mensagens enviadas e das estações ativas será usado o sistema de `UUIDs`:
-  - `fa875d3f-d1ef-4c27-b774-b41c69d70608` - **1ª estação V0**.
+  - `fa875d3f-d1ef-4c27-b774-b41c69d70608` - **1ª estação V0 - Vinícius**.
+  - `01a0f0bb-a239-49a9-9f51-56dfdcbca317` - **2ª estação V0 - Beatriz**.
+
 
 ## Dados provenientes do prof. Clayrton
 
