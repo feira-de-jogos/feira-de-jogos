@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "ES2018",
+    "allowJs": true
+  },
+  "exclude": ["**/*.js", "**/*.mjs"]
+}
