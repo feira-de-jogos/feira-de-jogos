@@ -45,8 +45,7 @@ export default class abertura extends Phaser.Scene {
         this.scene.start("precarregamento");
       }
     });
-
-    this.scene.start("precarregamento");
-  }
+ }
+ 
   update() {}
 }
