@@ -20,7 +20,7 @@ services:
     environment:
       SYNAPSE_SERVER_NAME: matrix.feira-de-jogos.dev.br
       SYNAPSE_REPORT_STATS: yes
-      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
+      SYNAPSE_CONFIG_DIR: /data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
     image: matrixdotorg/synapse
