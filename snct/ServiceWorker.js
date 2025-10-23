@@ -1,9 +1,9 @@
 const cacheName = "ProjetosIfsc-SNCT2025-1.0";
 const contentToCache = [
-    "Build/SNCTGAMEVIDEO.loader.js",
-    "Build/SNCTGAMEVIDEO.framework.js",
-    "Build/SNCTGAMEVIDEO.data",
-    "Build/SNCTGAMEVIDEO.wasm",
+    "Build/SNCTFINAL.loader.js",
+    "Build/SNCTFINAL.framework.js",
+    "Build/SNCTFINAL.data",
+    "Build/SNCTFINAL.wasm",
     "TemplateData/style.css"
 
 ];
