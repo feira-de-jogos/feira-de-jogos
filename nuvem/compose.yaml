@@ -29,6 +29,16 @@ services:
       - matrix-db-password
     volumes:
       - ./matrix/data:/data:rw
+  matrix-appservice-t1:
+    working_dir: /app
+    command: node appservice-t1.ts
+    depends_on:
+      matrix:
+        condition: service_healthy
+    image: node:24
+    restart: unless-stopped
+    volumes:
+      - ./matrix-appservice-t1:/app:rw
 secrets:
   matrix-db-password:
     file: secret-matrix-db-password
