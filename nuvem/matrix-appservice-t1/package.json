@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "matrix-appservice": "^3.0.0"
+  },
+  "type": "module"
+}

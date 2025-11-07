@@ -19,6 +19,6 @@ plugins:
   - jekyll-spaceship
 remote_theme: BDHU/minimalist
 repository: feira-de-jogos/feira-de-jogos
-source: docs/
+source: snct/
 title: Feira de Jogos
 url: https://feira-de-jogos.github.io

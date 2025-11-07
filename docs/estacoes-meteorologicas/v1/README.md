@@ -6,6 +6,7 @@ Objetivos:
 - Adicionar os sensores requisitados que não foram instalados na v0.
 - Para identificação das mensagens enviadas e das estações ativas será usado o sistema de `UUIDs`:
   - `88a2e875-30a9-49b5-ab15-4a185eaa85e3` - **Estação V1 (Somente para testes)**.
+  - `99a758e0-c0fd-4810-b15f-52b53f9aa323` - **Estação de testes do pluviômetro (SNCT)**
 ---
 ## Testes práticos:
 

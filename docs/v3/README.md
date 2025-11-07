@@ -34,7 +34,7 @@ Requisitos não funcionais:
 - [#11](https://github.com/feira-de-jogos/feira-de-jogos/issues/11): Sinalização de mídia com [Livekit](https://livekit.io/) ~~e lógica de jogo com [Socket.IO](https://socket.io/)~~ (revisado em [#75](https://github.com/feira-de-jogos/feira-de-jogos/issues/75)).
 - [#12](https://github.com/feira-de-jogos/feira-de-jogos/issues/12) e [#55](https://github.com/feira-de-jogos/feira-de-jogos/issues/55): (*Selective Forwarding Unit*) SFU com cluster [Livekit](https://livekit.io/) e Redis.
 - [#13](https://github.com/feira-de-jogos/feira-de-jogos/issues/13): *Single Sign-On* (SSO) via OAuth 2.0  no Google e posterior sessão com o uso de *cookies*.
-- [#22](https://github.com/feira-de-jogos/feira-de-jogos/issues/22): MongoDB para operações além de SQL, além de permitir [dados menos estruturados](./banco-de-dados.md).
+- [#22](https://github.com/feira-de-jogos/feira-de-jogos/issues/22): MongoDB para operações além de SQL, além de permitir [dados menos estruturados](../sw/v3/banco-de-dados.md).
 - [#55](https://github.com/feira-de-jogos/feira-de-jogos/issues/55): *cluster* LiveKit com Redis.
 - [#75](https://github.com/feira-de-jogos/feira-de-jogos/issues/75): servidor Matrix.org como *message broker* entre as aplicações.
 
@@ -127,4 +127,4 @@ flowchart LR
 
 ## Desenvolvimento dos jogos
 
-Para os jogos a serem desenvolvidos nesta versão, há um [fluxo de tarefas](./projeto.md) recomendado, bem como um [exemplo de ideia inicial](./sobre-o-jogo.md).
+Para os jogos a serem desenvolvidos nesta versão, há um [fluxo de tarefas](../sw/v3/projeto.md) recomendado, bem como um [exemplo de ideia inicial](../sw/v3/sobre-o-jogo.md).

@@ -20,15 +20,25 @@ services:
     environment:
       SYNAPSE_SERVER_NAME: matrix.feira-de-jogos.dev.br
       SYNAPSE_REPORT_STATS: yes
-      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
-    #healthcheck:
-    #  test: ["CMD", "curl", "-f", "http://localhost:8008/"]
+      SYNAPSE_CONFIG_DIR: /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
     image: matrixdotorg/synapse
     restart: unless-stopped
     secrets:
       - matrix-db-password
     volumes:
       - ./matrix/data:/data:rw
+  matrix-appservice-t1:
+    working_dir: /app
+    command: node appservice-t1.ts
+    depends_on:
+      matrix:
+        condition: service_healthy
+    image: node:24
+    restart: unless-stopped
+    volumes:
+      - ./matrix-appservice-t1:/app:rw
 secrets:
   matrix-db-password:
     file: secret-matrix-db-password

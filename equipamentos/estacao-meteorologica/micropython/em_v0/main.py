@@ -1,5 +1,5 @@
 import dht, onewire, ds18x20, network, utime, os
-from umqtt.robust import MQTTClient
+from umqtt.simple import MQTTClient
 from libs import bmp280, ds3231, MQ7, MQ4, dotenv, neo6m, sdcard
 from libs.gps_fix_manager import GPSFixManager
 from time import sleep, time, mktime
@@ -71,10 +71,7 @@ def espera_gps(timeout_ms=60000):
         if data:
             return data
         utime.sleep_ms(200)
-    try:
-        client.publish(topico_debug, 'erro leitura GPS')
-    except:
-        print('erro mqtt debug GPS')
+
     print("Sem fix GPS após timeout.")
     return {'latitude': 0.0, 'longitude': 0.0, 'altitude': 0.0}
 
@@ -192,16 +189,13 @@ while True:
             client.publish(topico_data, data, qos=1)
             client.check_msg()
             print('dados publicados com sucesso')
-        except OSError as e:
+        except Exception as e:
             print('erro MQTT ao publicar:', e)
             try:
-                client.disconnect()
-            except Exception:
-                print('erro para desconectar')
-            print('tentando reconectar ao MQTT')
-            conecta_mqtt()
-        except Exception as e:
-            print('erro na publicação MQTT', e)
+                conecta_wifi()
+                client.connect()
+            except Exception as e:
+                print('erro na reconexao wifi e mqtt')
     else:
         print('cliente MQTT não está disponível')
 
@@ -218,5 +212,4 @@ while True:
         sleep(60 - tempo_execucao)
     else:
         print('Tempo de execução excedido: ' + str(tempo_execucao))
-
 

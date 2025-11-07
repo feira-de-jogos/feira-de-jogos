@@ -13,8 +13,8 @@ const INFLUXDB_ORG = process.env.INFLUXDB_ORG || "feira";
 const INFLUXDB_BUCKET = process.env.INFLUXDB_BUCKET || "feira";
 
 class MQTTToInfluxBridge {
-  private mqttClient: mqtt.MqttClient;
-  private influxDB: InfluxDB;
+  private mqttClient!: mqtt.MqttClient;
+  private influxDB!: InfluxDB;
   private isConnected = false;
 
   constructor() {
