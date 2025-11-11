@@ -25,3 +25,40 @@
  - 2x capacitor de poliéster de 3,3nF
  - 2x capacitor de poliéster de 68nF
  - 4x potenciômetro duplo de 50K
+
+### NOVA LISTA:
+
+**COMPONENTES PARA MIXER ESTÉREO:**
+- 4x - BC549 ou equivalentes
+- 4x - BC548 ou equivalentes
+- 8x - potenciômetro 10k linear deslizante DUPLO
+- 8x - knob para potênciometro deslizante 
+- 1x - chave liga/desliga fonte
+- 3x - chave dupla para mute dos canais
+- 1x - REGULADOR 9V
+- 2x - 10K resistor 
+- 2x - 33K resistor
+- 2x - 470K resistor 
+- 6x - 4k7 resistor
+- 4x - 4M7 resistor 
+- 2x - 47K resistor 
+- 2x - 27K resistor
+- 2x - 2M2 resistor 
+- 2x - 100R resistor
+- 2x - 100 uF - capacitor eletrolítico
+- 6x - 4,7 uF capacitor eletrolítico
+- 4x - 2,2 uF - capacitor eletrolítico
+
+*Os resistores podem ser de 1/8 ou ¼ W com 5 ou 10% de tolerância, e os capacitores eletrolíticos são para 12 ou 16 V.*
+
+
+**COMPONENTES PARA MONTAGEM GERAL:**
+- 1x Amplificador de potência
+- 1x Conector P10 fêmea STEREO (entrada)
+- 4x Conector P10 fêmea MONO (saída)
+- LEDs e resistores conforme necessário para sinalização
+- 1x ESP32
+- 1x REGULADOR 5V para ESP
+- 1x FONTE 12V
+- 22x Botões para EFEITOS/USO GERAL
+- 22x Capas para botões
