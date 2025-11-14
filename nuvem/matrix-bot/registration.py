@@ -94,3 +94,4 @@ class BotRegistration:
             print("Bot registered successfully.")
         else:
             print("Failed to register bot:", response.text)
+

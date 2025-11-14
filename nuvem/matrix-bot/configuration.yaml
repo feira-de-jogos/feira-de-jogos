@@ -1,0 +1,17 @@
+welcome-message: true
+
+logging:
+  level: "debug"
+  console: true
+
+connectors:
+  matrix:
+    homeserver: "https://matrix.feira-de-jogos.dev.br"
+    mxid: "@admin-bot-0:matrix.feira-de-jogos.dev.br"
+    password: "<senha>"
+    rooms:
+      "main": "#feira:matrix.feira-de-jogos.dev.br"
+
+skills:
+  ping:
+    path: "./skills/ping-pong/ping-pong.py"
