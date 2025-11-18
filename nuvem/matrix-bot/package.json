@@ -4,5 +4,8 @@
     "dotenv": "^17.2.3",
     "matrix-js-sdk": "^39.2.0"
   },
+  "scripts": {
+    "start": "node --experimental-strip-types matrix-bot.ts"
+  },
   "type": "module"
 }
