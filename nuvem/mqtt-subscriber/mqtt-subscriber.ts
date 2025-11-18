@@ -12,14 +12,9 @@ const INFLUXDB_TOKEN = process.env.INFLUXDB_TOKEN || "";
 const INFLUXDB_ORG = process.env.INFLUXDB_ORG || "feira";
 const INFLUXDB_BUCKET = process.env.INFLUXDB_BUCKET || "feira";
 
-interface MQTTMessage {
-  topic: string;
-  payload: string;
-}
-
 class MQTTToInfluxBridge {
-  private mqttClient: mqtt.MqttClient;
-  private influxDB: InfluxDB;
+  private mqttClient?: mqtt.MqttClient;
+  private influxDB?: InfluxDB;
   private isConnected = false;
 
   constructor() {
@@ -51,7 +46,7 @@ class MQTTToInfluxBridge {
       console.log("Connected to MQTT broker");
       this.isConnected = true;
 
-      this.mqttClient.subscribe(MQTT_TOPIC, (err) => {
+      this.mqttClient?.subscribe(MQTT_TOPIC, (err) => {
         if (err) {
           console.error(`Failed to subscribe to topic ${MQTT_TOPIC}:`, err);
         } else {
@@ -82,10 +77,10 @@ class MQTTToInfluxBridge {
 
   private async writeToInfluxDB(payload: string): Promise<void> {
     try {
-      const writeApi = this.influxDB.getWriteApi(INFLUXDB_ORG, INFLUXDB_BUCKET);
+      const writeApi = this.influxDB?.getWriteApi(INFLUXDB_ORG, INFLUXDB_BUCKET);
 
-      writeApi.writeRecord(payload);
-      await writeApi.flush();
+      writeApi?.writeRecord(payload);
+      await writeApi?.flush();
 
       console.log(`Data written to InfluxDB: ${payload}`);
     } catch (error) {
