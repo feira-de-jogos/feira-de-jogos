@@ -28,24 +28,12 @@ i2c1 = I2C(1, scl=Pin(26), sda=Pin(25))
 print("Dispositivos I2C0 encontrados:", i2c0.scan())
 print("I2C1 encontrados:", i2c1.scan())
 
-ds18b20 = ds18x20.DS18X20(onewire.OneWire(Pin(18)))
-sleep_ms(200)
-roms = ds18b20.scan()
-print(roms)
 aht10 = ahtx0.AHT10(i2c1, 56)
 aht25 = aht25.AHT25(i2c0)
-mcp9808 = mcp9808.MCP9808(i2c1)
-mcp9808.set_resolution(3)
-bmp180 = bmp180.BMP180(i2c=i2c1)
-bmp180.oversample_sett = 3
-bmp280 = bmp280.BMP280(i2c=i2c0, i2c_address=118)
 bme280 = bme280.BME280(i2c=i2c1, addr=118)
-bmp388 = bmp388.DFRobot_BMP388_I2C(i2c0)
 ds3231 = ds3231.DS3231(i2c1)
 dht22 = dht.DHT22(Pin(27))
 dht11 = dht.DHT11(Pin(14))
-lm75 = lm75a.LM75A(i2c=i2c1)
-adc = ads1x15.ADS1115(i2c0, address=73, gain=0)
 htu21d = htu21d.HTU21D(i2c=i2c0)
 sht31 = sht31.SHT31(addr=0x44, i2c=i2c0)
 
@@ -80,28 +68,6 @@ def formatacao():
     
     return data1
 
-
-def ds18b20_ler():
-    try:
-        ds18b20.convert_temp()
-        sleep(1)
-        temp = ds18b20.read_temp(roms[0])
-        return temp
-    except Exception as e:
-        msg_erro = 'Erro na leitura do DS18B20: ' + str(e)
-        try:
-            client.publish('em/debug', msg_erro)
-        except:
-            print('erro mqtt debug ds18b20')
-        print(msg_erro)
-        return 0.0
-
-def ler_lm35dz():
-    valor = adc.read(0, 0)
-    tensao = (6.144 * valor) / 32768
-    temp = tensao / 0.01
-    return temp
-
 def conecta_wifi():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
@@ -119,10 +85,11 @@ except Exception as e:
 sleep(0.05)
     
 try:
-    dados["temp.bme280"] = bme280.temperature()
+    tempbme280 = bme280.temperature()
 except Exception as e:
     print('erro bme280', e)
-    dados["temp.bme280"] = 0.0
+    tempbme280 = 0.0
+    dados['umid.bme280'] = 0.0
 sleep(0.05)
         
 conecta_wifi()
@@ -132,77 +99,43 @@ client.connect()
 while True:
     
     try:
-        dados['htu21d.temp'] = htu21d.temperature
+        dados['umid.htu21d'] = htu21d.humidity
     except Exception as e:
         print('erro htu21d', e)
     sleep(0.05)
     
     try:
-        dados['sht31-dis.temp'] = sht31.temperature()
+        dados['umid.sht31-dis'] = sht31.humidity()
     except Exception as e:
         print('erro sht31', e)
     sleep(0.05)
     
     try:
-        dados["temp.bmp280"] = bmp280.get_temperature()
-    except Exception as e:
-        print('erro bmp280', e)
-    sleep(0.05)
-    
-    
-    try:
-        dados["temp.bme280"] = bme280.temperature()
+        tempbme280 = bme280.temperature()
+        dados['umid.bme280'] = bme280.humidity()
     except Exception as e:
         print('erro bme280', e)
     sleep(0.05)
     
     try:
-        dados['temp.bmp388'] = bmp388.readTemperature()
-    except Exception as e:
-        print('erro bmp388', e)
-    sleep(0.05)
-    
-    try:
-        dados['temp.aht10'] = aht10.temperature
+        dados['umid.aht10'] = aht10.relative_humidity
     except Exception as e:
         print('erro aht10', e)
     sleep(0.05)
     
     try:
-        dados['temp.mcp9808'] = mcp9808.get_temp()
-    except Exception as e:
-        print('erro mcp9808', e)
-    sleep(0.05)
-    
-    try:
-        dados['temp.bmp180'] = bmp180.temperature
-    except Exception as e:
-        print('erro bmp180', e)
-    sleep(0.05)
-    
-    try:
-        dados['temp.lm75'] = lm75.temp()
-    except Exception as e:
-        print('erro lm75', e)
-    sleep(0.05)
-    
-    try:
-        AHT25_RH, dados['temp.aht25'] = aht25.read_sensor()
+        dados['umid.aht25'], AHT25_TEMP = aht25.read_sensor()
     except Exception as e:
         print('erro aht25', e)
     sleep(0.05)
-
-    dados['temp.lm35dz'] = ler_lm35dz()
-    
-    dados['temp.ds18b20'] = ds18b20_ler() 
     
     dht22.measure()
     sleep(1)
-    dados['temp.dht22'] = dht22.temperature()
+    dados['umid.dht22'] = dht22.humidity()
     
     dht11.measure()
     sleep(3)
-    dados['temp.dht11'] = dht11.temperature()
+    dados['umid.dht11'] = dht11.humidity()
     
     ts = timestamp()
     print(ts)
