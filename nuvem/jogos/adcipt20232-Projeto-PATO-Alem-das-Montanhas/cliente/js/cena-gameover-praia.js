@@ -18,7 +18,7 @@ export default class gameoverPraia extends Phaser.Scene {
               "https://feira-de-jogos.dev.br/api/v2/credit",
               {
                 product: 43, // id do jogo cadastrado no banco de dados da Feira de Jogos
-                value: 40, // crédito em tijolinhos
+                value: 120, // crédito em tijolinhos
               },
               {
                 headers: {

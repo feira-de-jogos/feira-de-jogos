@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
-const { ioMachine } = require("../http-server.js");
+const { ioMachine, machinesStatus } = require("../http-server.js");
 const Joi = require("joi");
 const db = require("../db.js");
 
 const signToken = db.query(
-  'SELECT "token" FROM "machines" WHERE "name" like \'arcade-%\' LIMIT 1;',
+  'SELECT "token" FROM "machines" WHERE "name" like \'arcade-%\' LIMIT 1;'
 );
 const secretKeyArcade =
   process.env.TOKEN_SECRET_KEY_ARCADE || signToken.rows[0].token;
@@ -26,6 +26,15 @@ ioMachine.of("/arcade").use(async (socket, next) => {
 });
 
 ioMachine.of("/arcade").on("connection", async (socket) => {
+  socket.on("ping", (data) => {
+    console.log("ping received:", JSON.stringify(data));
+
+    machinesStatus.set(data.id, {
+      machine: data.machine,
+      lastPing: Date.now(),
+    });
+  });
+
   socket.on("coinInserted", (data) => {
     const { error } = coinInsertedSchema.validate(data);
     if (error) {
@@ -44,7 +53,7 @@ ioMachine.of("/arcade").on("connection", async (socket) => {
           return;
         }
         console.log(`Coin inserted: arcade ${arcade}, operation ${operation}`);
-      },
+      }
     );
   });
 });

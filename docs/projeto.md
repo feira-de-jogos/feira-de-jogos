@@ -3,7 +3,7 @@
 - Coordenador: [Prof. Clayrton Monteiro Henrique](https://github.com/henriquecmh)
 - Participante: [Prof. Ederson Torresini](https://github.com/ederson-torresini)
 - Bolsista: [Léo Jung Neves](https://github.com/leojungjung)
-- Voluntário:	 [Vitor Henrique dos Santos Olipia](VitorHSO-VtV)
+- Voluntário: [Vitor Henrique dos Santos Olipia](VitorHSO-VtV)
 
 ## Preâmbulo
 
@@ -16,20 +16,17 @@ proposta, estabeleceu-se como ponto primordial a integração de diferentes disc
 
 ## Objetivos
 
-O objetivo geral deste projeto visa o desenvolvimento de games por parte das equipes dos alunos da oitava fase do Curso Técnico Integrado em Telecomunicações do IFSC Campus São José, tendo como produto final a promoção de uma feira de games para a comunidade escolar. Visando atender o objetivo geral, pode-se citar como objetivos específicos: 
+O objetivo geral deste projeto visa o desenvolvimento de games por parte das equipes dos alunos da oitava fase do Curso Técnico Integrado em Telecomunicações do IFSC Campus São José, tendo como produto final a promoção de uma feira de games para a comunidade escolar. Visando atender o objetivo geral, pode-se citar como objetivos específicos:
 
 1. Integrar diferentes unidades curriculares de tal forma que seja viável a
-compreensão dos conhecimentos necessários para o desenvolvimento dos games; 
-1. Estimular e melhorar o processo de ensino e aprendizagem com problemas reais, desenvolvendo o protagonismo discente por meio de práticas que estimulem a busca por conhecimentos pautado especialmente na resolução de problemas, posicionando aos alunos uma visão mais ampla do que a de usuários; 
-1. Estimular a criatividade e a capacidade de inovação dos alunos para o desenvolvimento das gameplays (enredo, histórias, fases, personagens, etc.); 
-1. Buscar parcerias para que este projeto possa se tornar um evento recorrente no Campus; 
-1. Implementar a organização, montagem e implementação da feira de games no hall principal do campus, atuando no sentido de viabilizar a infraestrutura de hardware e software necessárias à sua implementação; e 
+compreensão dos conhecimentos necessários para o desenvolvimento dos games;
+1. Estimular e melhorar o processo de ensino e aprendizagem com problemas reais, desenvolvendo o protagonismo discente por meio de práticas que estimulem a busca por conhecimentos pautado especialmente na resolução de problemas, posicionando aos alunos uma visão mais ampla do que a de usuários;
+1. Estimular a criatividade e a capacidade de inovação dos alunos para o desenvolvimento das gameplays (enredo, histórias, fases, personagens, etc.);
+1. Buscar parcerias para que este projeto possa se tornar um evento recorrente no Campus;
+1. Implementar a organização, montagem e implementação da feira de games no hall principal do campus, atuando no sentido de viabilizar a infraestrutura de hardware e software necessárias à sua implementação; e
 1. Prover a divulgação dos cursos e das atividades desenvolvidas neste contexto para a comunidade (interna/externa).
 
-
-# Parte 1: Máquina de Vendas Automática (*Vending Machine*)
-
-## DESENVOLVIMENTO ELETRÔNICO
+## Máquina de Vendas Automática (*Vending Machine*)
 
 Este equipamento tem como principal objetivo permitir a despesa para os créditos obtidos na moeda digital da feira de games Tijolinhos ($TJL). Nesse sentido, serão ofertadas algumas bandejas as quais conterão gêneros alimentícios atrelados a um valor fixado pelo Banco Central Paredes (BCP), instituição proprietária da máquina e responsável pela gestão da moeda digital.
 
@@ -69,7 +66,7 @@ Apresentar o módulo e sua importância para o projeto.
 
 Apresentar o display, suas características e suas configurações neste cenário.
 
-### Etapas do Acionamento:
+### Etapas do Acionamento
 
 ## Fase 0 (Interna)
 
@@ -99,7 +96,7 @@ Descrição: Outra opção seria a implementação de leitor RF Id, com o auxíl
 ### Fase 3 (Confirmação do Débito)
 
 - Confirmar com senha???;
-- Débito na conta 
+- Débito na conta
 
 Descrição: Digitar no teclado numérico o código de usuário (4 dígitos), o qual busca no BD o “nickname” do usuário e seu saldo, apresentado no display.
 
@@ -111,7 +108,7 @@ Descrição: Digitar no teclado numérico o código de usuário (4 dígitos), o 
 - Atualização da quantidade do produto;
 - Desconectar usuário;
 
-# Parte 2: Controle e console de jogos (*arcade*)
+## Controle e console de jogos (*arcade*)
 
 ## Desenvolvimento de software
 
@@ -121,8 +118,8 @@ Descrição: Digitar no teclado numérico o código de usuário (4 dígitos), o 
 
 ### Código MQTT
 
-# Parte 3: Sistema Econômico Digital ($TJL)
+### Parte 3: Sistema Econômico Digital ($TJL)
 
-# Referências Bibliográficas
+## Referências Bibliográficas
 
 1. NEOYAMA. Folha de dados do motor de passo Neoyama modelo AK17/1.10F6LN1.8 Disponível em [https://neoyama.com.br/conteudo/datasheets/motor_passo/ak17110f6ln18.pdf](https://neoyama.com.br/conteudo/datasheets/motor_passo/ak17110f6ln18.pdf). Acesso em Agosto/2023.

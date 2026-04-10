@@ -8,11 +8,13 @@ const postDebit = require("./routes/postDebit");
 const postCredit = require("./routes/postCredit");
 const postMfa = require("./routes/postMfa");
 const postConfirmPurchase = require("./routes/postConfirmPurchase.js");
+const postAdminCredit = require("./routes/postAdminCredit.js");
 const getBalance = require("./routes/getBalance");
 const getGames = require("./routes/getGames");
 const getStatement = require("./routes/getStatement");
 const getProducts = require("./routes/getProducts");
 const getUncompletedPurchases = require("./routes/getUncompletedPurchases");
+const getHealth = require("./routes/getHealth");
 
 app.use("/api/v2", postLogin);
 app.use("/api/v2", postTransfer);
@@ -25,6 +27,8 @@ app.use("/api/v2", getGames);
 app.use("/api/v2", getStatement);
 app.use("/api/v2", getProducts);
 app.use("/api/v2", getUncompletedPurchases);
+app.use("/api/v2", postAdminCredit);
+app.use("/api/v2", getHealth);
 
 require("./ws-namespaces/default.js");
 require("./ws-namespaces/vending-machine.js");

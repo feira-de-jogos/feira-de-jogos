@@ -93,7 +93,7 @@ services:
       - /etc/letsencrypt/live/feira-de-jogos.dev.br/privkey.pem:/etc/nginx/privkey.pem:ro
       - ./frontend:/frontend:ro
       - ./jogos:/jogos:ro
-      - /opt/github/feira-de-jogos/main/snct:/snct:ro
+      - ./snct:/snct:ro
       - ./http-proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
   stun:
     image: coturn/coturn

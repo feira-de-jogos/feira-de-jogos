@@ -1,64 +1,52 @@
 const loginSection = document.getElementById("login-section");
-const dataSection = document.getElementById("data-section");
-const tbody = document.getElementById("purchases-body");
+const creditSection = document.getElementById("credit-section");
+const form = document.getElementById("credit-form");
+const productSelect = document.getElementById("productId");
 
-function renderPurchases(purchases) {
-  tbody.innerHTML = "";
-
-  if (purchases.length === 0) {
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
-    cell.colSpan = 6;
-    cell.style.textAlign = "center";
-    cell.textContent = "Nenhuma compra não finalizada.";
-    row.appendChild(cell);
-    tbody.appendChild(row);
-    return;
-  }
-
-  purchases.forEach(p => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${p.id}</td>
-      <td>${p.from}</td>
-      <td>${p.to}</td>
-      <td>${p.product}</td>
-      <td>R$ ${p.value.toFixed(2)}</td>
-      <td>${new Date(p.timestamp).toLocaleString("pt-BR")}</td>
-      <td>
-        <button class="action-btn confirm" onclick="confirmPurchase(${p.id})">✔️</button>
-      </td>
-    `;
-    tbody.appendChild(row);
-  });
-}
-
-function fetchPurchasesWithToken(token) {
-  return fetch("/api/v2/uncompletedPurchases", {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${token}`
-    }
-  });
-}
-
+// Carrega token local
 function tryLoadFromLocalStorage() {
-  const savedToken = localStorage.getItem("admin_google_token");
-  if (!savedToken) return;
+  const token = localStorage.getItem("admin_google_token");
+  if (!token) return;
 
-  fetchPurchasesWithToken(savedToken)
-    .then(async (res) => {
-      if (!res.ok) throw new Error("Token inválido ou expirado");
-      const purchases = await res.json();
-      loginSection.style.display = "none";
-      dataSection.style.display = "block";
-      renderPurchases(purchases);
-    })
-    .catch(() => {
-      localStorage.removeItem("admin_google_token");
-      loginSection.style.display = "block";
-      dataSection.style.display = "none";
+  // Apenas mostra o painel (o backend valida token depois)
+  loginSection.style.display = "none";
+  creditSection.style.display = "block";
+  loadGames(token);
+}
+
+// Carrega a lista de games
+async function loadGames(token) {
+  try {
+    const res = await fetch("https://feira-de-jogos.dev.br/api/v2/games", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
     });
+
+    if (!res.ok) {
+      console.error("Erro ao carregar games:", res.status);
+      productSelect.innerHTML = '<option value="">Erro ao carregar jogos</option>';
+      return;
+    }
+
+    const games = await res.json();
+    
+    // Limpa o select e adiciona a opção padrão
+    productSelect.innerHTML = '<option value="">Selecione um jogo</option>';
+
+    // Adiciona cada jogo como uma opção
+    games.forEach(game => {
+      const option = document.createElement("option");
+      option.value = game.product;
+      option.textContent = game.name;
+      productSelect.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Erro ao carregar games:", err);
+    productSelect.innerHTML = '<option value="">Erro ao carregar jogos</option>';
+  }
 }
 
 // Google Login Callback
@@ -66,53 +54,59 @@ function handleCredentialResponse(response) {
   const token = response.credential;
   localStorage.setItem("admin_google_token", token);
 
-  fetchPurchasesWithToken(token)
-    .then(async (res) => {
-      if (!res.ok) throw new Error("Acesso não autorizado");
-      const purchases = await res.json();
-      loginSection.style.display = "none";
-      dataSection.style.display = "block";
-      renderPurchases(purchases);
-    })
-    .catch(err => {
-      alert("Erro ao autenticar: " + err.message);
-      console.error(err);
-      localStorage.removeItem("admin_google_token");
-    });
+  loginSection.style.display = "none";
+  creditSection.style.display = "block";
+  loadGames(token);
 }
 
-// Botões de ação
-function confirmPurchase(id) {
+// Enviar crédito
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const userId = document.getElementById("userId").value;
+  const productId = document.getElementById("productId").value;
   const token = localStorage.getItem("admin_google_token");
+
   if (!token) {
     alert("Token ausente. Faça login novamente.");
     return;
   }
 
-  const confirmar = confirm("Tem certeza que deseja confirmar esta compra?");
-  if (!confirmar) return;
+  if (!productId) {
+    alert("Selecione um jogo.");
+    return;
+  }
 
-  fetch("https://feira-de-jogos.dev.br/api/v2/confirmPurchase", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ purchaseId: id })
-  })
-    .then(async res => {
-      const text = await res.text();
-      if (!res.ok) throw new Error(text || "Erro desconhecido");
-      alert("✔️ Compra confirmada com sucesso!");
-      tryLoadFromLocalStorage();
-    })
-    .catch(err => {
-      console.error("Erro ao confirmar compra:", err);
-      alert("❌ Erro ao confirmar compra:\n" + err.message);
+  try {
+    const res = await fetch("https://feira-de-jogos.dev.br/api/v2/adminCredit", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ userId: parseInt(userId), productId: parseInt(productId) })
     });
-}
 
+    const text = await res.text();
 
-window.addEventListener("DOMContentLoaded", () => {
-  tryLoadFromLocalStorage();
+    if (!res.ok) {
+      alert("Erro: " + text);
+      return;
+    }
+
+    alert("✔️ Crédito enviado com sucesso!");
+    form.reset();
+  } catch (err) {
+    console.error(err);
+    alert("Erro inesperado.");
+  }
 });
+
+// Logout
+document.getElementById("logout-btn").onclick = () => {
+  localStorage.removeItem("admin_google_token");
+  creditSection.style.display = "none";
+  loginSection.style.display = "block";
+};
+
+window.addEventListener("DOMContentLoaded", tryLoadFromLocalStorage);

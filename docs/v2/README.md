@@ -1,11 +1,6 @@
 # Versão 2
 
-Implementação baseada em [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc6749) e [JWT](https://datatracker.ietf.org/doc/html/rfc7519).
-
-O código está distribuído em vários repositórios:
-
-- [Servidor](https://github.com/feira-de-jogos/nuvem/tree/v2.0) e submódulos [REST API](https://github.com/feira-de-jogos/rest-api/tree/v2.0) e [aplicação de usuário](https://github.com/feira-de-jogos/frontend/tree/v2.0), onde os [serviços](serviços.md) são preparados com systemd e Docker.
-- [Equipamentos terminais](https://github.com/feira-de-jogos/equipamentos/tree/v2.0).
+Há páginas dedicadas tanto ao [*hardware*](./hardware.md) quanto ao [*software*](./software.md) da Feira.
 
 ## Requisitos do sistema
 
@@ -31,6 +26,8 @@ As aplicações a serem desenvolvidas ao longo do projeto são:
 - **Banco**: operador financeiro, o banco do sistema econômico.
 
 ## Trocas de Mensagens e Fluxogramas
+
+Implementação baseada em [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc6749) e [JWT](https://datatracker.ietf.org/doc/html/rfc7519).
 
 ### Autenticação via OAuth 2.0
 
@@ -72,7 +69,7 @@ sequenceDiagram
   Servidor Web -->+ Banco de Dados: DML SQL
   Banco de Dados -->- Servidor Web: resposta do DML
   Servidor Web ->>- Usuário: resposta do POST
-``` 
+```
 
 Fluxo de escolha do servidor Web na resposta à requisição do usuário:
 

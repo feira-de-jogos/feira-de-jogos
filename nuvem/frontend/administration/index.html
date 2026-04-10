@@ -14,8 +14,9 @@
 </head>
 <body>
   <div class="container">
-    <h1>Painel Administrativo</h1>
+    <h1>Painel Administrativo - Crédito</h1>
 
+    <!-- LOGIN -->
     <div id="login-section">
       <div id="g_id_onload"
            data-client_id="331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com"
@@ -33,24 +34,23 @@
       </div>
     </div>
 
-    <div id="data-section" style="display: none;">
-      <h2>Compras Não Finalizadas</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-                <th>ID</th>
-                <th>De</th>
-                <th>Para</th>
-                <th>Produto</th>
-                <th>Valor</th>
-                <th>Data</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-          <tbody id="purchases-body"></tbody>
-        </table>
-      </div>
+    <!-- ADMIN PAINEL -->
+    <div id="credit-section" style="display: none;">
+      <h2>Adicionar Crédito para Usuário</h2>
+
+      <form id="credit-form">
+        <label>ID do Usuário:</label>
+        <input type="number" id="userId" required>
+
+        <label>Jogo:</label>
+        <select id="productId" required>
+          <option value="">Carregando jogos...</option>
+        </select>
+
+        <button type="submit">Enviar Crédito</button>
+      </form>
+
+      <button id="logout-btn">Sair</button>
     </div>
   </div>
 

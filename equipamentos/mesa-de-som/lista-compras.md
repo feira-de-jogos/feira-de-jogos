@@ -1,0 +1,64 @@
+# Lista de compras para a mesa de som:
+
+### Amplificadores:
+- [Amplificador 30W + 30W (Shopee, **19,50R$**)](https://shopee.com.br/Placa-Amplificadora-Modulo-60w-2.0-Tpa3110-30x30-Est%C3%A9reo-i.564186623.23897611326?xptdk=ff61703e-a9e9-4c2c-9cb2-a62a26c9db4f)
+- [Amplificador 120W + 120W (Shopee, **49,69R$**)](https://shopee.com.br/Placa-Amplificadora-Tpa3116d2-120w-120w-Rms-2-Canais-Canais-De-%C3%81udio-Est%C3%A9reo-i.870763194.22495995751?sp_atk=136f0497-ff76-4341-8c3f-0daf35ef3ed2&xptdk=136f0497-ff76-4341-8c3f-0daf35ef3ed2)
+- [Amplificador 30W + 30W (Mercado Livre, **19,20R$**)](https://www.mercadolivre.com.br/placa-amplificadora-modulo-60w-tpa3110-30x30-estereo-som/p/MLB32490399#polycard_client=search-nordic&search_layout=grid&position=4&type=product&tracking_id=823c4bbb-6edd-4370-9701-ee66b12323f4&wid=MLB3764094115&sid=search)
+- [Amplificador 100W + 100W (Mercado Livre, **43,12R$**)](https://produto.mercadolivre.com.br/MLB-5397506018-placa-amplificador-100w-rms-x-2-canais-tpa3116-d2-12-a-26v-_JM#polycard_client=recommendations_vip-pads-right&reco_backend=pads_ranker_entity_v2_retrieval_system_vip_pads_up&reco_model=rk_ent_v2_retsys_ads&reco_client=vip-pads-right&reco_item_pos=3&reco_backend_type=low_level&reco_id=792b756a-0e1c-4027-84df-a94caac75180&wid=MLB5397506018&sid=recos&is_advertising=true&ad_domain=VIPCORE_RIGHT&ad_position=4&ad_click_id=OTQxMTUyOGUtYjliNC00MTZlLTlmODAtYWU2ZDk1MzgyYmZh)
+- [Amplificador 120W + 120W (Mercado Livre, **53,41R$**)](https://www.mercadolivre.com.br/placa-amplificador-120w-rms-x-2-canais/p/MLB2035497911?pdp_filters=item_id:MLB5015612336#polycard_client=recommendations_vip-pads&reco_backend=recos-pads-retrieval-4stars&reco_model=rk_ent_v2_retsys_4stars&reco_client=vip-pads&reco_item_pos=3&reco_backend_type=low_level&reco_id=bacf78eb-3f2f-42b1-bfff-a98f3f8b82c1&wid=MLB5015612336&sid=recos&is_advertising=true&ad_domain=VIPCORE_RECOMMENDED&ad_position=4&ad_click_id=MmJlMDJlNmUtMTMxYS00NGZjLTljYTAtNDYwZDhkNjgzNmM0)
+
+### Decodificadores: 
+ - [Placa Decodificadora USB + Bluetooth + AUX + FM + Micro SD (Mercado Livre, **28,03R$**)](https://www.mercadolivre.com.br/placa-decodificadora-bluetooth-speakers-usb-mp3-fm-aux-bt-3dmaxx-premium-/p/MLB32490693#polycard_client=search-nordic&search_layout=grid&position=4&type=product&tracking_id=bc62722e-cd6b-4a19-be92-44ee43492a8c&wid=MLB4064924755&sid=search)
+ - [Placa Decodificadora USB + Bluetooth + AUX + FM + Micro SD (Shopee, **26,90R$**)](https://shopee.com.br/Placa-Decodificadora-Sem-Fio-Bluetooth-5.0-DC-12V-MP3-WMA-M%C3%B3dulo-De-%C3%81udio-USB-TF-R%C3%A1dio-i.557211315.23326948309?sp_atk=9919db0b-19c7-42a4-81c7-6a52267f967f&xptdk=9919db0b-19c7-42a4-81c7-6a52267f967f)
+
+ ### Equalizadores: 
+ - [Pré-Amplificador e Equalizador c/ 2 Canais e 4 Ajustes (Mercado Livre , **55,95R$**)](https://www.mercadolivre.com.br/placa-pre-amplificador-20-equalizador-3-bandas-cx-ativa/up/MLBU3378058878?pdp_filters=item_id:MLB5613269388#is_advertising=true&searchVariation=MLBU3378058878&backend_model=search-backend&position=24&search_layout=grid&type=pad&tracking_id=8ae3a730-0425-481b-b3a6-809c7a3d8f65&ad_domain=VQCATCORE_LST&ad_position=24&ad_click_id=N2JhYjE0ODItNjdmOC00N2QzLTk3OWQtNmY3YTRlOGQ4NTFm)
+ - [Equalizador c/ 2 Canais e 3 Ajustes (Mercado Livre, **46,03R$**)](https://www.mercadolivre.com.br/placa-pre-amplificador-passivo-20-equalizador-2-bandas/p/MLB2036661242?pdp_filters=item_id%3AMLB2206902832#polycard_client=search-nordic&wid=MLB2206902832&search_layout=stack&position=1&type=product&tracking_id=06985968-6636-4bf8-8654-7fbb25dd4b8c&sid=search)
+ - [Pré-Amplificador e Equalizador c/ 2 Canais e 4 Ajustes (AliExpress , **24,64R$**)](https://pt.aliexpress.com/item/1005009949396127.html?spm=a2g0o.detail.pcDetailTopMoreOtherSeller.16.794fpAGDpAGDqn&gps-id=pcDetailTopMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=8b382654-ecf2-4d2f-94cb-09954ad92fad&_t=gps-id:pcDetailTopMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:8b382654-ecf2-4d2f-94cb-09954ad92fad,tpp_buckets:668%232846%238116%232002&pdp_ext_f=%7B%22order%22%3A%228%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2230050%22%2C%22fromPage%22%3A%22recommend%22%7D&pdp_npi=6%40dis%21BRL%2145.65%2116.89%21%21%2156.58%2120.94%21%402101e7f617588515097747376e01e1%2112000050657701943%21rec%21BR%212294966270%21X%211%210%21n_tag%3A-29919%3Bd%3A1bd2524f%3Bm03_new_user%3A-29895&utparam-url=scene%3ApcDetailTopMoreOtherSeller%7Cquery_from%3A%7Cx_object_id%3A1005009949396127%7C_p_origin_prod%3A)
+ - [Equalizador c/ 2 Canais e 3 Ajustes (AliExpress , **13,01R$**)](https://pt.aliexpress.com/item/1005006143269742.html?spm=a2g0o.productlist.main.16.33bb65e9l7sXfw&aem_p4p_detail=2025092517002118791350184138960000622107&algo_pvid=a7cdfa1d-7a88-406d-9404-cbe0a41e4bec&algo_exp_id=a7cdfa1d-7a88-406d-9404-cbe0a41e4bec-15&pdp_ext_f=%7B%22order%22%3A%2215%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21BRL%219.91%219.91%21%21%2112.28%2112.28%21%40210330dd17588448218473620ed1f0%2112000036012459353%21sea%21BR%212294966270%21X%211%210%21n_tag%3A-29919%3Bd%3A1bd2524f%3Bm03_new_user%3A-29895&curPageLogUid=DmPrCpCrHOcT&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005006143269742%7C_p_origin_prod%3A&search_p4p_id=2025092517002118791350184138960000622107_4)
+
+### Lista de componentes para montagem de um equalizador passivo com 4 ajustes: 
+ - 4x resistores de 10K
+ - 2x resistor de 22K
+ - 2x capacitor de poliéster 10nF
+ - 2x capacitor de poliéster de 47nF
+ - 2x capacitor de poliéster de 3,3nF
+ - 2x capacitor de poliéster de 68nF
+ - 4x potenciômetro duplo de 50K
+
+### NOVA LISTA:
+
+**COMPONENTES PARA MIXER ESTÉREO:**
+- 4x - BC549 ou equivalentes
+- 4x - BC548 ou equivalentes
+- 8x - potenciômetro 10k linear deslizante DUPLO
+- 8x - knob para potênciometro deslizante 
+- 1x - chave liga/desliga fonte
+- 3x - chave dupla para mute dos canais
+- 1x - REGULADOR 9V
+- 2x - 10K resistor 
+- 2x - 33K resistor
+- 2x - 470K resistor 
+- 6x - 4k7 resistor
+- 4x - 4M7 resistor 
+- 2x - 47K resistor 
+- 2x - 27K resistor
+- 2x - 2M2 resistor 
+- 2x - 100R resistor
+- 2x - 100 uF - capacitor eletrolítico
+- 6x - 4,7 uF capacitor eletrolítico
+- 4x - 2,2 uF - capacitor eletrolítico
+
+*Os resistores podem ser de 1/8 ou ¼ W com 5 ou 10% de tolerância, e os capacitores eletrolíticos são para 12 ou 16 V.*
+
+
+**COMPONENTES PARA MONTAGEM GERAL:**
+- 1x Amplificador de potência
+- 1x Conector P10 fêmea STEREO (entrada)
+- 4x Conector P10 fêmea MONO (saída)
+- LEDs e resistores conforme necessário para sinalização
+- 1x ESP32
+- 1x REGULADOR 5V para ESP
+- 1x FONTE 12V
+- 22x Botões para EFEITOS/USO GERAL
+- 22x Capas para botões

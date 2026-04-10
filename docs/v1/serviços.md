@@ -1,6 +1,6 @@
 # Preparação do ambiente dos serviços em nuvem
 
-Todas as aplicações rodaram em mesmo servidor, dado o pequeno volume de processamento e de armazenamento de cada uma. 
+Todas as aplicações rodaram em mesmo servidor, dado o pequeno volume de processamento e de armazenamento de cada uma.
 
 ## Serviços
 
@@ -10,20 +10,20 @@ A distrição usada, Debian Linux, usa o Systemd para o gerenciamento de process
 
 Arquivo de configuração do acesso via rede local do `mosquitto`, `/etc/mosquitto/conf.d/local.conf`:
 
-```ini
+```text
 listener 1883
 ```
 
 Arquivo de configuração de acesso via WebSocket, com NGINX como _proxy_ reverso, do `mosquitto`, `/etc/mosquitto/conf.d/remoto.conf`:
 
-```ini
+```text
 listener 8080 ::1
 protocol websockets
 ```
 
 Arquivo de configuração da autenticação do `mosquitto`, `/etc/mosquitto/conf.d/senharemoto.conf`:
 
-```ini
+```text
 password_file /etc/mosquitto/pwfile
 ```
 
@@ -33,7 +33,7 @@ O arquivo com as senhas foi gerado pelo comando `mosquitto_passwd`.
 
 _Site_ padrão, arquivo `/etc/nginx/sites-enabled/default`:
 
-```
+```text
 server {
   listen 80;
   listen [::]:80;
@@ -84,7 +84,7 @@ server {
 
 Arquivo padrão do Coturn, `/etc/turnserver.conf`:
 
-```ini
+```text
 cli-password=ifsc
 
 # Rede
