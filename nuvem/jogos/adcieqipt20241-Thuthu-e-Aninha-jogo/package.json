@@ -3,8 +3,8 @@
     "standard": "*"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "socket.io": "^4.7.5"
+    "express": "^4.22.1",
+    "socket.io": "^4.8.3"
   },
   "scripts": {
     "start": "node servidor.js"
