@@ -1,6 +1,12 @@
 # Versão 0
 
-Esta primeira versão contém apenas os sensores básicos e conexão direta à Internet via Wi-Fi.
+Esta primeira versão contém apenas os sensores básicos e conexão direta à Internet via Wi-Fi, a qual requer configuração manual no arquivo `config.env`:
+
+- `WIFI_SSID`: nome da rede Wi-Fi;
+- `WIFI_PASSWORD`: senha da rede Wi-Fi;
+- `MQTT_ID`: identificador único da estação meteorológica (`uuid`), usado para identificação das mensagens enviadas e das estações ativas;
+- `MQTT_BROKER`: endereço do *broker* MQTT da feira de jogos;
+- `MQTT_PORT`: porta do *broker* MQTT da feira de jogos.
 
 ## Andamento da versão
 
