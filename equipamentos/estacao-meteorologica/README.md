@@ -1,25 +1,22 @@
-Estação meteorológica - Estrutura física
+# Estação meteorológica - Estrutura física
 
-Introdução
+## Introdução
 
 O bom funcionamento de uma estação meteorológica está diretamente relacionado à adequação da sua estrutura física.
 
-Em nível internacional, a Organização Meteorológica Mundial (WMO) estabelece normas para instrumentos e métodos de observação meteorológicas. O propósito dessas orientações é 
-padronizar a aquisição de dados meteorológicos para torná-los mais confiáveis e comparáveis.
+Em nível internacional, a Organização Meteorológica Mundial (WMO) estabelece normas para instrumentos e métodos de observação meteorológicas. O propósito dessas orientações é padronizar a aquisição de dados meteorológicos para torná-los mais confiáveis e comparáveis.
 
-As normas da WMO podem ser encontradas no link:
-
-https://library.wmo.int/viewer/68695/?offset=3#page=115&viewer=picture&o=bookmark&n=0&q=
+As normas da WMO podem ser encontradas no link: [Guide to Instruments and Methods of Observation (WMO-No. 8)](https://library.wmo.int/viewer/68695/?offset=3#page=115&viewer=picture&o=bookmark&n=0&q=).
 
 No que tange as características da estrutura do equipamento meteorológico em si, as principais exigências para medição de temperatura, pressão atmosférica e umidade envolvem:
 
-- Instalação a pelo menos 1,2 de altura do solo
+- Instalação a pelo menos 1,2m de altura do solo.
 
-- Coloração branca para minimizar os efeitos da radiação solar
+- Coloração branca para minimizar os efeitos da radiação solar.
 
 - Colocação dos sensores em abrigos meteorológicos (ex. tela de Stevenson) para evitar incidência direta de luz, vento ou precipitações (exceto equipamentos que dependem desses parâmetros, como pluviômetros).
 
-- Disponibilidade permanente de energia elétrica
+- Disponibilidade permanente de energia elétrica.
 
 Sobre o local de colocação da estação meteorológica, as principais recomendações são:
 
@@ -29,13 +26,13 @@ Sobre o local de colocação da estação meteorológica, as principais recomend
 
 - Deve-se evitar áreas escuras para minimizar a influência do aquecimento da superfície.
 
-1) Materiais para construção dos componentes da estação meteorológica
+1. Materiais para construção dos componentes da estação meteorológica
 
 Na presente etapa, a estrutura da estação meteorológica é composta pelos seguintes elementos:
 
-- Abrigo para NodeMCU
-- Abrigo para sensores meteorológicos (tela de Stevenson)
-- Pluviômetro
+- Abrigo para NodeMCU;
+- Abrigo para sensores meteorológicos (tela de Stevenson);
+- Pluviômetro;
 - Haste de suporte para equipamentos.
 
 A construção da haste de suporte será feita com canos de PVC sanitário.
@@ -44,22 +41,15 @@ Para a construção dos abrigos e do pluviômetro, optou-se pela impressão 3D. 
 Os protótipos foram em impressos com filamentos PLA (ácido polilático), um polímero biodegradável feito a partir de vegetais. Além de ser sustentável, o PLA é também mais barato.
 As peças definitivas serão impressas com filamentos PETG (Polietileno Tereftalato Glicol), um termoplástico que, apesar de ser derivado de petróleo, apresenta maior resistência mecânica e térmica.
 
-2) Desenho dos componentes
+2. Desenho dos componentes
 
 Os desenhos dos componentes foram pesquisados repositórios de compartilhamento de trabalhos com impressoras 3D, como Thingiverse e Maker World. Após avaliar os projetos disponíveis, foram selecionados os seguintes projetos:
 
-Weather station : Solar powered rain gauge - Pluviometer V2
+- [Weather station : Solar powered rain gauge - Pluviometer V2](https://www.thingiverse.com/thing:6958200)
 
-https://www.thingiverse.com/thing:6958200
+- [IoT Weather Station](https://www.thingiverse.com/thing:1985125)
 
-IoT Weather Station
-https://www.thingiverse.com/thing:1985125
+- [ESP8266 Weather Station with MQTT](https://www.thingiverse.com/thing:3884183)
 
-ESP8266 Weather Station with MQTT
-https://www.thingiverse.com/thing:3884183
-
-LTB Weather Station
+- [LTB Weather Station](https://www.thingiverse.com/thing:2849562)
 https://www.thingiverse.com/thing:2849562
-
-
-
