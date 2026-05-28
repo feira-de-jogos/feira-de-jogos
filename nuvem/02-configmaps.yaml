@@ -1,0 +1,64 @@
+# ConfigMap para o Mosquitto MQTT Broker
+# Substitua o conteúdo abaixo pelo seu mosquitto.conf real
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-config
+  namespace: feira-de-jogos
+data:
+  mosquitto.conf: |
+    listener 1883
+    allow_anonymous true
+    # Adicione suas configurações reais aqui
+---
+# ConfigMap para o nginx
+# Substitua pelo conteúdo do seu nginx.conf real
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: feira-de-jogos
+data:
+  default.conf: |
+    # Cole aqui o conteúdo do seu http-proxy/nginx.conf
+    server {
+        listen 80;
+        server_name feira-de-jogos.dev.br;
+        return 301 https://$host$request_uri;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name feira-de-jogos.dev.br;
+
+        ssl_certificate /etc/nginx/fullchain.pem;
+        ssl_certificate_key /etc/nginx/privkey.pem;
+
+        location / {
+            root /frontend;
+            index index.html;
+        }
+
+        location /api/ {
+            proxy_pass http://rest-api:3000/;
+        }
+
+        location /grafana/ {
+            proxy_pass http://grafana:3000/;
+        }
+    }
+---
+# ConfigMap para o coturn
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coturn-config
+  namespace: feira-de-jogos
+data:
+  turnserver.conf: |
+    # Cole aqui o conteúdo do seu stun/coturn.conf
+    listening-port=3478
+    tls-listening-port=5349
+    cert=/etc/fullchain.pem
+    pkey=/etc/privkey.pem
+    # Adicione suas configurações reais aqui

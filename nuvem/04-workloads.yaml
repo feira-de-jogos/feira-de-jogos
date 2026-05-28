@@ -1,0 +1,466 @@
+##############################################
+# 1. MQTT Broker (eclipse-mosquitto)
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-broker
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt-broker
+  template:
+    metadata:
+      labels:
+        app: mqtt-broker
+    spec:
+      containers:
+        - name: mqtt-broker
+          image: eclipse-mosquitto
+          ports:
+            - containerPort: 1883
+          volumeMounts:
+            - name: config
+              mountPath: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+      volumes:
+        - name: config
+          configMap:
+            name: mosquitto-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt-broker
+  namespace: feira-de-jogos
+spec:
+  selector:
+    app: mqtt-broker
+  ports:
+    - name: mqtt
+      port: 1883
+      targetPort: 1883
+---
+##############################################
+# 2. InfluxDB (tsdb)
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tsdb
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tsdb
+  template:
+    metadata:
+      labels:
+        app: tsdb
+    spec:
+      containers:
+        - name: tsdb
+          image: influxdb:2
+          env:
+            - name: DOCKER_INFLUXDB_INIT_MODE
+              value: "setup"
+            - name: DOCKER_INFLUXDB_INIT_ORG
+              value: "feira"
+            - name: DOCKER_INFLUXDB_INIT_BUCKET
+              value: "feira"
+            # Secrets montados como arquivos (compatível com _FILE vars do InfluxDB)
+            - name: DOCKER_INFLUXDB_INIT_USERNAME_FILE
+              value: /run/secrets/tsdb-username
+            - name: DOCKER_INFLUXDB_INIT_PASSWORD_FILE
+              value: /run/secrets/tsdb-password
+            - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE
+              value: /run/secrets/tsdb-admin-token
+          ports:
+            - containerPort: 8086
+          livenessProbe:
+            exec:
+              command: ["influx", "ping"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["influx", "ping"]
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/influxdb2
+            - name: secrets
+              mountPath: /run/secrets
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tsdb-data
+        - name: secrets
+          projected:
+            sources:
+              - secret:
+                  name: tsdb-secrets
+                  items:
+                    - key: tsdb-username
+                      path: tsdb-username
+                    - key: tsdb-password
+                      path: tsdb-password
+                    - key: tsdb-admin-token
+                      path: tsdb-admin-token
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tsdb
+  namespace: feira-de-jogos
+spec:
+  selector:
+    app: tsdb
+  ports:
+    - port: 8086
+      targetPort: 8086
+---
+##############################################
+# 3. PostgreSQL (db)
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: postgres
+          env:
+            - name: POSTGRES_USER
+              value: "feira"
+            - name: POSTGRES_PASSWORD_FILE
+              value: /run/secrets/db
+          ports:
+            - containerPort: 5432
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "feira"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "feira"]
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: secrets
+              mountPath: /run/secrets
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: db-data
+        - name: secrets
+          projected:
+            sources:
+              - secret:
+                  name: db-secret
+                  items:
+                    - key: db
+                      path: db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: feira-de-jogos
+spec:
+  selector:
+    app: db
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+##############################################
+# 4. MQTT Subscriber (Node.js)
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-subscriber
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt-subscriber
+  template:
+    metadata:
+      labels:
+        app: mqtt-subscriber
+    spec:
+      securityContext:
+        runAsUser: 1000   # uid do usuário "node"
+      initContainers:
+        # Aguarda tsdb ficar pronto antes de iniciar
+        - name: wait-tsdb
+          image: busybox
+          command: ['sh', '-c', 'until nc -z tsdb 8086; do echo waiting for tsdb; sleep 2; done']
+      containers:
+        - name: mqtt-subscriber
+          image: node:lts
+          command: ["npm", "start"]
+          workingDir: /home/node/app
+          volumeMounts:
+            - name: app
+              mountPath: /home/node/app
+              readOnly: true
+      volumes:
+        - name: app
+          # Use um PVC ou um initContainer para copiar o código.
+          # Alternativa recomendada: construa uma imagem própria com o código embutido.
+          # Exemplo com ConfigMap para projetos pequenos, ou PVC populado via CI/CD.
+          emptyDir: {}
+---
+##############################################
+# 5. Grafana
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      initContainers:
+        - name: wait-tsdb
+          image: busybox
+          command: ['sh', '-c', 'until nc -z tsdb 8086; do echo waiting for tsdb; sleep 2; done']
+      containers:
+        - name: grafana
+          image: grafana/grafana-enterprise
+          env:
+            - name: GF_SERVER_DOMAIN
+              value: "grafana.feira-de-jogos.dev.br"
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/grafana
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: grafana-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: feira-de-jogos
+spec:
+  selector:
+    app: grafana
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+##############################################
+# 6. REST API (Node.js)
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-api
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-api
+  template:
+    metadata:
+      labels:
+        app: rest-api
+    spec:
+      securityContext:
+        runAsUser: 1000
+      initContainers:
+        - name: wait-db
+          image: busybox
+          command: ['sh', '-c', 'until nc -z db 5432; do echo waiting for db; sleep 2; done']
+      containers:
+        - name: rest-api
+          image: node
+          command: ["npm", "start"]
+          workingDir: /home/node/app
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: app
+              mountPath: /home/node/app
+              readOnly: true
+      volumes:
+        - name: app
+          # Mesma observação do mqtt-subscriber: recomenda-se criar imagem própria.
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-api
+  namespace: feira-de-jogos
+spec:
+  selector:
+    app: rest-api
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+##############################################
+# 7. HTTP Proxy (nginx)
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-proxy
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: http-proxy
+  template:
+    metadata:
+      labels:
+        app: http-proxy
+    spec:
+      containers:
+        - name: http-proxy
+          image: nginx
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+            - name: tls
+              mountPath: /etc/nginx/fullchain.pem
+              subPath: tls.crt
+            - name: tls
+              mountPath: /etc/nginx/privkey.pem
+              subPath: tls.key
+            # Volumes de conteúdo estático — popule via initContainer, CI/CD ou PVC
+            # - name: frontend
+            #   mountPath: /frontend
+            # - name: jogos
+            #   mountPath: /jogos
+            # - name: snct
+            #   mountPath: /snct
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+        - name: tls
+          secret:
+            secretName: tls-feira
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-proxy
+  namespace: feira-de-jogos
+spec:
+  type: LoadBalancer   # ou NodePort se não tiver LB
+  selector:
+    app: http-proxy
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443
+      protocol: TCP
+---
+##############################################
+# 8. STUN/TURN (coturn)
+# Nota: network_mode: host não existe no K8s.
+# Usa hostNetwork: true como equivalente mais próximo.
+##############################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stun
+  namespace: feira-de-jogos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stun
+  template:
+    metadata:
+      labels:
+        app: stun
+    spec:
+      hostNetwork: true   # equivalente ao network_mode: host
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: stun
+          image: coturn/coturn
+          volumeMounts:
+            - name: tls
+              mountPath: /etc/fullchain.pem
+              subPath: tls.crt
+            - name: tls
+              mountPath: /etc/privkey.pem
+              subPath: tls.key
+            - name: config
+              mountPath: /etc/turnserver.conf
+              subPath: turnserver.conf
+      volumes:
+        - name: tls
+          secret:
+            secretName: tls-feira
+        - name: config
+          configMap:
+            name: coturn-config

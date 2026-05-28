@@ -1,0 +1,158 @@
+# Gateway API — substitui o Ingress clássico (networking.k8s.io/v1/Ingress)
+# Requer: Gateway API CRDs instalados no cluster
+#   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/download/standard-install.yaml
+# E um controlador compatível (ex: Envoy Gateway, Cilium, Istio, NGINX Gateway Fabric, etc.)
+
+##############################################
+# 1. GatewayClass
+# Define qual controlador implementa os Gateways.
+# Ajuste o controllerName conforme seu controlador:
+#   - Envoy Gateway:        gateway.envoyproxy.io/gatewayclass-controller
+#   - NGINX Gateway Fabric: gateway.nginx.org/nginx-gateway-controller
+#   - Cilium:               io.cilium/gateway-controller
+#   - Istio:                istio.io/gateway-controller
+##############################################
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: feira-gateway-class
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller  # ajuste aqui
+---
+##############################################
+# 2. Gateway
+# Ponto de entrada — escuta HTTP (80) e HTTPS (443).
+# O TLS é terminado aqui usando o Secret tls-feira.
+##############################################
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: feira-gateway
+  namespace: feira-de-jogos
+spec:
+  gatewayClassName: feira-gateway-class
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: tls-feira
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: Same
+    # Listener MQTT (TCP) — requer suporte a TCPRoute no controlador (rota experimental)
+    - name: mqtt
+      protocol: TCP
+      port: 1883
+      allowedRoutes:
+        namespaces:
+          from: Same
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: TCPRoute
+---
+##############################################
+# 3. HTTPRoute — redirect HTTP → HTTPS
+##############################################
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-redirect
+  namespace: feira-de-jogos
+spec:
+  parentRefs:
+    - name: feira-gateway
+      sectionName: http
+  hostnames:
+    - feira-de-jogos.dev.br
+    - grafana.feira-de-jogos.dev.br
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+---
+##############################################
+# 4. HTTPRoute — feira-de-jogos.dev.br (HTTPS)
+# /api  → rest-api:3000
+# /     → http-proxy:80
+##############################################
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: feira-route
+  namespace: feira-de-jogos
+spec:
+  parentRefs:
+    - name: feira-gateway
+      sectionName: https
+  hostnames:
+    - feira-de-jogos.dev.br
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      backendRefs:
+        - name: rest-api
+          port: 3000
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: http-proxy
+          port: 80
+---
+##############################################
+# 5. HTTPRoute — grafana.feira-de-jogos.dev.br (HTTPS)
+##############################################
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana-route
+  namespace: feira-de-jogos
+spec:
+  parentRefs:
+    - name: feira-gateway
+      sectionName: https
+  hostnames:
+    - grafana.feira-de-jogos.dev.br
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: grafana
+          port: 3000
+---
+##############################################
+# 6. TCPRoute — MQTT (porta 1883)
+# Requer suporte experimental ao canal TCP no controlador.
+# Se o seu controlador não suportar TCPRoute, exponha via
+# Service do tipo LoadBalancer diretamente no mqtt-broker.
+##############################################
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: mqtt-route
+  namespace: feira-de-jogos
+spec:
+  parentRefs:
+    - name: feira-gateway
+      sectionName: mqtt
+  rules:
+    - backendRefs:
+        - name: mqtt-broker
+          port: 1883

@@ -1,0 +1,47 @@
+# Ingress para exposição HTTP/HTTPS via nginx-ingress-controller
+# Alternativa ao container nginx interno, se preferir usar o Ingress nativo do cluster.
+# Se mantiver o http-proxy (nginx próprio), este arquivo é OPCIONAL.
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: feira-ingress
+  namespace: feira-de-jogos
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Se usar cert-manager:
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - feira-de-jogos.dev.br
+        - grafana.feira-de-jogos.dev.br
+      secretName: tls-feira
+  rules:
+    - host: feira-de-jogos.dev.br
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: rest-api
+                port:
+                  number: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: http-proxy
+                port:
+                  number: 80
+    - host: grafana.feira-de-jogos.dev.br
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000

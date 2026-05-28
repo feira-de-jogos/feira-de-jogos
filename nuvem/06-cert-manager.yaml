@@ -1,0 +1,79 @@
+# cert-manager — emissão e renovação automática de certificados via Let's Encrypt
+#
+# PRÉ-REQUISITO: instalar o cert-manager no cluster antes de aplicar este arquivo.
+#   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+#
+# Aguarde os pods subirem:
+#   kubectl wait --namespace cert-manager \
+#     --for=condition=ready pod \
+#     --selector=app.kubernetes.io/instance=cert-manager \
+#     --timeout=120s
+
+##############################################
+# 1. ClusterIssuer — Staging (Let's Encrypt)
+# Use para TESTAR sem risco de bater o rate limit.
+# O certificado gerado NÃO é confiável pelos browsers.
+##############################################
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: seu-email@feira-de-jogos.dev.br   # substitua pelo e-mail real
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: feira-gateway
+                namespace: feira-de-jogos
+                kind: Gateway
+---
+##############################################
+# 2. ClusterIssuer — Produção (Let's Encrypt)
+# Só use depois de validar com o staging acima.
+##############################################
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: seu-email@feira-de-jogos.dev.br   # substitua pelo e-mail real
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: feira-gateway
+                namespace: feira-de-jogos
+                kind: Gateway
+---
+##############################################
+# 3. Certificate — feira-de-jogos.dev.br
+# Cobre o domínio principal e o subdomínio do Grafana
+# via SAN (Subject Alternative Names).
+# O cert-manager criará/atualizará o Secret "tls-feira"
+# automaticamente — o mesmo já referenciado no Gateway.
+##############################################
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-feira
+  namespace: feira-de-jogos
+spec:
+  secretName: tls-feira          # mesmo nome usado no listener HTTPS do Gateway
+  issuerRef:
+    name: letsencrypt-prod       # troque por letsencrypt-staging para testar
+    kind: ClusterIssuer
+  commonName: feira-de-jogos.dev.br
+  dnsNames:
+    - feira-de-jogos.dev.br
+    - grafana.feira-de-jogos.dev.br
+  duration: 2160h      # 90 dias (padrão Let's Encrypt)
+  renewBefore: 360h    # renova 15 dias antes de expirar
