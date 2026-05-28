@@ -13,6 +13,7 @@ Tradução do `compose.yaml` original para Kubernetes.
 | `04-workloads.yaml` | Deployments + Services de todos os serviços |
 | `05-gateway.yaml` | Gateway API — GatewayClass, Gateway, HTTPRoutes e TCPRoute |
 | `06-cert-manager.yaml` | cert-manager — ClusterIssuers (staging + prod) e Certificate |
+| `07-longhorn.yaml` | Longhorn — StorageClasses (padrão e fast) + guia de instalação |
 
 ---
 
@@ -74,24 +75,27 @@ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/latest/
 
 # 2. Instalar cert-manager
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
-
-# Aguardar cert-manager pronto
 kubectl wait --namespace cert-manager \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/instance=cert-manager \
   --timeout=120s
 
-# 3. Aplicar os manifests em ordem
+# 3. Instalar Longhorn (pré-requisitos nos nós — veja 07-longhorn.yaml)
+helm repo add longhorn https://charts.longhorn.io && helm repo update
+helm install longhorn longhorn/longhorn \
+  --namespace longhorn-system --create-namespace \
+  --set defaultSettings.defaultReplicaCount=3
+kubectl -n longhorn-system rollout status deploy/longhorn-manager
+
+# 4. Aplicar os manifests
 kubectl apply -f 00-namespace.yaml
 kubectl apply -f 01-secrets.yaml
 kubectl apply -f 02-configmaps.yaml
+kubectl apply -f 07-longhorn.yaml   # StorageClasses antes dos PVCs
 kubectl apply -f 03-pvcs.yaml
 kubectl apply -f 04-workloads.yaml
 kubectl apply -f 05-gateway.yaml
 kubectl apply -f 06-cert-manager.yaml
-
-# Ou de uma vez
-kubectl apply -f .
 ```
 
 > **Dica:** Teste primeiro com `letsencrypt-staging` em `06-cert-manager.yaml` para validar o fluxo sem risco de rate limit. Troque para `letsencrypt-prod` depois de confirmar que o certificado é emitido com sucesso.

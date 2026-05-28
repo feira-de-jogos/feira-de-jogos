@@ -1,3 +1,7 @@
+##############################################
+# InfluxDB (tsdb) — alta frequência de escrita
+# Usa longhorn-fast: 2 réplicas + data locality
+##############################################
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,11 +10,15 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: longhorn-fast
   resources:
     requests:
       storage: 10Gi
-  # storageClassName: standard  # ajuste conforme seu cluster
 ---
+##############################################
+# PostgreSQL (db) — banco relacional
+# Usa longhorn-fast: 2 réplicas + data locality
+##############################################
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -19,11 +27,15 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: longhorn-fast
   resources:
     requests:
       storage: 10Gi
-  # storageClassName: standard
 ---
+##############################################
+# Grafana — dashboards e configurações
+# Usa longhorn padrão: 3 réplicas
+##############################################
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -32,7 +44,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: longhorn
   resources:
     requests:
       storage: 5Gi
-  # storageClassName: standard

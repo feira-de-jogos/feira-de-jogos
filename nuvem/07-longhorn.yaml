@@ -1,0 +1,92 @@
+# Longhorn — armazenamento distribuído para Kubernetes on-premise
+#
+# ─────────────────────────────────────────────────────────────────
+# PRÉ-REQUISITOS NOS NÓS (execute em TODOS os nós do cluster)
+# ─────────────────────────────────────────────────────────────────
+#
+# 1. Pacotes obrigatórios (Debian/Ubuntu):
+#    apt install -y open-iscsi nfs-common util-linux bash curl grep
+#    systemctl enable --now iscsid
+#
+#    (RHEL/Rocky/Fedora):
+#    dnf install -y iscsi-initiator-utils nfs-utils util-linux
+#    systemctl enable --now iscsid
+#
+# 2. Verificar pré-requisitos automaticamente com o script oficial:
+#    curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/master/scripts/environment_check.sh | bash
+#
+# 3. Cada nó precisa ter pelo menos um disco disponível para o Longhorn.
+#    Por padrão, ele usa /var/lib/longhorn no disco raiz.
+#    Para usar um disco dedicado (recomendado), adicione via UI após instalar.
+#
+# 4. O kernel precisa do módulo iscsi_tcp carregado:
+#    modprobe iscsi_tcp
+#    echo "iscsi_tcp" >> /etc/modules  # persistir após reboot
+#
+# ─────────────────────────────────────────────────────────────────
+# INSTALAÇÃO VIA HELM (recomendado)
+# ─────────────────────────────────────────────────────────────────
+#
+#   helm repo add longhorn https://charts.longhorn.io
+#   helm repo update
+#   helm install longhorn longhorn/longhorn \
+#     --namespace longhorn-system \
+#     --create-namespace \
+#     --set defaultSettings.defaultReplicaCount=3 \
+#     --set defaultSettings.backupTarget="" \
+#     --version 1.7.2   # verifique a versão mais recente
+#
+# Acompanhar instalação:
+#   kubectl -n longhorn-system rollout status deploy/longhorn-manager
+#
+# Acessar UI (port-forward temporário):
+#   kubectl -n longhorn-system port-forward svc/longhorn-frontend 8080:80
+#   Abra: http://localhost:8080
+#
+# ─────────────────────────────────────────────────────────────────
+# ALTERNATIVA: instalação por manifests (sem Helm)
+# ─────────────────────────────────────────────────────────────────
+#
+#   kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/master/deploy/longhorn.yaml
+#
+# ─────────────────────────────────────────────────────────────────
+
+##############################################
+# StorageClass padrão do Longhorn
+# Criada automaticamente pelo Helm, mas definida
+# aqui explicitamente para documentar as opções.
+##############################################
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: longhorn
+  annotations:
+    # Define como StorageClass padrão do cluster
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain       # Retain = dados preservados ao deletar o PVC
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "3"       # réplicas por volume (ajuste conforme nº de nós)
+  staleReplicaTimeout: "2880" # minutos antes de remover réplica travada (2 dias)
+  fsType: "ext4"
+  dataLocality: "disabled"    # "best-effort" força réplica no mesmo nó do pod
+---
+##############################################
+# StorageClass para volumes de alta performance
+# (menos réplicas, melhor latência — para tsdb e db)
+##############################################
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: longhorn-fast
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "2"       # 2 réplicas: menor overhead, ainda tolerante a 1 falha
+  staleReplicaTimeout: "2880"
+  fsType: "ext4"
+  dataLocality: "best-effort" # prefere réplica local ao pod para menor latência
