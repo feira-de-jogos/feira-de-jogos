@@ -74,11 +74,22 @@ services:
     volumes:
       - ./rest-api:/home/node/app:ro
     working_dir: /home/node/app
+  expelled:
+    command: "node dist/server/index.js"
+    environment:
+      RTC_ANNOUNCED_IP: 195.200.4.8
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./jogos/expelled:/home/node/app:ro
+    working_dir: /home/node/app
   http-proxy:
     depends_on:
       - mqtt-broker
       - grafana
       - rest-api
+      - expelled
     healthcheck:
       start_period: 10s
       test: ["CMD", "curl", "-f", "https://feira-de-jogos.dev.br"]

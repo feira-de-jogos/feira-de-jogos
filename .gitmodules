@@ -1,0 +1,6 @@
+[submodule "nuvem/jogos/expelled"]
+	path = nuvem/jogos/expelled
+	url = https://github.com/mohg-enterprises/expelled
+[submodule "nuvem/jogos/tes20261"]
+	path = nuvem/jogos/tes20261
+	url = https://github.com/tes20261/game
