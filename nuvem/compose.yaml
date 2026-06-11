@@ -84,12 +84,30 @@ services:
     volumes:
       - ./jogos/expelled:/home/node/app:ro
     working_dir: /home/node/app
+  sudocidio:
+    command: "npm start"
+    image: node
+    restart: always
+    user: "node"
+    volumes:
+      - ./jogos/sudocidio:/home/node/app:ro
+    working_dir: /home/node/app
+  projeto-mar:
+    command: "npm start --prefix server"
+    image: node:24
+    restart: always
+    user: "node"
+    volumes:
+      - ./jogos/projeto-mar:/home/node/app:ro
+    working_dir: /home/node/app
   http-proxy:
     depends_on:
       - mqtt-broker
       - grafana
       - rest-api
       - expelled
+      - sudocidio
+      - projeto-mar
     healthcheck:
       start_period: 10s
       test: ["CMD", "curl", "-f", "https://feira-de-jogos.dev.br"]

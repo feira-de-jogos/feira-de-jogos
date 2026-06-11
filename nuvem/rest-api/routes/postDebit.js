@@ -6,6 +6,7 @@ const Joi = require("joi");
 const client = new OAuth2Client();
 const audience = process.env.GOOGLE_CLIENT_ID.split(" ");
 const db = require("../db.js");
+const mqttClient = require("../mqtt_server.js");
 
 const transferSchema = Joi.object({
   product: Joi.number().integer().positive().allow(0).required(),
@@ -130,6 +131,49 @@ router.post("/debit", async (req, res) => {
       //   ]),
       //     30000;
       // });
+
+
+      // # MQTT - Enviar comando para máquina de alimentos, é necessário escolher o produto e alterar aqui o ID.
+      const maquinas = {
+        3: {
+          id: "maquina_01",
+          estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_1,
+          comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_1,
+        },
+        52: {
+          id: "maquina_02",
+          estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_2,
+          comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_2,
+        },
+      };
+
+      const maquina = maquinas[product];
+
+      if (maquina) {
+        console.log(`Enviando comando para ${maquina.id}...`);
+
+        const publicar = (topic, payload) => {
+          mqttClient.publish(topic, JSON.stringify(payload), (err) => {
+            if (err) {
+              console.error("Erro ao enviar comando MQTT:", err);
+            } else {
+              console.log(`Mensagem enviada para ${topic}`);
+            }
+          });
+        };
+
+        publicar(maquina.estoqueTopic, {
+          id: maquina.id,
+          quantidade: 1,
+        });
+
+        publicar(maquina.comandoTopic, {
+          id: maquina.id,
+          ligar: 1,
+        });
+      }
+
+
     } else if (typeSearch.rows[0].name == "arcade") {
       const insertResult = await db.query(
         'INSERT INTO "operations"("from", "to", "product", "value", "date", "completed") VALUES($1, 1, $2, $3, NOW(), true) RETURNING "id"',

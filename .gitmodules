@@ -4,3 +4,25 @@
 [submodule "nuvem/jogos/tes20261"]
 	path = nuvem/jogos/tes20261
 	url = https://github.com/tes20261/game
+[submodule "nuvem/jogos/high-fantasy"]
+	path = nuvem/jogos/high-fantasy
+	url = https://github.com/ArtRiv/game-topicos-especiais
+[submodule "nuvem/jogos/scape-protocol"]
+	path = nuvem/jogos/scape-protocol
+	url = https://github.com/caioviann/ScapeProtocol
+[submodule "nuvem/jogos/inside-cruors"]
+	path = nuvem/jogos/inside-cruors
+	url = https://github.com/DeadPerquim/Inside-Cruors
+[submodule "nuvem/jogos/autoscroller"]
+	path = nuvem/jogos/autoscroller
+	url = https://github.com/nicolasfvp/autoscroller
+[submodule "nuvem/jogos/glossary"]
+	path = nuvem/jogos/glossary
+	url = https://github.com/jesse-rr/G.L.O.S.S.A.R.Y
+[submodule "nuvem/jogos/sudocidio"]
+	path = nuvem/jogos/sudocidio
+	url = https://github.com/sioterino/sudocidio
+[submodule "nuvem/jogos/projeto-mar"]
+	path = nuvem/jogos/projeto-mar
+	url = https://github.com/Kauan-13/projeto-mar
+	branch = game

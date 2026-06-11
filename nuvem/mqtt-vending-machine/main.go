@@ -33,7 +33,7 @@ func main() {
 
 	client.Subscribe(mqtt.Topic{
 		Name: "vending/status",
-		QOS:  0,
+		QOS:  1,
 	})
 
 	go func() {
