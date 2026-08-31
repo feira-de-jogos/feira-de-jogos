@@ -2,7 +2,8 @@ name: Build and Push Rest API (OCI via Buildpacks)
 
 on:
   push:
-    branches: [dev]
+    branches:
+      - main
     paths:
       - 'nuvem/rest-api/**'
       - '.github/workflows/build-rest-api.yaml'
