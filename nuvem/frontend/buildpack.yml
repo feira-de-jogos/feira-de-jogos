@@ -1,0 +1,3 @@
+staticfile:
+  nginx:
+    version: 1.25.x
