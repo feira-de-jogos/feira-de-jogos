@@ -1,7 +1,0 @@
-<IfModule mod_mime.c>
-  AddEncoding gzip .gz
-</IfModule>
-
-<FilesMatch "\.framework\.js\.gz$">
-  ForceType application/javascript
-</FilesMatch>
