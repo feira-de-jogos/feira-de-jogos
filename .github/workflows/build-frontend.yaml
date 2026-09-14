@@ -39,4 +39,5 @@ jobs:
             --buildpack paketo-buildpacks/web-servers \
             --env BP_WEB_SERVER=nginx \
             --env BP_WEB_SERVER_ROOT=. \
+            --env BP_NGINX_GZIP_STATIC=true \
             --publish
