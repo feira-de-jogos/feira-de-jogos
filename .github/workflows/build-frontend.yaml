@@ -1,4 +1,4 @@
-name: Frontend (Buildpacks)
+name: Frontend (Docker)
 
 on:
   push:
