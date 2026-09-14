@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'nuvem/frontend/**'
-      - '.github/workflows/build-frontend.yaml'
+      - "nuvem/frontend/**"
+      - ".github/workflows/build-frontend.yaml"
   workflow_dispatch: {}
 
 jobs:
@@ -37,6 +37,6 @@ jobs:
             --path ./nuvem/frontend \
             --builder paketobuildpacks/builder-jammy-base \
             --buildpack paketo-buildpacks/web-servers \
-            --env BP_WEB_SERVER=httpd \
+            --env BP_WEB_SERVER=nginx \
             --env BP_WEB_SERVER_ROOT=. \
             --publish
