@@ -32,7 +32,7 @@ jobs:
 
       - name: Run pack build
         run: |
-          IMAGE_NAME="ghcr.io/${{ github.repository }}-frontend:latest"
+          IMAGE_NAME="ghcr.io/${{ github.repository }}/frontend:latest"
           pack build $IMAGE_NAME \
             --path ./nuvem/frontend \
             --builder paketobuildpacks/builder-jammy-base \

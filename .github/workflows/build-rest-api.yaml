@@ -41,9 +41,9 @@ jobs:
       - name: Run pack build
         working-directory: ./nuvem/rest-api
         run: |
-          pack build ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-rest-api:${{ steps.vars.outputs.tag }} \
+          pack build ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             --builder paketobuildpacks/builder-jammy-base \
             --env "BP_NODE_VERSION=20" \
             --path . \
             --publish \
-            --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-rest-api:latest
+            --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
