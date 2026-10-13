@@ -26,20 +26,22 @@ router.post("/login", async (req, res) => {
   try {
     const auth = await db.query(
       'SELECT "id" FROM "people" WHERE "email" = $1',
-      [email]
+      [email],
     );
     if (auth.rowCount === 0) {
       const insertResult = await db.query(
-        'INSERT INTO "people"("name", "email") VALUES ($1, $2) RETURNING "id"',
-        [name, email]
+        'INSERT INTO "people"("name", "email") VALUES ($1, $2) RETURNING "id, operator"',
+        [name, email],
       );
       const userId = insertResult.rows[0].id;
+      const operator = insertResult.rows[0].operator ? true : false;
 
-      return res.status(201).send({ user: userId });
+      return res.status(201).send({ user: userId, operator: operator });
     }
 
     const userId = auth.rows[0].id;
-    return res.status(200).send({ user: userId });
+    const operator = auth.rows[0].operator ? true : false;
+    return res.status(200).send({ user: userId, operator: operator });
   } catch (err) {
     console.error(err);
     return res.sendStatus(500);
