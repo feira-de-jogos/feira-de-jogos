@@ -136,12 +136,12 @@ router.post("/debit", async (req, res) => {
       // # MQTT - Enviar comando para máquina de alimentos, é necessário escolher o produto e alterar aqui o ID.
       const maquinas = {
         3: {
-          id: "maquina_01",
+          id: process.env.MQTT_MACHINE_ID_1,
           estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_1,
           comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_1,
         },
         52: {
-          id: "maquina_02",
+          id: process.env.MQTT_MACHINE_ID_2,
           estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_2,
           comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_2,
         },

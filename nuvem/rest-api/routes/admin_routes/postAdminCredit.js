@@ -4,11 +4,12 @@ const { OAuth2Client } = require("google-auth-library");
 const Joi = require("joi");
 const client = new OAuth2Client();
 const audience = process.env.GOOGLE_CLIENT_ID.split(" ");
-const db = require("../db.js");
+const db = require("../../db.js");
 
 const adminCreditSchema = Joi.object({
   userId: Joi.number().integer().positive().required(),
   productId: Joi.number().integer().positive().required(),
+  quantity: Joi.number().integer().positive().required()
 });
 
 router.post("/adminCredit", async (req, res) => {
@@ -42,7 +43,7 @@ router.post("/adminCredit", async (req, res) => {
       return res.status(400).send({ error: error.details[0].message });
     }
 
-    const { userId, productId } = req.body;
+    const { userId, productId, quantity } = req.body;
 
     // Verifica se o usuário que vai receber o crédito existe
     const userSearch = await db.query(
@@ -52,7 +53,8 @@ router.post("/adminCredit", async (req, res) => {
     if (userSearch.rowCount === 0) {
       return res.sendStatus(404);
     }
-    console.log("Chegou ate a linha 55");
+
+    // Verifica se o produto existe e é do tipo "games"
     const productSearch = await db.query(
     "SELECT price FROM products WHERE id = $1 AND type = (SELECT id FROM types WHERE name = 'games')",
     [productId]
@@ -62,18 +64,43 @@ router.post("/adminCredit", async (req, res) => {
     }
     let productValue = productSearch.rows[0].price;
 
-    // Cria um produto de tipo "games" para o crédito (usa product ID 1 ou você pode configurar)
-    const insertResult = await db.query(
-      'INSERT INTO "operations"("from", "to", "product", "value", "date", "completed") VALUES(1, $1, $2, $3, NOW(), true) RETURNING "id"',
-      [userId, productId, productValue]
-    );
-    const operationId = insertResult.rows[0].id;
+    if (quantity > 10){
+      return res.sendStatus(429);
+    } 
+    const placeholders = [];
 
-    return res.status(201).send({ operation: operationId });
+    for (let i = 0; i < quantity; i++) {
+      placeholders.push(`(1, $1, $2, $3, NOW(), true)`);
+    }
+
+    const query = `
+      INSERT INTO "operations"
+      ("from", "to", "product", "value", "date", "completed")
+      VALUES
+      ${placeholders.join(",")}
+      RETURNING "id"
+    `;
+
+    const result = await db.query(query, [
+      userId,
+      productId,
+      productValue
+    ]);
+
+    // return res.status(201).send({
+    // operations: result.rows.map(row => row.id) // Saída: "operations": [51, 52, 53]
+    // });
+
+    return res.status(201).send({
+    created: result.rowCount // Saída: "created": 3
+    });
+
+
   } catch (err) {
     console.error(err);
     return res.sendStatus(500);
   }
+
 });
 
 module.exports = router;

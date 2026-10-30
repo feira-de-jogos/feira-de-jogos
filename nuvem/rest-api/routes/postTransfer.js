@@ -80,7 +80,7 @@ router.post("/transfer", async (req, res) => {
     );
 
     if (operatorSearch.rowCount == 0) {
-      const lastOperations = await db.query(
+      const lastOperations = await db.query(  
         'SELECT EXTRACT(EPOCH FROM (NOW() - "date")) AS "seconds_elapsed" FROM "operations" WHERE "from" = $1 AND "product" = (SELECT "id" FROM "products" WHERE "type" = (SELECT "id" FROM "types" WHERE "name" = \'transfer\' LIMIT 1) LIMIT 1) AND "date" >= NOW() - INTERVAL \'1 minute\' ORDER BY "date" DESC LIMIT 1;',
         [userId],
       );

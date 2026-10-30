@@ -86,19 +86,33 @@ services:
     working_dir: /home/node/app
   sudocidio:
     command: "npm start"
-    image: node
+    image: node:24
     restart: always
-    user: "node"
     volumes:
-      - ./jogos/sudocidio:/home/node/app:ro
+      - ./jogos/sudocidio:/home/node/app
     working_dir: /home/node/app
-  projeto-mar:
+  autoscroller:
+    command: "npm run dev"
+    image: node:24
+    restart: always
+    volumes:
+      - ./jogos/autoscroller:/home/node/app:rw
+    working_dir: /home/node/app
+  they-will-drown:
     command: "npm start --prefix server"
     image: node:24
     restart: always
     user: "node"
     volumes:
       - ./jogos/projeto-mar:/home/node/app:ro
+    working_dir: /home/node/app
+  high-fantasy:
+    command: "npm start --prefix game-server"
+    image: node:24
+    restart: always
+    user: "node"
+    volumes:
+      - ./jogos/high-fantasy:/home/node/app:ro
     working_dir: /home/node/app
   http-proxy:
     depends_on:
@@ -107,7 +121,8 @@ services:
       - rest-api
       - expelled
       - sudocidio
-      - projeto-mar
+      - autoscroller
+      - they-will-drown
     healthcheck:
       start_period: 10s
       test: ["CMD", "curl", "-f", "https://feira-de-jogos.dev.br"]
