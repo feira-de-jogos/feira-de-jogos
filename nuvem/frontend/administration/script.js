@@ -65,6 +65,7 @@ form.addEventListener("submit", async (e) => {
 
   const userId = document.getElementById("userId").value;
   const productId = document.getElementById("productId").value;
+  const quantity = document.getElementById("quantity").value;
   const token = localStorage.getItem("admin_google_token");
 
   if (!token) {
@@ -84,7 +85,7 @@ form.addEventListener("submit", async (e) => {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ userId: parseInt(userId), productId: parseInt(productId) })
+      body: JSON.stringify({ userId: parseInt(userId), productId: parseInt(productId), quantity: parseInt(quantity) })
     });
 
     const text = await res.text();
