@@ -2,61 +2,82 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14122b">
   <title>Painel Administrativo - Feira de Jogos</title>
   <link rel="shortcut icon" href="FaviconAdm.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Google Sign-In -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-  <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Painel Administrativo - Crédito</h1>
+  <main class="shell">
+    <header class="brand">
+      <span class="coin" aria-hidden="true">F</span>
+      <div>
+        <h1>Feira de Jogos</h1>
+        <p>Painel administrativo</p>
+      </div>
+    </header>
 
-    <!-- LOGIN -->
-    <div id="login-section">
-      <div id="g_id_onload"
-           data-client_id="331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com"
-           data-callback="handleCredentialResponse"
-           data-auto_prompt="false">
+    <!-- Carregando sessão -->
+    <section id="view-loading" class="card" aria-live="polite">
+      <p class="muted center">Verificando acesso…</p>
+    </section>
+
+    <!-- Login -->
+    <section id="view-login" class="card" hidden>
+      <h2>Entrar</h2>
+      <p class="muted">Use a conta Google de administrador para acessar o painel.</p>
+      <div id="google-btn" class="google-wrap"></div>
+      <p id="login-error" class="notice" role="alert" hidden></p>
+    </section>
+
+    <!-- Painel (só aparece para admin autenticado) -->
+    <section id="view-admin" class="card" hidden>
+      <div class="session">
+        <div class="who">
+          <span class="avatar" id="avatar" aria-hidden="true"></span>
+          <div>
+            <strong id="admin-name">Administrador</strong>
+            <span class="muted" id="admin-email"></span>
+          </div>
+        </div>
+        <button type="button" id="logout-btn" class="btn ghost">Sair</button>
       </div>
 
-      <div class="g_id_signin"
-           data-type="standard"
-           data-size="large"
-           data-theme="outline"
-           data-text="sign_in_with"
-           data-shape="rectangular"
-           data-logo_alignment="left">
-      </div>
-    </div>
+      <h2>Adicionar crédito</h2>
 
-    <!-- ADMIN PAINEL -->
-    <div id="credit-section" style="display: none;">
-      <h2>Adicionar Crédito para Usuário</h2>
+      <form id="credit-form" novalidate>
+        <div class="field">
+          <label for="userId">ID do usuário</label>
+          <input type="number" id="userId" inputmode="numeric" min="1" step="1" placeholder="Ex.: 1042" required>
+        </div>
 
-      <form id="credit-form">
-        <label>ID do Usuário:</label>
-        <input type="number" id="userId" required>
+        <div class="field">
+          <label for="productId">Jogo</label>
+          <select id="productId" required>
+            <option value="">Carregando jogos…</option>
+          </select>
+        </div>
 
-        <label>Jogo:</label>
-        <select id="productId" required>
-          <option value="">Carregando jogos...</option>
-        </select>
+        <div class="field">
+          <label for="quantity">Quantidade de créditos</label>
+          <div class="stepper">
+            <button type="button" id="qty-minus" class="step" aria-label="Diminuir">−</button>
+            <input type="number" id="quantity" inputmode="numeric" min="1" step="1" value="1" required>
+            <button type="button" id="qty-plus" class="step" aria-label="Aumentar">+</button>
+          </div>
+        </div>
 
-        <label>Quantidade:</label>
-        <input type="number" id="quantity" value="1" required>
-
-        <button type="submit">Enviar Crédito</button>
+        <button type="submit" id="submit-btn" class="btn primary">Enviar crédito</button>
       </form>
+    </section>
+  </main>
 
-      <button id="logout-btn">Sair</button>
-    </div>
-  </div>
-
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <script src="script.js"></script>
 </body>
 </html>
