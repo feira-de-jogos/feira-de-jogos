@@ -2,10 +2,8 @@
 const API_BASE = "https://feira-de-jogos.dev.br/api/v2";
 const GOOGLE_CLIENT_ID = "331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com";
 
-// E-mails autorizados a ver o painel (deny-by-default). TROQUE pelos admins reais.
-// IMPORTANTE: isto é só a "porta da frente". Quem protege de verdade é o backend,
-// que deve validar o token e o papel de admin em /games e /adminCredit.
-const ADMIN_EMAILS = ["seu-email-admin@gmail.com"];
+// A autorização de admin é feita 100% pelo backend (Bearer token).
+// O front só valida o formato/validade do token e reage a 401/403.
 
 const TOKEN_KEY = "admin_google_token";
 
@@ -52,16 +50,13 @@ function decodeJwt(token) {
   }
 }
 
-// Retorna { ok, reason, claims }. Nada é exibido sem passar por aqui.
+// Valida só o token (formato, público, validade). Papel de admin = backend.
 function checkToken(token) {
   const claims = token && decodeJwt(token);
   if (!claims) return { ok: false, reason: "Sessão inválida. Entre novamente." };
   if (claims.aud !== GOOGLE_CLIENT_ID) return { ok: false, reason: "Sessão inválida. Entre novamente." };
   if (!claims.exp || claims.exp * 1000 <= Date.now()) return { ok: false, reason: "Sua sessão expirou. Entre novamente." };
   if (!claims.email || claims.email_verified === false) return { ok: false, reason: "E-mail não verificado." };
-  if (!ADMIN_EMAILS.map((e) => e.toLowerCase()).includes(claims.email.toLowerCase())) {
-    return { ok: false, reason: "Esta conta não tem permissão de administrador." };
-  }
   return { ok: true, claims };
 }
 
