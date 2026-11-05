@@ -2,7 +2,7 @@ const express = require("express");
 const crypto = require("crypto");
 const Joi = require("joi");
 const router = express.Router();
-const db = require("../../db.js");
+const db = require("../db.js");
 
 // price é opcional: se vier null/omitido, usa o preço cadastrado do produto
 const gameCreditSchema = Joi.object({
