@@ -10,6 +10,7 @@ const postMfa = require("./routes/postMfa");
 const postConfirmPurchase = require("./routes/postConfirmPurchase.js");
 const postAdminCredit = require("./routes/admin_routes/postAdminCredit.js");
 const postAdminGetUser = require("./routes/admin_routes/postAdminGetUser.js");
+const postGameCredit = require("./routes/postGameCredit.js")
 const getBalance = require("./routes/getBalance");
 const getGames = require("./routes/getGames");
 const getStatement = require("./routes/getStatement");
@@ -32,6 +33,7 @@ app.use("/api/v2", getProducts);
 app.use("/api/v2", getUncompletedPurchases);
 app.use("/api/v2", postAdminCredit);
 app.use("/api/v2", getHealth);
+app.use("/api/v2", postGameCredit)
 
 require("./ws-namespaces/default.js");
 require("./ws-namespaces/vending-machine.js");
