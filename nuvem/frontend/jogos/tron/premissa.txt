@@ -1,0 +1,1 @@
+O jogador controla um Light Cycle em uma cidade em malha (Grid), enfrentando inimigos e utilizando discos e rastros de luz para alcançar o Portal de fuga para o mundo real.

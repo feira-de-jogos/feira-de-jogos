@@ -1,0 +1,1 @@
+Um jogo de plataforma de corrida inspirado no Multiplayer do Super Meat Boy onde dois jogadores correm em fases para ver quem completa primeiro, enquanto os telespectadores atrapalham ou ajudam quem quiserem.
