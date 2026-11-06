@@ -1,0 +1,1 @@
+NINE LIVES é um jogo 2D de sobrevivência roguelike onde o jogador controla um gato ciborgue e precisa sobreviver durante dez minutos contra hordas cada vez mais perigosas de inimigos mecânicos. Escolhendo cartas, habilidades e evoluções, cada partida permite criar uma build diferente, transformando o personagem em uma máquina de combate completamente distinta.
