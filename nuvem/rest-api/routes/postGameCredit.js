@@ -19,8 +19,7 @@ const JOGOS = [
   {
     nome: "bomb.exe",
     token: process.env.BOMBEXE_SECRET,
-    // TODO: TROCAR pelo id real do produto do Bomb.exe (56 é provisório!)
-    productId: 56
+    productId: 1
   }
 ];
 
