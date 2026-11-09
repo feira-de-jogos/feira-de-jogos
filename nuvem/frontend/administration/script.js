@@ -1,6 +1,7 @@
 /* ===== CONFIGURAÇÃO ===== */
 const API_BASE = "https://feira-de-jogos.dev.br/api/v2";
-const GOOGLE_CLIENT_ID = "331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID =
+  "331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com";
 
 // A autorização de admin é feita 100% pelo backend (Bearer token).
 // O front só valida o formato/validade do token e reage a 401/403.
@@ -9,7 +10,11 @@ const TOKEN_KEY = "admin_google_token";
 
 /* ===== ELEMENTOS ===== */
 const $ = (id) => document.getElementById(id);
-const views = { loading: $("view-loading"), login: $("view-login"), admin: $("view-admin") };
+const views = {
+  loading: $("view-loading"),
+  login: $("view-login"),
+  admin: $("view-admin"),
+};
 const form = $("credit-form");
 const productSelect = $("productId");
 const qtyInput = $("quantity");
@@ -19,7 +24,9 @@ let expiryTimer = null;
 
 /* ===== UI ===== */
 function showView(name) {
-  Object.entries(views).forEach(([key, el]) => { el.hidden = key !== name; });
+  Object.entries(views).forEach(([key, el]) => {
+    el.hidden = key !== name;
+  });
 }
 
 function toast(message, isError = false) {
@@ -28,7 +35,9 @@ function toast(message, isError = false) {
   el.classList.toggle("error", isError);
   el.hidden = false;
   clearTimeout(toast.t);
-  toast.t = setTimeout(() => { el.hidden = true; }, 4000);
+  toast.t = setTimeout(() => {
+    el.hidden = true;
+  }, 4000);
 }
 
 function loginError(message) {
@@ -42,7 +51,10 @@ function decodeJwt(token) {
   try {
     const payload = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
     const json = decodeURIComponent(
-      atob(payload).split("").map((c) => "%" + c.charCodeAt(0).toString(16).padStart(2, "0")).join("")
+      atob(payload)
+        .split("")
+        .map((c) => "%" + c.charCodeAt(0).toString(16).padStart(2, "0"))
+        .join(""),
     );
     return JSON.parse(json);
   } catch {
@@ -53,10 +65,14 @@ function decodeJwt(token) {
 // Valida só o token (formato, público, validade). Papel de admin = backend.
 function checkToken(token) {
   const claims = token && decodeJwt(token);
-  if (!claims) return { ok: false, reason: "Sessão inválida. Entre novamente." };
-  if (claims.aud !== GOOGLE_CLIENT_ID) return { ok: false, reason: "Sessão inválida. Entre novamente." };
-  if (!claims.exp || claims.exp * 1000 <= Date.now()) return { ok: false, reason: "Sua sessão expirou. Entre novamente." };
-  if (!claims.email || claims.email_verified === false) return { ok: false, reason: "E-mail não verificado." };
+  if (!claims)
+    return { ok: false, reason: "Sessão inválida. Entre novamente." };
+  if (claims.aud !== GOOGLE_CLIENT_ID)
+    return { ok: false, reason: "Sessão inválida. Entre novamente." };
+  if (!claims.exp || claims.exp * 1000 <= Date.now())
+    return { ok: false, reason: "Sua sessão expirou. Entre novamente." };
+  if (!claims.email || claims.email_verified === false)
+    return { ok: false, reason: "E-mail não verificado." };
   return { ok: true, claims };
 }
 
@@ -80,11 +96,16 @@ async function startSession(token) {
   const { claims } = result;
   $("admin-name").textContent = claims.name || "Administrador";
   $("admin-email").textContent = claims.email;
-  $("avatar").style.backgroundImage = claims.picture ? `url("${claims.picture}")` : "";
+  $("avatar").style.backgroundImage = claims.picture
+    ? `url("${claims.picture}")`
+    : "";
 
   // Encerra sozinho quando o token do Google vence
   clearTimeout(expiryTimer);
-  expiryTimer = setTimeout(() => logout("Sua sessão expirou. Entre novamente."), claims.exp * 1000 - Date.now());
+  expiryTimer = setTimeout(
+    () => logout("Sua sessão expirou. Entre novamente."),
+    claims.exp * 1000 - Date.now(),
+  );
 
   // O painel só aparece se o backend também aceitar o token
   const loaded = await loadGames();
@@ -103,12 +124,17 @@ async function api(path, options = {}) {
   }
   const res = await fetch(API_BASE + path, {
     ...options,
-    headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   });
   if (res.status === 401 || res.status === 403) {
-    logout(res.status === 403
-      ? "O servidor negou o acesso: esta conta não é administradora."
-      : "Sessão recusada pelo servidor. Entre novamente.");
+    logout(
+      res.status === 403
+        ? "O servidor negou o acesso: esta conta não é administradora."
+        : "Sessão recusada pelo servidor. Entre novamente.",
+    );
     throw new Error("unauthorized");
   }
   return res;
@@ -130,9 +156,11 @@ async function loadGames() {
     });
     return true;
   } catch (err) {
-    if (err.message === "unauthenticated" || err.message === "unauthorized") return false;
+    if (err.message === "unauthenticated" || err.message === "unauthorized")
+      return false;
     console.error("Erro ao carregar jogos:", err);
-    productSelect.innerHTML = '<option value="">Não foi possível carregar os jogos</option>';
+    productSelect.innerHTML =
+      '<option value="">Não foi possível carregar os jogos</option>';
     toast("Não foi possível carregar os jogos. Recarregue a página.", true);
     return true; // sessão válida; só a lista falhou
   }
@@ -141,15 +169,19 @@ async function loadGames() {
 /* ===== ENVIO DE CRÉDITO ===== */
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  form.querySelectorAll("input, select").forEach((el) => el.classList.add("touched"));
+  form
+    .querySelectorAll("input, select")
+    .forEach((el) => el.classList.add("touched"));
 
   const userId = parseInt($("userId").value, 10);
   const productId = parseInt(productSelect.value, 10);
   const quantity = parseInt(qtyInput.value, 10);
 
   if (!(userId > 0)) return toast("Informe um ID de usuário válido.", true);
-  if (!(productId >= 0) || productSelect.value === "") return toast("Selecione um jogo.", true);
-  if (!(quantity > 0)) return toast("A quantidade deve ser maior que zero.", true);
+  if (!(productId >= 0) || productSelect.value === "")
+    return toast("Selecione um jogo.", true);
+  if (!(quantity > 0))
+    return toast("A quantidade deve ser maior que zero.", true);
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Enviando…";
@@ -165,7 +197,9 @@ form.addEventListener("submit", async (e) => {
     toast("Crédito enviado com sucesso.");
     form.reset();
     qtyInput.value = 1;
-    form.querySelectorAll(".touched").forEach((el) => el.classList.remove("touched"));
+    form
+      .querySelectorAll(".touched")
+      .forEach((el) => el.classList.remove("touched"));
   } catch (err) {
     if (err.message !== "unauthenticated" && err.message !== "unauthorized") {
       console.error(err);
@@ -178,8 +212,12 @@ form.addEventListener("submit", async (e) => {
 });
 
 /* ===== QUANTIDADE ===== */
-$("qty-minus").onclick = () => { qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1); };
-$("qty-plus").onclick = () => { qtyInput.value = (parseInt(qtyInput.value, 10) || 0) + 1; };
+$("qty-minus").onclick = () => {
+  qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
+};
+$("qty-plus").onclick = () => {
+  qtyInput.value = (parseInt(qtyInput.value, 10) || 0) + 1;
+};
 
 $("logout-btn").onclick = () => logout();
 
@@ -191,7 +229,11 @@ function initGoogle() {
     auto_select: false,
   });
   google.accounts.id.renderButton($("google-btn"), {
-    type: "standard", theme: "filled_blue", size: "large", text: "signin_with", shape: "pill",
+    type: "standard",
+    theme: "filled_blue",
+    size: "large",
+    text: "signin_with",
+    shape: "pill",
     width: Math.min(300, window.innerWidth - 80),
   });
 }
@@ -199,7 +241,8 @@ function initGoogle() {
 function boot() {
   const saved = sessionStorage.getItem(TOKEN_KEY);
   localStorage.removeItem(TOKEN_KEY); // migração: token antigo não é mais usado
-  if (saved) startSession(saved); else showView("login");
+  if (saved) startSession(saved);
+  else showView("login");
 }
 
 // O script do Google é assíncrono: espera estar pronto
