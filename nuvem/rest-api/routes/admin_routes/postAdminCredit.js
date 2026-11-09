@@ -56,43 +56,28 @@ router.post("/adminCredit", async (req, res) => {
 
     // Verifica se o produto existe e é do tipo "games"
     const productSearch = await db.query(
-    "SELECT price FROM products WHERE id = $1 AND type = (SELECT id FROM types WHERE name = 'games')",
+    "SELECT id FROM products WHERE id = $1 AND type = (SELECT id FROM types WHERE name = 'games')",
     [productId]
     );
     if (productSearch.rowCount === 0) {
       return res.sendStatus(404);
     }
-    let productValue = productSearch.rows[0].price;
-
-    if (quantity > 10){
-      return res.sendStatus(429);
-    } 
-    const placeholders = [];
-
-    for (let i = 0; i < quantity; i++) {
-      placeholders.push(`(1, $1, $2, $3, NOW(), true)`);
-    }
 
     const query = `
       INSERT INTO "operations"
       ("from", "to", "product", "value", "date", "completed")
-      VALUES
-      ${placeholders.join(",")}
+      VALUES (1, $1, $2, $3, NOW(), true)
       RETURNING "id"
     `;
 
     const result = await db.query(query, [
       userId,
       productId,
-      productValue
+      quantity
     ]);
 
-    // return res.status(201).send({
-    // operations: result.rows.map(row => row.id) // Saída: "operations": [51, 52, 53]
-    // });
-
     return res.status(201).send({
-    created: result.rowCount // Saída: "created": 3
+      created: result.rowCount
     });
 
 
