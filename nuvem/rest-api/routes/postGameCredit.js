@@ -20,6 +20,16 @@ const JOGOS = [
     nome: "bomb.exe",
     token: process.env.BOMBEXE_SECRET,
     productId: 1
+  },
+  {
+    nome: "Shobu",
+    token: process.env.SHOBU_SECRET,
+    productId: 93
+  },
+  {
+    nome: "Cyber Moon",
+    token: process.env.CYBER_MOON_SECRET,
+    productId: 91
   }
 ];
 
