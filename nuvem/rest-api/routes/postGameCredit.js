@@ -27,6 +27,11 @@ const JOGOS = [
     productId: 83
   },
   {
+    nome: "Shredder",
+    token: process.env.SHREDDER_SECRET,
+    productId: 87
+  },
+  {
     nome: "Shobu",
     token: process.env.SHOBU_SECRET,
     productId: 93
