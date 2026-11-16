@@ -1,1 +1,1 @@
-Um jogo de plataforma de corrida inspirado no Multiplayer do Super Meat Boy onde dois jogadores correm em fases para ver quem completa primeiro, enquanto os telespectadores atrapalham ou ajudam quem quiserem.
+Um game de plataforma 2d, onde dois robôs competem para ver quem chegam nos seus objetivos primeiro! O Solar quer ir para a superfície, enquanto o Fornalha corre para mais fundo! O jogo suporta modo Singleplayer e Multiplayer, com direito a 2 mapas gerados proceduralmente e com suporte a controle!
