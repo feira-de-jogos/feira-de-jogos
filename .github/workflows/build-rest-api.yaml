@@ -36,7 +36,7 @@ jobs:
         run: echo "tag=$(echo ${GITHUB_SHA} | cut -c1-7)" >> "$GITHUB_OUTPUT"
 
       - name: Build OCI image with Cloud Native Buildpacks
-        uses: buildpacks/github-actions/setup-pack@latest
+        uses: buildpacks/github-actions/setup-pack@v6.2.4
 
       - name: Run pack build
         working-directory: ./nuvem/rest-api
