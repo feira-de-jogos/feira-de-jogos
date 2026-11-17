@@ -151,7 +151,7 @@ router.post("/debit", async (req, res) => {
           comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_99,
         },
         100: {
-          id: process.env.MQTT_MACHINE_ID_2,
+          id: process.env.MQTT_MACHINE_ID_100,
           estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_100,
           comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_100,
         },
@@ -172,6 +172,7 @@ router.post("/debit", async (req, res) => {
           });
         };
 
+        /*
         publicar(maquina.estoqueTopic, {
           id: maquina.id,
           quantidade: 1,
@@ -180,6 +181,12 @@ router.post("/debit", async (req, res) => {
         publicar(maquina.comandoTopic, {
           id: maquina.id,
           ligar: 1,
+        });
+        */
+        publicar(maquina.comandoTopic, {
+          id: maquina.id,
+          email: email,
+          product: product
         });
       }
 
