@@ -145,6 +145,16 @@ router.post("/debit", async (req, res) => {
           estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_2,
           comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_2,
         },
+        99: {
+          id: process.env.MQTT_MACHINE_ID_99,
+          estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_99,
+          comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_99,
+        },
+        100: {
+          id: process.env.MQTT_MACHINE_ID_2,
+          estoqueTopic: process.env.MQTT_TOPIC_ESTOQUE_SET_ID_100,
+          comandoTopic: process.env.MQTT_TOPIC_COMANDO_ID_100,
+        },
       };
 
       const maquina = maquinas[product];
