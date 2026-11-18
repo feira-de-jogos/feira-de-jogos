@@ -76,7 +76,7 @@ router.post("/credit", async (req, res) => {
       [
         userId,
         product,
-        productSearch.rows[0].price > 0 ? productSearch.rows[0].price : value,
+        value > 0 ? value : productSearch.rows[0].price,
       ],
     );
     const operationId = insertResult.rows[0].id;
